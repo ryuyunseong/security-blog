@@ -4,7 +4,6 @@ export const siteInfo = {
   title: '보안 노트',
   description: 'Unix부터 웹·인프라 보안까지, 실습과 코드로 쌓아가는 기술 노트.',
   github: 'https://github.com/ryuyunseong',
-  tistory: 'https://neoflux.tistory.com/',
 };
 
 export const categories = [

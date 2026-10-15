@@ -7,15 +7,13 @@ category: "unix"
 tags: ["주통기", "U-05", "UID"]
 draft: false
 example: false
-sourceUrl: "https://neoflux.tistory.com/36"
-migrated: "2026-10-16"
 series: "unix-2026"
 seriesOrder: 5
 ---
 
-계정 이름을 `backup`으로 바꿔도 UID가 0이면 root와 같은 숫자 사용자 식별자를 사용한다. 이름을 나눴다는 사실만으로 권한이 분리되지는 않는다.
+`backup`이라는 이름에 비밀번호 잠금과 `nologin`까지 설정했다. 그래도 UID가 0이면 U-05에서 확인해야 할 중복은 그대로 남는다. 이름이나 로그인 제한이 숫자 사용자 식별자를 바꾸지는 않기 때문이다.
 
-U-05는 root 이외의 UID 0 계정이 있는지 확인하는 항목이다. 로컬 파일을 먼저 점검하고, 중앙 계정을 연동한다면 NSS 조회 결과와 원래 계정 저장소까지 대조한다.
+먼저 로컬 passwd 파일에서 root 이외의 UID 0 계정을 찾는다. LDAP·AD 같은 중앙 계정을 사용한다면 로컬 결과에서 멈추지 않고 NSS 조회와 원래 계정 저장소를 대조해야 한다.
 
 ## 로그인 제한과 UID 설정은 따로 판단한다
 

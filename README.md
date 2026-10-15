@@ -1,8 +1,8 @@
 # 보안 노트
 
-Astro 기반 한국어 정보보안 기술 블로그입니다. 기존 [티스토리](https://neoflux.tistory.com/)의 공개 글 24편 중 21편을 다듬어 이전했습니다. 주통기 Unix U-01~U-10은 모두 포함했고, 실습 5편·알고리즘 2편·Qualys 해설 4편을 선정했습니다. 최초 교육용 예제 5편은 초안으로 보관합니다.
+Astro 기반 한국어 정보보안 기술 블로그입니다. 주통기 Unix U-01~U-10, 실습 5편, 알고리즘 2편, Qualys 문서 해설 4편을 제공합니다. 21편의 설명 도식과 17편의 실제 코드 실행 기록을 함께 읽을 수 있습니다. 최초 교육용 예제 5편은 초안으로 보관합니다.
 
-블로그: [보안 노트](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [글별 이전 기록](docs/migration.md)
+블로그: [보안 노트](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/)
 
 ## 로컬 실행
 
@@ -23,7 +23,7 @@ npm run verify
 npm run preview
 ```
 
-별도 린터는 추가하지 않았습니다. `check`는 Astro/TypeScript 진단, `test`는 공개 여부·경로·검색 유틸리티 검사, `verify`는 빌드된 전체 내부 링크·앵커·SEO·초안 제외·RSS·검색·사이트맵 일관성 검사입니다.
+별도 린터는 추가하지 않았습니다. `check`는 Astro/TypeScript 진단, `test`는 공개 여부·경로·검색·코드 보존·실행 기록 일치 검사, `verify`는 빌드된 내부 링크·앵커·이미지·SEO·초안 제외·RSS·검색·사이트맵 일관성 검사입니다.
 
 ## 글 작성
 
@@ -45,7 +45,22 @@ npm run preview
 - 카테고리·태그 페이지, 제목·설명·태그·카테고리 로컬 검색
 - 밝은/어두운 테마, 시스템 기본값과 선택 저장, 모바일 한 열 배치
 - 한국어 메타데이터, canonical, Open Graph, 구조화 데이터, RSS, 사이트맵, robots, 404
-- [GitHub 프로필](https://github.com/ryuyunseong)과 기존 티스토리를 연결하는 포트폴리오
+- [GitHub 프로필](https://github.com/ryuyunseong)과 공개 코드를 연결하는 포트폴리오
+- 글별 도식 21개, 학습 환경 표현 이미지 1개, 환경·출력·종료 코드·해석이 있는 실행 기록
+
+## 글의 그림과 실행 결과
+
+도식은 `src/data/article-visuals.json`을 수정한 뒤 `node scripts/build-article-diagrams.mjs`로 생성합니다. 결과는 `public/assets/posts/`에 보관하며 모든 그림은 대체 텍스트·크기·설명을 제공합니다. 사진 형태의 학습 환경 이미지는 AI 생성임을 표시합니다. [이미지 제작 기록](docs/article-media.md)에서 프롬프트와 용도를 확인할 수 있습니다.
+
+실행 기록은 `src/data/executions.json`, 해석과 범위는 `src/data/execution-context.json`에서 관리합니다. 코드가 달라지면 해시 대조 테스트가 실패하므로 결과를 다시 확인해야 합니다. 새 글의 그림·기록은 선택 사항이지만 현재 21편은 전부 도식을 제공합니다.
+
+검토한 글의 예제를 다시 실행하려면 Linux의 Python 3.10 이상·Bash·awk·GNU stat·OpenSSH·OpenSSL 3.x·libacl이 있는 환경에서 다음을 실행합니다. 별도 Python 패키지는 설치하지 않습니다.
+
+```bash
+python3 scripts/run-article-examples.py
+```
+
+임시 파일과 루프백 서버만 사용하며 운영 계정·PAM·SSH 설정은 변경하지 않습니다. U-01은 운영 경로가 고정된 전체 수집기를 실행하지 않고 별도 SSH 설정을 해석합니다. Qualys 제품 접속·스캔은 포함하지 않습니다. 결과 파일이 갱신되므로 차이를 검토한 뒤 커밋합니다. 이 명령은 사이트 빌드에서 자동 실행하지 않습니다.
 
 글 목록과 탐색은 JavaScript 없이 작동합니다. 검색·코드 복사·수동 테마 선택은 JavaScript가 필요합니다. 검색은 본문 전체를 색인하지 않습니다. 테마 외에는 방문자 데이터를 저장하지 않으며 외부 글꼴·분석 도구·추적기를 사용하지 않습니다.
 

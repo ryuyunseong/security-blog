@@ -7,15 +7,13 @@ category: "unix"
 tags: ["주통기", "U-01", "SSH"]
 draft: false
 example: false
-sourceUrl: "https://neoflux.tistory.com/28"
-migrated: "2026-10-16"
 series: "unix-2026"
 seriesOrder: 1
 ---
 
-SSH 설정 파일에 `PermitRootLogin no`가 있어도 확인은 끝나지 않습니다. `Include`와 `Match` 조건에 따라 접속 경로별 적용값이 달라질 수 있습니다.
+설정 파일에서 `PermitRootLogin no`를 찾으면 일단 안심하기 쉽습니다. 하지만 `Include`로 읽은 파일이나 `Match` 조건까지 해석하면 다른 값이 나올 수 있습니다.
 
-이 글은 U-01 중 Linux의 OpenSSH 설정을 확인하는 방법을 다룹니다. 문자열 검색에 그치지 않고, 점검할 접속 조건에서 해석된 값과 실제 적용 범위를 나누어 확인합니다.
+U-01의 Linux OpenSSH 점검에서는 먼저 접속 조건을 정하고, 그 조건에서 해석된 값을 확인합니다. 설정 파일의 한 줄, 실행 중인 서비스의 적용 상태, 실제 로그인 결과를 나누어 보겠습니다.
 
 ## 비밀번호를 막는 것과 root 접속을 막는 것
 

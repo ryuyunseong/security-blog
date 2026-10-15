@@ -1,0 +1,237 @@
+{
+  "recordedAt": "2026-10-15T22:19:51.474043+00:00",
+  "environment": {
+    "os": "Ubuntu 24.04.4 LTS / WSL 2",
+    "python": "3.12.3",
+    "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+    "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+  },
+  "pythonSyntaxCount": 13,
+  "posts": {
+    "gzip-output-limit": {
+      "runs": [
+        {
+          "label": "본문 전체 코드",
+          "command": "python3 -I -B gzip_limit.py",
+          "exitCode": 0,
+          "stdout": "큰 예제: 압축 544바이트, 원문 524288바이트\n한도와 같은 출력: 성공 — 출력 65536바이트\n한도보다 1바이트 큰 출력: 성공 — 예상한 거부 확인\n작은 입력의 큰 출력: 성공 — 예상한 거부 확인\n빈 원문과 0 한도: 성공 — 출력 0바이트\n잘린 마지막 부분: 성공 — 예상한 거부 확인\n두 멤버 연결: 성공 — 예상한 거부 확인\n뒤에 붙은 문자열: 성공 — 예상한 거부 확인\n압축 입력 한도 초과: 성공 — 예상한 거부 확인\ngzip이 아닌 입력: 성공 — 예상한 거부 확인\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "371f50412d8f5cad5046b3e31f29d9c3ae43fbb21dca624f04c0f08f878790fe"
+    },
+    "download-path-validation": {
+      "runs": [
+        {
+          "label": "본문 전체 코드",
+          "command": "python3 -I -B path_lab.py",
+          "exitCode": 0,
+          "stdout": "입력 | 원문 접두사 | 해석 후 접두사 | 경로 포함 검사\n정상 파일 | 공개 | 공개 | 공개\n상위 이동 | 외부 | 거부 | 거부\n비슷한 폴더명 | 외부 | 외부 | 거부\n절대 외부 경로 | 거부 | 거부 | 거부\n절대 내부 경로 | 공개 | 공개 | 거부\n외부 심볼릭 링크 | 외부 | 거부 | 거부\n내부 심볼릭 링크 | 공개 | 공개 | 공개\n없는 파일 | 거부 | 거부 | 거부\n디렉터리 | 거부 | 거부 | 거부\n내부로 돌아오는 경로 | 공개 | 공개 | 공개\n1회 디코딩: %2e%2e%2fsecret.txt\n2회 디코딩: ../secret.txt\n성공: 경로 비교 30건, 디코딩 결과와 차단 확인 2건\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "66d356fe3cff6e98c97a29626a5466ecaff13da0ed03e41360beeeb0290fcd9b"
+    },
+    "cors-authentication-authorization": {
+      "runs": [
+        {
+          "label": "본문 전체 코드",
+          "command": "python3 -I -B cors_auth_lab.py",
+          "exitCode": 0,
+          "stdout": "CORS만 / 다른 출처: HTTP 200, CORS 허용 헤더=없음, 본문=앨리스의 실습 문서\nCORS만 / 출처 없음: HTTP 200, CORS 허용 헤더=없음, 본문=앨리스의 실습 문서\nCORS만 / 허용 출처 직접 지정: HTTP 200, CORS 허용 헤더=https://app.example, 본문=앨리스의 실습 문서\n권한 검사 / 인증 없음: HTTP 401, CORS 허용 헤더=https://app.example, 본문=인증 필요\n권한 검사 / 잘못된 토큰: HTTP 401, CORS 허용 헤더=https://app.example, 본문=인증 필요\n권한 검사 / 다른 사용자: HTTP 403, CORS 허용 헤더=https://app.example, 본문=문서 권한 없음\n권한 검사 / 소유자: HTTP 200, CORS 허용 헤더=https://app.example, 본문=앨리스의 실습 문서\n권한 검사 / 소유자·다른 출처: HTTP 200, CORS 허용 헤더=없음, 본문=앨리스의 실습 문서\n권한 검사 / 소유자·출처 없음: HTTP 200, CORS 허용 헤더=없음, 본문=앨리스의 실습 문서\n없는 경로: HTTP 404, CORS 허용 헤더=https://app.example, 본문=없는 경로\n성공: 서버 응답이 예상과 일치하며 실습 서버를 종료했다.\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "b27d08fc22b0df5a848781473337a38c6c6ffb50c8dae78e16a96b354faa3dea"
+    },
+    "tls-version-and-identity": {
+      "runs": [
+        {
+          "label": "본문 전체 코드",
+          "command": "python3 -I -B tls_identity_lab.py",
+          "exitCode": 0,
+          "stdout": "성공 | 1. TLS 1.3, 이름·신뢰 일치 | 실제 협상=TLSv1.3 | HTTP=200\n성공 | 2. TLS 1.3, 다른 이름 | 요청 버전=TLSv1.3 | 인증서 거절=이름 불일치\n성공 | 3. TLS 1.3, 다른 CA | 요청 버전=TLSv1.3 | 인증서 거절=신뢰 경로 확인 실패\n성공 | 4. TLS 1.2, 이름·신뢰 일치 | 실제 협상=TLSv1.2 | HTTP=200\n동작 확인 결과: 성공=4 실패=0 전체=4\n임시 인증서·비밀키 정리: 성공\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "0f59fc25a058b8264d029cf3e1ccb3d46bf3f9486c59f93bb529c0ff5f76bb02"
+    },
+    "login-failure-sliding-window": {
+      "runs": [
+        {
+          "label": "본문 테스트 코드",
+          "command": "python3 -B test_solution.py",
+          "exitCode": 0,
+          "stdout": "경계·동시각·중복 알림 확인: 성공\n무작위 입력과 전수 탐색 비교: 성공\n입출력 예제 확인: 성공\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "9124e55488bd87422c04a93136c5d68ba624eee1451049c3ef6845b1cafb3828"
+    },
+    "cidr-interval-binary-search": {
+      "runs": [
+        {
+          "label": "본문 테스트 코드",
+          "command": "python3 -B test_solution.py",
+          "exitCode": 0,
+          "stdout": "경계 조건·입력 형식·기준 풀이 비교: 성공\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "b8d9c28791c5c39f0c64b468796aaaa5612fc582c02c5978332acafb4f68ae5f"
+    },
+    "umask-and-file-permissions": {
+      "runs": [
+        {
+          "label": "본문 임시 폴더·ACL 실습",
+          "command": "bash umask_lab.sh",
+          "exitCode": 0,
+          "stdout": "[준비 성공] 전용 임시 폴더 0700, 기준 환경의 기본 ACL 없음\n[성공] umask 0022: 파일 요청 0666 → 0644, 디렉터리 요청 0777 → 0755\n[성공] umask 0027: 파일 요청 0666 → 0640, 디렉터리 요청 0777 → 0750\n[성공] umask 0077: 파일 요청 0666 → 0600, 디렉터리 요청 0777 → 0700\n[성공] 제한된 요청: 요청 0600, umask 0022 → 파일 0600\n[성공] 실행 비트만 차단: 요청 0666, umask 0111 → 파일 0666\n[성공] 실행 비트도 요청: 요청 0777, umask 0022 → 파일 0755\n[성공] umask 0077로 변경 후 기존 파일 재열기: 파일 0644, 디렉터리 0755 유지\n[성공] 같은 umask에서 chmod 0640 실행: 파일 0640\n[성공] 자식 프로세스에서 읽은 umask: 0027\n[설정 확인] 기본 ACL: user::rwx, group::r-x, other::---\n[성공] 기본 ACL + umask 0077: 파일 요청 0666 → 0640, 디렉터리 요청 0777 → 0750\n[성공] 기본 ACL + umask 0077: 파일 요청 0600 → 0600\n[ACL 확인] 생성 파일: user::rw-, group::r--, other::---\n[정리 성공] 실습 임시 폴더와 생성 파일 삭제\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "73c53e8804dc85b6b8966088935449edeab22ef354dfc077b907a3e7dc9e1639"
+    },
+    "u-02-password-policy": {
+      "runs": [
+        {
+          "label": "정책 후보가 있는 가상 설정",
+          "command": "U02_ROOT=$LAB/fixture bash check_u02_policy.sh",
+          "exitCode": 0,
+          "stdout": "U-02 읽기 전용 증거 수집 (파일 표시 순서는 적용 우선순위가 아님)\n\n[파일] /etc/login.defs\n1: PASS_MIN_DAYS=1\n2: PASS_MAX_DAYS=90\n\n[파일] /etc/security/pwquality.conf\n1: minlen=12\n2: enforce_for_root\n\n[pwquality.conf.d] 없음/디렉터리 아님/접근 불가\n\n[파일] /etc/security/pwhistory.conf\n1: remember=4\n\n[파일] /etc/pam.d/passwd\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n[파일] /etc/pam.d/common-password\n1: password requisite pam_pwquality.so retry=3\n2: password required pam_pwhistory.so remember=4\n\n[파일] /etc/pam.d/system-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n[파일] /etc/pam.d/password-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n이 출력은 설정 후보이며 실제 유효값·모듈 설치·PAM 실행 경로를 판정하지 않습니다\n\n기본값/우선순위/include/사용자 지정 경로/외부 인증/기존 계정 만료 정책을 별도 확인하세요\n\n수동 검토 필요\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "36c93b858d58fc652bd2b7a172bbed8488ea81a88819cec96cd76e58d79b7def"
+    },
+    "u-03-account-lockout": {
+      "runs": [
+        {
+          "label": "임계값 10의 가상 설정",
+          "command": "U03_ROOT=$LAB/fixture bash check_u03_lockout.sh",
+          "exitCode": 0,
+          "stdout": "U-03 읽기 전용 점검 자료\n파일 표시 순서는 적용 우선순위가 아니다\n\n[파일] /etc/security/faillock.conf\n1: deny=10\n2: fail_interval=900\n3: unlock_time=120\n임계값 후보: 1~10, 실제 적용 경로 확인\n\n[파일] /usr/share/pam/security/faillock.conf\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sshd\n1: auth required pam_faillock.so preauth\n2: account required pam_faillock.so\n\n[파일] /etc/pam.d/login\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sudo\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/su\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-account\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n최종 판단: 수동 검토 필요\n\n서비스 연결·분기·모듈 설치·인수 우선값·외부 인증·root 예외를 확인한다\n\n종료 코드 0은 절차 종료이며 양호 판정이나 완전한 수집을 뜻하지 않는다\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "94059f72386f44f80c405511c24328076cf573693c865df71beb9d41faa8fd65"
+    },
+    "u-04-password-file": {
+      "runs": [
+        {
+          "label": "x 표지 2개와 빈 가상 shadow",
+          "command": "bash check_u04_password_file.sh $LAB/fixture/etc",
+          "exitCode": 0,
+          "stdout": "[passwd 비밀번호 필드 유형]\n일반 레코드: 2\n쉐도우 참조 x: 2\n잠금 표지 *, !, !!: 0\n빈 비밀번호 필드: 0\n기타 값: 0\n형식 확인 필요: 0\n중복 계정명: 0\nNIS 호환 표기: 0\n\n[shadow 파일 메타데이터]\n소유 UID=1000, 소유 GID=1000, 모드=600\n\n최종 판단: 수동 검토 필요\n\nx와 shadow 파일 존재만으로 계정별 저장 상태를 확정하지 않는다\n\n0=유형 수집 종료, 1=추가 확인 값 발견, 2=미수집·형식 오류\n\n종료 코드는 U-04 양호·취약 판정이 아니다\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "038b06d6400b3aa90c6cc0620ccd92c38ada5ac368007ff5d984a1e55366746b"
+    },
+    "u-05-root-uid": {
+      "runs": [
+        {
+          "label": "root만 UID 0",
+          "command": "bash check_u05.sh --file $LAB/fixture/etc/passwd",
+          "exitCode": 0,
+          "stdout": "[범위] 지정한 passwd 파일의 현재 내용\n[양호] 검사한 파일에서 root 이외의 UID=0 계정 없음\n",
+          "stderr": ""
+        },
+        {
+          "label": "잠금·nologin인 backup도 UID 0",
+          "command": "bash check_u05.sh --file $LAB/fixture/etc/passwd",
+          "exitCode": 1,
+          "stdout": "[취약] 계정=backup UID=0\n[범위] 지정한 passwd 파일의 현재 내용\n",
+          "stderr": ""
+        },
+        {
+          "label": "형식이 깨진 계정 파일",
+          "command": "bash check_u05.sh --file $LAB/fixture/etc/passwd",
+          "exitCode": 2,
+          "stdout": "[확인 필요] 1행: 계정 레코드 형식 이상\n[확인 필요] root 레코드가 정확히 하나인지 확인\n[범위] 지정한 passwd 파일의 현재 내용\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "1810c9c9d9d54de67bddf8aa681049896d0dc0bd075438eeab71058131326d73"
+    },
+    "u-06-su-restriction": {
+      "runs": [
+        {
+          "label": "wheel·PAM·su 모형 파일",
+          "command": "python3 check_u06.py --root $LAB/fixture",
+          "exitCode": 0,
+          "stdout": "[그룹] wheel GID=10\n[기본 그룹] alice\n[추가 그룹] alice\n[파일] /usr/bin/su UID=1000 GID=1000 모드=0750\n[기타 사용자 실행 비트] 없음\n[PAM 파일] /etc/pam.d/su\n  1: auth required pam_wheel.so use_uid\n[PAM 파일] /etc/pam.d/su-l\n  1: auth include su\n[범위] 로컬 파일 수집; PAM 흐름·모듈 로딩·NSS·ACL은 별도 확인\n[판정] 자동 판정하지 않음\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "10e5755ec84edb4f0316ac99a75de2c2cae65318ef9b35777a3f679c8b498d29"
+    },
+    "u-07-unused-accounts": {
+      "runs": [
+        {
+          "label": "본문 가상 계정 파일 예제",
+          "command": "bash fixture.sh",
+          "exitCode": 0,
+          "stdout": "{\n  \"수집한 로컬 계정 수\": 3,\n  \"승인 목록에 없는 계정\": [\n    {\n      \"계정\": \"oldvendor\",\n      \"UID\": 1201,\n      \"홈\": \"/home/oldvendor\",\n      \"셸\": \"/bin/bash\"\n    }\n  ],\n  \"로컬 파일에 없는 승인 계정\": [],\n  \"결과\": \"추가 확인 필요\"\n}\n종료 코드: 1\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "a100960e410272ef5c0014044b36c69bb713f5caa0b417032a946adff11dc8b3"
+    },
+    "u-08-admin-group": {
+      "runs": [
+        {
+          "label": "본문 가상 계정 파일 예제",
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "stdout": "{\n  \"그룹\": \"root\",\n  \"GID\": 0,\n  \"같은 GID의 그룹\": [\n    \"root\"\n  ],\n  \"기본 그룹 구성원\": [\n    \"deploy\",\n    \"root\"\n  ],\n  \"명시된 보조 구성원\": [\n    \"audit\"\n  ],\n  \"승인 목록 밖\": [\n    \"audit\",\n    \"deploy\"\n  ],\n  \"승인됐지만 관찰되지 않음\": [],\n  \"passwd에서 찾지 못한 구성원\": [],\n  \"결과\": \"추가 확인\"\n}\n종료 코드: 1\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "e33ad99e47e5051d70334e5c46b3ae72c3a67d46b8f0140cb1b87b084b7ac81a"
+    },
+    "u-09-unused-gid": {
+      "runs": [
+        {
+          "label": "본문 가상 계정 파일 예제",
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "stdout": "{\n  \"그룹 검토 대상\": [\n    {\n      \"GID\": 3000,\n      \"그룹\": [\n        \"oldapp\"\n      ],\n      \"기본 구성원\": [],\n      \"보조 구성원\": [],\n      \"로컬 미관찰 이름\": [],\n      \"사유\": [\n        \"로컬 구성원 미관찰\"\n      ]\n    }\n  ],\n  \"그룹 정의 없는 기본GID\": []\n}\n추가 확인 필요\n종료 코드: 1\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "333880aac2d282be5f412834a7f927ed7ef9bd4adb287116b1f5adda7bfac703"
+    },
+    "u-10-duplicate-uid": {
+      "runs": [
+        {
+          "label": "본문 가상 계정 파일 예제",
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "stdout": "{\n  \"확인한 계정 수\": 3,\n  \"중복 UID\": [\n    {\n      \"UID\": 1500,\n      \"계정\": [\n        \"backup\",\n        \"deploy\"\n      ]\n    }\n  ]\n}\n중복 발견: 해당 계정과 영향 범위 확인 필요\n종료 코드: 1\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "2529853a0db18a8f5ff3816de7a3f2fdff5b5a40950ae43350c4b9bc39b7ea2f"
+    },
+    "u-01-root-remote-login": {
+      "runs": [
+        {
+          "label": "Match 비교: 접속 주소 192.0.2.11",
+          "command": "sshd -T -f ./sshd_config -C 'user=root,addr=192.0.2.11,host=admin.example.invalid,laddr=192.0.2.20,lport=22' | awk '$1 == \"permitrootlogin\"'",
+          "exitCode": 0,
+          "stdout": "permitrootlogin no\n",
+          "stderr": ""
+        },
+        {
+          "label": "Match 비교: 접속 주소 192.0.2.10",
+          "command": "sshd -T -f ./sshd_config -C 'user=root,addr=192.0.2.10,host=admin.example.invalid,laddr=192.0.2.20,lport=22' | awk '$1 == \"permitrootlogin\"'",
+          "exitCode": 0,
+          "stdout": "permitrootlogin yes\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729"
+    }
+  }
+}

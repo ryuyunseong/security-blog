@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { categories, path, tagPath, siteInfo, unixSeries } from '../lib/site';
+import { categories, path, tagPath, unixSeries } from '../lib/site';
 interface Props { posts: CollectionEntry<'posts'>[]; }
 const { posts } = Astro.props;
 const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort((a, b) => a.localeCompare(b, 'ko'));
@@ -9,5 +9,5 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort((a, b) =
   <section><h2>주제별로 읽기</h2><ul class="category-list">{categories.map((category) => <li><a href={path(`categories/${category.id}/`)}><span>{category.label}</span><span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a></li>)}</ul></section>
   <section><h2>시리즈</h2><a class="series-link" href={unixSeries.path}>주요정보통신기반시설<br />Unix 점검 · {posts.filter((post) => post.data.series === unixSeries.id).length}편</a></section>
   <section><h2>태그</h2><div class="tags rail-tags">{tags.map((tag) => <a href={tagPath(tag)}>{tag}</a>)}</div></section>
-  <p class="rail-note">실습과 코드 중심의 기록입니다.<br />기존 글은 <a href={siteInfo.tistory}>티스토리</a>에서 이어집니다.</p>
+  <p class="rail-note">설정값 하나보다 적용되는 흐름을,<br />결론보다 확인한 근거를 기록합니다.</p>
 </aside>

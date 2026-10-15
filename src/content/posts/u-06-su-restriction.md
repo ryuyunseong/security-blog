@@ -7,15 +7,13 @@ category: "unix"
 tags: ["주통기", "U-06", "PAM"]
 draft: false
 example: false
-sourceUrl: "https://neoflux.tistory.com/39"
-migrated: "2026-10-16"
 series: "unix-2026"
 seriesOrder: 6
 ---
 
-`wheel` 그룹을 만드는 것만으로 `su` 사용이 제한되지는 않는다. 파일 실행 권한이나 PAM 규칙이 해당 그룹을 검사해야 한다. 파일을 실행할 수 있는지와 사용자 전환을 허용받는지도 구분해야 한다.
+`wheel` 그룹을 만든 뒤 구성원을 넣었다고 `su` 제한이 끝나는 것은 아니다. 파일 실행 권한이나 PAM 규칙이 그 그룹을 검사해야 제한이 동작한다.
 
-U-06 중 Linux 로컬 파일 점검을 다룬다. Solaris·AIX·HP-UX에는 각 운영체제의 인증 구조와 점검 절차를 적용한다.
+파일을 실행할 수 있는지와 다른 사용자로 전환할 수 있는지는 따로 확인한다. 아래 내용은 U-06 중 Linux 로컬 파일 점검에 해당하며, Solaris·AIX·HP-UX는 각각의 인증 구조에 맞춰 점검한다.
 
 ## 비밀번호 인증과 su 사용 자격은 다르다
 

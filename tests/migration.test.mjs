@@ -15,14 +15,14 @@ test('공개 원문 24편의 이전·유지 결정을 누락 없이 기록한다
   assert.equal(manifest.posts.filter((post) => post.status === 'retained').length, 3);
 });
 
-test('주통기 원문 U-01부터 U-10까지 모두 순서와 출처를 유지한다', async () => {
+test('주통기 U-01부터 U-10까지 순서와 최초 발행일을 유지한다', async () => {
   const series = migrated.filter((post) => post.seriesOrder).sort((a, b) => a.seriesOrder - b.seriesOrder);
   assert.deepEqual(series.map((post) => post.seriesOrder), Array.from({ length: 10 }, (_, index) => index + 1));
   for (const post of series) {
     const source = (await readFile(new URL(`${post.slug}.md`, content), 'utf8')).replace(/\r\n/g, '\n');
     assert.ok(source.includes(`seriesOrder: ${post.seriesOrder}\n`));
     assert.ok(source.includes('series: "unix-2026"'));
-    assert.ok(source.includes(`sourceUrl: "${post.url}"`));
+    assert.ok(!/^sourceUrl:|^migrated:/m.test(source));
     assert.ok(source.includes(`date: "${post.date}"`));
   }
 });

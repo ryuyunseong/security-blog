@@ -21,6 +21,7 @@ const htmlFiles = files.filter((file) => file.endsWith('.html'));
 for (const file of files.filter((file) => /\.(html|json|xml|txt)$/.test(file))) {
   const source = await readFile(file, 'utf8');
   check(!/DRAFT_EXCLUSION_SENTINEL|초안검증전용|FUTURE_EXCLUSION_SENTINEL|미래검증전용/.test(source), `비공개 글 노출: ${relative(root, file)}`);
+  check(!/tistory|티스토리|isBasedOn/i.test(source), `삭제한 외부 블로그 안내 노출: ${relative(root, file)}`);
 }
 
 for (const file of htmlFiles) {
@@ -52,6 +53,14 @@ for (const file of htmlFiles) {
 
 const entries = JSON.parse(await readFile(resolve(root, 'search.json'), 'utf8'));
 const posts = htmlFiles.filter((file) => relative(root, file).startsWith(`posts${sep}`));
+const evidence = JSON.parse(await readFile('src/data/executions.json', 'utf8'));
+for (const file of posts) {
+  const source = await readFile(file, 'utf8');
+  const slug = relative(root, file).split(sep)[1];
+  check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
+  check(/<img[^>]+alt="[^"]+"[^>]+width="960"[^>]+height="540"/.test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
+  check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
+}
 check(entries.length === posts.length, '검색 색인과 공개 글 수 불일치');
 const rss = await readFile(resolve(root, 'rss.xml'), 'utf8');
 check((rss.match(/<item>/g) ?? []).length === posts.length, 'RSS와 공개 글 수 불일치');

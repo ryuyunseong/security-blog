@@ -7,13 +7,11 @@ category: "qualys"
 tags: ["Qualys", "Cloud Agent", "수집범위"]
 draft: false
 example: false
-sourceUrl: "https://neoflux.tistory.com/49"
-migrated: "2026-10-16"
 ---
 
-자산이 화면에 보인다는 사실만으로 최신 취약점 평가가 완료됐다고 볼 수 없다. 센서의 통신, 앱 활성화, 실제 검사 범위와 수집 시점을 따로 확인해야 한다.
+자산은 목록에 있는데 취약점 결과가 비어 있다. 이 상태를 곧바로 안전하다고 읽으면 수집 누락이나 오래된 평가를 놓칠 수 있다.
 
-Cloud Agent와 Scanner Appliance에서 수집 누락을 좁히는 순서를 문서 기반으로 정리한다. 실제 고객 환경이나 운영 스캔 결과를 담고 있지 않다.
+센서의 통신, 앱 활성화, 검사 범위, 평가 시점을 나누어 확인해 보자. Cloud Agent와 Scanner Appliance의 공개 문서를 기준으로 원인을 좁히며, 실제 고객 환경이나 운영 스캔 자료는 사용하지 않는다.
 
 ## 대상 포함, 통신, 평가, 결과 반영을 나눠 확인한다
 

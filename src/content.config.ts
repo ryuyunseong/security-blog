@@ -13,8 +13,6 @@ const posts = defineCollection({
     tags: z.array(z.string().trim().min(1).max(30).regex(/^[\p{L}\p{N}_ -]+$/u)).min(1).max(8),
     draft: z.boolean().default(true),
     example: z.boolean().default(false),
-    sourceUrl: z.string().regex(/^https:\/\/neoflux\.tistory\.com\/\d+$/).optional(),
-    migrated: z.coerce.date().optional(),
     series: z.literal('unix-2026').optional(),
     seriesOrder: z.number().int().min(1).max(72).optional(),
   }).refine((data) => Boolean(data.series) === Boolean(data.seriesOrder), {

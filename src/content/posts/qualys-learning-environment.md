@@ -7,13 +7,11 @@ category: "qualys"
 tags: ["Qualys", "VMDR", "교육"]
 draft: false
 example: false
-sourceUrl: "https://neoflux.tistory.com/46"
-migrated: "2026-10-16"
 ---
 
-Qualys 교육 사이트 가입과 제품 구독 발급은 별도 절차다. 스캔 메뉴가 보이지 않으면 먼저 어떤 환경에 접속했는지, 앱과 역할·자산이 어떻게 할당됐는지 확인한다.
+교육 사이트에 가입했는데 스캔 메뉴가 보이지 않는다. 이때는 메뉴를 찾기 전에 접속한 환경부터 구분하는 편이 빠르다. 교육 계정과 제품 구독은 별도 절차이기 때문이다.
 
-Community Edition·VMDR·Training의 목적과 준비 조건을 공식 공개 문서 기준으로 정리한다. 실제 제품 로그인이나 에이전트 설치 경험을 서술한 글은 아니다.
+Community Edition·VMDR·Training의 목적과 준비 조건을 공개 문서로 비교한다. 직접 로그인하거나 에이전트를 설치한 사용기가 아니라, 실습을 시작하기 전에 확인할 항목을 정리한 글이다.
 
 ## 제품, 무료 제공 형태, 교육 경로를 구분한다
 

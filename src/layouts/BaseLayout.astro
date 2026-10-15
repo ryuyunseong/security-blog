@@ -3,8 +3,8 @@ import '../styles/global.css';
 import Icon from '../components/Icon.astro';
 import { path, siteInfo } from '../lib/site';
 
-interface Props { title?: string; description?: string; article?: boolean; date?: Date; updated?: Date; noindex?: boolean; canonicalPath?: string; sourceUrl?: string; }
-const { title, description = siteInfo.description, article = false, date, updated, noindex = false, canonicalPath, sourceUrl } = Astro.props;
+interface Props { title?: string; description?: string; article?: boolean; date?: Date; updated?: Date; noindex?: boolean; canonicalPath?: string; }
+const { title, description = siteInfo.description, article = false, date, updated, noindex = false, canonicalPath } = Astro.props;
 const fullTitle = title ? `${title} · ${siteInfo.title}` : `${siteInfo.title} · 정보보안 기술 블로그`;
 const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
 const current = Astro.url.pathname;
@@ -16,7 +16,6 @@ const schema = {
   description,
   url: canonical.href,
   inLanguage: 'ko-KR',
-  ...(sourceUrl ? { isBasedOn: sourceUrl } : {}),
 };
 ---
 <!doctype html>
