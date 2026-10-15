@@ -1,0 +1,69 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { path } from '../lib/site';
+---
+<BaseLayout title="글 검색" description="제목, 설명, 카테고리와 태그로 보안 노트를 검색합니다." noindex>
+  <div class="page-heading"><h1>기록 찾기</h1><p>제목, 설명, 카테고리와 태그에서 검색합니다.</p></div>
+  <section class="page-section" aria-label="글 검색">
+    <form class="search-form" id="search-form" role="search" action={path('search/')}><label class="visually-hidden" for="query">검색어</label><input id="query" name="q" type="search" placeholder="예: Linux, 권한, CVE" maxlength="200" autocomplete="off" aria-controls="search-results" /><button type="submit" class="primary-button">검색</button></form>
+    <p class="search-status" id="search-status" role="status">검색어를 입력해 주세요.</p>
+    <ul class="search-results" id="search-results" data-index={path('search.json')}></ul>
+    <noscript><p>검색에는 JavaScript가 필요합니다. <a href={path('#posts')}>글 목록</a>이나 <a href={path('categories/')}>카테고리</a>에서 글을 찾아보세요.</p></noscript>
+  </section>
+  <script>
+    import { searchEntries } from '../lib/core.mjs';
+    interface SearchEntry { title: string; description: string; category: string; tags: string[]; url: string; example: boolean; }
+    const form = document.querySelector<HTMLFormElement>('#search-form')!;
+    const input = document.querySelector<HTMLInputElement>('#query')!;
+    const results = document.querySelector<HTMLUListElement>('#search-results')!;
+    const status = document.querySelector<HTMLElement>('#search-status')!;
+    let entries: SearchEntry[] | undefined;
+    let pending: Promise<SearchEntry[]> | undefined;
+    let revision = 0;
+    async function search() {
+      const current = ++revision;
+      const query = input.value.trim().slice(0, 200);
+      const url = new URL(location.href);
+      if (query) url.searchParams.set('q', query); else url.searchParams.delete('q');
+      history.replaceState(null, '', url);
+      results.replaceChildren();
+      if (!query) { status.textContent = '검색어를 입력해 주세요.'; return; }
+      status.textContent = '기록을 찾고 있습니다…';
+      try {
+        if (!entries) {
+          pending ??= fetch(results.dataset.index!).then(async (response) => {
+            if (!response.ok) throw new Error('검색 색인 오류');
+            return response.json() as Promise<SearchEntry[]>;
+          });
+          entries = await pending;
+        }
+        if (current !== revision) return;
+        const matches = searchEntries(entries, query) as SearchEntry[];
+        status.textContent = matches.length ? `${matches.length}편의 기록을 찾았습니다.` : '검색 결과가 없습니다. 다른 키워드로 찾아보세요.';
+        for (const entry of matches) {
+          const item = document.createElement('li');
+          item.className = 'search-result';
+          const heading = document.createElement('h2');
+          const link = document.createElement('a');
+          link.href = entry.url;
+          link.textContent = entry.title;
+          heading.append(link);
+          const description = document.createElement('p');
+          description.textContent = entry.description;
+          const meta = document.createElement('small');
+          meta.textContent = `${entry.category}${entry.example ? ' · 예제 글' : ''} · ${entry.tags.join(', ')}`;
+          item.append(heading, description, meta);
+          results.append(item);
+        }
+      } catch {
+        pending = undefined;
+        if (current === revision) status.textContent = '검색 색인을 불러올 수 없습니다. 잠시 후 다시 검색해 주세요.';
+      }
+    }
+    let timer: ReturnType<typeof setTimeout>;
+    input.addEventListener('input', () => { clearTimeout(timer); ++revision; timer = setTimeout(search, 180); });
+    form.addEventListener('submit', (event) => { event.preventDefault(); clearTimeout(timer); void search(); });
+    input.value = (new URL(location.href).searchParams.get('q') ?? '').slice(0, 200);
+    if (input.value) void search();
+  </script>
+</BaseLayout>

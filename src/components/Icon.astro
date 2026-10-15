@@ -1,0 +1,12 @@
+---
+interface Props { name: 'code' | 'search' | 'moon' | 'arrow' | 'back'; }
+const { name } = Astro.props;
+const paths = {
+  code: ['m8 5-7 7 7 7', 'm16 5 7 7-7 7'],
+  search: ['m16 16 5 5', 'M18 10a8 8 0 1 1-16 0 8 8 0 0 1 16 0'],
+  moon: ['M21 13A9 9 0 0 1 11 3a9 9 0 1 0 10 10Z'],
+  arrow: ['M4 12h16', 'm14 6 6 6-6 6'],
+  back: ['M20 12H4', 'm10 6-6 6 6 6'],
+};
+---
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{paths[name].map((d) => <path d={d} />)}</svg>

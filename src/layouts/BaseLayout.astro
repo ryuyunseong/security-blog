@@ -1,0 +1,94 @@
+---
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { path, siteInfo } from '../lib/site';
+
+interface Props { title?: string; description?: string; article?: boolean; date?: Date; updated?: Date; noindex?: boolean; canonicalPath?: string; sourceUrl?: string; }
+const { title, description = siteInfo.description, article = false, date, updated, noindex = false, canonicalPath, sourceUrl } = Astro.props;
+const fullTitle = title ? `${title} · ${siteInfo.title}` : `${siteInfo.title} · 정보보안 기술 블로그`;
+const canonical = new URL(canonicalPath ?? Astro.url.pathname, Astro.site);
+const current = Astro.url.pathname;
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': article ? 'BlogPosting' : 'WebSite',
+  name: fullTitle,
+  ...(article ? { headline: title, datePublished: date?.toISOString(), dateModified: (updated ?? date)?.toISOString() } : {}),
+  description,
+  url: canonical.href,
+  inLanguage: 'ko-KR',
+  ...(sourceUrl ? { isBasedOn: sourceUrl } : {}),
+};
+---
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex,follow" />}
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content={siteInfo.title} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    {date && <meta property="article:published_time" content={date.toISOString()} />}
+    <link rel="icon" type="image/svg+xml" href={path('favicon.svg')} />
+    <link rel="alternate" type="application/rss+xml" title={siteInfo.title} href={path('rss.xml')} />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      try {
+        const saved = localStorage.getItem('security-notes-theme');
+        document.documentElement.dataset.theme = saved === 'light' || saved === 'dark'
+          ? saved : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } catch { document.documentElement.dataset.theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
+    </script>
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, '\\u003c')} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+    <header class="site-header shell">
+      <a class="brand" href={path()} aria-label="보안 노트 홈"><Icon name="code" /><span>보안 노트</span></a>
+      <nav aria-label="주 메뉴">
+        <a href={path('#posts')} aria-current={current === path() ? 'page' : undefined}>글 목록</a>
+        <a href={path('categories/')} aria-current={current.includes('/categories/') ? 'page' : undefined}>카테고리</a>
+        <a href={path('portfolio/')} aria-current={current === path('portfolio/') ? 'page' : undefined}>포트폴리오</a>
+      </nav>
+      <div class="header-actions">
+        <a class="icon-button" href={path('search/')} aria-label="글 검색"><Icon name="search" /></a>
+        <button class="icon-button" id="theme-toggle" type="button" aria-label="다크 모드로 전환" aria-pressed="false" hidden><Icon name="moon" /></button>
+      </div>
+    </header>
+    <main id="main" class="shell" tabindex="-1"><slot /></main>
+    <footer class="site-footer shell"><span>보안 노트</span><div><a href={path('rss.xml')}>RSS</a><a href={siteInfo.github} rel="me">GitHub</a></div></footer>
+    <script>
+      const button = document.querySelector<HTMLButtonElement>('#theme-toggle');
+      if (button) {
+        button.hidden = false;
+        const sync = () => {
+          const dark = document.documentElement.dataset.theme === 'dark';
+          button.setAttribute('aria-pressed', String(dark));
+          button.setAttribute('aria-label', dark ? '라이트 모드로 전환' : '다크 모드로 전환');
+        };
+        button.addEventListener('click', () => {
+          const theme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          try { localStorage.setItem('security-notes-theme', theme); } catch { /* 저장이 차단되어도 현재 화면 전환은 유지한다. */ }
+          sync();
+        });
+        matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+          let saved = null;
+          try { saved = localStorage.getItem('security-notes-theme'); } catch { /* 시스템 설정 사용 */ }
+          if (saved !== 'light' && saved !== 'dark') {
+            document.documentElement.dataset.theme = event.matches ? 'dark' : 'light';
+            sync();
+          }
+        });
+        sync();
+      }
+    </script>
+  </body>
+</html>

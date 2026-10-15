@@ -1,0 +1,5 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { path } from '../lib/site';
+---
+<BaseLayout title="페이지를 찾을 수 없습니다" noindex canonicalPath={path('404.html')}><div class="page-heading"><h1>페이지를 찾을 수 없습니다.</h1><p>주소가 바뀌었거나 공개되지 않은 글입니다.</p></div><div class="page-section intro-links"><a href={path()}>홈으로</a><a href={path('search/')}>글 검색</a></div></BaseLayout>

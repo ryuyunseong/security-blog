@@ -1,0 +1,65 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { getPosts } from '../../lib/posts';
+import { categoryLabel, dateLabel, path, postPath, tagPath, unixSeries } from '../../lib/site';
+export async function getStaticPaths() {
+  return (await getPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const contents = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+const related = (await getPosts()).filter((item) => item.id !== post.id)
+  .sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 2);
+const seriesPosts = post.data.series ? (await getPosts()).filter((item) => item.data.series === post.data.series)
+  .sort((a, b) => a.data.seriesOrder! - b.data.seriesOrder!) : [];
+const seriesPosition = seriesPosts.findIndex((item) => item.id === post.id);
+const previous = seriesPosts[seriesPosition - 1];
+const next = seriesPosts[seriesPosition + 1];
+---
+<BaseLayout title={post.data.title} description={post.data.description} article date={post.data.date} updated={post.data.updated} sourceUrl={post.data.sourceUrl}>
+  <article>
+    <header class="article-header">
+      <a class="back-link" href={path('#posts')}><Icon name="back" />글 목록으로</a>
+      <p class="article-kicker"><a href={path(`categories/${post.data.category}/`)}>{categoryLabel(post.data.category)}</a>{post.data.example && ' · 예제 글'}</p>
+      <h1>{post.data.title}</h1><p class="article-description">{post.data.description}</p>
+      <div class="article-meta"><time datetime={post.data.date.toISOString()}>{dateLabel(post.data.date)}</time>{post.data.updated && <span>수정 {dateLabel(post.data.updated)}</span>}<div class="tags">{post.data.tags.map((tag) => <a href={tagPath(tag)}>{tag}</a>)}</div></div>
+      {post.data.sourceUrl && <p class="source-note"><a href={post.data.sourceUrl}>티스토리 원문</a> · 최초 발행 {dateLabel(post.data.date)}{post.data.migrated && ` · 이전 ${dateLabel(post.data.migrated)}`}<br />원문의 실습 코드와 확인 범위를 보존하고, 도입부·표·코드 표시를 다듬었습니다.</p>}
+    </header>
+    <div class="article-grid">
+      <div class="article-body">
+        {post.data.example && <p class="notice">교육용 예제입니다. 실제 운영 환경의 점검 결과나 개인 실적을 담고 있지 않습니다.</p>}
+        <div class="prose"><Content /></div>
+        {post.data.series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={unixSeries.path}>{unixSeries.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}
+        {related.length > 0 && <section class="related"><h2>함께 읽기</h2><ul>{related.map((item) => <li><a href={postPath(item.id)}>{item.data.title}</a></li>)}</ul></section>}
+      </div>
+      {contents.length > 0 && <nav class="toc" aria-label="이 글의 목차"><h2>이 글의 목차</h2><ol>{contents.map((heading) => <li class:list={{ subheading: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></nav>}
+    </div>
+  </article>
+  <p id="copy-status" class="visually-hidden" role="status"></p>
+  <script>
+    document.querySelectorAll<HTMLElement>('.prose pre').forEach((pre) => {
+      const code = pre.querySelector('code');
+      if (!code || !navigator.clipboard) return;
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'copy-code';
+      button.textContent = '복사';
+      button.setAttribute('aria-label', '코드 복사');
+      button.addEventListener('click', async () => {
+        const status = document.querySelector('#copy-status');
+        try {
+          await navigator.clipboard.writeText(code.textContent ?? '');
+          button.textContent = '복사됨';
+          if (status) status.textContent = '코드를 복사했습니다.';
+        } catch {
+          if (status) status.textContent = '복사할 수 없습니다. 코드를 선택해 직접 복사해 주세요.';
+          button.textContent = '직접 선택';
+        }
+        setTimeout(() => { button.textContent = '복사'; }, 2000);
+      });
+      pre.append(button);
+    });
+  </script>
+</BaseLayout>

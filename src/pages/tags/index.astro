@@ -1,0 +1,8 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/posts';
+import { tagPath } from '../../lib/site';
+const posts = await getPosts();
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))].sort((a, b) => a.localeCompare(b, 'ko'));
+---
+<BaseLayout title="태그"><div class="page-heading"><h1>태그</h1><p>관심 있는 키워드로 기록을 찾아보세요.</p></div><section class="page-section tags rail-tags" aria-label="태그 목록">{tags.map((tag) => <a href={tagPath(tag)}>{tag} · {posts.filter((post) => post.data.tags.includes(tag)).length}</a>)}</section></BaseLayout>

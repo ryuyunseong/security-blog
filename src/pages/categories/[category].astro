@@ -1,0 +1,17 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import TopicRail from '../../components/TopicRail.astro';
+import { categories } from '../../lib/site';
+import { getPosts } from '../../lib/posts';
+export function getStaticPaths() {
+  return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
+}
+const { category } = Astro.props;
+const allPosts = await getPosts();
+const posts = allPosts.filter((post) => post.data.category === category.id);
+---
+<BaseLayout title={category.label} description={category.description}>
+  <div class="page-heading"><h1>{category.label}</h1><p>{category.description}</p></div>
+  <div class="content-grid"><section aria-label={`${category.label} 글 목록`}><div class="section-heading"><h2>기록</h2><span class="count">{posts.length}편</span></div><PostList posts={posts} /></section><TopicRail posts={allPosts} /></div>
+</BaseLayout>
