@@ -54,7 +54,6 @@ const schema = {
       <nav aria-label="주 메뉴">
         <a href={path('#posts')} aria-current={current === path() ? 'page' : undefined}>글 목록</a>
         <a href={path('categories/')} aria-current={current.includes('/categories/') ? 'page' : undefined}>카테고리</a>
-        <a href={path('portfolio/')} aria-current={current === path('portfolio/') ? 'page' : undefined}>포트폴리오</a>
       </nav>
       <div class="header-actions">
         <a class="icon-button" href={path('search/')} aria-label="글 검색"><Icon name="search" /></a>
@@ -62,7 +61,7 @@ const schema = {
       </div>
     </header>
     <main id="main" class="shell" tabindex="-1"><slot /></main>
-    <footer class="site-footer shell"><span>보안 노트</span><div><a href={path('rss.xml')}>RSS</a><a href={siteInfo.github} rel="me">GitHub</a></div></footer>
+    <footer class="site-footer shell"><span>보안 노트</span><div><a href={siteInfo.portfolio}>포트폴리오</a><a href={path('rss.xml')}>RSS</a><a href={siteInfo.github} rel="me">GitHub</a></div></footer>
     <script>
       const button = document.querySelector<HTMLButtonElement>('#theme-toggle');
       if (button) {

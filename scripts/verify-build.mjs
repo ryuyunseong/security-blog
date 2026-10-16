@@ -8,6 +8,8 @@ const canonical = index.match(/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/)?
 assert.ok(canonical, '홈 canonical 누락');
 const home = new URL(canonical.replaceAll('&amp;', '&'));
 const base = home.pathname;
+// 같은 Pages 호스트에서 운영하는 별도 사이트는 블로그 빌드 파일이 아니다.
+const externalSites = new Set(['https://ryuyunseong.github.io/security-portfolio/']);
 let checks = 0;
 const check = (value, message) => { assert.ok(value, message); checks++; };
 
@@ -37,7 +39,7 @@ for (const file of htmlFiles) {
     const ref = match[1].replaceAll('&amp;', '&');
     if (/^(mailto:|tel:|data:)/.test(ref)) continue;
     const url = new URL(ref, current);
-    if (url.origin !== home.origin) continue;
+    if (url.origin !== home.origin || externalSites.has(url.href)) continue;
     check(url.pathname.startsWith(base), `base 경로 누락: ${ref} (${file})`);
     const localPath = decodeURIComponent(url.pathname.slice(base.length));
     let target = resolve(root, localPath);
@@ -72,5 +74,6 @@ for (const entry of entries) {
   check(sitemap.includes(url), `사이트맵 글 누락: ${entry.url}`);
 }
 check(!sitemap.includes('/404') && !sitemap.includes('/search/'), '색인 제외 페이지가 사이트맵에 포함됨');
+check(!sitemap.includes(`<loc>${new URL(base + 'portfolio/', home.origin).href}</loc>`), '포트폴리오 안내 페이지가 사이트맵에 포함됨');
 check((await readFile(resolve(root, 'robots.txt'), 'utf8')).includes(new URL(base + 'sitemap.xml', home).href), 'robots 사이트맵 경로 오류');
 console.log(`빌드 검증 통과: ${checks}개 검사, ${htmlFiles.length}개 HTML, ${posts.length}개 공개 글, base=${base}`);
