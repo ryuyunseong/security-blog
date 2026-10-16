@@ -1,0 +1,410 @@
+{
+  "guideUrl": "https://www.kisa.kr/post/fileDownload?menuSeq=2060204&postSeq=22&attachSeq=1&lang_type=KO",
+  "guidePage": "https://www.kisa.kr/2060204/form?postSeq=22&page=1",
+  "guideSha256": "44fe393981b244147be6af7423d99dc15633c089fad0bcb296cbe2371dde812d",
+  "checkedAt": "2026-10-16",
+  "topics": [
+    {
+      "order": 1,
+      "title": "root 계정 원격 접속 제한",
+      "importance": "상",
+      "page": 12
+    },
+    {
+      "order": 2,
+      "title": "비밀번호 관리정책 설정",
+      "importance": "상",
+      "page": 15
+    },
+    {
+      "order": 3,
+      "title": "계정 잠금 임계값 설정",
+      "importance": "상",
+      "page": 21
+    },
+    {
+      "order": 4,
+      "title": "비밀번호 파일 보호",
+      "importance": "상",
+      "page": 25
+    },
+    {
+      "order": 5,
+      "title": "root 이외의 UID가 ‘0’ 금지",
+      "importance": "상",
+      "page": 27
+    },
+    {
+      "order": 6,
+      "title": "사용자 계정 su 기능 제한",
+      "importance": "상",
+      "page": 29
+    },
+    {
+      "order": 7,
+      "title": "불필요한 계정 제거",
+      "importance": "하",
+      "page": 31
+    },
+    {
+      "order": 8,
+      "title": "관리자 그룹에 최소한의 계정 포함",
+      "importance": "중",
+      "page": 32
+    },
+    {
+      "order": 9,
+      "title": "계정이 존재하지 않는 GID 금지",
+      "importance": "하",
+      "page": 33
+    },
+    {
+      "order": 10,
+      "title": "동일한 UID 금지",
+      "importance": "중",
+      "page": 34
+    },
+    {
+      "order": 11,
+      "title": "사용자 shell 점검",
+      "importance": "하",
+      "page": 35
+    },
+    {
+      "order": 12,
+      "title": "세션 종료 시간 설정",
+      "importance": "하",
+      "page": 36
+    },
+    {
+      "order": 13,
+      "title": "안전한 비밀번호 암호화 알고리즘 사용",
+      "importance": "중",
+      "page": 37
+    },
+    {
+      "order": 14,
+      "title": "root 홈, 패스 디렉터리 권한 및 패스 설정",
+      "importance": "상",
+      "page": 39
+    },
+    {
+      "order": 15,
+      "title": "파일 및 디렉터리 소유자 설정",
+      "importance": "상",
+      "page": 40
+    },
+    {
+      "order": 16,
+      "title": "/etc/passwd 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 41
+    },
+    {
+      "order": 17,
+      "title": "시스템 시작 스크립트 권한 설정",
+      "importance": "상",
+      "page": 42
+    },
+    {
+      "order": 18,
+      "title": "/etc/shadow 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 44
+    },
+    {
+      "order": 19,
+      "title": "/etc/hosts 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 45
+    },
+    {
+      "order": 20,
+      "title": "/etc/(x)inetd.conf 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 46
+    },
+    {
+      "order": 21,
+      "title": "/etc/(r)syslog.conf 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 48
+    },
+    {
+      "order": 22,
+      "title": "/etc/services 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 49
+    },
+    {
+      "order": 23,
+      "title": "SUID, SGID, Sticky bit 설정 파일 점검",
+      "importance": "상",
+      "page": 50
+    },
+    {
+      "order": 24,
+      "title": "사용자, 시스템 환경변수 파일 소유자 및 권한 설정",
+      "importance": "상",
+      "page": 51
+    },
+    {
+      "order": 25,
+      "title": "world writable 파일 점검",
+      "importance": "상",
+      "page": 52
+    },
+    {
+      "order": 26,
+      "title": "/dev에 존재하지 않는 device 파일 점검",
+      "importance": "상",
+      "page": 53
+    },
+    {
+      "order": 27,
+      "title": "$HOME/.rhosts, hosts.equiv 사용 금지",
+      "importance": "상",
+      "page": 54
+    },
+    {
+      "order": 28,
+      "title": "접속 IP 및 포트 제한",
+      "importance": "상",
+      "page": 56
+    },
+    {
+      "order": 29,
+      "title": "hosts.lpd 파일 소유자 및 권한 설정",
+      "importance": "하",
+      "page": 61
+    },
+    {
+      "order": 30,
+      "title": "UMASK 설정 관리",
+      "importance": "중",
+      "page": 62
+    },
+    {
+      "order": 31,
+      "title": "홈디렉토리 소유자 및 권한 설정",
+      "importance": "중",
+      "page": 65
+    },
+    {
+      "order": 32,
+      "title": "홈 디렉토리로 지정한 디렉토리의 존재 관리",
+      "importance": "중",
+      "page": 66
+    },
+    {
+      "order": 33,
+      "title": "숨겨진 파일 및 디렉토리 검색 및 제거",
+      "importance": "하",
+      "page": 67
+    },
+    {
+      "order": 34,
+      "title": "Finger 서비스 비활성화",
+      "importance": "상",
+      "page": 68
+    },
+    {
+      "order": 35,
+      "title": "공유 서비스에 대한 익명 접근 제한 설정",
+      "importance": "상",
+      "page": 70
+    },
+    {
+      "order": 36,
+      "title": "r 계열 서비스 비활성화",
+      "importance": "상",
+      "page": 77
+    },
+    {
+      "order": 37,
+      "title": "crontab 설정파일 권한 설정 미흡",
+      "importance": "상",
+      "page": 80
+    },
+    {
+      "order": 38,
+      "title": "DoS 공격에 취약한 서비스 비활성화",
+      "importance": "상",
+      "page": 83
+    },
+    {
+      "order": 39,
+      "title": "불필요한 NFS 서비스 비활성화",
+      "importance": "상",
+      "page": 86
+    },
+    {
+      "order": 40,
+      "title": "NFS 접근 통제",
+      "importance": "상",
+      "page": 89
+    },
+    {
+      "order": 41,
+      "title": "불필요한 automountd 제거",
+      "importance": "상",
+      "page": 93
+    },
+    {
+      "order": 42,
+      "title": "불필요한 RPC 서비스 비활성화",
+      "importance": "상",
+      "page": 96
+    },
+    {
+      "order": 43,
+      "title": "NIS, NIS+ 점검",
+      "importance": "상",
+      "page": 99
+    },
+    {
+      "order": 44,
+      "title": "tftp, talk 서비스 비활성화",
+      "importance": "상",
+      "page": 102
+    },
+    {
+      "order": 45,
+      "title": "메일 서비스 버전 점검",
+      "importance": "상",
+      "page": 105
+    },
+    {
+      "order": 46,
+      "title": "일반 사용자의 메일 서비스 실행 방지",
+      "importance": "상",
+      "page": 111
+    },
+    {
+      "order": 47,
+      "title": "스팸 메일 릴레이 제한",
+      "importance": "상",
+      "page": 113
+    },
+    {
+      "order": 48,
+      "title": "expn, vrfy 명령어 제한",
+      "importance": "중",
+      "page": 116
+    },
+    {
+      "order": 49,
+      "title": "DNS 보안 버전 패치",
+      "importance": "상",
+      "page": 118
+    },
+    {
+      "order": 50,
+      "title": "DNS ZoneTransfer 설정",
+      "importance": "상",
+      "page": 121
+    },
+    {
+      "order": 51,
+      "title": "DNS 서비스의 취약한 동적 업데이트 설정 금지",
+      "importance": "중",
+      "page": 122
+    },
+    {
+      "order": 52,
+      "title": "Telnet 서비스 비활성화",
+      "importance": "중",
+      "page": 124
+    },
+    {
+      "order": 53,
+      "title": "FTP 서비스 정보 노출 제한",
+      "importance": "하",
+      "page": 127
+    },
+    {
+      "order": 54,
+      "title": "암호화되지 않는 FTP 서비스 비활성화",
+      "importance": "중",
+      "page": 131
+    },
+    {
+      "order": 55,
+      "title": "FTP 계정 shell 제한",
+      "importance": "중",
+      "page": 134
+    },
+    {
+      "order": 56,
+      "title": "FTP 서비스 접근 제어 설정",
+      "importance": "하",
+      "page": 135
+    },
+    {
+      "order": 57,
+      "title": "Ftpusers 파일 설정",
+      "importance": "중",
+      "page": 139
+    },
+    {
+      "order": 58,
+      "title": "불필요한 SNMP 서비스 구동 점검",
+      "importance": "중",
+      "page": 141
+    },
+    {
+      "order": 59,
+      "title": "안전한 SNMP 버전 사용",
+      "importance": "상",
+      "page": 143
+    },
+    {
+      "order": 60,
+      "title": "SNMP Community String 복잡성 설정",
+      "importance": "중",
+      "page": 145
+    },
+    {
+      "order": 61,
+      "title": "SNMP Access Control 설정",
+      "importance": "상",
+      "page": 148
+    },
+    {
+      "order": 62,
+      "title": "로그인 시 경고 메시지 설정",
+      "importance": "하",
+      "page": 150
+    },
+    {
+      "order": 63,
+      "title": "sudo 명령어 접근 관리",
+      "importance": "중",
+      "page": 159
+    },
+    {
+      "order": 64,
+      "title": "주기적 보안 패치 및 벤더 권고사항 적용",
+      "importance": "상",
+      "page": 160
+    },
+    {
+      "order": 65,
+      "title": "NTP 및 시각 동기화 설정",
+      "importance": "중",
+      "page": 164
+    },
+    {
+      "order": 66,
+      "title": "정책에 따른 시스템 로깅 설정",
+      "importance": "중",
+      "page": 166
+    },
+    {
+      "order": 67,
+      "title": "로그 디렉터리 소유자 및 권한 설정",
+      "importance": "중",
+      "page": 171
+    }
+  ]
+}

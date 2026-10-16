@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      source_ref:
+        description: '검증 후 발행한 커밋 SHA'
+        type: string
+        required: true
 
 permissions:
   contents: read
@@ -20,6 +26,8 @@ jobs:
     steps:
       - name: 소스 가져오기
         uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.source_ref || github.sha }}
       - name: 검증, 빌드 및 아티팩트 업로드
         uses: withastro/action@v6
         with:
@@ -36,12 +44,23 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       pages: write
       id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      - name: 최신 main과 배포 대상 대조
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EXPECTED_SHA: ${{ inputs.source_ref || github.sha }}
+        run: |
+          CURRENT_SHA=$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq .sha)
+          if [ "$CURRENT_SHA" != "$EXPECTED_SHA" ]; then
+            echo '::error::main이 변경되어 이전 커밋의 배포를 중단합니다. 최신 main으로 다시 실행하세요.'
+            exit 1
+          fi
       - name: GitHub Pages 배포
         id: deployment
         uses: actions/deploy-pages@v5

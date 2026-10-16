@@ -14,7 +14,7 @@ const posts = defineCollection({
     draft: z.boolean().default(true),
     example: z.boolean().default(false),
     series: z.literal('unix-2026').optional(),
-    seriesOrder: z.number().int().min(1).max(72).optional(),
+    seriesOrder: z.number().int().min(1).max(67).optional(),
   }).refine((data) => Boolean(data.series) === Boolean(data.seriesOrder), {
     message: '시리즈와 시리즈 순서를 함께 지정하세요.',
   }),

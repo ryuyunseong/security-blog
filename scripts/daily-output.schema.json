@@ -1,0 +1,40 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["articles", "withheld"],
+  "properties": {
+    "articles": {"type": "array", "items": {"$ref": "#/$defs/article"}},
+    "withheld": {"type": "array", "items": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "reason"],
+      "properties": {"kind": {"enum": ["unix", "qualys"]}, "reason": {"type": "string"}}
+    }}
+  },
+  "$defs": {
+    "article": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "slug", "title", "description", "tags", "body", "visual", "sources", "scope", "finding"],
+      "properties": {
+        "kind": {"enum": ["unix", "qualys"]},
+        "slug": {"type": "string"}, "title": {"type": "string"},
+        "description": {"type": "string"},
+        "tags": {"type": "array", "items": {"type": "string"}},
+        "body": {"type": "string"}, "scope": {"type": "string"}, "finding": {"type": "string"},
+        "visual": {
+          "type": "object", "additionalProperties": false,
+          "required": ["title", "kind", "nodes", "note", "caption"],
+          "properties": {
+            "title": {"type": "string"}, "kind": {"enum": ["flow", "compare", "layers"]},
+            "nodes": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
+            "note": {"type": "string"}, "caption": {"type": "string"}
+          }
+        },
+        "sources": {"type": "array", "items": {
+          "type": "object", "additionalProperties": false,
+          "required": ["url", "quote"],
+          "properties": {"url": {"type": "string"}, "quote": {"type": "string"}}
+        }}
+      }
+    }
+  }
+}

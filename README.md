@@ -54,6 +54,8 @@ python3 scripts/run-article-examples.py
 
 main 푸시는 GitHub Actions의 검사·빌드를 거쳐 GitHub Pages로 배포됩니다. PR은 검증만 수행합니다. 배포 활성화 변수는 `PAGES_DEPLOY_ENABLED=true`이며, 사이트 경로는 저장소 정보에서 계산합니다.
 
+일일 발행 워크플로는 GitHub 호스팅 실행기에서 오전 9시 17분(한국 시간)에 주통기 다음 항목과 Qualys 글을 작성·검증하도록 구성했습니다. 현재 API 키 연결 복구와 생성 미리보기 검증을 남겨 비활성 상태입니다. `OPENAI_API_KEY` Secret 등록 후 `DAILY_PUBLISH_ENABLED=true`로 활성화합니다. 개인 PC 없이 실행되며 별도 API 요금이 발생합니다. [실행 모드·보류·복구 절차](docs/publishing.md)를 확인하세요.
+
 프로젝트 Pages 경로를 로컬에서 확인하려면 PowerShell에서 다음을 실행합니다.
 
 ```powershell
