@@ -34,7 +34,7 @@ const next = seriesPosts[seriesPosition + 1];
       <div class="article-body">
         {post.data.example && <p class="notice">교육용 예제입니다. 실제 운영 환경의 점검 결과나 개인 실적을 담고 있지 않습니다.</p>}
         <ArticleVisual id={post.id} />
-        {hasExecution && <p class="execution-shortcut"><a href="#execution-results">실제로 실행한 결과 보기 <span aria-hidden="true">↓</span></a></p>}
+        {hasExecution && <p class="execution-shortcut"><a href="#execution-results">실행 결과 보기 <span aria-hidden="true">↓</span></a></p>}
         <div class="prose"><Content /></div>
         <ExecutionResults id={post.id} />
         {post.data.series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={unixSeries.path}>{unixSeries.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}

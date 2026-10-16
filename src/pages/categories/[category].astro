@@ -13,5 +13,5 @@ const posts = allPosts.filter((post) => post.data.category === category.id);
 ---
 <BaseLayout title={category.label} description={category.description}>
   <div class="page-heading"><h1>{category.label}</h1><p>{category.description}</p></div>
-  <div class="content-grid"><section aria-label={`${category.label} 글 목록`}><div class="section-heading"><h2>기록</h2><span class="count">{posts.length}편</span></div><PostList posts={posts} /></section><TopicRail posts={allPosts} /></div>
+  <div class="content-grid"><section aria-label={`${category.label} 글 목록`}><div class="section-heading"><h2>글 목록</h2><span class="count">{posts.length}편</span></div><PostList posts={posts} /></section><TopicRail posts={allPosts} /></div>
 </BaseLayout>

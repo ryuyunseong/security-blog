@@ -1,6 +1,6 @@
 # 보안 노트
 
-Unix와 웹·인프라 보안을 작은 실습과 코드로 확인하는 한국어 기술 블로그입니다. 주통기 점검 시리즈, 알고리즘 풀이, Qualys 문서 해설을 제공합니다.
+Unix 점검 방법, 웹 보안 실습, Qualys 기능을 정리한 한국어 기술 블로그입니다. 주통기 점검 시리즈, 알고리즘 풀이, Qualys 공식 문서 해설을 제공합니다.
 
 [블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [GitHub](https://github.com/ryuyunseong)
 

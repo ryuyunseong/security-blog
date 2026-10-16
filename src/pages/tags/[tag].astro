@@ -10,5 +10,5 @@ const { tag } = Astro.props;
 const posts = (await getPosts()).filter((post) => post.data.tags.includes(tag));
 ---
 <BaseLayout title={`${tag} 태그`} description={`${tag} 관련 정보보안 기술 노트`}>
-  <div class="page-heading"><h1>#{tag}</h1><p>이 키워드로 묶인 {posts.length}편의 기록입니다.</p></div><section class="page-section" aria-label={`${tag} 글 목록`}><PostList posts={posts} /></section>
+  <div class="page-heading"><h1>#{tag}</h1><p>{tag} 태그가 달린 글 {posts.length}편입니다.</p></div><section class="page-section" aria-label={`${tag} 글 목록`}><PostList posts={posts} /></section>
 </BaseLayout>

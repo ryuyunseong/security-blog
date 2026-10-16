@@ -2,17 +2,17 @@ import { createPath } from './core.mjs';
 
 export const siteInfo = {
   title: '보안 노트',
-  description: 'Unix부터 웹·인프라 보안까지, 실습과 코드로 쌓아가는 기술 노트.',
+  description: 'Unix 점검 방법, 웹 보안 실습, Qualys 기능을 정리합니다.',
   github: 'https://github.com/ryuyunseong',
   portfolio: 'https://ryuyunseong.github.io/security-portfolio/',
 };
 
 export const categories = [
-  { id: 'unix', label: 'Unix', description: '파일, 권한, 계정을 확인하는 기초부터 기록합니다.' },
-  { id: 'web', label: '웹 보안', description: 'HTTP와 웹 애플리케이션의 보안 동작을 살펴봅니다.' },
-  { id: 'infrastructure', label: '인프라 보안', description: '설정 점검과 증적 관리 방법을 정리합니다.' },
-  { id: 'cve', label: 'CVE', description: '공개 취약점의 근거와 영향 범위를 구분해 읽습니다.' },
-  { id: 'qualys', label: 'Qualys', description: '탐지 결과를 해석하고 검토하는 방법을 정리합니다.' },
+  { id: 'unix', label: 'Unix', description: '계정·그룹, 파일 권한, SSH 설정과 주통기 점검 항목을 다룹니다.' },
+  { id: 'web', label: '웹 보안', description: 'CORS, 인증·권한 검사, 파일 다운로드와 압축 해제의 보안 문제를 다룹니다.' },
+  { id: 'infrastructure', label: '인프라 보안', description: 'TLS 인증서 검증, CIDR 주소 조회, 로그인 실패 로그 분석을 다룹니다.' },
+  { id: 'cve', label: 'CVE', description: '취약점의 영향 버전, 재현 조건, 수정 내용을 다룹니다.' },
+  { id: 'qualys', label: 'Qualys', description: '인증 스캔, 자산 태그, Cloud Agent 등 Qualys 기능과 공식 문서를 설명합니다.' },
 ] as const;
 
 export const path = createPath(import.meta.env.BASE_URL);

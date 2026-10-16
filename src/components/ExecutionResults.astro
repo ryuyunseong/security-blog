@@ -12,7 +12,6 @@ const environment = record?.environment ?? executions.environment;
 const recordedAt = record?.recordedAt ?? executions.recordedAt;
 ---
 {record && context && <section id="execution-results" class="execution-results" aria-labelledby="execution-title">
-  <p class="evidence-kicker">코드를 돌려 보니</p>
   <h2 id="execution-title">실행 기록</h2>
   <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · Python {environment.python}</p>
   {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
