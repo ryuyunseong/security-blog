@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import visuals from '../../data/article-visuals.json';
+import { getPosts } from '../../lib/posts';
+import { path, postPath } from '../../lib/site';
+
+export async function getStaticPaths() {
+  return (await getPosts()).filter((post) => Object.hasOwn(visuals, post.id))
+    .map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const visual = visuals[post.id as keyof typeof visuals];
+const imagePath = path(`assets/posts/${post.id}.svg`);
+---
+<BaseLayout title={visual.title} description={visual.caption} noindex canonicalPath={postPath(post.id)}>
+  <header class="figure-heading">
+    <a class="back-link" href={postPath(post.id)}>← 원문으로</a>
+    <h1>{visual.title}</h1>
+    <a class="download-link" href={imagePath} download={`${post.id}.svg`}>SVG 다운로드</a>
+  </header>
+  <figure class="figure-detail">
+    <div class="figure-scroll" role="region" aria-label="설명 그림 · 좌우로 스크롤" tabindex="0">
+      <img src={imagePath} alt={visual.title} width="960" height="540" decoding="async" />
+    </div>
+    <figcaption>{visual.caption} <span>작은 화면에서는 그림을 좌우로 밀어 볼 수 있습니다.</span></figcaption>
+  </figure>
+</BaseLayout>
+
+<style>
+  .figure-heading { padding-block:32px 20px; }
+  h1 { margin-block:20px 12px; font-size:clamp(24px, 3vw, 36px); }
+  .download-link { color:var(--accent); text-decoration:underline; text-underline-offset:4px; }
+  .figure-detail { margin:0 0 36px; }
+  .figure-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
+  img { display:block; width:100%; min-width:960px; height:auto; }
+  figcaption { margin-top:12px; color:var(--muted); font-size:14px; }
+  figcaption span { display:block; }
+</style>

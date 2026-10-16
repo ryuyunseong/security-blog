@@ -55,6 +55,8 @@ for (const file of htmlFiles) {
 
 const entries = JSON.parse(await readFile(resolve(root, 'search.json'), 'utf8'));
 const posts = htmlFiles.filter((file) => relative(root, file).startsWith(`posts${sep}`));
+const figures = htmlFiles.filter((file) => relative(root, file).startsWith(`figures${sep}`));
+check(figures.length === posts.length, '공개 글과 그림 보기 페이지 수 불일치');
 const evidence = JSON.parse(await readFile('src/data/executions.json', 'utf8'));
 for (const file of posts) {
   const source = await readFile(file, 'utf8');
@@ -62,6 +64,16 @@ for (const file of posts) {
   check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
   check(/<img[^>]+alt="[^"]+"[^>]+width="960"[^>]+height="540"/.test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
   check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
+  const figurePath = `${base}figures/${slug}/`;
+  const svgPath = `${base}assets/posts/${slug}.svg`;
+  check(source.includes(`href="${figurePath}"`), `그림 보기 링크 누락: ${slug}`);
+  check(!source.includes(`href="${svgPath}"`), `그림 링크가 SVG 문서를 직접 엶: ${slug}`);
+  const figure = await readFile(resolve(root, 'figures', slug, 'index.html'), 'utf8');
+  check(/<img\b[^>]*src="[^"]+\.svg"/.test(figure) && figure.includes(`src="${svgPath}"`), `그림 보기 이미지 누락: ${slug}`);
+  check(figure.includes(`href="${base}posts/${slug}/"`), `원문 복귀 링크 누락: ${slug}`);
+  check([...figure.matchAll(/<a\b[^>]*>/g)].some(([link]) => link.includes(`href="${svgPath}"`) && /\bdownload(?:[\s=>])/.test(link)), `SVG 다운로드 링크 누락: ${slug}`);
+  check(figure.includes('name="robots" content="noindex,follow"'), `그림 보기 색인 제외 누락: ${slug}`);
+  check(figure.includes(`rel="canonical" href="${new URL(`${base}posts/${slug}/`, home.origin).href}"`), `그림 보기 canonical이 원문과 다름: ${slug}`);
 }
 check(entries.length === posts.length, '검색 색인과 공개 글 수 불일치');
 const rss = await readFile(resolve(root, 'rss.xml'), 'utf8');
