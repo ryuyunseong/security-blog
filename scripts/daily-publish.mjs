@@ -229,14 +229,21 @@ async function prepare(mode) {
   plan.baseSha = await git('rev-parse', 'HEAD');
   if (plan.requested.includes('unix') || (mode === 'verify' && plan.next)) {
     try {
-      await exec('curl', ['--fail', '--location', '--max-time', '45', '--max-filesize', '16777216', '--proto', '=https', '--proto-redir', '=https',
-        '--output', join(qa, 'guide.pdf'), topics.guideUrl], { timeout: 50000 });
-      requireThat(digest(await readFile(join(qa, 'guide.pdf'))) === topics.guideSha256, '공식 가이드 파일 변경 확인 필요');
+      // 공식 URL은 curl 요청에 HTTP 400을 반환해 Node 기본 HTTP 클라이언트를 쓴다.
+      // TLS 검증은 유지하고 리디렉션·크기·파일 형식·해시를 모두 확인한다.
+      const response = await fetch(topics.guideUrl, { redirect: 'error', signal: AbortSignal.timeout(45000) });
+      requireThat(response.ok, '공식 PDF HTTP 응답 확인 실패');
+      const chunks = []; let size = 0;
+      for await (const chunk of response.body) { size += chunk.length; requireThat(size <= 16 * 1024 * 1024, '공식 PDF 크기 초과'); chunks.push(chunk); }
+      const pdf = Buffer.concat(chunks);
+      requireThat(pdf.subarray(0, 5).toString() === '%PDF-' && digest(pdf) === topics.guideSha256, '공식 가이드 파일 변경 확인 필요');
+      await writeFile(join(qa, 'guide.pdf'), pdf);
       const last = topics.topics[plan.next.order]?.page - 1 || 173;
       await exec('pdftotext', ['-f', String(plan.next.page), '-l', String(last), '-layout', join(qa, 'guide.pdf'), join(qa, 'guide-excerpt.txt')]);
       plan.guideExcerpt = (await readFile(join(qa, 'guide-excerpt.txt'), 'utf8')).slice(0, 32000);
       requireThat(plan.guideExcerpt.includes(`U-${String(plan.next.order).padStart(2, '0')}`), '원문 항목 추출 실패');
-    } catch {
+    } catch (error) {
+      console.error(error.cause?.code ?? error.message);
       if (mode === 'verify') throw new Error('클라우드에서 2026 KISA PDF 다운로드·해시·항목 대조 실패');
       plan.requested = plan.requested.filter((kind) => kind !== 'unix');
       plan.withheld.push({ kind: 'unix', reason: '2026 공식 PDF 다운로드·해시·항목 대조 실패' });
