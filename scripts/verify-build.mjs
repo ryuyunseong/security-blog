@@ -21,7 +21,7 @@ const htmlFiles = files.filter((file) => file.endsWith('.html'));
 for (const file of files.filter((file) => /\.(html|json|xml|txt)$/.test(file))) {
   const source = await readFile(file, 'utf8');
   check(!/DRAFT_EXCLUSION_SENTINEL|초안검증전용|FUTURE_EXCLUSION_SENTINEL|미래검증전용/.test(source), `비공개 글 노출: ${relative(root, file)}`);
-  check(!/tistory|티스토리|isBasedOn/i.test(source), `삭제한 외부 블로그 안내 노출: ${relative(root, file)}`);
+  check(!/ti\u0073tory|\uD2F0\uC2A4\uD1A0\uB9AC|isBasedOn/i.test(source), `사용하지 않는 외부 블로그 안내 노출: ${relative(root, file)}`);
 }
 
 for (const file of htmlFiles) {

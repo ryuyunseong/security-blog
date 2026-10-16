@@ -184,9 +184,21 @@ def main():
                             "openssl": subprocess.check_output(["openssl", "version"], text=True).strip()},
             "pythonSyntaxCount": syntax_count, "posts": records,
         }
+        for record in records.values():
+            record["recordedAt"] = report["recordedAt"]
+            record["environment"] = report["environment"]
+        # 이 실행기는 기존 17편을 재현한다. 이후 글의 개별 실행 기록은 보존한다.
+        result_path = ROOT / "src/data/executions.json"
+        if result_path.exists():
+            previous = json.loads(result_path.read_text(encoding="utf-8"))
+            for slug, record in previous["posts"].items():
+                if slug not in records:
+                    record.setdefault("recordedAt", previous["recordedAt"])
+                    record.setdefault("environment", previous["environment"])
+                    records[slug] = record
         (ROOT / "src/data/executions.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     assert not lab.exists()
-    print(f"17편, {sum(len(p['runs']) for p in records.values())}개 실행 기록 저장. 임시 작업 폴더 정리 완료.")
+    print(f"기존 17편 재현 완료, 총 {len(records)}편 기록 저장. 임시 작업 폴더 정리 완료.")
 
 
 if __name__ == "__main__":

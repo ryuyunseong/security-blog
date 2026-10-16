@@ -2,15 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { publishedPosts } from './content-helpers.mjs';
 
 const read = async (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 const visuals = JSON.parse(await read('src/data/article-visuals.json'));
 const executions = JSON.parse(await read('src/data/executions.json'));
 const contexts = JSON.parse(await read('src/data/execution-context.json'));
-const manifest = JSON.parse(await read('src/data/migration.json'));
-const published = manifest.posts.filter((post) => post.status === 'migrated').map((post) => post.slug).sort();
+const published = (await publishedPosts()).map((post) => post.slug).sort();
 
-test('21편에 설명 도식을 제공하고 외부 실행 코드가 없는 SVG로 보관한다', async () => {
+test('공개 글에 설명 도식을 제공하고 외부 실행 코드가 없는 SVG로 보관한다', async () => {
   assert.deepEqual(Object.keys(visuals).sort(), published);
   for (const [slug, visual] of Object.entries(visuals)) {
     const svg = await read(`public/assets/posts/${slug}.svg`);
@@ -29,15 +29,18 @@ test('21편에 설명 도식을 제공하고 외부 실행 코드가 없는 SVG�
   }
 });
 
-test('17편 20개 실행 기록이 현재 본문 코드와 일치하며 환경·범위를 명시한다', async () => {
-  assert.equal(Object.keys(executions.posts).length, 17);
+test('실행 기록이 현재 본문 코드와 일치하며 환경·범위를 명시한다', async () => {
+  assert.ok(Object.keys(executions.posts).length >= 17);
   assert.deepEqual(Object.keys(contexts).sort(), Object.keys(executions.posts).sort());
-  assert.equal(Object.values(executions.posts).reduce((sum, post) => sum + post.runs.length, 0), 20);
-  assert.equal(executions.pythonSyntaxCount, 13);
+  assert.ok(Object.values(executions.posts).reduce((sum, post) => sum + post.runs.length, 0) >= 20);
+  assert.ok(executions.pythonSyntaxCount >= 13);
   assert.ok(Number.isFinite(Date.parse(executions.recordedAt)));
   assert.match(executions.environment.os, /Ubuntu/);
   for (const [slug, evidence] of Object.entries(executions.posts)) {
     assert.ok(published.includes(slug));
+    const environment = evidence.environment ?? executions.environment;
+    assert.ok(environment.os && environment.python && environment.pythonSsl && environment.openssl, slug);
+    assert.ok(Number.isFinite(Date.parse(evidence.recordedAt ?? executions.recordedAt)), slug);
     const source = (await read(`src/content/posts/${slug}.md`)).replace(/\r\n/g, '\n');
     const blocks = [...source.matchAll(/^(`{3,4})([\w+-]*)\n(.*?)\n\1\s*$/gms)].map((match) => match[3]);
     const hash = createHash('sha256').update(blocks.join('\0')).digest('hex');
@@ -49,12 +52,16 @@ test('17편 20개 실행 기록이 현재 본문 코드와 일치하며 환경·
       assert.ok(!/C:\\Users\\|\/home\/(?!oldvendor)|security-blog-examples-/i.test(run.stdout));
     }
   }
-  assert.ok(!Object.keys(executions.posts).some((slug) => slug.startsWith('qualys-')));
+  // 문서 해설로 작성한 기존 글에 제품 실행 결과를 덧붙이지 않는다.
+  for (const slug of ['qualys-authenticated-scan', 'qualys-collection-coverage', 'qualys-learning-environment', 'qualys-vulnerability-management']) {
+    assert.ok(!Object.hasOwn(executions.posts, slug));
+  }
 });
 
-test('출처 안내는 콘텐츠와 사이트 설정에 남기지 않는다', async () => {
-  for (const slug of published) assert.ok(!/tistory|티스토리|^sourceUrl:|^migrated:/im.test(await read(`src/content/posts/${slug}.md`)));
+test('외부 블로그 안내는 콘텐츠와 사이트 설정에 남기지 않는다', async () => {
+  const legacy = /ti\u0073tory|\uD2F0\uC2A4\uD1A0\uB9AC|^sourceUrl:|^migrated:/im;
+  for (const slug of published) assert.ok(!legacy.test(await read(`src/content/posts/${slug}.md`)));
   for (const path of ['src/pages/index.astro', 'src/pages/portfolio.astro', 'src/components/TopicRail.astro', 'src/layouts/BaseLayout.astro', 'src/lib/site.ts']) {
-    assert.ok(!/tistory|티스토리|isBasedOn/i.test(await read(path)), path);
+    assert.ok(!legacy.test(await read(path)) && !(await read(path)).includes('isBasedOn'), path);
   }
 });

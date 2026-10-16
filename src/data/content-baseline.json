@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "checkedAt": "2026-10-16",
+  "posts": [
+    {
+      "slug": "u-01-root-remote-login",
+      "title": "U-01: root 계정 원격 접속 제한",
+      "date": "2026-10-06T21:54:44+09:00",
+      "category": "unix",
+      "seriesOrder": 1,
+      "codeCount": 4,
+      "codeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729"
+    },
+    {
+      "slug": "tls-version-and-identity",
+      "title": "TLS 1.3이면 안전할까? 버전과 인증서 검증의 차이",
+      "date": "2026-10-06T22:56:53+09:00",
+      "category": "infrastructure",
+      "codeCount": 3,
+      "codeSha256": "0f59fc25a058b8264d029cf3e1ccb3d46bf3f9486c59f93bb529c0ff5f76bb02"
+    },
+    {
+      "slug": "u-02-password-policy",
+      "title": "U-02: 비밀번호 관리정책 설정",
+      "date": "2026-10-07T21:27:23+09:00",
+      "category": "unix",
+      "seriesOrder": 2,
+      "codeCount": 5,
+      "codeSha256": "36c93b858d58fc652bd2b7a172bbed8488ea81a88819cec96cd76e58d79b7def"
+    },
+    {
+      "slug": "download-path-validation",
+      "title": "파일 다운로드 경로 검증: 문자열 비교만으로는 부족한 이유",
+      "date": "2026-10-08T21:23:44+09:00",
+      "category": "web",
+      "codeCount": 3,
+      "codeSha256": "66d356fe3cff6e98c97a29626a5466ecaff13da0ed03e41360beeeb0290fcd9b"
+    },
+    {
+      "slug": "umask-and-file-permissions",
+      "title": "umask 설정과 실제 파일 권한",
+      "date": "2026-10-08T21:26:23+09:00",
+      "category": "unix",
+      "codeCount": 3,
+      "codeSha256": "73c53e8804dc85b6b8966088935449edeab22ef354dfc077b907a3e7dc9e1639"
+    },
+    {
+      "slug": "u-03-account-lockout",
+      "title": "U-03: 계정 잠금 임계값 설정",
+      "date": "2026-10-08T21:45:21+09:00",
+      "category": "unix",
+      "seriesOrder": 3,
+      "codeCount": 4,
+      "codeSha256": "94059f72386f44f80c405511c24328076cf573693c865df71beb9d41faa8fd65"
+    },
+    {
+      "slug": "u-04-password-file",
+      "title": "U-04: 비밀번호 파일 보호",
+      "date": "2026-10-09T21:11:54+09:00",
+      "category": "unix",
+      "seriesOrder": 4,
+      "codeCount": 3,
+      "codeSha256": "038b06d6400b3aa90c6cc0620ccd92c38ada5ac368007ff5d984a1e55366746b"
+    },
+    {
+      "slug": "cors-authentication-authorization",
+      "title": "CORS 설정과 서버 접근 권한의 차이",
+      "date": "2026-10-09T21:15:19+09:00",
+      "category": "web",
+      "codeCount": 4,
+      "codeSha256": "b27d08fc22b0df5a848781473337a38c6c6ffb50c8dae78e16a96b354faa3dea"
+    },
+    {
+      "slug": "u-05-root-uid",
+      "title": "U-05: root 이외의 UID가 ‘0’ 금지",
+      "date": "2026-10-10T21:19:36+09:00",
+      "category": "unix",
+      "seriesOrder": 5,
+      "codeCount": 5,
+      "codeSha256": "1810c9c9d9d54de67bddf8aa681049896d0dc0bd075438eeab71058131326d73"
+    },
+    {
+      "slug": "login-failure-sliding-window",
+      "title": "로그에서 반복 로그인 실패 IP 찾기",
+      "date": "2026-10-10T21:22:40+09:00",
+      "category": "infrastructure",
+      "codeCount": 10,
+      "codeSha256": "9124e55488bd87422c04a93136c5d68ba624eee1451049c3ef6845b1cafb3828"
+    },
+    {
+      "slug": "u-06-su-restriction",
+      "title": "U-06: 사용자 계정 su 기능 제한",
+      "date": "2026-10-11T15:59:47+09:00",
+      "category": "unix",
+      "seriesOrder": 6,
+      "codeCount": 7,
+      "codeSha256": "10e5755ec84edb4f0316ac99a75de2c2cae65318ef9b35777a3f679c8b498d29"
+    },
+    {
+      "slug": "cidr-interval-binary-search",
+      "title": "CIDR 허용 목록에서 IP 찾기: 구간 병합과 이진 탐색",
+      "date": "2026-10-11T16:01:39+09:00",
+      "category": "infrastructure",
+      "codeCount": 9,
+      "codeSha256": "b8d9c28791c5c39f0c64b468796aaaa5612fc582c02c5978332acafb4f68ae5f"
+    },
+    {
+      "slug": "u-07-unused-accounts",
+      "title": "U-07: 불필요한 계정 제거",
+      "date": "2026-10-12T20:48:05+09:00",
+      "category": "unix",
+      "seriesOrder": 7,
+      "codeCount": 6,
+      "codeSha256": "a100960e410272ef5c0014044b36c69bb713f5caa0b417032a946adff11dc8b3"
+    },
+    {
+      "slug": "qualys-vulnerability-management",
+      "title": "Qualys로 취약점 관리 시작하기: 탐지에서 조치 확인까지",
+      "date": "2026-10-12T20:50:22+09:00",
+      "category": "qualys",
+      "codeCount": 0,
+      "codeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "slug": "gzip-output-limit",
+      "title": "작은 gzip 파일도 안전하지 않다: 압축 해제 출력량 제한하기",
+      "date": "2026-10-12T20:52:00+09:00",
+      "category": "web",
+      "codeCount": 4,
+      "codeSha256": "371f50412d8f5cad5046b3e31f29d9c3ae43fbb21dca624f04c0f08f878790fe"
+    },
+    {
+      "slug": "u-08-admin-group",
+      "title": "U-08: 관리자 그룹에 최소한의 계정 포함",
+      "date": "2026-10-13T21:07:40+09:00",
+      "category": "unix",
+      "seriesOrder": 8,
+      "codeCount": 8,
+      "codeSha256": "e33ad99e47e5051d70334e5c46b3ae72c3a67d46b8f0140cb1b87b084b7ac81a"
+    },
+    {
+      "slug": "qualys-learning-environment",
+      "title": "Qualys 실습 환경 고르기: Community Edition·VMDR·Training의 차이",
+      "date": "2026-10-13T21:08:54+09:00",
+      "category": "qualys",
+      "codeCount": 0,
+      "codeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "slug": "u-09-unused-gid",
+      "title": "U-09: 계정이 존재하지 않는 GID 금지",
+      "date": "2026-10-14T20:16:39+09:00",
+      "category": "unix",
+      "seriesOrder": 9,
+      "codeCount": 10,
+      "codeSha256": "333880aac2d282be5f412834a7f927ed7ef9bd4adb287116b1f5adda7bfac703"
+    },
+    {
+      "slug": "qualys-collection-coverage",
+      "title": "Qualys 수집 누락 찾기: Cloud Agent와 Scanner Appliance 확인 순서",
+      "date": "2026-10-14T20:18:00+09:00",
+      "category": "qualys",
+      "codeCount": 0,
+      "codeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "slug": "u-10-duplicate-uid",
+      "title": "U-10: 동일한 UID 금지",
+      "date": "2026-10-15T20:23:44+09:00",
+      "category": "unix",
+      "seriesOrder": 10,
+      "codeCount": 7,
+      "codeSha256": "2529853a0db18a8f5ff3816de7a3f2fdff5b5a40950ae43350c4b9bc39b7ea2f"
+    },
+    {
+      "slug": "qualys-authenticated-scan",
+      "title": "Qualys 인증 스캔 결과 읽기: 로그인 성공과 점검 완료의 차이",
+      "date": "2026-10-15T20:25:07+09:00",
+      "category": "qualys",
+      "codeCount": 0,
+      "codeSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -5,14 +5,17 @@ import { dateLabel } from '../lib/site';
 interface Props { id: string; }
 const { id } = Astro.props;
 type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string };
-const record = (executions.posts as Record<string, { runs: Run[] }>)[id];
+type Environment = typeof executions.environment;
+const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment }>)[id];
 const context = contexts[id as keyof typeof contexts];
+const environment = record?.environment ?? executions.environment;
+const recordedAt = record?.recordedAt ?? executions.recordedAt;
 ---
 {record && context && <section id="execution-results" class="execution-results" aria-labelledby="execution-title">
   <p class="evidence-kicker">코드를 돌려 보니</p>
   <h2 id="execution-title">실행 기록</h2>
-  <p class="execution-environment">{dateLabel(new Date(executions.recordedAt))} · {executions.environment.os} · Python {executions.environment.python}</p>
-  {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {executions.environment.pythonSsl}</p>}
+  <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · Python {environment.python}</p>
+  {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
   <p>{context.scope}</p>
   <p class="execution-finding">{context.finding}</p>
   {record.runs.map((run) => <div class="execution-run">

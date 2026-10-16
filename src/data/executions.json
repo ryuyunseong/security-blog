@@ -1,5 +1,5 @@
 {
-  "recordedAt": "2026-10-15T22:19:51.474043+00:00",
+  "recordedAt": "2026-10-16T12:29:49.824195+00:00",
   "environment": {
     "os": "Ubuntu 24.04.4 LTS / WSL 2",
     "python": "3.12.3",
@@ -18,7 +18,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "371f50412d8f5cad5046b3e31f29d9c3ae43fbb21dca624f04c0f08f878790fe"
+      "sourceCodeSha256": "371f50412d8f5cad5046b3e31f29d9c3ae43fbb21dca624f04c0f08f878790fe",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "download-path-validation": {
       "runs": [
@@ -30,7 +37,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "66d356fe3cff6e98c97a29626a5466ecaff13da0ed03e41360beeeb0290fcd9b"
+      "sourceCodeSha256": "66d356fe3cff6e98c97a29626a5466ecaff13da0ed03e41360beeeb0290fcd9b",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "cors-authentication-authorization": {
       "runs": [
@@ -42,7 +56,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "b27d08fc22b0df5a848781473337a38c6c6ffb50c8dae78e16a96b354faa3dea"
+      "sourceCodeSha256": "b27d08fc22b0df5a848781473337a38c6c6ffb50c8dae78e16a96b354faa3dea",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "tls-version-and-identity": {
       "runs": [
@@ -54,7 +75,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "0f59fc25a058b8264d029cf3e1ccb3d46bf3f9486c59f93bb529c0ff5f76bb02"
+      "sourceCodeSha256": "0f59fc25a058b8264d029cf3e1ccb3d46bf3f9486c59f93bb529c0ff5f76bb02",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "login-failure-sliding-window": {
       "runs": [
@@ -66,7 +94,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "9124e55488bd87422c04a93136c5d68ba624eee1451049c3ef6845b1cafb3828"
+      "sourceCodeSha256": "9124e55488bd87422c04a93136c5d68ba624eee1451049c3ef6845b1cafb3828",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "cidr-interval-binary-search": {
       "runs": [
@@ -78,7 +113,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "b8d9c28791c5c39f0c64b468796aaaa5612fc582c02c5978332acafb4f68ae5f"
+      "sourceCodeSha256": "b8d9c28791c5c39f0c64b468796aaaa5612fc582c02c5978332acafb4f68ae5f",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "umask-and-file-permissions": {
       "runs": [
@@ -90,7 +132,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "73c53e8804dc85b6b8966088935449edeab22ef354dfc077b907a3e7dc9e1639"
+      "sourceCodeSha256": "73c53e8804dc85b6b8966088935449edeab22ef354dfc077b907a3e7dc9e1639",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-02-password-policy": {
       "runs": [
@@ -102,7 +151,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "36c93b858d58fc652bd2b7a172bbed8488ea81a88819cec96cd76e58d79b7def"
+      "sourceCodeSha256": "36c93b858d58fc652bd2b7a172bbed8488ea81a88819cec96cd76e58d79b7def",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-03-account-lockout": {
       "runs": [
@@ -114,7 +170,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "94059f72386f44f80c405511c24328076cf573693c865df71beb9d41faa8fd65"
+      "sourceCodeSha256": "94059f72386f44f80c405511c24328076cf573693c865df71beb9d41faa8fd65",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-04-password-file": {
       "runs": [
@@ -126,7 +189,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "038b06d6400b3aa90c6cc0620ccd92c38ada5ac368007ff5d984a1e55366746b"
+      "sourceCodeSha256": "038b06d6400b3aa90c6cc0620ccd92c38ada5ac368007ff5d984a1e55366746b",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-05-root-uid": {
       "runs": [
@@ -152,7 +222,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "1810c9c9d9d54de67bddf8aa681049896d0dc0bd075438eeab71058131326d73"
+      "sourceCodeSha256": "1810c9c9d9d54de67bddf8aa681049896d0dc0bd075438eeab71058131326d73",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-06-su-restriction": {
       "runs": [
@@ -164,7 +241,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "10e5755ec84edb4f0316ac99a75de2c2cae65318ef9b35777a3f679c8b498d29"
+      "sourceCodeSha256": "10e5755ec84edb4f0316ac99a75de2c2cae65318ef9b35777a3f679c8b498d29",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-07-unused-accounts": {
       "runs": [
@@ -176,7 +260,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "a100960e410272ef5c0014044b36c69bb713f5caa0b417032a946adff11dc8b3"
+      "sourceCodeSha256": "a100960e410272ef5c0014044b36c69bb713f5caa0b417032a946adff11dc8b3",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-08-admin-group": {
       "runs": [
@@ -188,7 +279,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "e33ad99e47e5051d70334e5c46b3ae72c3a67d46b8f0140cb1b87b084b7ac81a"
+      "sourceCodeSha256": "e33ad99e47e5051d70334e5c46b3ae72c3a67d46b8f0140cb1b87b084b7ac81a",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-09-unused-gid": {
       "runs": [
@@ -200,7 +298,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "333880aac2d282be5f412834a7f927ed7ef9bd4adb287116b1f5adda7bfac703"
+      "sourceCodeSha256": "333880aac2d282be5f412834a7f927ed7ef9bd4adb287116b1f5adda7bfac703",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-10-duplicate-uid": {
       "runs": [
@@ -212,7 +317,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "2529853a0db18a8f5ff3816de7a3f2fdff5b5a40950ae43350c4b9bc39b7ea2f"
+      "sourceCodeSha256": "2529853a0db18a8f5ff3816de7a3f2fdff5b5a40950ae43350c4b9bc39b7ea2f",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     },
     "u-01-root-remote-login": {
       "runs": [
@@ -231,7 +343,14 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729"
+      "sourceCodeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729",
+      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+      }
     }
   }
 }
