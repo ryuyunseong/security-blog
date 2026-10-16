@@ -1,4 +1,4 @@
-import { readFile, writeFile, readdir, mkdir, mkdtemp, rm, lstat, chmod } from 'node:fs/promises';
+import { readFile, writeFile, readdir, mkdir, mkdtemp, rm, rmdir, lstat, chmod } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash, randomUUID } from 'node:crypto';
@@ -36,7 +36,7 @@ function seoulStamp(now = new Date()) { return new Date(now.getTime() + 9 * 3600
 async function json(path, max = 8 * 1024 * 1024) {
   const data = await readFile(path);
   requireThat(data.length <= max, 'JSON 크기 초과');
-  return JSON.parse(data.toString('utf8'));
+  try { return JSON.parse(data.toString('utf8')); } catch { throw new Error('JSON 구문 오류'); }
 }
 async function saveJson(path, data) { await writeFile(path, JSON.stringify(data, null, 2) + '\n'); }
 async function git(...args) { return (await exec('git', args, { cwd: root })).stdout.trimEnd(); }
@@ -182,7 +182,10 @@ async function executeArticle(article, env) {
     return { recordedAt: new Date().toISOString(), environment: env, sourceCodeSha256: digest(code),
       runs: [{ label: '네트워크 없는 컨테이너에서 가상 자료 예제 실행', command: 'python3 -I -B example.py (Docker, network=none)',
         exitCode: 0, stdout: result.stdout, stderr: result.stderr }] };
-  } finally { await rm(directory, { recursive: true, force: true }); }
+  } finally {
+    await rm(join(directory, 'example.py'), { force: true });
+    await rmdir(directory);
+  }
 }
 async function appendEntries(path, additions) {
   const original = (await readFile(path, 'utf8')).trimEnd(), data = JSON.parse(original);
@@ -265,9 +268,10 @@ async function validate() {
     try {
       validateArticle(article, plan, posts); await verifySources(article, plan);
       evidence[article.slug] = await executeArticle(article, env); accepted.push(article);
-    } catch {
+    } catch (error) {
       withheld.push({ kind: article.kind, reason: '본문·공식 근거·격리 실행 검증 실패' });
-      console.error(`${article.kind} 글 보류: 본문·공식 근거·격리 실행 확인 필요`);
+      const reason = error.cmd ? '격리 예제 실행 실패. 원문 코드와 종료 조건 확인 필요' : error.message;
+      console.error(`${article.kind} 글 보류: ${reason}`);
     }
   }
   requireThat(accepted.length > 0, '발행 조건을 통과한 글이 없음');
@@ -299,7 +303,15 @@ async function publish() {
 async function verifyRuntime() {
   const code = 'import os,socket; from pathlib import Path\nassert not os.environ.get("OPENAI_API_KEY")\ntry:\n Path("/forbidden").write_text("x")\nexcept OSError:\n print("루트 파일시스템 쓰기 차단")\nelse:\n raise AssertionError("root write")\ntry:\n socket.create_connection(("1.1.1.1",443),timeout=1)\nexcept OSError:\n print("외부 네트워크 연결 차단")\nelse:\n raise AssertionError("network")\nprint("API 키 전달 없음")\n';
   console.log((await dockerRun([image, 'python3', '-I', '-B', '-c', code])).stdout.trim());
-  console.log('격리 실행 환경:', JSON.stringify(await environment()));
+  const env = await environment();
+  console.log('격리 실행 환경:', JSON.stringify(env));
+  const sample = (await readPosts()).find((post) => post.slug === 'u-11-service-account-shell');
+  requireThat(sample, '컨테이너 실행 검증용 공개 예제 누락');
+  const result = await executeArticle({ body: sample.source }, env);
+  const recorded = await json(join(root, 'src/data/executions.json'));
+  requireThat(result.sourceCodeSha256 === recorded.posts[sample.slug].sourceCodeSha256 &&
+    result.runs[0].stdout === recorded.posts[sample.slug].runs[0].stdout, '본문 코드·컨테이너 출력 대조 실패');
+  console.log('본문 예제 읽기 전용 마운트·실행·출력 수집 확인:', sample.slug);
 }
 async function verifyPublic() {
   const plan = await json(join(qa, 'daily-plan.json'));
