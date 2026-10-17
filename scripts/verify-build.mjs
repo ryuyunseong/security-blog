@@ -84,7 +84,7 @@ for (const file of posts) {
   check(figure.includes(`srcset="${mobilePath}"`) && figure.includes('class="figure-original"'), `그림 보기 모바일·원본 전환 누락: ${slug}`);
   check(/<img\b[^>]*src="[^"]+\.svg"/.test(figure) && figure.includes(`src="${svgPath}"`), `그림 보기 이미지 누락: ${slug}`);
   check(figure.includes(`href="${base}posts/${slug}/"`), `원문 복귀 링크 누락: ${slug}`);
-  check([...figure.matchAll(/<a\b[^>]*>/g)].some(([link]) => link.includes(`href="${svgPath}"`) && /\bdownload(?:[\s=>])/.test(link)), `SVG 다운로드 링크 누락: ${slug}`);
+  check(!figure.includes('SVG 다운로드') && !figure.includes('class="download-link"'), `그림 보기에 다운로드 안내가 남음: ${slug}`);
   check(figure.includes('name="robots" content="noindex,follow"'), `그림 보기 색인 제외 누락: ${slug}`);
   check(figure.includes(`rel="canonical" href="${new URL(`${base}posts/${slug}/`, home.origin).href}"`), `그림 보기 canonical이 원문과 다름: ${slug}`);
 }
