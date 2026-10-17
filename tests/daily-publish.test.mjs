@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { makePlan, seoulDay, publicationWindow, allowedUrl, validateEnvelope, validateArticle, readPosts, renderPost, dockerOptions } from '../scripts/daily-publish.mjs';
+import { makePlan, seoulDay, publicationWindow, allowedUrl, validateEnvelope, validateArticle, readPosts, renderPost, dockerOptions, articlePublicationPaths } from '../scripts/daily-publish.mjs';
 import { diagramNodeCounts } from '../src/lib/diagram-spec.mjs';
 
 const posts = await readPosts();
@@ -10,6 +10,13 @@ const baselinePosts = posts.filter((p) => Date.parse(p.date) < Date.parse('2026-
 const otherPosts = posts.filter((p) => p.slug !== 'qualys-static-dynamic-tags');
 const now = new Date('2026-10-17T00:00:00Z');
 const plan = makePlan(baselinePosts, 'publish', now);
+
+test('예약 발행 파일 목록에는 각 글의 원본과 모바일 도식을 함께 포함한다', () => {
+  assert.deepEqual(articlePublicationPaths([{ slug: 'qualys-fixture' }]), [
+    'src/content/posts/qualys-fixture.md', 'public/assets/posts/qualys-fixture.svg', 'public/assets/posts/qualys-fixture.mobile.svg',
+    'src/data/article-visuals.json', 'src/data/execution-context.json', 'src/data/executions.json',
+  ]);
+});
 const source = posts.find((p) => p.slug === 'qualys-static-dynamic-tags').source;
 const body = source.slice(source.indexOf('\n---\n') + 5).split('\n## 공식 참고 자료')[0]
   .replace('assigned = {"lab-01", "lab-02"}', 'assigned = {"lab-01", "lab-02"}\n    assert len(assets) == 3');

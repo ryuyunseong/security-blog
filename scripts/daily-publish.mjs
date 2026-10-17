@@ -247,7 +247,10 @@ async function materialize(bundle) {
   await appendEntries(join(root, 'src/data/execution-context.json'), contexts);
   await saveJson(join(root, 'src/data/executions.json'), executions);
   await exec(process.execPath, ['scripts/build-article-diagrams.mjs'], { cwd: root });
-  return articles.flatMap((a) => [`src/content/posts/${a.slug}.md`, `public/assets/posts/${a.slug}.svg`])
+  return articlePublicationPaths(articles);
+}
+export function articlePublicationPaths(articles) {
+  return articles.flatMap((a) => [`src/content/posts/${a.slug}.md`, `public/assets/posts/${a.slug}.svg`, `public/assets/posts/${a.slug}.mobile.svg`])
     .concat(['src/data/article-visuals.json', 'src/data/execution-context.json', 'src/data/executions.json']);
 }
 async function output(name, value) {
@@ -357,8 +360,11 @@ async function verifyPublic() {
   for (const article of articles) {
     const html = await get(`posts/${article.slug}/`).then((r) => r.text());
     requireThat(html.includes('article-visual') && html.includes('execution-results'), '공개 글의 도식·실행 기록 확인 실패');
-    const svg = Buffer.from(await get(`assets/posts/${article.slug}.svg`).then((r) => r.arrayBuffer()));
-    requireThat(digest(svg) === digest(await readFile(join(root, `public/assets/posts/${article.slug}.svg`))), '공개 도식과 검증한 도식 불일치');
+    for (const suffix of ['.svg', '.mobile.svg']) {
+      const path = `assets/posts/${article.slug}${suffix}`;
+      const svg = Buffer.from(await get(path).then((r) => r.arrayBuffer()));
+      requireThat(digest(svg) === digest(await readFile(join(root, 'public', path))), '공개 도식과 검증한 도식 불일치');
+    }
     requireThat(JSON.stringify(search).includes(article.slug) && rss.includes(`/posts/${article.slug}/`), '검색·RSS 반영 확인 실패');
   }
   console.log(`공개 확인: ${plan.day}, 새 글 ${articles.length}편, 그림·실행 기록·검색·RSS`);
