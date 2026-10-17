@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { makePlan, seoulDay, publicationWindow, allowedUrl, validateEnvelope, validateArticle, readPosts, renderPost, dockerOptions } from '../scripts/daily-publish.mjs';
+import { diagramNodeCounts } from '../src/lib/diagram-spec.mjs';
 
 const posts = await readPosts();
 // 일일 발행으로 저장소가 늘어나도 이 시나리오의 기준 날짜·명단은 고정한다.
@@ -100,6 +101,22 @@ test('번호·원문 출처·코드와 메타데이터의 조건을 검증한다
   assert.ok(!rendered.includes('자료 확인일') && !rendered.includes('공식 문서 1'));
   assert.throws(() => validateArticle({ ...article(), sources: article().sources.map((source) => ({ ...source, title: '[bad](x)' })) }, plan, otherPosts), /문서 제목/);
   assert.ok(!rendered.includes(article().sources[0].quote));
+});
+
+test('예약 도식의 형식과 렌더러 계약을 맞추고 구간·글자 수 오류를 거부한다', async () => {
+  const schema = JSON.parse(await readFile(new URL('../scripts/daily-output.schema.json', import.meta.url), 'utf8'));
+  assert.deepEqual(schema.$defs.article.properties.visual.properties.kind.enum, Object.keys(diagramNodeCounts));
+  for (const [kind, count] of Object.entries(diagramNodeCounts)) {
+    const nodes = kind === 'intervals' ? [['앞', '0', '127'], ['뒤', '128', '255'], ['중첩', '64', '127'], ['병합', '0', '255']]
+      : Array.from({ length: count }, () => ['항목', '조건', '해석']);
+    const candidate = { ...article(), visual: { ...article().visual, kind, nodes } };
+    assert.ok(validateArticle(candidate, plan, otherPosts).includes('def compare'), kind);
+    assert.throws(() => validateArticle({ ...candidate, visual: { ...candidate.visual, nodes: nodes.slice(1) } }, plan, otherPosts), /노드 수/);
+  }
+  const candidate = article();
+  candidate.visual.nodes[0][0] = '가'.repeat(11);
+  assert.throws(() => validateArticle(candidate, plan, otherPosts), /도식 문구/);
+  assert.throws(() => validateArticle({ ...article(), visual: { ...article().visual, kind: 'custom-svg' } }, plan, otherPosts), /도식 종류/);
 });
 
 test('추가 실습도 기존 글 중복과 경로·근거 검사를 동일하게 적용한다', () => {

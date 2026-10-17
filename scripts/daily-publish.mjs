@@ -6,6 +6,7 @@ import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import { validateArticleLayout } from '../src/lib/article-layout.mjs';
+import { diagramTextLimits, validateDiagramNodes } from '../src/lib/diagram-spec.mjs';
 
 const exec = promisify(execFile);
 const root = resolve(process.cwd());
@@ -163,10 +164,10 @@ export function validateArticle(article, plan, posts) {
   const visual = article.visual;
   keys(visual, ['title', 'kind', 'nodes', 'note', 'caption']);
   text(visual.title, 5, 28, '도식 제목'); text(visual.note, 10, 60, '도식 설명'); text(visual.caption, 16, 150, '도식 캡션');
-  requireThat(['flow', 'compare', 'layers'].includes(visual.kind) && Array.isArray(visual.nodes) && visual.nodes.length === (visual.kind === 'compare' ? 2 : 3), '도식 종류·노드 수 오류');
+  validateDiagramNodes(visual);
+  const limits = diagramTextLimits(visual.kind);
   for (const node of visual.nodes) {
-    requireThat(Array.isArray(node) && node.length === 3, '도식 노드 형식 오류');
-    node.forEach((part, i) => text(part, 1, visual.kind === 'flow' ? (i ? 12 : 8) : (i ? 18 : 10), '도식 문구'));
+    node.forEach((part, i) => text(part, 1, limits[i], '도식 문구'));
   }
   return code;
 }

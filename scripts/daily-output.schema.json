@@ -24,7 +24,7 @@
           "type": "object", "additionalProperties": false,
           "required": ["title", "kind", "nodes", "note", "caption"],
           "properties": {
-            "title": {"type": "string"}, "kind": {"enum": ["flow", "compare", "layers"]},
+            "title": {"type": "string"}, "kind": {"enum": ["flow", "compare", "layers", "merge", "matrix", "timeline", "decision", "cycle", "topology", "intervals"]},
             "nodes": {"type": "array", "items": {"type": "array", "items": {"type": "string"}}},
             "note": {"type": "string"}, "caption": {"type": "string"}
           }
