@@ -2,7 +2,7 @@
 title: "Qualys 자산 태그 읽기: 정적 분류와 동적 규칙"
 description: "정적 태그와 동적 규칙에 따라 자산 목록이 달라지는 이유와 변경 후 확인할 사항을 설명합니다."
 date: "2026-10-16T21:58:01+09:00"
-updated: "2026-10-17T10:29:06+09:00"
+updated: "2026-10-17T18:03:35+09:00"
 sourcesChecked: "2026-10-16"
 category: "qualys"
 tags: ["Qualys", "자산관리", "태그", "점검범위"]
@@ -129,5 +129,5 @@ if __name__ == "__main__":
 
 ## 공식 참고 자료
 
-- [VM/VMDR: Manage Tags — 정적·동적 태그, 규칙별 구독 조건](https://docs.qualys.com/en/vm/latest/mergedProjects/analyze_reports_and_dashboards/assets/manage_tags.htm)
-- [GAV: Manage Asset Tags — 지정 방식과 재평가 상태](https://docs.qualys.com/en/gav/latest/Tags/manage_your_tags.htm)
+- [VM/VMDR: Manage Tags(정적·동적 태그, 규칙별 구독 조건)](https://docs.qualys.com/en/vm/latest/mergedProjects/analyze_reports_and_dashboards/assets/manage_tags.htm)
+- [GAV: Manage Asset Tags(지정 방식과 재평가 상태)](https://docs.qualys.com/en/gav/latest/Tags/manage_your_tags.htm)

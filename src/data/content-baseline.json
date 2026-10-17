@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "checkedAt": "2026-10-16",
+  "checkedAt": "2026-10-17",
   "posts": [
     {
       "slug": "u-01-root-remote-login",
@@ -127,7 +127,7 @@
       "date": "2026-10-12T20:52:00+09:00",
       "category": "web",
       "codeCount": 4,
-      "codeSha256": "371f50412d8f5cad5046b3e31f29d9c3ae43fbb21dca624f04c0f08f878790fe"
+      "codeSha256": "bfb95a58bd9e2ef49b3c0ee00fd5d307f4a552c966b8c655f4aab22c5e092465"
     },
     {
       "slug": "u-08-admin-group",

@@ -8,4 +8,4 @@ draft: false
 example: true
 ---
 
-FUTURE_EXCLUSION_SENTINEL — 빌드 시점보다 미래 날짜이므로 사이트에 나타나지 않아야 합니다. 정적 사이트의 예약 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다.
+FUTURE_EXCLUSION_SENTINEL: 빌드 시점보다 미래 날짜이므로 사이트에 나타나지 않아야 합니다. 정적 사이트의 예약 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다.

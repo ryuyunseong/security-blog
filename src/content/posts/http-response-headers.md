@@ -31,4 +31,4 @@ X-Content-Type-Options: nosniff
 
 추가 정책은 애플리케이션의 자원과 동작을 확인한 뒤 별도로 검토합니다. 이 예시는 운영 설정 변경을 제안하는 보안 판정 문서가 아닙니다.
 
-공식 참고: [MDN — HTTP 헤더](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers).
+공식 참고: [MDN: HTTP 헤더](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers).

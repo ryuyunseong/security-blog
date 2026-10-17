@@ -2,7 +2,7 @@
 title: "CIDR 허용 목록에서 IP 찾기: 구간 병합과 이진 탐색"
 description: "IPv4 CIDR을 정수 구간으로 병합한 뒤 이진 탐색으로 허용 목록 포함 여부를 계산합니다."
 date: "2026-10-11T16:01:39+09:00"
-updated: "2026-10-17T10:29:06+09:00"
+updated: "2026-10-17T18:03:35+09:00"
 category: "infrastructure"
 tags: ["Python", "알고리즘", "CIDR"]
 draft: false
@@ -319,6 +319,6 @@ ALLOW는 입력 주소가 허용 목록의 합집합에 들어간다는 뜻이�
 
 ## 참고 자료
 
-- Python, [ipaddress — IPv4/IPv6 manipulation library](https://docs.python.org/3/library/ipaddress.html)
-- Python, [bisect — Array bisection algorithm](https://docs.python.org/3/library/bisect.html)
+- Python, [ipaddress: IPv4/IPv6 manipulation library](https://docs.python.org/3/library/ipaddress.html)
+- Python, [bisect: Array bisection algorithm](https://docs.python.org/3/library/bisect.html)
 - RFC Editor, [RFC 4632: Classless Inter-domain Routing (CIDR): The Internet Address Assignment and Aggregation Plan](https://www.rfc-editor.org/rfc/rfc4632.html)

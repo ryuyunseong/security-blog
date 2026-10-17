@@ -27,4 +27,4 @@ stat -- ./sample
 
 상위 디렉터리 권한, ACL, 마운트 옵션, 보안 모듈 정책은 추가 확인이 필요합니다. 이 글은 설정을 변경하거나 특정 기준의 적합 여부를 판정하지 않습니다.
 
-공식 참고: [GNU Coreutils — 파일 권한](https://www.gnu.org/software/coreutils/manual/html_node/File-permissions.html).
+공식 참고: [GNU Coreutils: 파일 권한](https://www.gnu.org/software/coreutils/manual/html_node/File-permissions.html).

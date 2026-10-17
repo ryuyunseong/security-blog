@@ -2,7 +2,7 @@
 title: "Qualys Search List: 스캔 범위와 보고서 필터를 구분하기"
 description: "같은 Search List를 스캔 옵션 프로필과 보고서 템플릿에 사용할 때 결과를 어떻게 다르게 읽어야 하는지 정리합니다."
 date: "2026-10-17T09:07:01+09:00"
-updated: "2026-10-17T10:29:06+09:00"
+updated: "2026-10-17T18:03:35+09:00"
 category: "qualys"
 tags: ["Qualys", "Search List", "QID", "보고서"]
 draft: false
@@ -51,6 +51,6 @@ VM/VMDR 문서의 [Configure Search Lists](https://docs.qualys.com/en/vm/latest/
 
 ## 공식 참고 자료
 
-- [Qualys VM/VMDR: Search Lists — 용도, 유형, 전역 권한](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_basics.htm)
-- [Qualys VM/VMDR: Configure Search Lists — 동적 목록 설정과 Test](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_lp.htm)
-- [Qualys VM/VMDR: VM Option Profile: Scan — Complete·Custom·제외·침투성 검사](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)
+- [Qualys VM/VMDR: Search Lists(용도, 유형, 전역 권한)](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_basics.htm)
+- [Qualys VM/VMDR: Configure Search Lists(동적 목록 설정과 Test)](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_lp.htm)
+- [Qualys VM/VMDR: VM Option Profile: Scan(Complete·Custom·제외·침투성 검사)](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)
