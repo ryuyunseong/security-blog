@@ -20,10 +20,14 @@ const imagePath = path(`assets/posts/${post.id}.svg`);
     <a class="download-link" href={imagePath} download={`${post.id}.svg`}>SVG 다운로드</a>
   </header>
   <figure class="figure-detail">
-    <div class="figure-scroll" role="region" aria-label="설명 그림 · 좌우로 스크롤" tabindex="0">
+    <input id="figure-zoom" class="figure-zoom-toggle visually-hidden" type="checkbox" />
+    <label class="figure-zoom-label" for="figure-zoom">
+      <span class="zoom-in">그림 확대</span><span class="zoom-out">화면에 맞추기</span>
+    </label>
+    <div class="figure-scroll" role="region" aria-label="설명 그림" tabindex="0">
       <img src={imagePath} alt={visual.title} width="960" height="540" decoding="async" />
     </div>
-    <figcaption>{visual.caption} <span>작은 화면에서는 그림을 좌우로 밀어 볼 수 있습니다.</span></figcaption>
+    <figcaption>{visual.caption} <span>확대한 그림은 좌우로 밀어 볼 수 있습니다.</span></figcaption>
   </figure>
 </BaseLayout>
 
@@ -32,8 +36,13 @@ const imagePath = path(`assets/posts/${post.id}.svg`);
   h1 { margin-block:20px 12px; font-size:clamp(24px, 3vw, 36px); }
   .download-link { color:var(--accent); text-decoration:underline; text-underline-offset:4px; }
   .figure-detail { margin:0 0 36px; }
+  .figure-zoom-label { display:inline-block; margin-bottom:12px; padding:6px 12px; border:1px solid var(--line); border-radius:8px; color:var(--accent); cursor:pointer; }
+  .figure-zoom-toggle:focus-visible + .figure-zoom-label { outline:3px solid var(--accent); outline-offset:5px; }
+  .zoom-out,.figure-zoom-toggle:checked + .figure-zoom-label .zoom-in { display:none; }
+  .figure-zoom-toggle:checked + .figure-zoom-label .zoom-out { display:inline; }
   .figure-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
-  img { display:block; width:100%; min-width:960px; height:auto; }
+  img { display:block; width:100%; height:auto; }
+  .figure-zoom-toggle:checked ~ .figure-scroll img { width:150%; min-width:960px; }
   figcaption { margin-top:12px; color:var(--muted); font-size:14px; }
   figcaption span { display:block; }
 </style>
