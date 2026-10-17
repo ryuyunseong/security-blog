@@ -70,5 +70,3 @@ KISA 가이드는 모니터링 업무에서 세션 타임아웃이 업무를 막
 - [KISA 2026 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드, U-12, 36쪽](https://www.kisa.kr/2060204/form?postSeq=22&page=1)
 - [GNU Bash Reference Manual: TMOUT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)
 - [GNU Bash Reference Manual: 대화형 셸 동작](https://www.gnu.org/software/bash/manual/html_node/Interactive-Shell-Behavior.html)
-
-자료 확인일: 2026년 10월 17일. 운영 환경의 양호·취약 여부는 위 실습 결과가 아니라 실제 접속 경로에서 확인한 값과 유휴 종료 결과로 판단한다.
