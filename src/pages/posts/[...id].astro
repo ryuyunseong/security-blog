@@ -5,15 +5,21 @@ import Icon from '../../components/Icon.astro';
 import ArticleVisual from '../../components/ArticleVisual.astro';
 import ExecutionResults from '../../components/ExecutionResults.astro';
 import executions from '../../data/executions.json';
+import visuals from '../../data/article-visuals.json';
+import { validateArticleLayout } from '../../lib/article-layout.mjs';
+import { renderArticleBlocks } from '../../lib/article-markdown.mjs';
 import { getPosts } from '../../lib/posts';
 import { archivePath, categoryLabel, dateLabel, path, postPath, tagPath, unixSeries } from '../../lib/site';
 export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
 }
 const { post } = Astro.props;
-const { Content, headings } = await render(post);
+const { headings } = await render(post);
 const contents = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
 const hasExecution = Object.hasOwn(executions.posts, post.id);
+const visual = visuals[post.id as keyof typeof visuals];
+const record = executions.posts[post.id as keyof typeof executions.posts];
+const blocks = await renderArticleBlocks(validateArticleLayout(post.body ?? '', { runCount: record?.runs.length ?? 0, hasPhoto: Boolean(visual && 'photo' in visual) }), headings);
 const related = (await getPosts()).filter((item) => item.id !== post.id)
   .sort((a, b) => Number(b.data.category === post.data.category) - Number(a.data.category === post.data.category)).slice(0, 2);
 const seriesPosts = post.data.series ? (await getPosts()).filter((item) => item.data.series === post.data.series)
@@ -33,10 +39,7 @@ const next = seriesPosts[seriesPosition + 1];
     <div class="article-grid">
       <div class="article-body">
         {post.data.example && <p class="notice">교육용 예제입니다. 실제 운영 환경의 점검 결과나 개인 실적을 담고 있지 않습니다.</p>}
-        <ArticleVisual id={post.id} />
-        {hasExecution && <p class="execution-shortcut"><a href="#execution-results">실행 결과 보기 <span aria-hidden="true">↓</span></a></p>}
-        <div class="prose"><Content /></div>
-        <ExecutionResults id={post.id} />
+        <div class="prose">{blocks.map((block) => block.type === 'markdown' ? <Fragment set:html={block.html} /> : block.type === 'run' ? <ExecutionResults id={post.id} run={block.index} fold={block.fold} /> : <ArticleVisual id={post.id} kind={block.type} />)}</div>
         {post.data.series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={unixSeries.path}>{unixSeries.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}
         {related.length > 0 && <section class="related"><h2>함께 읽기</h2><ul>{related.map((item) => <li><a href={postPath(item.id)}>{item.data.title}</a></li>)}</ul></section>}
       </div>
@@ -45,7 +48,7 @@ const next = seriesPosts[seriesPosition + 1];
   </article>
   <p id="copy-status" class="visually-hidden" role="status"></p>
   <script>
-    document.querySelectorAll<HTMLElement>('.prose pre').forEach((pre) => {
+    document.querySelectorAll<HTMLElement>('.prose pre:not(.execution-command):not(.execution-output)').forEach((pre) => {
       const code = pre.querySelector('code');
       if (!code || !navigator.clipboard) return;
       const button = document.createElement('button');

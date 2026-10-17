@@ -2,7 +2,7 @@
 title: "Qualys 인증 스캔 결과 읽기: 로그인 성공과 점검 완료의 차이"
 description: "인증 보고서의 Passed·Failed 상태와 파일·레지스트리 접근 거부를 나타내는 QID를 확인합니다."
 date: "2026-10-15T20:25:07+09:00"
-updated: "2026-10-17T00:00:00+09:00"
+updated: "2026-10-17T10:29:06+09:00"
 category: "qualys"
 tags: ["Qualys", "인증스캔", "QID"]
 draft: false
@@ -43,6 +43,8 @@ VM/VMDR에서는 `Reports > New > Authentication Report`에서 인증 보고서�
 `Not Attempted`도 현재 프로필의 설정만으로 설명되지 않을 수 있다. 보고서에는 인증한 이력이 없거나 호스트 스캔 데이터가 삭제된 경우도 반영될 수 있다. 이번 스캔의 미시도 원인은 해당 실행 결과와 설정을 함께 확인해 좁힌다.
 
 `Additional Host Info`를 포함하면 `Last Auth`와 `Last Success`를 확인할 수 있다. 전자는 인증을 사용해 마지막으로 검사한 시각, 후자는 마지막 인증 성공 시각이다. 과거의 성공을 이번 스캔의 성공으로 읽지 않도록 두 값을 비교한다. 인증 이력은 Host ID에 연결되며, 인증 기록을 수정해도 과거 결과가 바뀌지는 않는다.
+
+[[diagram]]
 
 ## 로그인 이후의 접근 거부는 QID로 확인한다
 

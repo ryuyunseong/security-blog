@@ -2,7 +2,7 @@
 title: "Qualys 수집 누락 찾기: Cloud Agent와 Scanner Appliance 확인 순서"
 description: "취약점 결과가 없을 때 확인할 Cloud Agent 설정과 Scanner Appliance의 통신 경로를 정리합니다."
 date: "2026-10-14T20:18:00+09:00"
-updated: "2026-10-17T00:00:00+09:00"
+updated: "2026-10-17T10:29:06+09:00"
 category: "qualys"
 tags: ["Qualys", "Cloud Agent", "수집범위"]
 draft: false
@@ -33,6 +33,8 @@ Windows용 Cloud Agent를 설치하려면 대상 호스트의 관리자 권한�
 그다음은 적용된 구성 프로필이다. Data Collection Interval은 이전 수집이 끝난 뒤 다음 수집을 시작하기까지의 간격이며, Scan Delay와 Scan Randomize도 시작 시점에 영향을 준다. 플랫폼 접속 시각과 새 VM 평가의 완료·반영 시각을 구분하고, 기대한 주기와 실제 결과 시점을 비교한다.
 
 프로필을 바꾸기 전에는 자산 하나의 적용 프로필, 에이전트 서비스 상태, 통신 오류와 평가 시점을 확인한다. 주기 조정이나 프로필 재적용이 필요하면 대상 범위를 제한하고, 변경 후 새 결과가 들어오는지 살핀다.
+
+[[diagram]]
 
 ## 스캐너의 관리 통신과 검사 통신을 구분한다
 

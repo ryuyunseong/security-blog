@@ -2,7 +2,7 @@
 title: "Qualys Search List: 스캔 범위와 보고서 필터를 구분하기"
 description: "같은 Search List를 스캔 옵션 프로필과 보고서 템플릿에 사용할 때 결과를 어떻게 다르게 읽어야 하는지 정리합니다."
 date: "2026-10-17T09:07:01+09:00"
-updated: "2026-10-17T09:25:00+09:00"
+updated: "2026-10-17T10:29:06+09:00"
 category: "qualys"
 tags: ["Qualys", "Search List", "QID", "보고서"]
 draft: false
@@ -24,6 +24,8 @@ Qualys의 [Search Lists 안내](https://docs.qualys.com/en/vm/latest/search_list
 | 조치 티켓 규칙 | 티켓 생성 대상 | 티켓이 없다는 사실을 탐지 없음으로 잘못 읽고 있지 않은가? |
 
 따라서 “QID가 보고서에 없다”는 관찰 하나로 검사 누락·탐지 실패·조치 완료 중 하나를 고를 수 없다. 스캔 시 사용한 프로필, 원본 결과, 보고서 템플릿의 필터를 차례로 대조해야 한다.
+
+[[diagram]]
 
 ## 정적 목록과 동적 목록도 사용 목적이 다르다
 

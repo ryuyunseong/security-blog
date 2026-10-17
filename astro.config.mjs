@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { articleMarkdownOptions } from './src/lib/article-markdown.mjs';
 
 const repository = process.env.GITHUB_REPOSITORY;
 const owner = process.env.GITHUB_REPOSITORY_OWNER;
@@ -18,8 +19,6 @@ export default defineConfig({
   base,
   output: 'static',
   trailingSlash: 'always',
-  markdown: {
-    shikiConfig: { themes: { light: 'github-dark', dark: 'github-dark' } },
-  },
+  markdown: articleMarkdownOptions,
   devToolbar: { enabled: false },
 });

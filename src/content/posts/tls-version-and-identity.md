@@ -2,7 +2,7 @@
 title: "TLS 1.3이면 안전할까? 버전과 인증서 검증의 차이"
 description: "로컬 TLS 실습으로 프로토콜 버전, 인증서 신뢰 경로, 서버 이름 검증을 비교합니다."
 date: "2026-10-06T22:56:53+09:00"
-updated: "2026-10-16T00:00:00+09:00"
+updated: "2026-10-17T10:29:06+09:00"
 category: "infrastructure"
 tags: ["TLS", "인증서", "Python"]
 draft: false
@@ -407,6 +407,9 @@ raise SystemExit(
 ```bash
 python3 -I -B tls_identity_lab.py
 ```
+
+[[diagram]]
+
 ## 이름과 CA가 달라지면 연결도 거절된다
 
 코드를 실행해 확인한 결과입니다.
@@ -423,6 +426,8 @@ python3 -I -B tls_identity_lab.py
 TLS 1.2 테스트의 암호 스위트(cipher suite)는 ECDHE-RSA-AES256-GCM-SHA384로 제한했습니다. Python의 set_ciphers()는 TLS 1.3 암호 스위트를 제어하지 않으므로, TLS 1.3에도 같은 설정이 적용됐다고 해석하면 안 됩니다.
 
 정상 종료하면 임시 인증서와 비밀키도 정리됩니다. 오류 코드가 예상과 다르면 실제 출력과 Python이 사용하는 OpenSSL 버전을 확인해야 합니다.
+
+[[run:1:fold]]
 
 ## OpenSSL에서도 연결 성공과 검증 성공을 구분해야 한다
 

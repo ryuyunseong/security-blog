@@ -64,6 +64,16 @@ for (const file of posts) {
   check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
   check(/<img[^>]+alt="[^"]+"[^>]+width="960"[^>]+height="540"/.test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
   check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
+  check(!/\[\[(?:diagram|photo|run:)/.test(source), `본문 배치 표식 노출: ${slug}`);
+  const bodyStart = source.indexOf('class="prose"');
+  check(source.indexOf('class="article-visual"') > bodyStart, `본문 밖에 그림을 일괄 배치함: ${slug}`);
+  check((source.match(/class="article-visual"/g) ?? []).length === 1, `설명 그림 중복: ${slug}`);
+  if (Object.hasOwn(evidence.posts, slug)) {
+    check(source.indexOf('id="execution-results"') > bodyStart, `본문 밖에 실행 기록 배치: ${slug}`);
+    check((source.match(/data-run="\d+"/g) ?? []).length === evidence.posts[slug].runs.length, `실행 기록 누락·중복: ${slug}`);
+  }
+  const ids = [...source.matchAll(/\bid="([^"]+)"/g)].map((m) => m[1]);
+  check(new Set(ids).size === ids.length, `중복 HTML ID: ${slug}`);
   const figurePath = `${base}figures/${slug}/`;
   const svgPath = `${base}assets/posts/${slug}.svg`;
   check(source.includes(`href="${figurePath}"`), `그림 보기 링크 누락: ${slug}`);

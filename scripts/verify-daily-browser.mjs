@@ -6,8 +6,10 @@ import { readPosts } from './daily-publish.mjs';
 const base = process.env.BLOG_QA_ORIGIN || 'http://127.0.0.1:4322/security-blog/';
 const bundle = await readFile('.qa/daily-bundle.json', 'utf8').then(JSON.parse).catch(() => null);
 const posts = await readPosts();
-const slugs = bundle ? bundle.articles.map((a) => a.slug) : posts.filter((p) => !p.draft && new Date(p.date) <= new Date())
-  .sort((a, b) => Date.parse(b.date) - Date.parse(a.date)).slice(0, 2).map((p) => p.slug);
+const evidence = JSON.parse(await readFile('src/data/executions.json', 'utf8'));
+const visuals = JSON.parse(await readFile('src/data/article-visuals.json', 'utf8'));
+const slugs = bundle && process.env.BLOG_QA_ALL !== '1' ? bundle.articles.map((a) => a.slug) : posts
+  .filter((p) => !p.draft && new Date(p.date) <= new Date()).map((p) => p.slug);
 const seriesCount = posts.filter((p) => !p.draft && new Date(p.date) <= new Date() && p.series === 'unix-2026').length;
 const browser = await chromium.launch({ headless: true,
   ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE } : {}) });
@@ -27,7 +29,33 @@ try {
       assert.equal(await page.locator('h1').count(), 1);
       assert.ok(await page.locator('.article-visual img').first().evaluate((img) => img.complete && img.naturalWidth === 960));
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
-      if (bundle) assert.ok((await page.locator('.execution-output').first().innerText()).trim());
+      assert.equal(await page.locator('.prose .article-visual').count(), 1);
+      assert.equal(await page.locator('.prose .article-photo').count(), Number(Boolean(visuals[slug].photo)));
+      assert.ok(!/\[\[(?:diagram|photo|run:)/.test(await page.locator('.prose').innerText()), `${slug}: 배치 표식 노출`);
+      const duplicateIds = await page.evaluate(() => {
+        const ids = [...document.querySelectorAll('[id]')].map((node) => node.id);
+        return ids.filter((id, index) => ids.indexOf(id) !== index);
+      });
+      assert.deepEqual(duplicateIds, [], `${slug}: 중복 앵커`);
+      const source = posts.find((post) => post.slug === slug).source;
+      const expectedCode = [...source.matchAll(/^```[^\n]*\n([\s\S]*?)\n```\s*$/gm)].map((m) => m[1].trimEnd());
+      const renderedCode = await page.locator('.prose pre:not(.execution-command):not(.execution-output) > code').allTextContents();
+      assert.deepEqual(renderedCode.map((code) => code.trimEnd()), expectedCode, `${slug}: 코드 원문 보존`);
+      const runs = evidence.posts[slug]?.runs ?? [];
+      assert.equal(await page.locator('.prose .execution-inline').count(), runs.length);
+      const actualOutput = await page.locator('.execution-full-output .execution-output code').allTextContents();
+      assert.deepEqual(actualOutput.map((output) => output.trimEnd()), runs.map((run) => run.stdout.trimEnd()), `${slug}: 원본 출력 보존`);
+      for (const details of await page.locator('.code-details, .execution-run').all()) {
+        if (await details.getAttribute('open') === null) {
+          await details.locator(':scope > summary').click();
+          assert.notEqual(await details.getAttribute('open'), null, `${slug}: 코드·실행 기록 펼치기`);
+        }
+      }
+      for (const output of await page.locator('.execution-full-output').all()) {
+        if (await output.getAttribute('open') === null) await output.locator(':scope > summary').click();
+        assert.ok(await output.locator('pre').isVisible(), `${slug}: 전체 출력 접근`);
+      }
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${slug}: 펼친 뒤 가로 넘침`);
       const overflow = await page.evaluate(async () => {
         const image = document.querySelector('.article-visual img');
         const source = await fetch(image.src).then((r) => r.text());

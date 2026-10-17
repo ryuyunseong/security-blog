@@ -507,7 +507,7 @@ main:focus {
   border-radius:3px;
   overflow-wrap:anywhere
 }
-.prose pre {
+.prose pre:not(.execution-command):not(.execution-output) {
   background-color:#18251f!important;
   position:relative;
   padding:46px 22px 22px;
@@ -922,6 +922,16 @@ main:focus {
   border-top:2px solid var(--accent);
   font-size:16px;
 }
+.execution-inline { margin:26px 0; padding:20px; border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:5px; }
+.prose .execution-inline h3 { margin:0 0 12px; font-size:19px; }
+.execution-inline .execution-run { margin:0; }
+.execution-inline summary { cursor:pointer; color:var(--accent); font-size:14px; padding:8px 0; }
+.execution-inline .execution-metadata { margin-top:12px; border-top:1px solid var(--line); }
+.execution-inline .output-preview-label { margin:12px 0 4px; color:var(--muted); font-size:12px; }
+.prose .article-visual,.prose .article-photo { margin:28px 0; }
+.prose .article-visual figcaption,.prose .article-photo figcaption { font-size:13px; }
+.code-details { margin:20px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.code-details>summary { cursor:pointer; color:var(--accent); padding:12px 0; font-size:15px; }
 .execution-results h2 {
   font-size:28px;
   margin-bottom:8px;

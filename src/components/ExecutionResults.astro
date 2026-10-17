@@ -2,8 +2,8 @@
 import executions from '../data/executions.json';
 import contexts from '../data/execution-context.json';
 import { dateLabel } from '../lib/site';
-interface Props { id: string; }
-const { id } = Astro.props;
+interface Props { id: string; run: number; fold?: boolean; }
+const { id, run: runNumber, fold = false } = Astro.props;
 type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string };
 type Environment = typeof executions.environment & { bash?: string };
 const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment }>)[id];
@@ -11,24 +11,31 @@ const context = contexts[id as keyof typeof contexts];
 const environment: Environment = record?.environment ?? executions.environment;
 const recordedAt = record?.recordedAt ?? executions.recordedAt;
 const isBashExample = id === 'u-12-session-timeout';
+const run = record?.runs[runNumber - 1];
+const titleId = runNumber === 1 ? 'execution-title' : `execution-title-${runNumber}`;
+const output = run?.stdout.trimEnd() ?? '';
+const lines = output.split('\n');
 ---
-{record && context && <section id="execution-results" class="execution-results" aria-labelledby="execution-title">
-  <h2 id="execution-title">실행 기록</h2>
-  <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · {isBashExample ? `Bash ${environment.bash}` : `Python ${environment.python}`}</p>
-  {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
-  <p>{context.scope}</p>
-  <p class="execution-finding">{context.finding}</p>
-  {record.runs.map((run) => <div class="execution-run">
-    <h3>{run.label}</h3>
+{record && context && run && <section id={runNumber === 1 ? 'execution-results' : `execution-run-${runNumber}`} class="execution-results execution-inline" aria-labelledby={titleId} data-run={runNumber}>
+  <p class="evidence-kicker">실제 실행 결과 · 종료 코드 {run.exitCode}</p>
+  <h3 id={titleId}>{run.label}</h3>
+  <details class="execution-run" open={!fold}>
+    <summary>{fold ? '실행 명령과 원본 출력 보기' : '실행 명령과 출력'}</summary>
     <div class="terminal-heading"><span>실행 명령</span><span>종료 코드 {run.exitCode}</span></div>
     <pre class="execution-command"><code>{run.command}</code></pre>
-    <details open={run.stdout.split('\n').length <= 22}>
-      <summary>실제 출력 {run.stdout.trimEnd().split('\n').length}줄</summary>
-      <pre class="execution-output" tabindex="0" aria-label={`${run.label} 실제 출력`}><code>{run.stdout.trimEnd()}</code></pre>
-      {run.stderr && <><p>표준 오류 출력</p><pre class="execution-output" tabindex="0"><code>{run.stderr.trimEnd()}</code></pre></>}
+    {!fold && lines.length > 16 && <><p class="output-preview-label">출력 앞부분 · 전체 {lines.length}줄</p><pre class="execution-output output-preview" tabindex="0"><code>{lines.slice(0, 8).join('\n')}</code></pre></>}
+    <details class="execution-full-output" open={fold || lines.length <= 16}>
+      <summary>전체 실제 출력 {lines.length}줄</summary>
+      <pre class="execution-output" tabindex="0" aria-label={`${run.label} 실제 출력`}><code>{output}</code></pre>
     </details>
-  </div>)}
-  {isBashExample
+    {run.stderr && <><p>표준 오류 출력</p><pre class="execution-output" tabindex="0"><code>{run.stderr.trimEnd()}</code></pre></>}
+  </details>
+  {runNumber === 1 && <details class="execution-metadata"><summary>실행 환경과 확인 범위</summary>
+    <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · {isBashExample ? `Bash ${environment.bash}` : `Python ${environment.python}`}</p>
+    {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
+    <p>{context.scope}</p><p class="execution-finding">{context.finding}</p>
+    {isBashExample
     ? <p class="execution-footnote">본문의 Bash 코드를 <code>check_u12_idle.sh</code>로 저장해 실행했다. 화면에 보인 출력과 종료 코드를 기록했다.</p>
     : <p class="execution-footnote">무작위 임시 경로는 <code>$LAB</code>으로 통일해 표시했다. 준비 파일과 재현 절차는 <a href="https://github.com/ryuyunseong/security-blog/blob/main/scripts/run-article-examples.py">예제 실행 스크립트</a>에서 확인할 수 있다.</p>}
+  </details>}
 </section>}
