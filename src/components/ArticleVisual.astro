@@ -7,11 +7,9 @@ const { id, kind = 'diagram' } = Astro.props;
 const visual = visuals[id as keyof typeof visuals];
 const photo = visual && 'photo' in visual ? visual.photo : undefined;
 ---
-{visual && kind === 'diagram' && <figure class="article-visual">
-  <a href={path(`figures/${id.split('/').map(encodeURIComponent).join('/')}/`)} aria-label={`${visual.title} 그림 크게 보기`}>
-    <ResponsiveDiagram id={id} />
-  </a>
-  <figcaption>{visual.caption} <span>그림을 누르면 크게 볼 수 있습니다.</span></figcaption>
+{visual && kind === 'diagram' && <figure id="article-diagram" class="article-visual">
+  <ResponsiveDiagram id={id} />
+  <figcaption>{visual.caption}</figcaption>
 </figure>}
 {photo && kind === 'photo' && <figure class="article-photo">
   <img src={path(photo.src)} alt={photo.alt} width={photo.width} height={photo.height} loading="lazy" decoding="async" />

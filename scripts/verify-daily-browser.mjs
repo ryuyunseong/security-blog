@@ -89,22 +89,19 @@ try {
       assert.deepEqual(overflow, [], `${slug}: 도식 글자 경계`);
       await page.locator('.article-visual').scrollIntoViewIfNeeded();
       await page.screenshot({ path: `.qa/browser/${slug}-${width}.png` }); checks++;
-      await page.locator('.article-visual a').first().click();
-      await page.locator('.figure-scroll picture img').evaluate((img) => img.decode());
-      assert.equal(await page.locator('.figure-scroll picture img').evaluate((img) => img.naturalWidth), width <= 767 ? 360 : 960);
-      const figureFits = () => page.locator('.figure-scroll').evaluate((region) => region.scrollWidth <= region.clientWidth + 1);
-      assert.ok(await figureFits(), `${slug}: 그림 처음 화면 맞춤`);
-      await page.locator('.figure-zoom-label').click();
-      assert.ok(await page.locator('#figure-zoom').isChecked(), `${slug}: 그림 확대 선택`);
-      assert.ok(await page.locator('.figure-original').isVisible(), `${slug}: 원본 확대 표시`);
-      assert.equal(await page.locator('.figure-original').evaluate((img) => img.naturalWidth), 960, `${slug}: 확대 원본 해상도`);
-      assert.ok(!await page.locator('.figure-scroll picture').isVisible(), `${slug}: 확대 중 중복 그림 숨김`);
-      assert.ok(await page.locator('.figure-scroll').evaluate((region) => region.scrollWidth > region.clientWidth), `${slug}: 그림 영역 안에서 확대`);
-      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${slug}: 확대 후 페이지 넘침`);
-      await page.locator('.figure-zoom-label').click();
-      assert.ok(await page.locator('.figure-scroll picture').isVisible(), `${slug}: 화면별 배치로 복귀`);
-      assert.ok(!await page.locator('.figure-original').isVisible(), `${slug}: 원본 확대 숨김`);
-      assert.ok(await figureFits(), `${slug}: 그림 화면 맞춤 복귀`); checks++;
+      assert.equal(await page.locator('.article-visual a, .article-visual button, #figure-zoom').count(), 0, `${slug}: 본문 그림에 확대 동작이 남음`);
+      const articleUrl = page.url();
+      await page.locator('.article-visual img').click();
+      assert.equal(page.url(), articleUrl, `${slug}: 그림 클릭으로 본문을 벗어남`);
+      await page.goto(base + `figures/${slug}/`);
+      await page.waitForURL(base + `posts/${slug}/#article-diagram`);
+      await page.waitForFunction(() => {
+        const figure = document.getElementById('article-diagram');
+        if (!figure) return false;
+        const bounds = figure.getBoundingClientRect();
+        return bounds.top < innerHeight && bounds.bottom > 0;
+      });
+      assert.ok(await page.locator('#article-diagram').isVisible(), `${slug}: 이전 그림 주소가 본문의 그림으로 연결됨`); checks++;
     }
   }
   assert.deepEqual(errors, []);

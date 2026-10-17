@@ -904,9 +904,6 @@ main:focus {
   line-height:1.7;
   overflow-wrap:anywhere;
 }
-.article-visual figcaption span {
-  display:block;
-}
 .execution-shortcut {
   margin:0 0 30px;
   font-size:14px;
