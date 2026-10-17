@@ -19,7 +19,8 @@ try {
   page.on('pageerror', (e) => errors.push(e.message));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   let checks = 0;
-  for (const width of [1440, 390, 320]) {
+  const widths = [1440, 767, 390, 320];
+  for (const width of widths) {
     await page.setViewportSize({ width, height: 1080 });
     await page.goto(base + 'series/critical-infrastructure-unix-2026/');
     assert.equal(await page.locator('.post-row').count(), seriesCount);
@@ -27,7 +28,8 @@ try {
     for (const slug of slugs) {
       await page.goto(base + `posts/${slug}/`);
       assert.equal(await page.locator('h1').count(), 1);
-      assert.ok(await page.locator('.article-visual img').first().evaluate((img) => img.complete && img.naturalWidth === 960));
+      await page.locator('.article-visual img').first().evaluate((img) => img.decode());
+      assert.equal(await page.locator('.article-visual img').first().evaluate((img) => img.naturalWidth), width <= 767 ? 360 : 960, `${slug}: 화면에 맞는 도식 선택`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert.equal(await page.locator('.prose .article-visual').count(), 1);
       assert.equal(await page.locator('.prose .article-photo').count(), Number(Boolean(visuals[slug].photo)));
@@ -58,12 +60,20 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${slug}: 펼친 뒤 가로 넘침`);
       const overflow = await page.evaluate(async () => {
         const image = document.querySelector('.article-visual img');
-        const source = await fetch(image.src).then((r) => r.text());
+        const source = await fetch(image.currentSrc).then((r) => r.text());
         const svg = new DOMParser().parseFromString(source, 'image/svg+xml').documentElement;
         svg.style.position = 'fixed'; svg.style.left = '-2000px'; document.body.append(svg);
         const labels = [...svg.querySelectorAll('text')];
-        const outside = labels.filter((node) => { const b = node.getBBox(); return b.x < 0 || b.x + b.width > 960 || b.y < 0 || b.y + b.height > 540; }).map((n) => n.textContent);
-        if (['matrix', 'timeline', 'decision', 'cycle', 'topology', 'intervals'].includes(svg.dataset.diagramKind)) {
+        const bounds = svg.viewBox.baseVal;
+        const outside = labels.filter((node) => { const b = node.getBBox(); return b.x < 0 || b.x + b.width > bounds.width || b.y < 0 || b.y + b.height > bounds.height; }).map((n) => n.textContent);
+        if (svg.dataset.layout === 'mobile') {
+          const scale = image.clientWidth / bounds.width;
+          for (const label of labels) {
+            const minimum = label.dataset.role === 'key' ? 16 : 14;
+            if (Number(label.getAttribute('font-size')) * scale < minimum) outside.push(`작은 글자: ${label.textContent}`);
+          }
+        }
+        if (svg.dataset.layout === 'mobile' || ['matrix', 'timeline', 'decision', 'cycle', 'topology', 'intervals'].includes(svg.dataset.diagramKind)) {
           for (let i = 0; i < labels.length; i++) {
             const a = labels[i].getBBox();
             for (const label of labels.slice(i + 1)) {
@@ -80,18 +90,24 @@ try {
       await page.locator('.article-visual').scrollIntoViewIfNeeded();
       await page.screenshot({ path: `.qa/browser/${slug}-${width}.png` }); checks++;
       await page.locator('.article-visual a').first().click();
-      await page.locator('.figure-scroll img').evaluate((img) => img.decode());
+      await page.locator('.figure-scroll picture img').evaluate((img) => img.decode());
+      assert.equal(await page.locator('.figure-scroll picture img').evaluate((img) => img.naturalWidth), width <= 767 ? 360 : 960);
       const figureFits = () => page.locator('.figure-scroll').evaluate((region) => region.scrollWidth <= region.clientWidth + 1);
       assert.ok(await figureFits(), `${slug}: 그림 처음 화면 맞춤`);
       await page.locator('.figure-zoom-label').click();
       assert.ok(await page.locator('#figure-zoom').isChecked(), `${slug}: 그림 확대 선택`);
+      assert.ok(await page.locator('.figure-original').isVisible(), `${slug}: 원본 확대 표시`);
+      assert.equal(await page.locator('.figure-original').evaluate((img) => img.naturalWidth), 960, `${slug}: 확대 원본 해상도`);
+      assert.ok(!await page.locator('.figure-scroll picture').isVisible(), `${slug}: 확대 중 중복 그림 숨김`);
       assert.ok(await page.locator('.figure-scroll').evaluate((region) => region.scrollWidth > region.clientWidth), `${slug}: 그림 영역 안에서 확대`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${slug}: 확대 후 페이지 넘침`);
       await page.locator('.figure-zoom-label').click();
+      assert.ok(await page.locator('.figure-scroll picture').isVisible(), `${slug}: 화면별 배치로 복귀`);
+      assert.ok(!await page.locator('.figure-original').isVisible(), `${slug}: 원본 확대 숨김`);
       assert.ok(await figureFits(), `${slug}: 그림 화면 맞춤 복귀`); checks++;
     }
   }
   assert.deepEqual(errors, []);
-  const result = { passed: true, checks, slugs, widths: [1440, 390, 320], errors };
+  const result = { passed: true, checks, slugs, widths, origin: base, errors };
   await writeFile('.qa/browser/result.json', JSON.stringify(result, null, 2) + '\n'); console.log(JSON.stringify(result));
 } finally { await browser.close(); }

@@ -35,7 +35,7 @@ for (const file of htmlFiles) {
   check(/rel="canonical"/.test(source), `canonical 누락: ${file}`);
   const pagePath = relative(root, file).split(sep).join('/').replace(/index\.html$/, '');
   const current = new URL(base + pagePath, home.origin);
-  for (const match of source.matchAll(/\b(?:href|src)="([^"]+)"/g)) {
+  for (const match of source.matchAll(/\b(?:href|src|srcset)="([^"]+)"/g)) {
     const ref = match[1].replaceAll('&amp;', '&');
     if (/^(mailto:|tel:|data:)/.test(ref)) continue;
     const url = new URL(ref, current);
@@ -76,9 +76,12 @@ for (const file of posts) {
   check(new Set(ids).size === ids.length, `중복 HTML ID: ${slug}`);
   const figurePath = `${base}figures/${slug}/`;
   const svgPath = `${base}assets/posts/${slug}.svg`;
+  const mobilePath = `${base}assets/posts/${slug}.mobile.svg`;
+  check(source.includes(`srcset="${mobilePath}"`) && source.includes('media="(max-width: 767px)"'), `모바일 도식 선택 누락: ${slug}`);
   check(source.includes(`href="${figurePath}"`), `그림 보기 링크 누락: ${slug}`);
   check(!source.includes(`href="${svgPath}"`), `그림 링크가 SVG 문서를 직접 엶: ${slug}`);
   const figure = await readFile(resolve(root, 'figures', slug, 'index.html'), 'utf8');
+  check(figure.includes(`srcset="${mobilePath}"`) && figure.includes('class="figure-original"'), `그림 보기 모바일·원본 전환 누락: ${slug}`);
   check(/<img\b[^>]*src="[^"]+\.svg"/.test(figure) && figure.includes(`src="${svgPath}"`), `그림 보기 이미지 누락: ${slug}`);
   check(figure.includes(`href="${base}posts/${slug}/"`), `원문 복귀 링크 누락: ${slug}`);
   check([...figure.matchAll(/<a\b[^>]*>/g)].some(([link]) => link.includes(`href="${svgPath}"`) && /\bdownload(?:[\s=>])/.test(link)), `SVG 다운로드 링크 누락: ${slug}`);

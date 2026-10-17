@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import visuals from '../../data/article-visuals.json';
 import { getPosts } from '../../lib/posts';
 import { path, postPath } from '../../lib/site';
+import ResponsiveDiagram from '../../components/ResponsiveDiagram.astro';
 
 export async function getStaticPaths() {
   return (await getPosts()).filter((post) => Object.hasOwn(visuals, post.id))
@@ -25,7 +26,8 @@ const imagePath = path(`assets/posts/${post.id}.svg`);
       <span class="zoom-in">그림 확대</span><span class="zoom-out">화면에 맞추기</span>
     </label>
     <div class="figure-scroll" role="region" aria-label="설명 그림" tabindex="0">
-      <img src={imagePath} alt={visual.title} width="960" height="540" decoding="async" />
+      <ResponsiveDiagram id={post.id} />
+      <img class="figure-original" src={imagePath} alt={visual.title} width="960" height="540" decoding="async" />
     </div>
     <figcaption>{visual.caption} <span>확대한 그림은 좌우로 밀어 볼 수 있습니다.</span></figcaption>
   </figure>
@@ -41,8 +43,10 @@ const imagePath = path(`assets/posts/${post.id}.svg`);
   .zoom-out,.figure-zoom-toggle:checked + .figure-zoom-label .zoom-in { display:none; }
   .figure-zoom-toggle:checked + .figure-zoom-label .zoom-out { display:inline; }
   .figure-scroll { overflow-x:auto; border:1px solid var(--line); border-radius:8px; }
-  img { display:block; width:100%; height:auto; }
-  .figure-zoom-toggle:checked ~ .figure-scroll img { width:150%; min-width:960px; }
+  .figure-scroll :global(img) { display:block; width:100%; height:auto; }
+  .figure-scroll .figure-original { display:none; }
+  .figure-zoom-toggle:checked ~ .figure-scroll :global(picture) { display:none; }
+  .figure-zoom-toggle:checked ~ .figure-scroll .figure-original { display:block; width:150%; min-width:960px; }
   figcaption { margin-top:12px; color:var(--muted); font-size:14px; }
   figcaption span { display:block; }
 </style>

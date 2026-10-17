@@ -1,6 +1,7 @@
 ---
 import visuals from '../data/article-visuals.json';
 import { path } from '../lib/site';
+import ResponsiveDiagram from './ResponsiveDiagram.astro';
 interface Props { id: string; kind?: 'diagram' | 'photo'; }
 const { id, kind = 'diagram' } = Astro.props;
 const visual = visuals[id as keyof typeof visuals];
@@ -8,7 +9,7 @@ const photo = visual && 'photo' in visual ? visual.photo : undefined;
 ---
 {visual && kind === 'diagram' && <figure class="article-visual">
   <a href={path(`figures/${id.split('/').map(encodeURIComponent).join('/')}/`)} aria-label={`${visual.title} 그림 크게 보기`}>
-    <img src={path(`assets/posts/${id}.svg`)} alt={visual.title} width="960" height="540" decoding="async" />
+    <ResponsiveDiagram id={id} />
   </a>
   <figcaption>{visual.caption} <span>그림을 누르면 크게 볼 수 있습니다.</span></figcaption>
 </figure>}

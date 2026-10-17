@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { publishedPosts } from './content-helpers.mjs';
 import { renderArticleDiagram } from '../src/lib/article-diagrams.mjs';
+import { renderMobileArticleDiagram, wrapDiagramText } from '../src/lib/article-diagrams-mobile.mjs';
+import { escapeXml } from '../src/lib/core.mjs';
 
 const read = async (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 const visuals = JSON.parse(await read('src/data/article-visuals.json'));
@@ -29,6 +31,33 @@ test('공개 글에 설명 도식을 제공하고 외부 실행 코드가 없는
       assert.equal(image.readUInt32BE(20), visual.photo.height);
     }
   }
+});
+
+test('모바일 도식도 모든 문구와 범위를 보존하고 실행 코드가 없는 SVG로 재생성한다', async () => {
+  for (const [slug, visual] of Object.entries(visuals)) {
+    const mobile = renderMobileArticleDiagram(visual);
+    const svg = await read(`public/assets/posts/${slug}.mobile.svg`);
+    assert.equal(svg, mobile.svg + '\n', `${slug}: 모바일 도식 재생성 필요`);
+    assert.equal(mobile.width, 360);
+    assert.ok(mobile.height > 360 && mobile.height < 1800, slug);
+    assert.ok(!/<script|onload=|foreignObject|href=/i.test(svg));
+    const text = svg.replace(/<[^>]*>/g, '').replace(/\s/g, '');
+    for (const value of [visual.title, visual.note, ...visual.nodes.flat()]) {
+      assert.ok(text.includes(escapeXml(value).replace(/\s/g, '')), `${slug}: 모바일 문구 보존: ${value}`);
+    }
+  }
+});
+
+test('모바일 줄바꿈은 긴 식별자를 생략하지 않고 XML 문구를 안전하게 표시한다', () => {
+  const value = '긴 식별자 PermitRootLogin과 한글 문구';
+  const lines = wrapDiagramText(value, 8);
+  assert.ok(lines.length > 2);
+  assert.equal(lines.join('').replace(/\s/g, ''), value.replace(/\s/g, ''));
+  const svg = renderMobileArticleDiagram({ ...visuals['u-03-account-lockout'], title: '<설정 & 조건>' }).svg;
+  assert.ok(svg.includes('&lt;설정 &amp; 조건&gt;'));
+  assert.ok(!svg.includes('<설정'));
+  const range = renderMobileArticleDiagram(visuals['cidr-interval-binary-search']).svg;
+  assert.ok(range.includes('width="164"') && range.includes('width="82"') && range.includes('width="328"'));
 });
 
 test('도식은 입력 문구를 XML로 이스케이프하고 알 수 없는 형식을 거부한다', () => {
