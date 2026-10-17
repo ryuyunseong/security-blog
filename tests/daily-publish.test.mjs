@@ -84,6 +84,8 @@ test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 �
   for (const suffix of ['\n<img src=x onerror=alert(1)>', '\n![외부](https://example.com/a.png)', '\n```bash\necho x\n```']) {
     assert.throws(() => validateArticle({ ...article(), body: body + suffix }, plan, posts));
   }
+  assert.throws(() => validateArticle({ ...article(), body: body.replace('[[diagram]]', '') }, plan, otherPosts), /배치 수/);
+  assert.throws(() => validateArticle({ ...article(), body: body.replace('[[run:1]]', '[[run:9]]') }, plan, otherPosts), /실행 기록 배치/);
   assert.throws(() => validateArticle({ ...article(), body: body + '\n[x](java&#x73;cript:alert(1))' }, plan, otherPosts), /링크/);
   assert.throws(() => validateArticle({ ...article(), body: body + '\n자료 확인일: 2026-10-17.' }, plan, otherPosts), /확인일/);
   assert.throws(() => validateArticle({ ...article(), title: posts[0].title }, plan, posts));

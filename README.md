@@ -29,7 +29,7 @@ npm run verify
 1. templates/post.md를 src/content/posts/영문-슬러그.md로 복사합니다.
 2. 제목·설명·날짜·카테고리·태그와 본문을 작성합니다. 한국 시간은 `2026-10-17T09:00:00+09:00`처럼 시각과 시간대를 명시합니다.
 3. 실습 환경과 실제 결과, 해석과 한계를 확인합니다. 시리즈 글은 `series: unix-2026`과 숫자 `seriesOrder`를 함께 지정합니다.
-4. 설명 그림을 등록하고 검토를 마친 글만 `draft: false`로 공개합니다.
+4. 설명 그림과 실제 실행 기록을 등록하고, 관련 본문 사이에 배치 표식을 넣습니다. 검토를 마친 글만 `draft: false`로 공개합니다.
 5. 위 검증과 화면 확인을 마친 뒤 커밋·푸시합니다.
 
 공개 카테고리는 unix·web·infrastructure·qualys입니다. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
@@ -43,6 +43,8 @@ node scripts/build-article-diagrams.mjs
 ```
 
 실행 기록은 src/data/executions.json, 범위와 해석은 execution-context.json에서 관리합니다. 각 기록에 실행 날짜·환경·본문 코드 해시를 남깁니다. 기존 17편의 재현은 Linux에서 다음 명령으로 실행합니다. Python·Bash·awk·GNU stat·OpenSSH·OpenSSL·libacl을 사용하며 별도 Python 패키지는 필요하지 않습니다.
+
+그림은 본문의 `[[diagram]]`, 실행 기록은 코드 뒤의 `[[run:1]]` 위치에 표시합니다. 표가 이미 결과를 설명한다면 `[[run:1:fold]]`로 원본 로그를 접어 제공합니다. 자료를 모아서 붙이거나 모든 글을 같은 순서로 구성하지 않습니다. 70줄보다 긴 코드는 원문을 유지한 채 펼쳐 읽도록 표시합니다.
 
 ```bash
 python3 scripts/run-article-examples.py

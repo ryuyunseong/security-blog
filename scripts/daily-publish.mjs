@@ -5,6 +5,7 @@ import { createHash, randomUUID } from 'node:crypto';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
+import { validateArticleLayout } from '../src/lib/article-layout.mjs';
 
 const exec = promisify(execFile);
 const root = resolve(process.cwd());
@@ -137,6 +138,7 @@ export function validateArticle(article, plan, posts) {
   requireThat(Array.isArray(article.tags) && article.tags.length >= 1 && article.tags.length <= 8 && article.tags.every((t) => typeof t === 'string' && /^[\p{L}\p{N}_ -]{1,30}$/u.test(t)), '태그 형식 오류');
   text(article.body, 2000, 24000, '본문'); text(article.scope, 20, 500, '실행 범위'); text(article.finding, 20, 500, '결과 해석');
   const code = pythonCode(article.body);
+  validateArticleLayout(article.body, { runCount: 1 });
   const prose = article.body.replace(/^```python\n.*?\n```/gms, '');
   requireThat((prose.match(/^## /gm) ?? []).length >= 4 && /가상/.test(prose) && /실제/.test(prose), '본문 구성·실습 범위 확인 필요');
   requireThat(!/^(?:자료|문서) 확인일\s*:|^#{1,6} .*참고 자료.*\([^\n]*확인\)/m.test(prose), '확인일은 본문 대신 관리 메타데이터에 보관');
