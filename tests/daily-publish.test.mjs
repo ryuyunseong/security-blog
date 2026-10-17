@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { makePlan, seoulDay, allowedUrl, validateEnvelope, validateArticle, readPosts, renderPost, dockerOptions } from '../scripts/daily-publish.mjs';
+import { makePlan, seoulDay, publicationWindow, allowedUrl, validateEnvelope, validateArticle, readPosts, renderPost, dockerOptions } from '../scripts/daily-publish.mjs';
 
 const posts = await readPosts();
 // 일일 발행으로 저장소가 늘어나도 이 시나리오의 기준 날짜·명단은 고정한다.
@@ -20,8 +20,8 @@ function article() {
     visual: { title: '자산 목록의 분류 근거', kind: 'compare', nodes: [['직접 지정', '가상 자산 두 개', '담당자 기준 확인'], ['조건 비교', 'Linux와 prod', '관찰 정보 확인']],
       note: '제품 결과가 아닌 가상 자료의 비교다.', caption: '직접 지정한 목록과 조건으로 고른 목록을 비교하는 도식.' },
     sources: [
-      { url: 'https://docs.qualys.com/en/vm/latest/mergedProjects/analyze_reports_and_dashboards/assets/manage_tags.htm', quote: 'Static tags are created without rules.' },
-      { url: 'https://docs.qualys.com/en/gav/latest/Tags/manage_your_tags.htm', quote: 'When you save your static tag' },
+      { title: 'VM/VMDR: Manage Tags', url: 'https://docs.qualys.com/en/vm/latest/mergedProjects/analyze_reports_and_dashboards/assets/manage_tags.htm', quote: 'Static tags are created without rules.' },
+      { title: 'GAV: Manage Asset Tags', url: 'https://docs.qualys.com/en/gav/latest/Tags/manage_your_tags.htm', quote: 'When you save your static tag' },
     ] };
 }
 test('한국 날짜 경계와 오늘 글 중복을 함께 처리한다', () => {
@@ -39,9 +39,29 @@ test('공식 Unix 67개 이후 번호를 만들지 않고 빠진 번호를 감�
   const all = Array.from({ length: 67 }, (_, i) => ({ slug: `u-${i + 1}`, title: '항목', category: 'unix',
     series: 'unix-2026', order: i + 1, draft: false, date: '2026-01-01T00:00:00Z' }));
   const complete = makePlan(all, 'publish', now);
-  assert.equal(complete.next, null); assert.deepEqual(complete.requested, ['qualys']);
+  assert.equal(complete.next, null); assert.deepEqual(complete.requested, ['qualys', 'web']);
   assert.throws(() => makePlan(all.filter((p) => p.order !== 3), 'publish', now), /시리즈/);
   assert.throws(() => makePlan([...all, { ...all[0], order: 68 }], 'publish', now), /시리즈/);
+});
+
+test('평일 18시 이전 발행을 막고 주말과 읽기 전용 preview를 허용한다', () => {
+  const before = new Date('2026-10-19T08:59:59Z'), after = new Date('2026-10-19T09:00:00Z');
+  assert.equal(publicationWindow(before), false);
+  assert.equal(publicationWindow(after), true);
+  assert.equal(publicationWindow(new Date('2026-10-17T00:00:00Z')), true);
+  assert.deepEqual(makePlan(baselinePosts, 'publish', before).requested, []);
+  assert.deepEqual(makePlan(baselinePosts, 'publish', after).requested, ['unix', 'qualys']);
+  assert.deepEqual(makePlan(baselinePosts, 'preview', before).requested, ['unix', 'qualys']);
+});
+
+test('추가 실습은 수·토에 하루 한 편, 초안과 수동 글을 포함해 주 두 편까지만 계획한다', () => {
+  const wed = new Date('2026-10-21T10:00:00Z');
+  assert.deepEqual(makePlan(baselinePosts, 'publish', wed).requested, ['unix', 'qualys', 'infrastructure']);
+  const extra = (category, date) => ({ category, date, draft: true, title: '추가 실습 초안' });
+  assert.deepEqual(makePlan([...baselinePosts, extra('web', '2026-10-21T18:00:00+09:00')], 'publish', wed).requested, ['unix', 'qualys']);
+  const two = [...baselinePosts, extra('web', '2026-10-19T18:00:00+09:00'), extra('infrastructure', '2026-10-20T18:00:00+09:00')];
+  assert.deepEqual(makePlan(two, 'publish', wed).requested, ['unix', 'qualys']);
+  assert.deepEqual(makePlan(two, 'publish', new Date('2026-10-24T01:00:00Z')).requested, ['unix', 'qualys']);
 });
 test('출처 URL은 HTTPS 공식 호스트로 제한하며 인증·내부 주소·개행을 거부한다', () => {
   assert.equal(allowedUrl('https://docs.qualys.com/en/vm/').hostname, 'docs.qualys.com');
@@ -50,7 +70,7 @@ test('출처 URL은 HTTPS 공식 호스트로 제한하며 인증·내부 주소
     'https://docs.qualys.com/a)\n![x](x)', 'https://docs.qualys.com/"x']) assert.throws(() => allowedUrl(value));
 });
 test('생성 결과는 요청한 종류별 한 편 또는 명시적인 보류만 받는다', () => {
-  validateEnvelope({ articles: [article()], withheld: [{ kind: 'unix', reason: '원문 근거 확인 필요' }] }, plan);
+  validateEnvelope({ articles: [article()], withheld: plan.requested.filter((kind) => kind !== 'qualys').map((kind) => ({ kind, reason: '공식 근거 확인 필요' })) }, plan);
   assert.throws(() => validateEnvelope({ articles: [article(), article()], withheld: [] }, plan));
   assert.throws(() => validateEnvelope({ articles: [], withheld: [] }, plan));
   assert.throws(() => validateEnvelope({ articles: [], withheld: [], files: [] }, plan));
@@ -65,6 +85,7 @@ test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 �
     assert.throws(() => validateArticle({ ...article(), body: body + suffix }, plan, posts));
   }
   assert.throws(() => validateArticle({ ...article(), body: body + '\n[x](java&#x73;cript:alert(1))' }, plan, otherPosts), /링크/);
+  assert.throws(() => validateArticle({ ...article(), body: body + '\n자료 확인일: 2026-10-17.' }, plan, otherPosts), /확인일/);
   assert.throws(() => validateArticle({ ...article(), title: posts[0].title }, plan, posts));
 });
 test('번호·원문 출처·코드와 메타데이터의 조건을 검증한다', () => {
@@ -72,8 +93,20 @@ test('번호·원문 출처·코드와 메타데이터의 조건을 검증한다
   assert.throws(() => validateArticle({ ...article(), sources: [article().sources[0], article().sources[0]] }, plan, otherPosts), /중복/);
   assert.throws(() => validateArticle({ ...article(), tags: ['<script>'] }, plan, posts), /태그/);
   const rendered = renderPost(article(), plan, '2026-10-17T09:01:00+09:00');
-  assert.ok(rendered.includes('category: "qualys"') && rendered.includes('자료 확인일: 2026-10-17'));
+  assert.ok(rendered.includes('category: "qualys"') && rendered.includes('sourcesChecked: "2026-10-17"'));
+  assert.ok(rendered.includes('[VM/VMDR: Manage Tags]'));
+  assert.ok(!rendered.includes('자료 확인일') && !rendered.includes('공식 문서 1'));
+  assert.throws(() => validateArticle({ ...article(), sources: article().sources.map((source) => ({ ...source, title: '[bad](x)' })) }, plan, otherPosts), /문서 제목/);
   assert.ok(!rendered.includes(article().sources[0].quote));
+});
+
+test('추가 실습도 기존 글 중복과 경로·근거 검사를 동일하게 적용한다', () => {
+  const practicalPlan = makePlan(baselinePosts, 'publish', new Date('2026-10-21T10:00:00Z'));
+  const extra = { ...article(), kind: 'infrastructure', slug: 'infra-check-fixture' };
+  assert.ok(validateArticle(extra, practicalPlan, otherPosts).includes('def compare'));
+  assert.throws(() => validateArticle(extra, practicalPlan, posts), /본문과 중복/);
+  assert.throws(() => validateArticle({ ...extra, slug: 'web-check-fixture' }, practicalPlan, otherPosts), /경로/);
+  assert.throws(() => validateArticle({ ...extra, kind: 'cve' }, practicalPlan, otherPosts), /종류/);
 });
 test('컨테이너는 네트워크·권한·쓰기·자원을 제한하고 API 키를 전달하지 않는다', () => {
   for (const flag of ['--network=none', '--read-only', '--cap-drop=ALL', '--security-opt=no-new-privileges',

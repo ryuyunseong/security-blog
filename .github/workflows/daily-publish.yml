@@ -2,7 +2,7 @@ name: 매일 보안 글 작성 및 발행
 
 on:
   schedule:
-    - cron: '17 0 * * *' # 한국 시간 오전 9시 17분
+    - cron: '30 9 * * *' # 한국 시간 매일 18시 30분 (주말도 동일)
   workflow_dispatch:
     inputs:
       mode:

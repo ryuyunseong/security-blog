@@ -2,6 +2,7 @@
 title: 글 제목
 description: 점검할 설정이나 예제에서 확인할 결과를 한두 문장으로 적습니다.
 date: 2026-10-16T00:00:00+09:00
+sourcesChecked: 2026-10-16
 category: unix
 tags: [Linux]
 draft: true
@@ -26,4 +27,4 @@ example: false
 
 ## 참고 자료
 
-공식 출처와 확인 날짜를 적습니다.
+문서 제목과 공식 출처 링크를 적습니다. 확인 날짜는 위 sourcesChecked에 보관합니다.

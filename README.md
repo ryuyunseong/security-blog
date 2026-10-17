@@ -32,7 +32,7 @@ npm run verify
 4. 설명 그림을 등록하고 검토를 마친 글만 `draft: false`로 공개합니다.
 5. 위 검증과 화면 확인을 마친 뒤 커밋·푸시합니다.
 
-카테고리는 unix·web·infrastructure·cve·qualys입니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
+공개 카테고리는 unix·web·infrastructure·qualys입니다. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
 
 ## 그림과 실행 기록
 
@@ -54,7 +54,7 @@ python3 scripts/run-article-examples.py
 
 main 푸시는 GitHub Actions의 검사·빌드를 거쳐 GitHub Pages로 배포됩니다. PR은 검증만 수행합니다. 배포 활성화 변수는 `PAGES_DEPLOY_ENABLED=true`이며, 사이트 경로는 저장소 정보에서 계산합니다.
 
-일일 발행 워크플로는 GitHub 호스팅 실행기에서 오전 9시 17분(한국 시간)에 주통기 다음 항목과 Qualys 글을 작성·검증하도록 구성했습니다. 현재 API 키 연결 복구와 생성 미리보기 검증을 남겨 비활성 상태입니다. `OPENAI_API_KEY` Secret 등록 후 `DAILY_PUBLISH_ENABLED=true`로 활성화합니다. 개인 PC 없이 실행되며 별도 API 요금이 발생합니다. [실행 모드·보류·복구 절차](docs/publishing.md)를 확인하세요.
+작성 시각은 한국 시간 매일 18:30입니다. 주통기·Qualys를 각각 최대 1편, 수·토요일에는 추가 실습을 1편까지 검토합니다. 추가 글은 주 2편 이내이며 품질 기준을 충족할 때만 발행합니다. 현재 활성화된 Codex 예약은 PC와 앱이 켜져 있어야 실행됩니다. 같은 시각으로 구성한 GitHub 호스팅 워크플로는 API 키 연결 복구와 생성 미리보기 검증을 남겨 비활성 상태입니다. `OPENAI_API_KEY` Secret 등록 후 `DAILY_PUBLISH_ENABLED=true`로 활성화하며 그때 로컬 예약을 중지해 중복을 방지합니다. 클라우드 생성에는 별도 API 요금이 발생합니다. [실행 모드·보류·복구 절차](docs/publishing.md)를 확인하세요.
 
 프로젝트 Pages 경로를 로컬에서 확인하려면 PowerShell에서 다음을 실행합니다.
 
@@ -73,3 +73,4 @@ npm run verify
 - [매일 발행 운영](docs/publishing.md)
 - [화면 기준](docs/design.md)
 - [검증과 인수인계](docs/review-notes.md)
+- [2026-10-17 전체 화면·문체 검토](docs/site-review-2026-10-17.md)

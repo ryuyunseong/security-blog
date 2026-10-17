@@ -7,7 +7,7 @@
     "withheld": {"type": "array", "items": {
       "type": "object", "additionalProperties": false,
       "required": ["kind", "reason"],
-      "properties": {"kind": {"enum": ["unix", "qualys"]}, "reason": {"type": "string"}}
+      "properties": {"kind": {"enum": ["unix", "qualys", "web", "infrastructure"]}, "reason": {"type": "string"}}
     }}
   },
   "$defs": {
@@ -15,7 +15,7 @@
       "type": "object", "additionalProperties": false,
       "required": ["kind", "slug", "title", "description", "tags", "body", "visual", "sources", "scope", "finding"],
       "properties": {
-        "kind": {"enum": ["unix", "qualys"]},
+        "kind": {"enum": ["unix", "qualys", "web", "infrastructure"]},
         "slug": {"type": "string"}, "title": {"type": "string"},
         "description": {"type": "string"},
         "tags": {"type": "array", "items": {"type": "string"}},
@@ -31,8 +31,8 @@
         },
         "sources": {"type": "array", "items": {
           "type": "object", "additionalProperties": false,
-          "required": ["url", "quote"],
-          "properties": {"url": {"type": "string"}, "quote": {"type": "string"}}
+          "required": ["title", "url", "quote"],
+          "properties": {"title": {"type": "string"}, "url": {"type": "string"}, "quote": {"type": "string"}}
         }}
       }
     }

@@ -11,7 +11,8 @@ const root = resolve(process.cwd());
 const qa = join(root, '.qa');
 const topics = JSON.parse(await readFile(new URL('./unix-2026-topics.json', import.meta.url), 'utf8'));
 export const sourceHosts = ['www.kisa.kr', 'www.krcert.or.kr', 'docs.qualys.com', 'man7.org',
-  'www.gnu.org', 'docs.python.org', 'www.openssh.com', 'www.freedesktop.org', 'documentation.ubuntu.com', 'docs.redhat.com'];
+  'www.gnu.org', 'docs.python.org', 'www.openssh.com', 'www.freedesktop.org', 'documentation.ubuntu.com', 'docs.redhat.com',
+  'developer.mozilla.org', 'www.rfc-editor.org'];
 const image = 'python:3.12-slim';
 const digest = (s) => createHash('sha256').update(s).digest('hex');
 const normalized = (s) => s.normalize('NFKC').replace(/\s+/g, ' ').trim();
@@ -32,6 +33,10 @@ function keys(value, expected) {
     JSON.stringify(Object.keys(value).sort()) === JSON.stringify([...expected].sort()), 'JSON 필드 불일치');
 }
 export function seoulDay(now = new Date()) { return new Date(now.getTime() + 9 * 3600000).toISOString().slice(0, 10); }
+export function publicationWindow(now = new Date()) {
+  const local = new Date(now.getTime() + 9 * 3600000);
+  return [0, 6].includes(local.getUTCDay()) || local.getUTCHours() >= 18;
+}
 function seoulStamp(now = new Date()) { return new Date(now.getTime() + 9 * 3600000).toISOString().slice(0, 19) + '+09:00'; }
 async function json(path, max = 8 * 1024 * 1024) {
   const data = await readFile(path);
@@ -62,11 +67,25 @@ export function makePlan(posts, mode, now = new Date()) {
   const next = topics.topics[orders.length] ?? null;
   const today = (kind) => posts.some((p) => p.category === kind && (kind !== 'unix' || p.series === 'unix-2026') &&
     Number.isFinite(Date.parse(p.date)) && seoulDay(new Date(p.date)) === day);
-  if (next && (mode === 'preview' || !today('unix'))) {
+  const allowedTime = mode !== 'publish' || publicationWindow(now);
+  if (allowedTime && next && (mode === 'preview' || !today('unix'))) {
     if (posts.some((p) => p.series === 'unix-2026' && p.order === next.order)) withheld.push({ kind: 'unix', reason: '다음 번호의 기존 초안 확인 필요' });
     else requested.push('unix');
   }
-  if (mode === 'preview' || !today('qualys')) requested.push('qualys');
+  if (allowedTime && (mode === 'preview' || !today('qualys'))) requested.push('qualys');
+  const local = new Date(now.getTime() + 9 * 3600000), weekday = local.getUTCDay();
+  local.setUTCDate(local.getUTCDate() - (weekday + 6) % 7);
+  const weekStart = local.toISOString().slice(0, 10);
+  const practical = posts.filter((p) => ['web', 'infrastructure'].includes(p.category) && Number.isFinite(Date.parse(p.date)));
+  const weekCount = practical.filter((p) => {
+    const date = seoulDay(new Date(p.date));
+    return date >= weekStart && date <= day;
+  }).length;
+  // 추가 실습은 수·토에 한 편씩 검토한다. 초안과 수동 작성 글도 주간 상한에 포함한다.
+  if (allowedTime && [3, 6].includes(weekday) && (mode === 'preview' || (weekCount < 2 && !today('web') && !today('infrastructure')))) {
+    const last = (kind) => Math.max(0, ...practical.filter((p) => p.category === kind).map((p) => Date.parse(p.date)));
+    requested.push(last('web') <= last('infrastructure') ? 'web' : 'infrastructure');
+  }
   return { version: 1, mode, day, requested, withheld, next,
     unixTitle: next ? `U-${String(next.order).padStart(2, '0')}: ${next.title}` : null,
     guideExcerpt: '', sourceHosts, guideUrl: topics.guideUrl, guidePage: topics.guidePage,
@@ -107,8 +126,10 @@ export function pythonCode(body) {
 export function validateArticle(article, plan, posts) {
   keys(article, ['kind', 'slug', 'title', 'description', 'tags', 'body', 'visual', 'sources', 'scope', 'finding']);
   requireThat(plan.requested.includes(article.kind), '요청하지 않은 글 종류');
+  const prefix = article.kind === 'unix' ? `u-${String(plan.next.order).padStart(2, '0')}-` :
+    { qualys: 'qualys-', web: 'web-', infrastructure: 'infra-' }[article.kind];
   requireThat(typeof article.slug === 'string' && /^[a-z][a-z0-9-]{5,79}$/.test(article.slug) &&
-    (article.kind === 'unix' ? article.slug.startsWith(`u-${String(plan.next.order).padStart(2, '0')}-`) : article.slug.startsWith('qualys-')),
+    typeof prefix === 'string' && article.slug.startsWith(prefix),
   '글 경로 형식 오류');
   requireThat(!posts.some((p) => p.slug === article.slug || titleKey(p.title) === titleKey(article.title)), '기존 글과 경로 또는 제목 중복');
   text(article.title, 8, 100, '제목'); text(article.description, 20, 200, '설명');
@@ -118,16 +139,19 @@ export function validateArticle(article, plan, posts) {
   const code = pythonCode(article.body);
   const prose = article.body.replace(/^```python\n.*?\n```/gms, '');
   requireThat((prose.match(/^## /gm) ?? []).length >= 4 && /가상/.test(prose) && /실제/.test(prose), '본문 구성·실습 범위 확인 필요');
+  requireThat(!/^(?:자료|문서) 확인일\s*:|^#{1,6} .*참고 자료.*\([^\n]*확인\)/m.test(prose), '확인일은 본문 대신 관리 메타데이터에 보관');
   requireThat(!/^---\s*$/m.test(prose) && !/<[!\/?A-Za-z]|!\[|(?:javascript|data|file|vbscript):/i.test(prose), '본문의 실행 가능 마크업 또는 외부 이미지 금지');
   requireThat(!/\]\s*(?:\(|\[)|^\s*\[[^\]]+\]:/m.test(prose), '본문 링크는 sources로 분리');
-  requireThat(article.kind !== 'qualys' || !posts.some((p) => p.category === 'qualys' && substantiallySame(article.body, p.source)), '기존 Qualys 본문과 중복');
+  requireThat(article.kind === 'unix' || !posts.some((p) => substantiallySame(article.body, p.source)), '기존 본문과 중복');
   requireThat(!/sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY|gh[pousr]_[A-Za-z0-9]{20,}/.test(JSON.stringify(article)), '비밀 값 형태 감지');
   requireThat(!/ti\u0073tory|\uD2F0\uC2A4\uD1A0\uB9AC/i.test(JSON.stringify(article)), '사용하지 않는 외부 서비스 문구 감지');
   for (const match of prose.matchAll(/https?:\/\/[^\s)<>"']+/g)) allowedUrl(match[0]);
   requireThat(Array.isArray(article.sources) && article.sources.length >= 2 && article.sources.length <= 5, '공식 근거 문서 수 확인 필요');
   const urls = new Set();
   for (const source of article.sources) {
-    keys(source, ['url', 'quote']);
+    keys(source, ['title', 'url', 'quote']);
+    text(source.title, 3, 120, '문서 제목');
+    requireThat(!/[<>\[\]\r\n]/.test(source.title), '문서 제목에 허용하지 않는 문자');
     const url = allowedUrl(source.url); url.hash = ''; urls.add(url.href);
     text(source.quote, 12, 180, '문서 근거'); requireThat(source.quote.trim().split(/\s+/).length <= 25, '근거 인용 길이 초과');
   }
@@ -195,15 +219,14 @@ async function appendEntries(path, additions) {
 }
 export function renderPost(article, plan, date) {
   const lines = ['---', `title: ${JSON.stringify(article.title)}`, `description: ${JSON.stringify(article.description)}`,
-    `date: ${JSON.stringify(date)}`, `category: ${JSON.stringify(article.kind)}`, `tags: ${JSON.stringify(article.tags)}`, 'draft: false', 'example: false'];
+    `date: ${JSON.stringify(date)}`, `sourcesChecked: ${JSON.stringify(plan.day)}`, `category: ${JSON.stringify(article.kind)}`, `tags: ${JSON.stringify(article.tags)}`, 'draft: false', 'example: false'];
   if (article.kind === 'unix') lines.push('series: "unix-2026"', `seriesOrder: ${plan.next.order}`);
   return lines.join('\n') + '\n---\n\n' + article.body.trim() + '\n\n## 참고 자료\n\n' +
-    article.sources.map((source, i) => `- [공식 문서 ${i + 1}](${allowedUrl(source.url).href.replace(/\(/g, '%28').replace(/\)/g, '%29')})`).join('\n') +
-    `\n\n자료 확인일: ${plan.day}. 실제 실행 범위와 출력은 아래 실행 기록에 따로 표시했다.\n`;
+    article.sources.map((source) => `- [${source.title}](${allowedUrl(source.url).href.replace(/\(/g, '%28').replace(/\)/g, '%29')})`).join('\n') + '\n';
 }
 async function materialize(bundle) {
   const { plan, articles, evidence } = bundle;
-  requireThat(plan.day === seoulDay() && articles.length >= 1 && articles.length <= 2, '날짜 또는 글 수 재확인 필요');
+  requireThat(plan.day === seoulDay() && articles.length >= 1 && articles.length <= 3, '날짜 또는 글 수 재확인 필요');
   const current = await readPosts(), visual = {}, contexts = {};
   const executions = await json(join(root, 'src/data/executions.json'));
   for (const article of articles) {
