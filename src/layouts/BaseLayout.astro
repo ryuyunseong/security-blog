@@ -1,7 +1,7 @@
 ---
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import { path, siteInfo } from '../lib/site';
+import { archivePath, path, siteInfo } from '../lib/site';
 
 interface Props { title?: string; description?: string; article?: boolean; date?: Date; updated?: Date; noindex?: boolean; canonicalPath?: string; }
 const { title, description = siteInfo.description, article = false, date, updated, noindex = false, canonicalPath } = Astro.props;
@@ -52,7 +52,7 @@ const schema = {
     <header class="site-header shell">
       <a class="brand" href={path()} aria-label="보안 노트 홈"><Icon name="code" /><span>보안 노트</span></a>
       <nav aria-label="주 메뉴">
-        <a href={path('#posts')} aria-current={current === path() ? 'page' : undefined}>글 목록</a>
+        <a href={archivePath()} aria-current={current.includes('/archive/') ? 'page' : undefined}>글 목록</a>
         <a href={path('categories/')} aria-current={current.includes('/categories/') ? 'page' : undefined}>카테고리</a>
       </nav>
       <div class="header-actions">

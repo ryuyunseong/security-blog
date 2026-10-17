@@ -51,7 +51,7 @@ import { path } from '../lib/site';
           const description = document.createElement('p');
           description.textContent = entry.description;
           const meta = document.createElement('small');
-          meta.textContent = `${entry.category}${entry.example ? ' · 예제 글' : ''} · ${entry.tags.join(', ')}`;
+          meta.textContent = [entry.category + (entry.example ? ' · 예제 글' : ''), ...entry.tags.filter((tag) => tag !== entry.category)].join(' · ');
           item.append(heading, description, meta);
           results.append(item);
         }

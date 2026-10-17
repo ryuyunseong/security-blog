@@ -79,6 +79,20 @@ check(entries.length === posts.length, '검색 색인과 공개 글 수 불일�
 const rss = await readFile(resolve(root, 'rss.xml'), 'utf8');
 check((rss.match(/<item>/g) ?? []).length === posts.length, 'RSS와 공개 글 수 불일치');
 const sitemap = await readFile(resolve(root, 'sitemap.xml'), 'utf8');
+const archiveFiles = htmlFiles.filter((file) => relative(root, file).startsWith(`archive${sep}`));
+const listed = [];
+for (const file of archiveFiles) {
+  const source = await readFile(file, 'utf8');
+  const links = [...source.matchAll(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]);
+  check(links.length > 0 && links.length <= 12, `전체 글 페이지 크기 오류: ${file}`);
+  check(source.includes('aria-label="글 목록 페이지"') && source.includes('aria-current="page"'), `페이지 탐색 누락: ${file}`);
+  listed.push(...links);
+  const url = new URL(base + relative(root, file).split(sep).join('/').replace(/index\.html$/, ''), home.origin).href;
+  check(sitemap.includes(url), `전체 글 페이지 사이트맵 누락: ${file}`);
+}
+check(listed.length === posts.length && new Set(listed).size === posts.length && entries.every((entry) => listed.includes(entry.url)), '전체 글 목록에 누락·중복된 글이 있음');
+check((index.match(/class="post-row"/g) ?? []).length === Math.min(posts.length, 8), '홈 최근 글 수 오류');
+check(!sitemap.includes(`${base}categories/cve/`) && !index.includes(`${base}categories/cve/`), '빈 CVE 카테고리 노출');
 for (const entry of entries) {
   check(entry.url.startsWith(base), '검색 URL의 base 누락');
   const url = new URL(entry.url, home).href;

@@ -3,6 +3,7 @@ title: "U-11: 사용자 shell 점검"
 description: "로그인이 필요 없는 계정의 셸을 점검하고, nologin 적용 전후에 확인할 서비스 영향을 설명합니다."
 date: "2026-10-16T21:58:00+09:00"
 updated: "2026-10-17T00:00:00+09:00"
+sourcesChecked: "2026-10-16"
 category: "unix"
 tags: ["주통기", "U-11", "계정", "Shell"]
 draft: false
@@ -138,5 +139,3 @@ Linux의 `usermod -s /usr/sbin/nologin 계정명` 같은 변경은 경로를 확
 - [KISA 2026 상세가이드, U-11, 35쪽](https://www.kisa.kr/2060204/form?postSeq=22&page=1)
 - [passwd(5): 계정 필드와 빈 로그인 셸](https://man7.org/linux/man-pages/man5/passwd.5.html)
 - [nologin(8): 동작과 적용 범위](https://man7.org/linux/man-pages/man8/nologin.8.html)
-
-자료 확인일: 2026년 10월 16일. 판단 기준은 KISA 가이드, Linux의 구체적인 동작은 해당 매뉴얼을 기준으로 구분했다.

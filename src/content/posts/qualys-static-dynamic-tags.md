@@ -1,8 +1,9 @@
 ---
 title: "Qualys 자산 태그 읽기: 정적 분류와 동적 규칙"
-description: "정적 태그와 동적 규칙으로 분류한 자산 목록을 비교합니다. Python 예제는 가상 자료만 사용합니다."
+description: "정적 태그와 동적 규칙에 따라 자산 목록이 달라지는 이유와 변경 후 확인할 사항을 설명합니다."
 date: "2026-10-16T21:58:01+09:00"
 updated: "2026-10-17T00:00:00+09:00"
+sourcesChecked: "2026-10-16"
 category: "qualys"
 tags: ["Qualys", "자산관리", "태그", "점검범위"]
 draft: false
@@ -11,7 +12,7 @@ example: false
 
 ‘운영 Linux’라는 태그에 Windows 자산이 들어 있다. 이름을 잘못 붙인 걸까, 운영체제 정보가 바뀐 걸까. 태그가 정적인지 동적인지에 따라 먼저 볼 곳이 달라진다.
 
-태그는 자산을 업무 단위로 묶는 수단이다. 같은 이름을 사용해도 지정 방식과 규칙, 평가 시점이 다르면 포함되는 자산은 달라질 수 있다. 이 글에서는 Qualys VM/VMDR와 GAV의 공개 문서를 바탕으로 그 차이를 살핀다. 실제 제품 접속이나 스캔 결과는 사용하지 않았다.
+태그는 자산을 업무 단위로 묶는 수단이다. 같은 이름을 사용해도 지정 방식과 규칙, 평가 시점이 다르면 포함되는 자산은 달라질 수 있다. VM/VMDR과 GAV에서 태그를 지정하고 재평가하는 방식을 살펴보자.
 
 ## 이름보다 태그 종류와 규칙을 확인한다
 
@@ -123,5 +124,3 @@ if __name__ == "__main__":
 
 - [VM/VMDR: Manage Tags — 정적·동적 태그, 규칙별 구독 조건](https://docs.qualys.com/en/vm/latest/mergedProjects/analyze_reports_and_dashboards/assets/manage_tags.htm)
 - [GAV: Manage Asset Tags — 지정 방식과 재평가 상태](https://docs.qualys.com/en/gav/latest/Tags/manage_your_tags.htm)
-
-문서 확인일: 2026년 10월 16일. 메뉴와 지원 기능은 사용 중인 앱·구독·릴리스에서 다시 확인한다.

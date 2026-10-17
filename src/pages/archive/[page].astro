@@ -1,0 +1,30 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import TopicRail from '../../components/TopicRail.astro';
+import { getPosts } from '../../lib/posts';
+import { archivePath, postsPerPage } from '../../lib/site';
+
+export const getStaticPaths = (async ({ paginate }) => paginate(await getPosts(), { pageSize: postsPerPage })) satisfies GetStaticPaths;
+interface Props { page: Page<CollectionEntry<'posts'>>; }
+const { page } = Astro.props;
+const posts = await getPosts();
+const pageNumbers = [...new Set([1, page.currentPage - 1, page.currentPage, page.currentPage + 1, page.lastPage])]
+  .filter((number) => number >= 1 && number <= page.lastPage).sort((a, b) => a - b);
+---
+<BaseLayout title={page.currentPage === 1 ? '전체 글' : `전체 글 · ${page.currentPage}페이지`} description="보안 점검과 실습 글을 최신순으로 모았습니다.">
+  <header class="page-heading"><h1>전체 글</h1><p>총 {page.total}편 · 최신순</p></header>
+  <div class="content-grid">
+    <section aria-label="전체 글 목록">
+      <PostList posts={page.data} />
+      <nav class="pagination" aria-label="글 목록 페이지">
+        {page.currentPage > 1 && <a href={archivePath(page.currentPage - 1)} rel="prev">이전</a>}
+        {pageNumbers.map((number, index) => <>{index > 0 && number > pageNumbers[index - 1] + 1 && <span aria-hidden="true">…</span>}<a href={archivePath(number)} aria-label={`${number}페이지`} aria-current={number === page.currentPage ? 'page' : undefined}>{number}</a></>)}
+        {page.currentPage < page.lastPage && <a href={archivePath(page.currentPage + 1)} rel="next">다음</a>}
+      </nav>
+    </section>
+    <TopicRail posts={posts} />
+  </div>
+</BaseLayout>

@@ -6,7 +6,7 @@ import ArticleVisual from '../../components/ArticleVisual.astro';
 import ExecutionResults from '../../components/ExecutionResults.astro';
 import executions from '../../data/executions.json';
 import { getPosts } from '../../lib/posts';
-import { categoryLabel, dateLabel, path, postPath, tagPath, unixSeries } from '../../lib/site';
+import { archivePath, categoryLabel, dateLabel, path, postPath, tagPath, unixSeries } from '../../lib/site';
 export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
 }
@@ -25,7 +25,7 @@ const next = seriesPosts[seriesPosition + 1];
 <BaseLayout title={post.data.title} description={post.data.description} article date={post.data.date} updated={post.data.updated}>
   <article>
     <header class="article-header">
-      <a class="back-link" href={path('#posts')}><Icon name="back" />글 목록으로</a>
+      <a class="back-link" href={archivePath()}><Icon name="back" />글 목록으로</a>
       <p class="article-kicker"><a href={path(`categories/${post.data.category}/`)}>{categoryLabel(post.data.category)}</a>{post.data.example && ' · 예제 글'}</p>
       <h1>{post.data.title}</h1><p class="article-description">{post.data.description}</p>
       <div class="article-meta"><time datetime={post.data.date.toISOString()}>{dateLabel(post.data.date)}</time>{post.data.updated && <span>수정 {dateLabel(post.data.updated)}</span>}<div class="tags">{post.data.tags.map((tag) => <a href={tagPath(tag)}>{tag}</a>)}</div></div>

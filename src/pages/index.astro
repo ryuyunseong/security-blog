@@ -4,7 +4,7 @@ import PostList from '../components/PostList.astro';
 import TopicRail from '../components/TopicRail.astro';
 import Icon from '../components/Icon.astro';
 import { getPosts } from '../lib/posts';
-import { siteInfo, unixSeries } from '../lib/site';
+import { archivePath, categories, path, siteInfo, unixSeries } from '../lib/site';
 const posts = await getPosts();
 ---
 <BaseLayout>
@@ -12,11 +12,13 @@ const posts = await getPosts();
     <h1 id="intro-title">보안 점검과 실습</h1>
     <p>{siteInfo.description}</p>
     <div class="intro-links"><a href="#posts">글 목록 보기<Icon name="arrow" /></a><a href={unixSeries.path}>주통기 점검 시리즈</a></div>
+    <nav class="mobile-topics" aria-label="주제별 글">{categories.map((category) => <a href={path(`categories/${category.id}/`)}>{category.label}<span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a>)}</nav>
   </section>
   <div class="content-grid">
     <section id="posts" aria-labelledby="posts-title">
-      <div class="section-heading"><h2 id="posts-title">최근 글</h2><span class="count">{posts.length}편</span></div>
-      <PostList posts={posts} />
+      <div class="section-heading"><h2 id="posts-title">최근 글</h2><a class="archive-link" href={archivePath()}>전체 {posts.length}편 보기 <Icon name="arrow" /></a></div>
+      <PostList posts={posts.slice(0, 8)} />
+      <a class="more-posts" href={archivePath()}>이전 글 보기 <Icon name="arrow" /></a>
     </section>
     <TopicRail posts={posts} />
   </div>

@@ -9,6 +9,7 @@ const posts = defineCollection({
     description: z.string().min(1).max(200),
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
+    sourcesChecked: z.coerce.date().optional(),
     category: z.enum(['unix', 'web', 'infrastructure', 'cve', 'qualys']),
     tags: z.array(z.string().trim().min(1).max(30).regex(/^[\p{L}\p{N}_ -]+$/u)).min(1).max(8),
     draft: z.boolean().default(true),

@@ -35,7 +35,7 @@ for (const [id, item] of Object.entries(visuals)) {
       if (index < 2) diagram += `<path d="M${x + 280} 279h12m-5-5 5 5-5 5" stroke="#7eaa93" stroke-width="2" fill="none"/>`;
     });
   }
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(item.caption)}</desc><rect width="960" height="540" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${text(44, 49, '보안 노트  /  구조로 읽기', 16, '#287056', 700)}${text(44, 102, item.title, 31, '#193e2f', 700)}${diagram}<path d="M44 480H916" stroke="#cadbd1"/>${text(44, 516, item.note, 19)}</g></svg>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(item.caption)}</desc><rect width="960" height="540" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${text(44, 49, '보안 노트', 16, '#287056', 700)}${text(44, 102, item.title, 31, '#193e2f', 700)}${diagram}<path d="M44 480H916" stroke="#cadbd1"/>${text(44, 516, item.note, 19)}</g></svg>`;
   await writeFile(new URL(`${id}.svg`, destination), svg + '\n');
 }
 console.log(`${Object.keys(visuals).length}개 글 도식 생성`);

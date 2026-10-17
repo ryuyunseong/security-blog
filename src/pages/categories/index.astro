@@ -4,7 +4,7 @@ import { getPosts } from '../../lib/posts';
 import { categories, path } from '../../lib/site';
 const posts = await getPosts();
 ---
-<BaseLayout title="카테고리" description="Unix, 웹 보안, 인프라 보안, CVE, Qualys 글 목록입니다.">
+<BaseLayout title="카테고리" description="Unix, 웹 보안, 인프라 보안, Qualys 글 목록입니다.">
   <div class="page-heading"><h1>카테고리</h1><p>주제별 글 목록입니다.</p></div>
   <section class="page-section" aria-label="카테고리 목록"><ul class="category-index">{categories.map((category) => <li><a href={path(`categories/${category.id}/`)}><div><h2>{category.label}</h2><p>{category.description}</p></div><span class="count">{posts.filter((post) => post.data.category === category.id).length}편</span></a></li>)}</ul></section>
 </BaseLayout>
