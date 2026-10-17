@@ -17,5 +17,6 @@
   "u-09-unused-gid":{"scope":"본문의 가상 파일 예제를 fixture.sh로 저장해 실행했다. 계정과 그룹 파일만 읽었으며 서비스와 파일 소유권은 조회하지 않았다.","finding":"GID 3000인 oldapp만 로컬 구성원 미관찰 대상으로 나왔다. 추가 그룹 구성원이 있는 share는 해당 후보에 들어가지 않았다. oldapp이 불필요하다고 확정한 결과는 아니다."},
   "u-10-duplicate-uid":{"scope":"본문의 가상 파일 예제를 fixture.sh로 저장해 실행했다. deploy와 backup에 UID 1500을, 서로 다른 기본 GID를 부여한 레코드를 사용했다.","finding":"두 이름을 같은 UID 묶음으로 출력하고 종료 코드 1을 반환했다. 계정·파일 소유권은 변경하지 않았다."},
   "u-11-service-account-shell":{"scope":"본문 Python 전체를 Ubuntu에서 가상 passwd 문자열로 실행했다. 운영 계정 조회·로그인 시도·셸 변경은 수행하지 않았다.","finding":"svc_report의 bash와 빈 셸은 검토 후보로 남았다. 제한용 셸 자료와 필드 오류·중복 이름·대상 누락을 구분했다. 실제 제한용 파일의 존재와 서비스 영향은 검증 범위 밖이다."},
-  "qualys-static-dynamic-tags":{"scope":"세 개의 가상 자산으로 본문 Python 비교 함수를 실행했다. Qualys 제품·API·QQL·네트워크 스캔을 사용하지 않았다.","finding":"직접 지정한 두 자산 중 Windows 자산 lab-02가 조건 목록과 달랐다. 환경 변경 후 lab-03이 조건 목록에 추가됐고 속성 누락·중복 ID·자산 자료 누락은 비교 오류로 구분됐다."}
+  "qualys-static-dynamic-tags":{"scope":"세 개의 가상 자산으로 본문 Python 비교 함수를 실행했다. Qualys 제품·API·QQL·네트워크 스캔을 사용하지 않았다.","finding":"직접 지정한 두 자산 중 Windows 자산 lab-02가 조건 목록과 달랐다. 환경 변경 후 lab-03이 조건 목록에 추가됐고 속성 누락·중복 ID·자산 자료 누락은 비교 오류로 구분됐다."},
+  "u-12-session-timeout":{"scope":"본문 Bash 코드를 Ubuntu 24.04.4 LTS의 가상 터미널에서 실행했다. TMOUT은 새 실습 셸에만 2초로 전달했고 시스템 시작 파일·운영 계정·네트워크는 변경하지 않았다.","finding":"입력 없는 Bash 프롬프트가 자동 종료되고 종료 코드 0이 나왔다. 600초 정책의 운영 적용 여부나 다른 로그인 경로를 확인한 결과는 아니다."}
 }

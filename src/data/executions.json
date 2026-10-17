@@ -389,6 +389,26 @@
           "stderr": ""
         }
       ]
+    },
+    "u-12-session-timeout": {
+      "recordedAt": "2026-10-17T00:26:41+00:00",
+      "environment": {
+        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)",
+        "bash": "5.2.21"
+      },
+      "sourceCodeSha256": "e35759cb8e23f1be1fc4203a61bb12254d62cd500a71d909d9c18c08954be097",
+      "runs": [
+        {
+          "label": "가상 터미널에서 Bash 유휴 종료 확인",
+          "command": "bash check_u12_idle.sh",
+          "exitCode": 0,
+          "stdout": "bash-5.2$ timed out waiting for input: auto-logout\n확인: 입력 없는 프롬프트에서 셸 자동 종료\n",
+          "stderr": ""
+        }
+      ]
     }
   }
 }

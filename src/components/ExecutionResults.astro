@@ -5,15 +5,16 @@ import { dateLabel } from '../lib/site';
 interface Props { id: string; }
 const { id } = Astro.props;
 type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string };
-type Environment = typeof executions.environment;
+type Environment = typeof executions.environment & { bash?: string };
 const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment }>)[id];
 const context = contexts[id as keyof typeof contexts];
-const environment = record?.environment ?? executions.environment;
+const environment: Environment = record?.environment ?? executions.environment;
 const recordedAt = record?.recordedAt ?? executions.recordedAt;
+const isBashExample = id === 'u-12-session-timeout';
 ---
 {record && context && <section id="execution-results" class="execution-results" aria-labelledby="execution-title">
   <h2 id="execution-title">실행 기록</h2>
-  <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · Python {environment.python}</p>
+  <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · {isBashExample ? `Bash ${environment.bash}` : `Python ${environment.python}`}</p>
   {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
   <p>{context.scope}</p>
   <p class="execution-finding">{context.finding}</p>
@@ -27,5 +28,7 @@ const recordedAt = record?.recordedAt ?? executions.recordedAt;
       {run.stderr && <><p>표준 오류 출력</p><pre class="execution-output" tabindex="0"><code>{run.stderr.trimEnd()}</code></pre></>}
     </details>
   </div>)}
-  <p class="execution-footnote">무작위 임시 경로는 <code>$LAB</code>으로 통일해 표시했다. 준비 파일과 재현 절차는 <a href="https://github.com/ryuyunseong/security-blog/blob/main/scripts/run-article-examples.py">예제 실행 스크립트</a>에서 확인할 수 있다.</p>
+  {isBashExample
+    ? <p class="execution-footnote">본문의 Bash 코드를 <code>check_u12_idle.sh</code>로 저장해 실행했다. 화면에 보인 출력과 종료 코드를 기록했다.</p>
+    : <p class="execution-footnote">무작위 임시 경로는 <code>$LAB</code>으로 통일해 표시했다. 준비 파일과 재현 절차는 <a href="https://github.com/ryuyunseong/security-blog/blob/main/scripts/run-article-examples.py">예제 실행 스크립트</a>에서 확인할 수 있다.</p>}
 </section>}

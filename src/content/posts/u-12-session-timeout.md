@@ -2,6 +2,7 @@
 title: "U-12: 세션 종료 시간 설정"
 description: "유휴 셸의 종료 시간을 600초 이하로 두는 기준과, 설정 파일의 값만으로 실제 적용을 단정할 수 없는 이유를 살펴봅니다."
 date: "2026-10-17T09:07:00+09:00"
+updated: "2026-10-17T09:25:00+09:00"
 category: "unix"
 tags: ["주통기", "U-12", "세션", "TMOUT"]
 draft: false
@@ -20,11 +21,32 @@ seriesOrder: 12
 
 sh·ksh·bash 계열에서는 KISA의 예처럼 `TMOUT` 값을 초 단위로 설정하고 내보내는 방법을 검토한다. csh 계열의 `autologout=10`은 분 단위 사례다. 숫자 600과 10을 그대로 비교하면 단위가 달라 잘못 판단하기 쉽다. 셸마다 시작 파일과 동작이 다르므로 bash 예제를 csh에 그대로 적용하지 않는다.
 
-실제 확인은 승인된 시험 계정의 **새 로그인 세션**에서 한다. 사용 중인 셸, 적용된 `TMOUT` 또는 `autologout` 값과 단위, 로그인 경로를 함께 기록한다. 값을 설정한 파일만 캡처해 끝내지 말고, 새 세션에서 값이 보이는지와 유휴 상태에서 어떻게 종료되는지 살핀다. 이 글에서는 운영 계정이나 인증 설정을 변경하거나 10분짜리 세션 종료 시험을 실행하지 않았다.
+실제 확인은 승인된 시험 계정의 **새 로그인 세션**에서 한다. 사용 중인 셸, 적용된 `TMOUT` 또는 `autologout` 값과 단위, 로그인 경로를 함께 기록한다. 값을 설정한 파일만 캡처해 끝내지 말고, 새 세션에서 값이 보이는지와 유휴 상태에서 어떻게 종료되는지 살핀다.
 
 ## bash의 TMOUT이 종료하는 시점을 정확히 읽는다
 
 [Bash 공식 매뉴얼](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)에 따르면 양수 `TMOUT`은 대화형 셸이 기본 프롬프트를 표시한 뒤 완전한 입력 행을 기다리는 시간이다. 그 시간 동안 입력이 없으면 셸이 종료된다. `read` 명령의 기본 제한 시간에도 쓰인다. 따라서 `TMOUT=600`을 “어떤 작업이든 시작 후 10분에 강제 중지”로 설명하면 틀린다. 명령이 실행 중이거나 셸 밖의 애플리케이션에 머무는 경우까지 이 변수 하나로 보장하지 않는다.
+
+## 입력을 기다리는 셸에서 직접 확인한다
+
+다음은 Linux의 `bash`, `script`(util-linux), `sleep`, `tr`로 실행하는 작은 실험이다. 코드를 `check_u12_idle.sh`로 저장해 `bash check_u12_idle.sh`로 실행한다. `script`가 별도의 가상 터미널을 만들고, `sleep`이 입력 파이프를 열어 둔 사이 새 셸이 프롬프트에서 입력을 기다린다. 실습 셸에는 `env -i`로 최소 환경만 전달하고 시작 파일은 읽지 않게 했다. 실제 로그인 계정이나 `/etc/profile`은 수정하지 않는다.
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+command -v script >/dev/null || { echo 'script 명령이 필요합니다' >&2; exit 2; }
+result=$(sleep 4 | script -q -e -c \
+  'env -i HOME=/nonexistent HISTFILE=/dev/null TERM=dumb TMOUT=2 bash --noprofile --norc -i' /dev/null)
+case "$result" in
+  *'timed out waiting for input: auto-logout'*) ;;
+  *) echo '예상한 유휴 종료 메시지를 찾지 못했습니다' >&2; exit 1 ;;
+esac
+printf '%s\n' "$result" | tr -d '\a\r'
+printf '%s\n' '확인: 입력 없는 프롬프트에서 셸 자동 종료'
+```
+
+이 실습에서는 **2초**를 썼다. 600초를 기다려 U-12의 적용 상태를 판정한 결과가 아니다. 실행 기록의 메시지는 Bash가 프롬프트에서 입력을 기다리다 종료한 결과이며, 네트워크 접속 전체가 끊겼다는 증거도 아니다. `TMOUT=0`이나 미설정 상태, 다른 셸의 동작까지 이 한 번의 실행으로 확인한 것은 아니다.
 
 실무에서는 다음 순서로 범위를 좁힌다.
 
@@ -49,4 +71,4 @@ KISA 가이드는 모니터링 업무에서 세션 타임아웃이 업무를 막
 - [GNU Bash Reference Manual: TMOUT](https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html)
 - [GNU Bash Reference Manual: 대화형 셸 동작](https://www.gnu.org/software/bash/manual/html_node/Interactive-Shell-Behavior.html)
 
-자료 확인일: 2026년 10월 17일. KISA의 판정 기준과 bash의 변수 동작을 구분해 설명했다. 실제 시스템의 양호·취약 판정이나 세션 종료 실측값은 이 글에 포함하지 않는다.
+자료 확인일: 2026년 10월 17일. 운영 환경의 양호·취약 여부는 위 실습 결과가 아니라 실제 접속 경로에서 확인한 값과 유휴 종료 결과로 판단한다.

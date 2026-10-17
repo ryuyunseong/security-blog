@@ -2,6 +2,7 @@
 title: "Qualys Search List: 스캔 범위와 보고서 필터를 구분하기"
 description: "같은 Search List를 스캔 옵션 프로필과 보고서 템플릿에 사용할 때 결과를 어떻게 다르게 읽어야 하는지 정리합니다."
 date: "2026-10-17T09:07:01+09:00"
+updated: "2026-10-17T09:25:00+09:00"
 category: "qualys"
 tags: ["Qualys", "Search List", "QID", "보고서"]
 draft: false
@@ -10,7 +11,7 @@ example: false
 
 보고서에 특정 QID가 보이지 않는다. “이번 검사에서 빠졌다”라고 말하기 전에 Search List가 **스캔 옵션 프로필**에 들어갔는지, **보고서 템플릿**에 들어갔는지부터 확인해야 한다. 같은 목록을 사용해도 한쪽은 검사 대상을 좁히고, 다른 쪽은 이미 수집한 결과의 표시 범위를 좁힌다.
 
-이 글은 Qualys **VM/VMDR**의 공개 문서를 바탕으로 Search List를 읽는 방법을 정리했다. 제품 계정에 접속하거나 스캔을 실행해 얻은 화면·결과는 사용하지 않았다. 다른 Qualys 앱의 Search List 화면이나 권한 체계까지 같은 것으로 가정하지 않는다.
+여기서는 Qualys **VM/VMDR**의 Search List를 다룬다. 다른 Qualys 앱에서는 메뉴와 권한이 다를 수 있다.
 
 ## 먼저 목록이 붙은 위치를 찾는다
 
@@ -38,7 +39,7 @@ VM/VMDR 문서의 [Configure Search Lists](https://docs.qualys.com/en/vm/latest/
 
 제외 QID 목록을 추가해도 해당 QID와 관련된 네트워크 트래픽이 모두 차단되는 것은 아니다. 하나의 검사가 여러 QID의 자료를 수집할 수 있고, 필요한 검사를 시작 전에 완전히 분리하지 못할 수 있기 때문이다. 따라서 **Excluded QIDs를 통신 차단 장치처럼 사용하지 않는다**. 또한 침투성 검사는 기본적으로 제외된다. 사용자 지정 목록에 포함돼 있어도 옵션 프로필에서 별도로 허용해야 검사에 들어간다. 검사 동작을 바꿀 때는 승인된 대상과 변경 영향부터 검토해야 한다.
 
-보고서를 비교할 때는 다음 네 가지를 같은 표에 적어 두면 원인을 찾기 쉽다: 스캔 날짜와 대상, 옵션 프로필의 Complete/Custom 설정 및 당시 Search List의 QID, 원본 탐지 결과, 보고서 템플릿의 포함·제외 조건. 동적 목록은 나중에 다시 열었을 때 QID 구성이 달라졌을 수 있으므로 당시 범위를 보존한다. 여기까지는 공식 설정의 해석 방법이며, 이 글에서 실제 제품의 목록 변화나 탐지 수를 관찰한 결과는 아니다.
+보고서를 비교할 때는 다음 네 가지를 같은 표에 적어 두면 원인을 찾기 쉽다: 스캔 날짜와 대상, 옵션 프로필의 Complete/Custom 설정 및 당시 Search List의 QID, 원본 탐지 결과, 보고서 템플릿의 포함·제외 조건. 동적 목록은 나중에 다시 열었을 때 QID 구성이 달라졌을 수 있으므로 당시 범위를 보존한다.
 
 ## 권한과 구독 범위를 먼저 확인한다
 
@@ -46,10 +47,8 @@ VM/VMDR 문서의 [Configure Search Lists](https://docs.qualys.com/en/vm/latest/
 
 확인 순서는 간단하다. **어느 제품의 어떤 역할로 접속했는지 → 목록의 정적·동적 유형과 현재 QID → 연결된 옵션 프로필·보고서·티켓 규칙 → 해당 작업의 실제 결과**를 살핀다. 이 순서라야 “안 보인다”라는 현상에서 검사 범위 문제와 표시 필터 문제를 구분할 수 있다.
 
-## 공식 참고 자료
+## 공식 참고 자료 (2026년 10월 17일 확인)
 
 - [Qualys VM/VMDR: Search Lists — 용도, 유형, 전역 권한](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_basics.htm)
 - [Qualys VM/VMDR: Configure Search Lists — 동적 목록 설정과 Test](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_lp.htm)
 - [Qualys VM/VMDR: VM Option Profile: Scan — Complete·Custom·제외·침투성 검사](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)
-
-자료 확인일: 2026년 10월 17일. 공개 VM/VMDR 문서를 설명한 글이며 실제 구독, 제품 버전, 사용자 권한 또는 스캔 결과를 확인한 기록은 아니다.
