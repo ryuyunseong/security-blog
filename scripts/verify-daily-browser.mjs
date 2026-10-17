@@ -61,12 +61,34 @@ try {
         const source = await fetch(image.src).then((r) => r.text());
         const svg = new DOMParser().parseFromString(source, 'image/svg+xml').documentElement;
         svg.style.position = 'fixed'; svg.style.left = '-2000px'; document.body.append(svg);
-        const outside = [...svg.querySelectorAll('text')].filter((node) => { const b = node.getBBox(); return b.x < 0 || b.x + b.width > 960 || b.y < 0 || b.y + b.height > 540; }).map((n) => n.textContent);
+        const labels = [...svg.querySelectorAll('text')];
+        const outside = labels.filter((node) => { const b = node.getBBox(); return b.x < 0 || b.x + b.width > 960 || b.y < 0 || b.y + b.height > 540; }).map((n) => n.textContent);
+        if (['matrix', 'timeline', 'decision', 'cycle', 'topology', 'intervals'].includes(svg.dataset.diagramKind)) {
+          for (let i = 0; i < labels.length; i++) {
+            const a = labels[i].getBBox();
+            for (const label of labels.slice(i + 1)) {
+              const b = label.getBBox();
+              if (a.width && b.width && a.x < b.x + b.width && b.x < a.x + a.width && a.y < b.y + b.height && b.y < a.y + a.height) {
+                outside.push(`문구 겹침: ${labels[i].textContent} / ${label.textContent}`);
+              }
+            }
+          }
+        }
         svg.remove(); return outside;
       });
       assert.deepEqual(overflow, [], `${slug}: 도식 글자 경계`);
       await page.locator('.article-visual').scrollIntoViewIfNeeded();
       await page.screenshot({ path: `.qa/browser/${slug}-${width}.png` }); checks++;
+      await page.locator('.article-visual a').first().click();
+      await page.locator('.figure-scroll img').evaluate((img) => img.decode());
+      const figureFits = () => page.locator('.figure-scroll').evaluate((region) => region.scrollWidth <= region.clientWidth + 1);
+      assert.ok(await figureFits(), `${slug}: 그림 처음 화면 맞춤`);
+      await page.locator('.figure-zoom-label').click();
+      assert.ok(await page.locator('#figure-zoom').isChecked(), `${slug}: 그림 확대 선택`);
+      assert.ok(await page.locator('.figure-scroll').evaluate((region) => region.scrollWidth > region.clientWidth), `${slug}: 그림 영역 안에서 확대`);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${slug}: 확대 후 페이지 넘침`);
+      await page.locator('.figure-zoom-label').click();
+      assert.ok(await figureFits(), `${slug}: 그림 화면 맞춤 복귀`); checks++;
     }
   }
   assert.deepEqual(errors, []);
