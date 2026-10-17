@@ -47,7 +47,7 @@ VM/VMDR 문서의 [Configure Search Lists](https://docs.qualys.com/en/vm/latest/
 
 확인 순서는 간단하다. **어느 제품의 어떤 역할로 접속했는지 → 목록의 정적·동적 유형과 현재 QID → 연결된 옵션 프로필·보고서·티켓 규칙 → 해당 작업의 실제 결과**를 살핀다. 이 순서라야 “안 보인다”라는 현상에서 검사 범위 문제와 표시 필터 문제를 구분할 수 있다.
 
-## 공식 참고 자료 (2026년 10월 17일 확인)
+## 공식 참고 자료
 
 - [Qualys VM/VMDR: Search Lists — 용도, 유형, 전역 권한](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_basics.htm)
 - [Qualys VM/VMDR: Configure Search Lists — 동적 목록 설정과 Test](https://docs.qualys.com/en/vm/latest/search_lists/search_lists_lp.htm)
