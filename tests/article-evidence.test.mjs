@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { publishedPosts } from './content-helpers.mjs';
-import { renderArticleDiagram } from '../src/lib/article-diagrams.mjs';
+import { articleDiagramFrame, renderArticleDiagram } from '../src/lib/article-diagrams.mjs';
 import { renderMobileArticleDiagram, wrapDiagramText } from '../src/lib/article-diagrams-mobile.mjs';
 import { escapeXml } from '../src/lib/core.mjs';
 
@@ -39,11 +39,33 @@ test('모바일 도식도 모든 문구와 범위를 보존하고 실행 코드�
     const svg = await read(`public/assets/posts/${slug}.mobile.svg`);
     assert.equal(svg, mobile.svg + '\n', `${slug}: 모바일 도식 재생성 필요`);
     assert.equal(mobile.width, 360);
-    assert.ok(mobile.height > 360 && mobile.height < 1800, slug);
+    assert.ok(mobile.height > 240 && mobile.height < 1800, slug);
     assert.ok(!/<script|onload=|foreignObject|href=/i.test(svg));
     const text = svg.replace(/<[^>]*>/g, '').replace(/\s/g, '');
     for (const value of [visual.title, visual.note, ...visual.nodes.flat()]) {
       assert.ok(text.includes(escapeXml(value).replace(/\s/g, '')), `${slug}: 모바일 문구 보존: ${value}`);
+    }
+  }
+});
+
+test('그림에는 노드와 관계를 표시하고 전체 제목·보충 설명은 메타데이터에 보존한다', () => {
+  for (const [slug, visual] of Object.entries(visuals)) {
+    const desktop = renderArticleDiagram(visual);
+    const frame = articleDiagramFrame(visual.kind);
+    assert.ok(desktop.includes(`height="${frame.height}" viewBox="${frame.viewBox}"`), slug);
+    assert.ok(frame.height < 540, slug);
+    for (const svg of [desktop, renderMobileArticleDiagram(visual).svg]) {
+      assert.ok(!/<text\b[^>]*><\/text>/.test(svg), `${slug}: 빈 문구 요소`);
+      const visible = [...svg.matchAll(/<text\b[^>]*>([\s\S]*?)<\/text>/g)]
+        .map((match) => match[1].replace(/<[^>]*>/g, '')).join('').replace(/\s/g, '');
+      assert.ok(svg.includes(`<title id="title">${escapeXml(visual.title)}</title>`), slug);
+      assert.ok(svg.includes(`<desc id="desc">${escapeXml(`${visual.caption} ${visual.note}`)}</desc>`), slug);
+      for (const value of visual.nodes.flat()) {
+        assert.ok(visible.includes(escapeXml(value).replace(/\s/g, '')), `${slug}: 노드 문구 보존: ${value}`);
+      }
+      for (const duplicate of [visual.title, visual.note, '보안 노트', '왼쪽에서 오른쪽으로 진행']) {
+        assert.ok(!visible.includes(escapeXml(duplicate).replace(/\s/g, '')), `${slug}: 반복 문구 표시: ${duplicate}`);
+      }
     }
   }
 });

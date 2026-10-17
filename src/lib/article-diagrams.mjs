@@ -2,7 +2,7 @@ import { escapeXml as esc } from './core.mjs';
 import { validateDiagramNodes } from './diagram-spec.mjs';
 
 const text = (x, y, value, size = 22, color = '#536b60', weight = 400, anchor = 'start') =>
-  `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}" text-anchor="${anchor}">${esc(String(value))}</text>`;
+  value === '' ? '' : `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}" text-anchor="${anchor}">${esc(String(value))}</text>`;
 const rect = (x, y, width, height, fill = '#fff') =>
   `<rect x="${x}" y="${y}" width="${width}" height="${height}" rx="12" fill="${fill}" stroke="#cadbd1"/>`;
 const path = (d, arrow = false) => `<path d="${d}" fill="none" stroke="#7eaa93" stroke-width="3"${arrow ? ' marker-end="url(#arrow)"' : ''}/>`;
@@ -12,6 +12,18 @@ const box = (x, y, width, height, node, number) => rect(x, y, width, height) +
 const compactBox = (x, y, width, height, node, size = 18) => rect(x, y, width, height) +
   text(x + 22, y + 34, node[0], 22, '#193e2f', 700) +
   text(x + 22, y + 67, node[1], size) + text(x + 22, y + 96, node[2], size);
+
+// 제목과 주석을 제외한 도식 영역에 여백을 둔다. 노드 좌표는 그대로 보존한다.
+const frames = {
+  flow: [146, 266], compare: [140, 258], layers: [121, 300], merge: [117, 367],
+  matrix: [120, 340], timeline: [148, 220], decision: [108, 370], cycle: [119, 333],
+  topology: [126, 338], intervals: [121, 369],
+};
+export function articleDiagramFrame(kind) {
+  if (!Object.hasOwn(frames, kind)) throw new Error(`지원하지 않는 도식 종류: ${kind}`);
+  const [y, height] = frames[kind];
+  return { width: 960, height, viewBox: `0 ${y} 960 ${height}`, y };
+}
 
 export function renderArticleDiagram(item) {
   validateDiagramNodes(item);
@@ -46,7 +58,6 @@ export function renderArticleDiagram(item) {
       diagram += text(x, 195, node[0], 24, '#193e2f', 700, 'middle');
       diagram += text(x, 295, node[1], 19, '#536b60', 400, 'middle') + text(x, 332, node[2], 18, '#536b60', 400, 'middle');
     });
-    diagram += text(480, 418, '왼쪽에서 오른쪽으로 진행', 17, '#287056', 400, 'middle');
   } else if (item.kind === 'decision') {
     diagram += '<path d="M480 140L650 220L480 300L310 220Z" fill="#e6f0e9" stroke="#7eaa93" stroke-width="2"/>';
     diagram += text(480, 214, item.nodes[0][0], 22, '#193e2f', 700, 'middle') + text(480, 244, item.nodes[0][1], 17, '#536b60', 400, 'middle');
@@ -82,5 +93,6 @@ export function renderArticleDiagram(item) {
       if (index < 2) diagram += `<path d="M${x + 280} 279h12m-5-5 5 5-5 5" stroke="#7eaa93" stroke-width="2" fill="none"/>`;
     });
   }
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" data-diagram-kind="${item.kind}" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(item.caption)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7eaa93"/></marker></defs><rect width="960" height="540" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${text(44, 49, '보안 노트', 16, '#287056', 700)}${text(44, 102, item.title, 31, '#193e2f', 700)}${diagram}<path d="M44 480H916" stroke="#cadbd1"/>${text(44, 516, item.note, 19)}</g></svg>`;
+  const frame = articleDiagramFrame(item.kind);
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${frame.width}" height="${frame.height}" viewBox="${frame.viewBox}" data-diagram-kind="${item.kind}" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(`${item.caption} ${item.note}`)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7eaa93"/></marker></defs><rect y="${frame.y}" width="${frame.width}" height="${frame.height}" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${diagram}</g></svg>`;
 }

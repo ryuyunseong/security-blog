@@ -2,14 +2,16 @@
 import visuals from '../data/article-visuals.json';
 import { path } from '../lib/site';
 import { renderMobileArticleDiagram } from '../lib/article-diagrams-mobile.mjs';
+import { articleDiagramFrame } from '../lib/article-diagrams.mjs';
 interface Props { id: string; }
 const { id } = Astro.props;
 const visual = visuals[id as keyof typeof visuals];
 const mobile = renderMobileArticleDiagram(visual);
+const desktop = articleDiagramFrame(visual.kind);
 ---
 <picture class="responsive-diagram">
   <source media="(max-width: 767px)" srcset={path(`assets/posts/${id}.mobile.svg`)} width={mobile.width} height={mobile.height} />
-  <img src={path(`assets/posts/${id}.svg`)} alt={visual.title} width="960" height="540" decoding="async" />
+  <img src={path(`assets/posts/${id}.svg`)} alt={visual.title} width={desktop.width} height={desktop.height} decoding="async" />
 </picture>
 <style>
   picture { display:block; }

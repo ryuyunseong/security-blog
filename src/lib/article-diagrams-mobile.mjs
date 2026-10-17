@@ -46,8 +46,7 @@ function card(x, y, w, node, fill = '#fff') {
 
 export function renderMobileArticleDiagram(item) {
   validateDiagramNodes(item);
-  const title = block(16, 18, item.title, 328, 22, true);
-  let y = 18 + title.height + 24, diagram = title.svg;
+  let y = 16, diagram = '';
   if (item.kind === 'decision') {
     const question = card(16, y, 328, item.nodes[0], '#e6f0e9');
     diagram += question.svg;
@@ -122,10 +121,7 @@ export function renderMobileArticleDiagram(item) {
     if (cycle) diagram += line(`M42 ${centers[2]}H20V${first + 28}H36`, true);
     y += 8;
   }
-  diagram += `<path d="M16 ${y}H344" stroke="#cadbd1"/>`;
-  const note = block(16, y + 16, item.note, 328);
-  diagram += note.svg;
-  const height = y + 16 + note.height + 20;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="${height}" viewBox="0 0 360 ${height}" data-diagram-kind="${item.kind}" data-layout="mobile" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(item.caption)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7eaa93"/></marker></defs><rect width="360" height="${height}" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${diagram}</g></svg>`;
+  const height = y + 8;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="${height}" viewBox="0 0 360 ${height}" data-diagram-kind="${item.kind}" data-layout="mobile" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(`${item.caption} ${item.note}`)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7eaa93"/></marker></defs><rect width="360" height="${height}" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${diagram}</g></svg>`;
   return { svg, width, height };
 }

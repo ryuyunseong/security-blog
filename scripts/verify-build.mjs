@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve, relative, sep } from 'node:path';
+import { articleDiagramFrame } from '../src/lib/article-diagrams.mjs';
 
 const root = resolve('dist');
 const index = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -68,11 +69,13 @@ const posts = htmlFiles.filter((file) => relative(root, file).startsWith(`posts$
 const figures = htmlFiles.filter((file) => relative(root, file).startsWith(`figures${sep}`));
 check(figures.length === posts.length, '공개 글과 이전 그림 주소의 연결 수 불일치');
 const evidence = JSON.parse(await readFile('src/data/executions.json', 'utf8'));
+const visuals = JSON.parse(await readFile('src/data/article-visuals.json', 'utf8'));
 for (const file of posts) {
   const source = await readFile(file, 'utf8');
   const slug = relative(root, file).split(sep)[1];
   check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
-  check(/<img[^>]+alt="[^"]+"[^>]+width="960"[^>]+height="540"/.test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
+  const frame = articleDiagramFrame(visuals[slug].kind);
+  check(new RegExp(`<img[^>]+alt="[^"]+"[^>]+width="${frame.width}"[^>]+height="${frame.height}"`).test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
   check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
   check(!/\[\[(?:diagram|photo|run:)/.test(source), `본문 배치 표식 노출: ${slug}`);
   const bodyStart = source.indexOf('class="prose"');

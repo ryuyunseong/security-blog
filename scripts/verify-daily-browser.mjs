@@ -2,6 +2,8 @@ import { chromium } from 'playwright';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import { readPosts } from './daily-publish.mjs';
+import { articleDiagramFrame } from '../src/lib/article-diagrams.mjs';
+import { renderMobileArticleDiagram } from '../src/lib/article-diagrams-mobile.mjs';
 
 const base = process.env.BLOG_QA_ORIGIN || 'http://127.0.0.1:4322/security-blog/';
 const bundle = await readFile('.qa/daily-bundle.json', 'utf8').then(JSON.parse).catch(() => null);
@@ -30,6 +32,9 @@ try {
       assert.equal(await page.locator('h1').count(), 1);
       await page.locator('.article-visual img').first().evaluate((img) => img.decode());
       assert.equal(await page.locator('.article-visual img').first().evaluate((img) => img.naturalWidth), width <= 767 ? 360 : 960, `${slug}: 화면에 맞는 도식 선택`);
+      const dimensions = width <= 767 ? renderMobileArticleDiagram(visuals[slug]) : articleDiagramFrame(visuals[slug].kind);
+      assert.equal(await page.locator('.article-visual img').first().evaluate((img) => img.naturalHeight), dimensions.height, `${slug}: 도식에 맞는 이미지 높이`);
+      assert.equal(await page.locator('.article-visual figcaption').innerText(), visuals[slug].caption, `${slug}: 캡션 보존`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert.equal(await page.locator('.prose .article-visual').count(), 1);
       assert.equal(await page.locator('.prose .article-photo').count(), Number(Boolean(visuals[slug].photo)));
@@ -65,7 +70,11 @@ try {
         svg.style.position = 'fixed'; svg.style.left = '-2000px'; document.body.append(svg);
         const labels = [...svg.querySelectorAll('text')];
         const bounds = svg.viewBox.baseVal;
-        const outside = labels.filter((node) => { const b = node.getBBox(); return b.x < 0 || b.x + b.width > bounds.width || b.y < 0 || b.y + b.height > bounds.height; }).map((n) => n.textContent);
+        const outside = labels.filter((node) => { const b = node.getBBox(); return b.x < bounds.x || b.x + b.width > bounds.x + bounds.width || b.y < bounds.y || b.y + b.height > bounds.y + bounds.height; }).map((n) => n.textContent);
+        for (const shape of svg.querySelectorAll('g rect, g path, g circle')) {
+          const b = shape.getBBox();
+          if (b.x < bounds.x || b.x + b.width > bounds.x + bounds.width || b.y < bounds.y || b.y + b.height > bounds.y + bounds.height) outside.push(`도형 잘림: ${shape.tagName}`);
+        }
         if (svg.dataset.layout === 'mobile') {
           const scale = image.clientWidth / bounds.width;
           for (const label of labels) {
