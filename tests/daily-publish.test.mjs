@@ -68,7 +68,7 @@ test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 �
   assert.throws(() => validateArticle({ ...article(), title: posts[0].title }, plan, posts));
 });
 test('번호·원문 출처·코드와 메타데이터의 조건을 검증한다', () => {
-  assert.throws(() => validateArticle({ ...article(), kind: 'unix', slug: 'u-12-session-timeout', title: 'U-12: 임의 제목' }, plan, posts), /공식/);
+  assert.throws(() => validateArticle({ ...article(), kind: 'unix', slug: 'u-12-session-timeout', title: 'U-12: 임의 제목' }, plan, baselinePosts), /공식/);
   assert.throws(() => validateArticle({ ...article(), sources: [article().sources[0], article().sources[0]] }, plan, otherPosts), /중복/);
   assert.throws(() => validateArticle({ ...article(), tags: ['<script>'] }, plan, posts), /태그/);
   const rendered = renderPost(article(), plan, '2026-10-17T09:01:00+09:00');
