@@ -56,7 +56,7 @@ python3 scripts/run-article-examples.py
 
 main 푸시는 GitHub Actions의 검사·빌드를 거쳐 GitHub Pages로 배포됩니다. PR은 검증만 수행합니다. 배포 활성화 변수는 `PAGES_DEPLOY_ENABLED=true`이며, 사이트 경로는 저장소 정보에서 계산합니다.
 
-작성 시각은 한국 시간 매일 18:30입니다. 주통기·Qualys를 각각 최대 1편, 수·토요일에는 추가 실습을 1편까지 검토합니다. 추가 글은 주 2편 이내이며 품질 기준을 충족할 때만 발행합니다. 현재 활성화된 Codex 예약은 PC와 앱이 켜져 있어야 실행됩니다. 같은 시각으로 구성한 GitHub 호스팅 워크플로는 API 키 연결 복구와 생성 미리보기 검증을 남겨 비활성 상태입니다. `OPENAI_API_KEY` Secret 등록 후 `DAILY_PUBLISH_ENABLED=true`로 활성화하며 그때 로컬 예약을 중지해 중복을 방지합니다. 클라우드 생성에는 별도 API 요금이 발생합니다. [실행 모드·보류·복구 절차](docs/publishing.md)를 확인하세요.
+작성 시각은 한국 시간 매일 18:30입니다. 주통기·Qualys를 각각 최대 1편, 수·토요일에는 추가 실습을 1편까지 검토합니다. 추가 글은 주 2편 이내이며 품질 기준을 충족할 때만 발행합니다. 운영은 로컬 Codex 예약으로 유지하며 PC와 앱이 켜져 있어야 실행됩니다. 별도 API 비용이 발생하는 클라우드 글 작성은 사용하지 않습니다. GitHub의 일일 작성 워크플로는 수동 비활성 상태이고 `DAILY_PUBLISH_ENABLED=false`를 유지합니다. 로컬에서 검증한 글을 푸시하면 기존 GitHub Pages 워크플로가 사이트를 빌드·배포합니다. 향후 API 생성으로 전환하려면 사용자의 새로운 요청이 필요합니다. [실행 모드·보류·복구 절차](docs/publishing.md)를 확인하세요.
 
 프로젝트 Pages 경로를 로컬에서 확인하려면 PowerShell에서 다음을 실행합니다.
 
