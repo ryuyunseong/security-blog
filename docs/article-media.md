@@ -6,8 +6,6 @@ SVG는 개념을 설명하는 편집 도식이다. 실제 시스템이나 제품
 
 `title`은 대체 텍스트와 SVG의 제목, `note`는 SVG의 설명 메타데이터에 보존한다. 독자가 판단하는 데 필요한 조건·단위·생략 범위는 메타데이터에만 두지 않고 노드나 본문·캡션에서 읽을 수 있게 쓴다. 캡션은 바로 앞뒤 문단이나 노드 목록을 다시 요약하기보다 축·화살표의 의미, 비교 조건, 실습 범위를 짧게 보충한다. 이미 본문이 설명한 주의 문장은 반복하지 않는다. 넓은 화면의 도식 영역과 이미지 크기는 `articleDiagramFrame`에서 함께 계산하며 모든 문구가 그 영역 안에 들어오는지 검사한다.
 
-[2026-10-17 전체 그림 문구·화면 검증 기록](diagram-review-2026-10-17.md)
-
 모바일과 데스크톱 그림은 같은 `article-visuals.json`에서 생성하므로 글마다 별도 요약을 만들 필요가 없다. 새 글은 두 SVG를 함께 발행하고 공개된 두 파일의 해시를 검사한다. 모바일 전용 배치는 `src/lib/article-diagrams-mobile.mjs`, 화면별 선택은 `ResponsiveDiagram.astro`에서 관리한다. JavaScript 없이 화면에 맞는 그림을 골라 본문에서 바로 읽는다.
 
 ## 내용에 맞는 형식 고르기
@@ -29,7 +27,7 @@ SVG는 개념을 설명하는 편집 도식이다. 실제 시스템이나 제품
 
 노드는 compare 2개, intervals 4개, 나머지 3개다. decision의 첫 노드는 질문, 둘째는 예, 셋째는 아니요다. topology는 앞의 두 주체에서 셋째로 이어지는 연결만 표현한다. 통신 시작 방향과 데이터 왕복을 혼동하지 않도록 캡션에서 선의 의미를 설명한다. timeline은 사건 순서이며 점 간격이 시간에 비례하지 않는다. 실제 시각·대기 시간을 문구에 적는다.
 
-intervals는 `[이름, 시작, 끝]`으로 0~255 사이의 정수 문자열을 받는다. 마지막 행은 병합 결과다. 막대 길이는 양 끝을 포함한 원소 수에 비례하며, 축이 뜻하는 값과 생략한 범위를 제목·캡션에 적는다. 단위가 다르거나 수치가 없는 내용을 정량 차트처럼 꾸미지 않는다. 지원 형식·노드 수·구간 검증은 `src/lib/diagram-spec.mjs`, SVG 렌더링은 `src/lib/article-diagrams.mjs`에서 관리하며 예약 작성도 같은 규칙을 사용한다.
+intervals는 `[이름, 시작, 끝]`으로 0~255 사이의 정수 문자열을 받는다. 마지막 행은 병합 결과다. 막대 길이는 양 끝을 포함한 원소 수에 비례하며, 축이 뜻하는 값과 생략한 범위를 제목·캡션에 적는다. 단위가 다르거나 수치가 없는 내용을 정량 차트처럼 꾸미지 않는다. 지원 형식·노드 수·구간 검증은 `src/lib/diagram-spec.mjs`, SVG 렌더링은 `src/lib/article-diagrams.mjs`에서 관리한다.
 
 ## 새 글의 그림과 캡션 검토
 
@@ -50,9 +48,7 @@ intervals는 `[이름, 시작, 끝]`으로 0~255 사이의 정수 문자열을 �
 | CIDR 구간 막대 | 인접 구간을 합친 결과를 보여 준다. | 막대는 주소의 마지막 옥텟 범위이며 양 끝을 포함한다. 별도의 /32는 생략했다. |
 | 가상 자산 태그 비교 | 직접 지정한 목록과 조건 목록을 비교한다. | 가상 자산 목록의 비교다. 직접 지정한 자산과 Linux·prod 조건에 맞는 자산이 다르게 선택된다. |
 
-글자·노드 보존과 화면 경계는 자동 검사로 대조한다. 문장이 같은 의미를 반복하는지, 필요한 조건이 남았는지는 본문과 그림을 함께 읽고 판단한다. 단어 반복 횟수나 AI 판별 점수로 편집 여부를 결정하지 않는다.
-
-[2026-10-18 작성 템플릿·예약 지침 반영 기록](editorial-workflow-review-2026-10-18.md)
+글자·노드 보존과 화면 경계는 자동 검사로 대조한다. 문장이 같은 의미를 반복하는지, 필요한 조건이 남았는지는 본문과 그림을 함께 읽고 판단한다.
 
 ## 본문 안에 배치하기
 
@@ -67,19 +63,15 @@ Markdown에서 다음 표식을 각각 독립된 줄에 넣는다. 앞뒤에는 
 | `[[run:1]]` | 첫 번째 실제 실행 기록 | 관련 코드 뒤에 출력과 함께 표시 |
 | `[[run:1:fold]]` | 접힌 첫 번째 실행 기록 | 앞의 표·짧은 출력과 내용이 겹칠 때 사용 |
 
-여러 실행 기록은 저장된 순서에 따라 `[[run:2]]`, `[[run:3:fold]]`처럼 각각 배치한다. 기록이 없는 문서 해설 글에는 run 표식을 넣지 않는다. 빌드와 예약 발행 검사는 누락·중복·순서 오류와 설명 없이 자료가 붙은 구성을 거부한다. 표식은 서버 빌드에서 컴포넌트로 바뀌므로 JavaScript 없이도 본문과 자료를 읽을 수 있다.
+여러 실행 기록은 저장된 순서에 따라 `[[run:2]]`, `[[run:3:fold]]`처럼 각각 배치한다. 기록이 없는 문서 해설 글에는 run 표식을 넣지 않는다. 빌드 검사는 누락·중복·순서 오류와 설명 없이 자료가 붙은 구성을 거부한다. 표식은 서버 빌드에서 컴포넌트로 바뀌므로 JavaScript 없이도 본문과 자료를 읽을 수 있다.
 
 70줄을 넘는 본문 코드는 전체 내용을 보존해 접어 제공한다. 펼친 코드에도 복사 버튼을 제공한다. 열린 실행 기록에서 출력이 16줄보다 길면 앞부분과 전체 출력 펼치기를 함께 제공한다. 명령·표준 출력·표준 오류·종료 코드와 실행 환경은 원본 기록을 사용한다. 실습 결과를 다시 실행한 것처럼 날짜를 갱신하지 않는다.
 
-화면 확인 시 `node scripts/verify-daily-browser.mjs`는 예약 글 묶음이 있으면 그 글을, 없으면 전체 공개 글을 검사한다. `BLOG_QA_ALL=1`로 항상 전체를 검사할 수 있다. 1440·767·390·320px에서 도식·사진·모든 원본 코드와 출력·접기 동작·앵커·가로 넘침을 확인한다. 모바일 도식은 실제 표시 폭에 따른 글자 크기와 모든 문구의 경계·겹침을 추가로 검사한다.
+화면 확인 시 `BLOG_QA_ALL=1 node scripts/verify-daily-browser.mjs`로 전체 공개 글을 검사한다. 1440·767·390·320px에서 도식·사진·모든 원본 코드와 출력·접기 동작·앵커·가로 넘침을 확인한다. 모바일 도식은 실제 표시 폭에 따른 글자 크기와 모든 문구의 경계·겹침을 추가로 검사한다.
 
 그림은 본문에 표시하고 클릭 링크·확대 버튼·다운로드 안내를 붙이지 않는다. 모바일에서는 큰 글씨의 세로 배치, 넓은 화면에서는 가로 배치를 제공한다. 이미 공유한 `figures/글-슬러그/` 주소는 해당 글의 `#article-diagram`으로 즉시 이동한다. GitHub Pages에서는 Astro의 정적 HTML 리다이렉트를 사용하므로 HTTP 상태는 200이며 JavaScript 없이도 이동한다. 이전 주소의 canonical·색인 제외·본문 앵커와 실제 이동을 검사하고, 새 글의 검색·RSS·사이트맵에는 본문 주소만 넣는다.
 
-SVG를 문서로 직접 열면 Codex 내장 브라우저의 `Electron Isolated Context`와 Edge의 확장 프로그램에서 `animation` 관련 예외가 재현됐다. SVG 자체에는 스크립트나 XML 파싱 오류가 없고 표시도 정상이었다. HTML 안의 `<img>`로 열어 이 경로를 피한다. 브라우저·확장 프로그램 자체의 오류를 고친 것은 아니며, SVG를 직접 여는 주소는 그대로 남아 있다.
-
-`public/assets/posts/isolated-learning-lab.png`는 Qualys 학습 환경 글에 쓰는 표현 이미지다. 내장 image_gen 도구로 생성했고 제품이나 운영 경험의 증거로 사용하지 않는다. 최종 생성 프롬프트:
-
-> Create a refined editorial photograph for a Korean information-security learning blog article about preparing an isolated home security lab. Wide landscape 3:2 composition, understated daylight, a clean warm white desk with a small unbranded compact computer, two Ethernet patch cables in muted forest green, and a closed dark notebook, a small unbranded network switch with cables connected. Soft depth of field, natural realistic materials, calm precise independent technical writer's workspace. No people, no screens, no software dashboards, no brand logos, no readable text, no hacker cliches, no glowing binary or locks. The photo is conceptual illustrative content, not evidence of a real deployment. High quality understated magazine photography, white and forest green palette.
+`public/assets/posts/isolated-learning-lab.png`는 AI로 생성한 설명용 이미지이며 실제 장비나 운영 화면의 증거가 아니다.
 
 코드 실행 출력은 생성 이미지에 넣지 않고 접근 가능한 HTML 텍스트로 표시한다. `scripts/run-article-examples.py`가 본문 코드를 추출해 실행하고 `src/data/executions.json`에 출력·종료 코드·환경·본문 코드 해시를 기록한다. 설명과 판단 범위는 `src/data/execution-context.json`에 둔다. 임시 절대 경로만 `$LAB`으로 통일하며, 출력 내용을 성공처럼 꾸미거나 종료 코드를 바꾸지 않는다.
 
