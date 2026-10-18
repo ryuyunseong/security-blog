@@ -298,8 +298,6 @@ async function prepare(mode) {
     }
   }
   await saveJson(join(qa, 'daily-plan.json'), plan);
-  const prompt = await readFile(join(root, '.github/prompts/daily-posts.md'), 'utf8');
-  await writeFile(join(qa, 'daily-prompt.md'), prompt + '\n\n## 이번 실행 계획\n\n' + JSON.stringify(plan, null, 2));
   await output('requested', plan.requested.length > 0 ? 'true' : 'false'); await output('base_sha', plan.baseSha);
   console.log(`일일 계획: ${plan.day}, 작성 ${plan.requested.join(', ') || '없음'}, 보류 ${plan.withheld.length}개`);
 }
