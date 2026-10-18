@@ -1,9 +1,5 @@
 # 검증과 배포
 
-글의 분류와 출처는 [작성 기준](content-plan.md), 도식과 실행 기록은 [자료 기준](article-media.md)을 따른다.
-
-## 검증
-
 ```bash
 npm run check
 npm test
@@ -11,13 +7,13 @@ npm run build
 npm run verify
 ```
 
-- 본문과 공식 출처의 조건·버전·권한 범위를 대조한다.
-- 예제 코드와 실제 출력·환경·코드 해시가 일치하는지 확인한다. 문구만 편집할 때는 기존 실행 기록을 보존한다.
-- 변경한 글을 데스크톱과 모바일에서 열어 도식·표·코드·목차와 가로 넘침을 확인한다.
-- 실제 계정·인증정보·내부 환경·원본 운영 로그를 공개 자료에 포함하지 않는다.
+각 명령은 타입, 콘텐츠·코드, 정적 페이지, 링크·이미지·검색·RSS·사이트맵을 검사합니다.
 
-## 배포
+GitHub Actions는 main 변경을 검증한 뒤 GitHub Pages로 배포합니다. PR은 검증만 수행합니다. 프로젝트 경로를 적용한 로컬 빌드는 PowerShell에서 다음과 같습니다.
 
-main에 반영된 변경은 GitHub Actions의 검증을 거쳐 GitHub Pages로 배포된다. PR에서는 검증만 수행한다. 프로젝트 경로를 적용한 로컬 빌드 방법은 [README](../README.md)를 참고한다.
-
-배포 후 기존 글 주소, 변경한 본문과 그림, 검색·RSS·시리즈 목록을 대조한다. 검증이나 배포가 실패하면 원인을 확인하고 일반 수정 커밋으로 고친다.
+```powershell
+$env:SITE_URL = 'https://ryuyunseong.github.io'
+$env:BASE_PATH = '/security-blog/'
+npm run build
+npm run verify
+```

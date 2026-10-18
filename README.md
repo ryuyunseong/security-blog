@@ -1,10 +1,10 @@
 # 보안 노트
 
-주요정보통신기반시설 점검과 Unix·애플리케이션·인프라 보안을 공부하며 정리한 글을 모았습니다. Qualys 기능 해설과 코딩 테스트 풀이도 다룹니다.
+주요정보통신기반시설 점검과 Unix·애플리케이션·인프라 보안을 공부하며 정리한 글입니다. Qualys 기능 해설과 코딩 테스트 풀이도 다룹니다.
 
-[블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [GitHub](https://github.com/ryuyunseong)
+[블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/)
 
-## 시작하기
+## 로컬 실행
 
 Node.js 22.22 이상이 필요합니다.
 
@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-로컬 주소는 http://localhost:4321/ 입니다.
+기본 주소는 http://localhost:4321/ 입니다.
 
 ```bash
 npm run check
@@ -22,53 +22,27 @@ npm run build
 npm run verify
 ```
 
-`check`는 Astro·TypeScript를, `test`는 콘텐츠·코드·검색을 검사합니다. `verify`는 빌드한 페이지의 링크·이미지·앵커·SEO와 검색·RSS·사이트맵이 서로 맞는지 대조합니다.
+타입·콘텐츠 검사 후 페이지의 링크·이미지·앵커와 검색·RSS·사이트맵을 대조합니다. main 변경은 검증을 거쳐 GitHub Pages로 배포됩니다.
 
-## 글 작성
+## 구성
 
-1. templates/post.md를 src/content/posts/영문-슬러그.md로 복사합니다.
-2. 제목·설명·날짜·카테고리·태그와 본문을 작성합니다. 한국 시간은 `2026-10-17T09:00:00+09:00`처럼 시각과 시간대를 명시합니다.
-3. 실습 환경과 실제 결과, 해석과 한계를 확인합니다. 주통기 Unix 글은 `category: critical-infrastructure`, `assessmentTarget: unix`, `series: unix-2026`, 숫자 `seriesOrder`를 지정합니다. 일반 Unix 글과 문제 풀이는 각각 `unix`, `coding-test`로 분류합니다.
-4. 설명 그림과 실제 실행 기록을 등록하고, 관련 본문 사이에 배치 표식을 넣습니다. [그림·캡션 검토 순서](docs/article-media.md)로 본문·노드·캡션을 대조하고, 검토를 마친 글만 `draft: false`로 공개합니다.
-5. 위 검증과 화면 확인을 마친 뒤 커밋·푸시합니다.
-
-공개 카테고리는 주통기(`critical-infrastructure`)·Unix(`unix`)·애플리케이션 보안(`application-security`)·인프라 보안(`infrastructure`)·Qualys(`qualys`)·코딩 테스트(`coding-test`)입니다. 주통기는 `assessmentTarget`으로 점검 대상을 구분하며 공개 글이 있는 대상만 표시합니다. [대상 순서와 목차](docs/assessment-series.md), [분류 기준](docs/content-plan.md)을 참고하세요. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
-
-## 그림과 실행 기록
-
-도식은 src/data/article-visuals.json을 수정한 뒤 생성합니다.
+- `src/content/posts/`: 글 원문. 초안과 미래 날짜 글은 사이트에서 제외됩니다. 저장소의 원문은 공개됩니다.
+- `src/data/article-visuals.json`: 설명 도식.
+- `src/data/executions.json`: 예제의 실제 출력·환경·코드 해시.
+- `src/data/execution-context.json`: 실습 범위와 결과 해석.
+- `templates/post.md`: 글 메타데이터 예시.
 
 ```bash
 node scripts/build-article-diagrams.mjs
 ```
 
-실행 기록은 src/data/executions.json, 범위와 해석은 execution-context.json에서 관리합니다. 각 기록에 실행 날짜·환경·본문 코드 해시를 남깁니다. 기존 17편의 재현은 Linux에서 다음 명령으로 실행합니다. Python·Bash·awk·GNU stat·OpenSSH·OpenSSL·libacl을 사용하며 별도 Python 패키지는 필요하지 않습니다.
-
-그림은 `[[diagram]]`, 실행 기록은 코드 뒤의 `[[run:1]]` 위치에 들어갑니다. 결과를 표로 설명했다면 `[[run:1:fold]]`로 원본 로그를 접어 둘 수 있습니다. 글의 설명 흐름에 맞춰 자료를 배치하며, 70줄보다 긴 코드는 원문을 보존한 채 펼쳐 읽게 합니다.
+Linux에서 기존 17편의 예제를 재현하는 명령입니다. Python·Bash·awk·GNU stat·OpenSSH·OpenSSL·libacl을 사용합니다. 가상 파일과 루프백만 사용하며 운영 계정·PAM·SSH 설정은 변경하지 않습니다. 사이트 빌드는 실습을 실행하지 않습니다.
 
 ```bash
 python3 scripts/run-article-examples.py
 ```
 
-임시 파일과 루프백만 사용하며 실제 계정·PAM·SSH 설정은 변경하지 않습니다. 기존 17편 재현 후에도 이후 글의 개별 실행 기록은 보존합니다. 사이트 빌드에서는 실습을 자동 실행하지 않습니다. [이미지·실행 기록 기준](docs/article-media.md)을 참고하세요.
-
-## 배포와 운영
-
-main 푸시는 GitHub Actions의 검사·빌드를 거쳐 GitHub Pages로 배포됩니다. PR은 검증만 수행합니다. 사이트 경로는 저장소 정보에서 계산합니다.
-
-프로젝트 Pages 경로를 로컬에서 확인하려면 PowerShell에서 다음을 실행합니다.
-
-```powershell
-$env:SITE_URL = 'https://ryuyunseong.github.io'
-$env:BASE_PATH = '/security-blog/'
-npm run build
-npm run verify
-```
-
-글 목록과 본문은 JavaScript 없이 읽을 수 있습니다. 검색·코드 복사·수동 테마 선택은 JavaScript가 필요합니다. 검색은 제목·설명·태그·카테고리를 대상으로 합니다.
-
-## 문서
-
-- [작성 기준](docs/content-plan.md)
+- [콘텐츠 형식](docs/content-plan.md)
+- [주통기 항목 데이터](docs/assessment-series.md)
+- [도식과 실행 기록](docs/article-media.md)
 - [검증과 배포](docs/publishing.md)
-- [화면 기준](docs/design.md)
