@@ -1,6 +1,6 @@
 # 보안 노트
 
-주통기 점검, Unix·애플리케이션·인프라 보안 실습, Qualys와 코딩 테스트 풀이를 정리한 한국어 기술 블로그입니다.
+주요정보통신기반시설 점검과 Unix·애플리케이션·인프라 보안을 공부하며 정리한 글을 모았습니다. Qualys 기능 해설과 코딩 테스트 풀이도 다룹니다.
 
 [블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [GitHub](https://github.com/ryuyunseong)
 
@@ -22,7 +22,7 @@ npm run build
 npm run verify
 ```
 
-`check`는 Astro·TypeScript 진단, `test`는 콘텐츠·코드·검색 회귀 검사, `verify`는 생성된 페이지의 링크·이미지·앵커·SEO·검색/RSS/사이트맵 일관성 검사입니다.
+`check`는 Astro·TypeScript를, `test`는 콘텐츠·코드·검색을 검사합니다. `verify`는 빌드한 페이지의 링크·이미지·앵커·SEO와 검색·RSS·사이트맵이 서로 맞는지 대조합니다.
 
 ## 글 작성
 
@@ -44,7 +44,7 @@ node scripts/build-article-diagrams.mjs
 
 실행 기록은 src/data/executions.json, 범위와 해석은 execution-context.json에서 관리합니다. 각 기록에 실행 날짜·환경·본문 코드 해시를 남깁니다. 기존 17편의 재현은 Linux에서 다음 명령으로 실행합니다. Python·Bash·awk·GNU stat·OpenSSH·OpenSSL·libacl을 사용하며 별도 Python 패키지는 필요하지 않습니다.
 
-그림은 본문의 `[[diagram]]`, 실행 기록은 코드 뒤의 `[[run:1]]` 위치에 표시합니다. 표가 이미 결과를 설명한다면 `[[run:1:fold]]`로 원본 로그를 접어 제공합니다. 자료를 모아서 붙이거나 모든 글을 같은 순서로 구성하지 않습니다. 70줄보다 긴 코드는 원문을 유지한 채 펼쳐 읽도록 표시합니다.
+그림은 `[[diagram]]`, 실행 기록은 코드 뒤의 `[[run:1]]` 위치에 들어갑니다. 결과를 표로 설명했다면 `[[run:1:fold]]`로 원본 로그를 접어 둘 수 있습니다. 글의 설명 흐름에 맞춰 자료를 배치하며, 70줄보다 긴 코드는 원문을 보존한 채 펼쳐 읽게 합니다.
 
 ```bash
 python3 scripts/run-article-examples.py
