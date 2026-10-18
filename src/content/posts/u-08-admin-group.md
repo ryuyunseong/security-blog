@@ -3,7 +3,8 @@ title: "U-08: 관리자 그룹에 최소한의 계정 포함"
 description: "기본 GID와 보조 그룹을 함께 조회해 관리자 그룹 구성원의 필요성을 검토합니다."
 date: "2026-10-13T21:07:40+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-08", "그룹관리"]
 draft: false
 example: false

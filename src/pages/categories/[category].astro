@@ -4,6 +4,7 @@ import PostList from '../../components/PostList.astro';
 import TopicRail from '../../components/TopicRail.astro';
 import { categories } from '../../lib/site';
 import { getPosts } from '../../lib/posts';
+import AssessmentTargets from '../../components/AssessmentTargets.astro';
 export function getStaticPaths() {
   return categories.map((category) => ({ params: { category: category.id }, props: { category } }));
 }
@@ -13,5 +14,6 @@ const posts = allPosts.filter((post) => post.data.category === category.id);
 ---
 <BaseLayout title={category.label} description={category.description}>
   <div class="page-heading"><h1>{category.label}</h1><p>{category.description}</p></div>
+  {category.id === 'critical-infrastructure' && <AssessmentTargets posts={allPosts} />}
   <div class="content-grid"><section aria-label={`${category.label} 글 목록`}><div class="section-heading"><h2>글 목록</h2><span class="count">{posts.length}편</span></div><PostList posts={posts} /></section><TopicRail posts={allPosts} /></div>
 </BaseLayout>

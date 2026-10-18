@@ -3,7 +3,7 @@ title: "CORS 설정과 서버 접근 권한의 차이"
 description: "로컬 API 실습으로 CORS 허용과 서버의 인증·자료별 권한 검사를 구분합니다."
 date: "2026-10-09T21:15:19+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "web"
+category: "application-security"
 tags: ["CORS", "인증", "인가"]
 draft: false
 example: false

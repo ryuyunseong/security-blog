@@ -1,6 +1,6 @@
 # 보안 노트
 
-Unix 점검 방법, 웹 보안 실습, Qualys 기능을 정리한 한국어 기술 블로그입니다. 주통기 점검 시리즈, 알고리즘 풀이, Qualys 공식 문서 해설을 제공합니다.
+주통기 점검, Unix·애플리케이션·인프라 보안 실습, Qualys와 코딩 테스트 풀이를 정리한 한국어 기술 블로그입니다.
 
 [블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [GitHub](https://github.com/ryuyunseong)
 
@@ -28,11 +28,11 @@ npm run verify
 
 1. templates/post.md를 src/content/posts/영문-슬러그.md로 복사합니다.
 2. 제목·설명·날짜·카테고리·태그와 본문을 작성합니다. 한국 시간은 `2026-10-17T09:00:00+09:00`처럼 시각과 시간대를 명시합니다.
-3. 실습 환경과 실제 결과, 해석과 한계를 확인합니다. 시리즈 글은 `series: unix-2026`과 숫자 `seriesOrder`를 함께 지정합니다.
+3. 실습 환경과 실제 결과, 해석과 한계를 확인합니다. 주통기 Unix 글은 `category: critical-infrastructure`, `assessmentTarget: unix`, `series: unix-2026`, 숫자 `seriesOrder`를 지정합니다. 일반 Unix 글과 문제 풀이는 각각 `unix`, `coding-test`로 분류합니다.
 4. 설명 그림과 실제 실행 기록을 등록하고, 관련 본문 사이에 배치 표식을 넣습니다. [그림·캡션 검토 순서](docs/article-media.md)로 본문·노드·캡션을 대조하고, 검토를 마친 글만 `draft: false`로 공개합니다.
 5. 위 검증과 화면 확인을 마친 뒤 커밋·푸시합니다.
 
-공개 카테고리는 unix·web·infrastructure·qualys입니다. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
+공개 카테고리는 주통기(`critical-infrastructure`)·Unix(`unix`)·애플리케이션 보안(`application-security`)·인프라 보안(`infrastructure`)·Qualys(`qualys`)·코딩 테스트(`coding-test`)입니다. 주통기는 `assessmentTarget`으로 점검 대상을 구분하며 공개 글이 있는 대상만 표시합니다. [분류 기준](docs/content-plan.md)을 참고하세요. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
 
 ## 그림과 실행 기록
 

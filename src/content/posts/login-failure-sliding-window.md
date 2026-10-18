@@ -3,7 +3,7 @@ title: "로그에서 반복 로그인 실패 IP 찾기"
 description: "슬라이딩 윈도와 덱으로 최근 구간에 로그인 실패가 반복된 IPv4 주소를 찾습니다."
 date: "2026-10-10T21:22:40+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "infrastructure"
+category: "coding-test"
 tags: ["Python", "알고리즘", "로그"]
 draft: false
 example: false

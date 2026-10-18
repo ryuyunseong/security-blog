@@ -1,7 +1,7 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getPosts } from '../lib/posts';
-import { categoryLabel, postPath, siteInfo } from '../lib/site';
+import { categoryLabel, postPath, siteInfo, assessmentTargetLabel } from '../lib/site';
 
 export async function GET(context: APIContext) {
   return rss({
@@ -14,7 +14,7 @@ export async function GET(context: APIContext) {
       pubDate: data.date,
       description: data.description,
       link: postPath(id),
-      categories: [categoryLabel(data.category), ...data.tags],
+      categories: [...new Set([categoryLabel(data.category), ...(data.assessmentTarget ? [assessmentTargetLabel(data.assessmentTarget)] : []), ...data.tags])],
     })),
   });
 }

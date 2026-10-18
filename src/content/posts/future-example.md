@@ -2,7 +2,7 @@
 title: 미래 작성 예제
 description: 미래 날짜 글이 공개 산출물에 포함되지 않는지 검증합니다.
 date: 2999-01-01
-category: web
+category: "application-security"
 tags: [미래검증전용]
 draft: false
 example: true

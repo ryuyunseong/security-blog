@@ -3,7 +3,8 @@ title: "U-09: 계정이 존재하지 않는 GID 금지"
 description: "기본·보조 그룹 구성원을 조회하고, 그룹이 서비스나 파일에서 사용 중인지 확인합니다."
 date: "2026-10-14T20:16:39+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-09", "GID"]
 draft: false
 example: false

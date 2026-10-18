@@ -13,6 +13,7 @@ export async function publishedPosts(directory = 'src/content/posts') {
     const date = new Date(field('date'));
     if (!isPublished({ draft: field('draft') !== 'false', date })) continue;
     posts.push({ slug: file.slice(0, -3), source, date: field('date'),
+      category: field('category'), assessmentTarget: field('assessmentTarget'),
       series: field('series'), seriesOrder: Number(field('seriesOrder')) || undefined });
   }
   return posts;

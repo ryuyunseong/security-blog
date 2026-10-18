@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PostList from '../../../components/PostList.astro';
+import TopicRail from '../../../components/TopicRail.astro';
+import AssessmentTargets from '../../../components/AssessmentTargets.astro';
+import { getPosts } from '../../../lib/posts';
+import { path, populatedAssessmentTargets, seriesInfo } from '../../../lib/site';
+import { assessmentSeries } from '../../../lib/taxonomy.mjs';
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return populatedAssessmentTargets(posts.map((post) => post.data)).map((target) => ({ params: { target: target.id }, props: { target } }));
+}
+const { target } = Astro.props;
+const allPosts = await getPosts();
+const posts = allPosts.filter((post) => post.data.category === 'critical-infrastructure' && post.data.assessmentTarget === target.id);
+const series = assessmentSeries.filter((item) => item.target === target.id && posts.some((post) => post.data.series === item.id)).map((item) => seriesInfo(item.id)!);
+---
+<BaseLayout title={`주통기 · ${target.label}`} description={`주요정보통신기반시설 ${target.label} 점검 항목과 실습 글입니다.`}>
+  <header class="page-heading"><a class="back-link" href={path('categories/critical-infrastructure/')}>주통기 전체</a><h1>주통기 · {target.label}</h1><p>주요정보통신기반시설 {target.label} 점검 항목을 모았습니다.</p></header>
+  <AssessmentTargets posts={allPosts} current={target.id} />
+  {series.map((item) => <p class="notice"><a href={item.path}>{item.year} {target.label} 항목을 번호순으로 보기</a></p>)}
+  <div class="content-grid"><section aria-label={`${target.label} 점검 글 목록`}><div class="section-heading"><h2>글 목록</h2><span class="count">{posts.length}편</span></div><PostList posts={posts} /></section><TopicRail posts={allPosts} /></div>
+</BaseLayout>

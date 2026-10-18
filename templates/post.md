@@ -9,6 +9,11 @@ draft: true
 example: false
 ---
 
+<!-- 분류: 일반 Unix 글은 category: unix를 사용합니다. 주통기 Unix 글은 category: critical-infrastructure,
+assessmentTarget: unix, series: unix-2026, seriesOrder: 항목 번호를 지정합니다.
+자료구조·알고리즘 문제 풀이는 coding-test, 입력 처리 보안은 application-security로 분류합니다.
+-->
+
 ## 다룰 설정이나 결과
 
 개념, 재현할 조건, 실제 출력 중 글에 맞는 것으로 시작합니다. 가상의 장애나 담당자 발언을 만들지 않습니다. 이 파일의 소제목과 자료 위치는 작성 예시이므로 그대로 반복하지 않습니다.

@@ -3,7 +3,8 @@ title: "U-01: root 계정 원격 접속 제한"
 description: "OpenSSH의 유효 설정과 접속 조건을 확인해 root 원격 로그인 제한을 점검합니다."
 date: "2026-10-06T21:54:44+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-01", "SSH"]
 draft: false
 example: false

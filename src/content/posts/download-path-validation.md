@@ -3,7 +3,7 @@ title: "파일 다운로드 경로 검증: 문자열 비교만으로는 부족�
 description: "임시 파일을 사용해 문자열 접두사 검사와 실제 디렉터리 포함 관계 검증을 비교합니다."
 date: "2026-10-08T21:23:44+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "web"
+category: "application-security"
 tags: ["경로검증", "Python", "파일"]
 draft: false
 example: false

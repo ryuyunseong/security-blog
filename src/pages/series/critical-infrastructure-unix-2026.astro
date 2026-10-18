@@ -2,14 +2,14 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostList from '../../components/PostList.astro';
 import { getPosts } from '../../lib/posts';
-import { unixSeries } from '../../lib/site';
+import { unixSeries, assessmentTargetPath } from '../../lib/site';
 const posts = (await getPosts()).filter((post) => post.data.series === unixSeries.id)
   .sort((a, b) => a.data.seriesOrder! - b.data.seriesOrder!);
 const lastNumber = String(posts.at(-1)?.data.seriesOrder ?? 0).padStart(2, '0');
 const range = `U-01~U-${lastNumber}`;
 ---
 <BaseLayout title={unixSeries.title} description={`주요정보통신기반시설 Unix 점검 ${range} ${posts.length}편을 번호순으로 읽습니다.`}>
-  <header class="page-heading"><h1>주요정보통신기반시설<br />Unix 점검 시리즈</h1><p>2026년 KISA 가이드의 Unix 항목을 설정 조회 명령과 예제 코드로 설명합니다.</p></header>
+  <header class="page-heading"><a class="back-link" href={assessmentTargetPath('unix')}>주통기 · Unix</a><h1>주요정보통신기반시설<br />Unix 점검 시리즈</h1><p>2026년 KISA 가이드의 Unix 항목을 설정 조회 명령과 예제 코드로 설명합니다.</p></header>
   <section class="page-section" aria-labelledby="series-title">
     <p class="notice">{range} · 총 {posts.length}편 · 항목 번호순</p>
     <div class="section-heading"><h2 id="series-title">점검 목차</h2><span class="count">{posts.length}편</span></div>

@@ -3,7 +3,8 @@ title: "U-05: root 이외의 UID가 ‘0’ 금지"
 description: "root 이외의 UID 0 계정을 찾고 로컬·중앙 계정의 확인 범위를 구분합니다."
 date: "2026-10-10T21:19:36+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-05", "UID"]
 draft: false
 example: false

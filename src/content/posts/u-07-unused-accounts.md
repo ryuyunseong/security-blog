@@ -3,7 +3,8 @@ title: "U-07: 불필요한 계정 제거"
 description: "계정 목록을 승인 명단과 대조하고, 삭제 전에 확인할 서비스·예약 작업·소유 파일을 정리합니다."
 date: "2026-10-12T20:48:05+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-07", "계정관리"]
 draft: false
 example: false

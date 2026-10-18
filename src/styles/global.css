@@ -285,6 +285,8 @@ main:focus {
   font-weight:700;
   word-break:keep-all
 }
+.post-category > a { display:block; }
+.post-category > a + a { margin-top:6px; font-size:14px; font-weight:400; }
 .example-label {
   display:block;
   font-size:13px;
@@ -777,6 +779,7 @@ main:focus {
     font-size:14px;
     align-items:center
   }
+  .post-category > a + a { margin-top:0; }
   .example-label {
     font-size:12px;
     margin:0

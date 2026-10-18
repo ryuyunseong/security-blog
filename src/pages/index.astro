@@ -4,14 +4,14 @@ import PostList from '../components/PostList.astro';
 import TopicRail from '../components/TopicRail.astro';
 import Icon from '../components/Icon.astro';
 import { getPosts } from '../lib/posts';
-import { archivePath, categories, path, siteInfo, unixSeries } from '../lib/site';
+import { archivePath, categories, path, siteInfo } from '../lib/site';
 const posts = await getPosts();
 ---
 <BaseLayout>
   <section class="intro" aria-labelledby="intro-title">
     <h1 id="intro-title">보안 점검과 실습</h1>
     <p>{siteInfo.description}</p>
-    <div class="intro-links"><a href="#posts">글 목록 보기<Icon name="arrow" /></a><a href={unixSeries.path}>주통기 점검 시리즈</a></div>
+    <div class="intro-links"><a href="#posts">글 목록 보기<Icon name="arrow" /></a><a href={path('categories/critical-infrastructure/')}>주통기 점검 글</a></div>
     <nav class="mobile-topics" aria-label="주제별 글">{categories.map((category) => <a href={path(`categories/${category.id}/`)}>{category.label}<span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a>)}</nav>
   </section>
   <div class="content-grid">

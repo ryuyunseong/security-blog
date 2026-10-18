@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve, relative, sep } from 'node:path';
 import { articleDiagramFrame } from '../src/lib/article-diagrams.mjs';
+import { categories, assessmentTargetLabel } from '../src/lib/taxonomy.mjs';
+import { readPosts } from './daily-publish.mjs';
 
 const root = resolve('dist');
 const index = await readFile(resolve(root, 'index.html'), 'utf8');
@@ -31,9 +33,9 @@ for (const file of htmlFiles) {
   const source = await readFile(file, 'utf8');
   const pagePath = relative(root, file).split(sep).join('/').replace(/index\.html$/, '');
   const legacyFigure = pagePath.match(/^figures\/([a-z0-9-]+)\/$/);
-  if (legacyFigure) {
+  if (legacyFigure || pagePath === 'categories/web/') {
     // Astro의 정적 리다이렉트는 일반 콘텐츠 페이지와 별도로 목적지를 검증한다.
-    const target = `${base}posts/${legacyFigure[1]}/#article-diagram`;
+    const target = legacyFigure ? `${base}posts/${legacyFigure[1]}/#article-diagram` : `${base}categories/application-security/`;
     check(source.includes(`<meta http-equiv="refresh" content="0;url=${target}">`), `이전 그림 주소의 본문 이동 누락: ${file}`);
     check(source.includes(`rel="canonical" href="${new URL(target, home.origin).href}"`), `이전 그림 주소의 canonical 오류: ${file}`);
     check(source.includes('name="robots" content="noindex"'), `이전 그림 주소의 색인 제외 누락: ${file}`);
@@ -65,6 +67,7 @@ for (const file of htmlFiles) {
 }
 
 const entries = JSON.parse(await readFile(resolve(root, 'search.json'), 'utf8'));
+const content = (await readPosts()).filter((post) => !post.draft && new Date(post.date) <= new Date());
 const posts = htmlFiles.filter((file) => relative(root, file).startsWith(`posts${sep}`));
 const figures = htmlFiles.filter((file) => relative(root, file).startsWith(`figures${sep}`));
 check(figures.length === posts.length, '공개 글과 이전 그림 주소의 연결 수 불일치');
@@ -100,6 +103,17 @@ check(entries.length === posts.length, '검색 색인과 공개 글 수 불일�
 const rss = await readFile(resolve(root, 'rss.xml'), 'utf8');
 check((rss.match(/<item>/g) ?? []).length === posts.length, 'RSS와 공개 글 수 불일치');
 const sitemap = await readFile(resolve(root, 'sitemap.xml'), 'utf8');
+for (const category of categories) {
+  const source = await readFile(resolve(root, `categories/${category.id}/index.html`), 'utf8');
+  const expected = content.filter((post) => post.category === category.id).map((post) => `${base}posts/${post.slug}/`);
+  const actual = [...source.matchAll(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]);
+  check(actual.length === expected.length && expected.every((url) => actual.includes(url)), `카테고리의 글 누락·혼입: ${category.id}`);
+  for (const post of content.filter((post) => post.category === category.id)) {
+    const label = category.label + (post.assessmentTarget ? ` · ${assessmentTargetLabel(post.assessmentTarget)}` : '');
+    check(entries.find((entry) => entry.url === `${base}posts/${post.slug}/`)?.category === label, `검색 카테고리 불일치: ${post.slug}`);
+  }
+}
+check(!sitemap.includes(`${base}categories/web/`) && sitemap.includes(`${base}categories/critical-infrastructure/unix/`), '이전 카테고리 색인 제외·점검 대상 색인 오류');
 const archiveFiles = htmlFiles.filter((file) => relative(root, file).startsWith(`archive${sep}`));
 const listed = [];
 for (const file of archiveFiles) {

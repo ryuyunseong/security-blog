@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { populatedAssessmentTargets, assessmentTargetPath } from '../lib/site';
+interface Props { posts: CollectionEntry<'posts'>[]; current?: string; }
+const { posts, current } = Astro.props;
+const targets = populatedAssessmentTargets(posts.map((post) => post.data));
+---
+{targets.length > 0 && <nav class="assessment-targets" aria-label="주통기 점검 대상">
+  <span>점검 대상</span>
+  {targets.map((target) => <a href={assessmentTargetPath(target.id)} aria-current={target.id === current ? 'page' : undefined}>{target.label}<span class="count">{posts.filter((post) => post.data.category === 'critical-infrastructure' && post.data.assessmentTarget === target.id).length}편</span></a>)}
+</nav>}
+<style>
+  nav { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin:0 0 28px; }
+  nav > span { color:var(--muted); font-size:14px; }
+  a { display:flex; align-items:center; gap:10px; min-height:44px; padding:8px 14px; border:1px solid var(--line); border-radius:4px; }
+  a[aria-current="page"] { border-color:var(--accent); }
+</style>

@@ -3,7 +3,8 @@ title: "U-10: 동일한 UID 금지"
 description: "중복 UID를 찾는 Python 예제와 UID 분리 전에 조사할 파일 소유권·서비스 영향을 다룹니다."
 date: "2026-10-15T20:23:44+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-10", "UID"]
 draft: false
 example: false

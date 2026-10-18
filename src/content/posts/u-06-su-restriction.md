@@ -3,7 +3,8 @@ title: "U-06: 사용자 계정 su 기능 제한"
 description: "su 실행 권한과 PAM 그룹 제한이 실제 사용자 전환 경로에 적용되는지 확인합니다."
 date: "2026-10-11T15:59:47+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-06", "PAM"]
 draft: false
 example: false

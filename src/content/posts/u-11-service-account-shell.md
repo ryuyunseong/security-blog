@@ -4,7 +4,8 @@ description: "로그인 불필요 계정의 셸을 분류하고 nologin으로 �
 date: "2026-10-16T21:58:00+09:00"
 updated: "2026-10-17T18:17:24+09:00"
 sourcesChecked: "2026-10-16"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-11", "계정", "Shell"]
 draft: false
 example: false

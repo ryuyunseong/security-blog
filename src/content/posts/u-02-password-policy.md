@@ -3,7 +3,8 @@ title: "U-02: 비밀번호 관리정책 설정"
 description: "비밀번호 복잡성·사용 기간·재사용 제한을 PAM 적용 경로와 함께 확인합니다."
 date: "2026-10-07T21:27:23+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-02", "PAM"]
 draft: false
 example: false

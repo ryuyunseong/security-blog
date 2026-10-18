@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { categories, path, tagPath, unixSeries } from '../lib/site';
+import { categories, path, tagPath, seriesInfo, assessmentTargetLabel } from '../lib/site';
+import { assessmentSeries } from '../lib/taxonomy.mjs';
+import AssessmentTargets from './AssessmentTargets.astro';
 interface Props { posts: CollectionEntry<'posts'>[]; }
 const { posts } = Astro.props;
 const counts = new Map<string, number>();
@@ -8,9 +10,10 @@ for (const post of posts) for (const tag of new Set(post.data.tags)) {
   if (!/^U-\d+$/.test(tag)) counts.set(tag, (counts.get(tag) ?? 0) + 1);
 }
 const tags = [...counts.keys()].sort((a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b, 'ko')).slice(0, 12);
+const series = assessmentSeries.filter((item) => posts.some((post) => post.data.series === item.id)).map((item) => seriesInfo(item.id)!);
 ---
 <aside class="topic-rail" aria-label="주제 탐색">
   <section><h2>카테고리</h2><ul class="category-list">{categories.map((category) => <li><a href={path(`categories/${category.id}/`)}><span>{category.label}</span><span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a></li>)}</ul></section>
-  <section><h2>시리즈</h2><a class="series-link" href={unixSeries.path}>주요정보통신기반시설<br />Unix 점검 · {posts.filter((post) => post.data.series === unixSeries.id).length}편</a></section>
+  <section><h2>주통기 점검 대상</h2><AssessmentTargets posts={posts} />{series.map((item) => <a class="series-link" href={item.path}>{item.year} {assessmentTargetLabel(item.target)} 점검 · {posts.filter((post) => post.data.series === item.id).length}편 · 번호순</a>)}</section>
   <section><h2>자주 쓰는 태그</h2><div class="tags rail-tags">{tags.map((tag) => <a href={tagPath(tag)}>{tag}</a>)}</div><a class="all-tags" href={path('tags/')}>태그 전체 보기</a></section>
 </aside>

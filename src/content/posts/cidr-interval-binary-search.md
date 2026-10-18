@@ -3,7 +3,7 @@ title: "CIDR 허용 목록에서 IP 찾기: 구간 병합과 이진 탐색"
 description: "IPv4 CIDR을 정수 구간으로 병합한 뒤 이진 탐색으로 허용 목록 포함 여부를 계산합니다."
 date: "2026-10-11T16:01:39+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "infrastructure"
+category: "coding-test"
 tags: ["Python", "알고리즘", "CIDR"]
 draft: false
 example: false

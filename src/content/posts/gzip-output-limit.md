@@ -3,7 +3,7 @@ title: "작은 gzip 파일도 안전하지 않다: 압축 해제 출력량 제�
 description: "작은 gzip 입력도 해제 출력량을 기준으로 제한해야 하는 이유와 경계값 검증을 다룹니다."
 date: "2026-10-12T20:52:00+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "web"
+category: "application-security"
 tags: ["Python", "압축", "입력검증"]
 draft: false
 example: false

@@ -44,7 +44,7 @@ test('한국 날짜 경계와 오늘 글 중복을 함께 처리한다', () => {
   assert.equal(held.withheld[0].kind, 'unix');
 });
 test('공식 Unix 67개 이후 번호를 만들지 않고 빠진 번호를 감지한다', () => {
-  const all = Array.from({ length: 67 }, (_, i) => ({ slug: `u-${i + 1}`, title: '항목', category: 'unix',
+  const all = Array.from({ length: 67 }, (_, i) => ({ slug: `u-${i + 1}`, title: '항목', category: 'critical-infrastructure', assessmentTarget: 'unix',
     series: 'unix-2026', order: i + 1, draft: false, date: '2026-01-01T00:00:00Z' }));
   const complete = makePlan(all, 'publish', now);
   assert.equal(complete.next, null); assert.deepEqual(complete.requested, ['qualys', 'web']);
@@ -66,8 +66,8 @@ test('추가 실습은 수·토에 하루 한 편, 초안과 수동 글을 포�
   const wed = new Date('2026-10-21T10:00:00Z');
   assert.deepEqual(makePlan(baselinePosts, 'publish', wed).requested, ['unix', 'qualys', 'infrastructure']);
   const extra = (category, date) => ({ category, date, draft: true, title: '추가 실습 초안' });
-  assert.deepEqual(makePlan([...baselinePosts, extra('web', '2026-10-21T18:00:00+09:00')], 'publish', wed).requested, ['unix', 'qualys']);
-  const two = [...baselinePosts, extra('web', '2026-10-19T18:00:00+09:00'), extra('infrastructure', '2026-10-20T18:00:00+09:00')];
+  assert.deepEqual(makePlan([...baselinePosts, extra('application-security', '2026-10-21T18:00:00+09:00')], 'publish', wed).requested, ['unix', 'qualys']);
+  const two = [...baselinePosts, extra('application-security', '2026-10-19T18:00:00+09:00'), extra('infrastructure', '2026-10-20T18:00:00+09:00')];
   assert.deepEqual(makePlan(two, 'publish', wed).requested, ['unix', 'qualys']);
   assert.deepEqual(makePlan(two, 'publish', new Date('2026-10-24T01:00:00Z')).requested, ['unix', 'qualys']);
 });

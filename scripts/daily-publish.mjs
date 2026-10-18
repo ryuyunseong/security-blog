@@ -7,6 +7,7 @@ import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import { validateArticleLayout } from '../src/lib/article-layout.mjs';
 import { diagramTextLimits, validateDiagramNodes } from '../src/lib/diagram-spec.mjs';
+import { publicationCategory } from '../src/lib/taxonomy.mjs';
 
 const exec = promisify(execFile);
 const root = resolve(process.cwd());
@@ -57,7 +58,7 @@ export async function readPosts() {
     const source = (await readFile(join(directory, file), 'utf8')).replace(/\r\n/g, '\n');
     return { slug: file.slice(0, -3), title: field(source, 'title'), category: field(source, 'category'),
       date: field(source, 'date'), draft: field(source, 'draft') !== 'false',
-      series: field(source, 'series'), order: Number(field(source, 'seriesOrder')) || null, source };
+      assessmentTarget: field(source, 'assessmentTarget'), series: field(source, 'series'), order: Number(field(source, 'seriesOrder')) || null, source };
   }));
 }
 export function makePlan(posts, mode, now = new Date()) {
@@ -67,7 +68,7 @@ export function makePlan(posts, mode, now = new Date()) {
   const orders = published.filter((p) => p.series === 'unix-2026').map((p) => p.order).sort((a, b) => a - b);
   requireThat(orders.every((order, i) => order === i + 1) && orders.length <= 67, '시리즈 번호 대조 필요');
   const next = topics.topics[orders.length] ?? null;
-  const today = (kind) => posts.some((p) => p.category === kind && (kind !== 'unix' || p.series === 'unix-2026') &&
+  const today = (kind) => posts.some((p) => p.category === publicationCategory(kind) && (kind !== 'unix' || (p.series === 'unix-2026' && p.assessmentTarget === 'unix')) &&
     Number.isFinite(Date.parse(p.date)) && seoulDay(new Date(p.date)) === day);
   const allowedTime = mode !== 'publish' || publicationWindow(now);
   if (allowedTime && next && (mode === 'preview' || !today('unix'))) {
@@ -78,20 +79,20 @@ export function makePlan(posts, mode, now = new Date()) {
   const local = new Date(now.getTime() + 9 * 3600000), weekday = local.getUTCDay();
   local.setUTCDate(local.getUTCDate() - (weekday + 6) % 7);
   const weekStart = local.toISOString().slice(0, 10);
-  const practical = posts.filter((p) => ['web', 'infrastructure'].includes(p.category) && Number.isFinite(Date.parse(p.date)));
+  const practical = posts.filter((p) => ['application-security', 'infrastructure'].includes(p.category) && Number.isFinite(Date.parse(p.date)));
   const weekCount = practical.filter((p) => {
     const date = seoulDay(new Date(p.date));
     return date >= weekStart && date <= day;
   }).length;
   // 추가 실습은 수·토에 한 편씩 검토한다. 초안과 수동 작성 글도 주간 상한에 포함한다.
   if (allowedTime && [3, 6].includes(weekday) && (mode === 'preview' || (weekCount < 2 && !today('web') && !today('infrastructure')))) {
-    const last = (kind) => Math.max(0, ...practical.filter((p) => p.category === kind).map((p) => Date.parse(p.date)));
+    const last = (kind) => Math.max(0, ...practical.filter((p) => p.category === publicationCategory(kind)).map((p) => Date.parse(p.date)));
     requested.push(last('web') <= last('infrastructure') ? 'web' : 'infrastructure');
   }
   return { version: 1, mode, day, requested, withheld, next,
     unixTitle: next ? `U-${String(next.order).padStart(2, '0')}: ${next.title}` : null,
     guideExcerpt: '', sourceHosts, guideUrl: topics.guideUrl, guidePage: topics.guidePage,
-    inventory: posts.map(({ slug, title, category, date, draft, order }) => ({ slug, title, category, date, draft, order })) };
+    inventory: posts.map(({ slug, title, category, assessmentTarget, series, date, draft, order }) => ({ slug, title, category, assessmentTarget, series, date, draft, order })) };
 }
 export function allowedUrl(value) {
   requireThat(typeof value === 'string' && !/[\s<>"'\\]/.test(value), '참고 URL에 허용하지 않는 문자');
@@ -222,8 +223,8 @@ async function appendEntries(path, additions) {
 }
 export function renderPost(article, plan, date) {
   const lines = ['---', `title: ${JSON.stringify(article.title)}`, `description: ${JSON.stringify(article.description)}`,
-    `date: ${JSON.stringify(date)}`, `sourcesChecked: ${JSON.stringify(plan.day)}`, `category: ${JSON.stringify(article.kind)}`, `tags: ${JSON.stringify(article.tags)}`, 'draft: false', 'example: false'];
-  if (article.kind === 'unix') lines.push('series: "unix-2026"', `seriesOrder: ${plan.next.order}`);
+    `date: ${JSON.stringify(date)}`, `sourcesChecked: ${JSON.stringify(plan.day)}`, `category: ${JSON.stringify(publicationCategory(article.kind))}`, `tags: ${JSON.stringify(article.tags)}`, 'draft: false', 'example: false'];
+  if (article.kind === 'unix') lines.push('assessmentTarget: "unix"', 'series: "unix-2026"', `seriesOrder: ${plan.next.order}`);
   return lines.join('\n') + '\n---\n\n' + article.body.trim() + '\n\n## 참고 자료\n\n' +
     article.sources.map((source) => `- [${source.title}](${allowedUrl(source.url).href.replace(/\(/g, '%28').replace(/\)/g, '%29')})`).join('\n') + '\n';
 }

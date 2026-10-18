@@ -3,7 +3,8 @@ title: "U-04: 비밀번호 파일 보호"
 description: "비밀번호 필드와 파일 권한을 점검합니다. 스크립트는 비밀번호 해시를 출력하지 않습니다."
 date: "2026-10-09T21:11:54+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-04", "계정관리"]
 draft: false
 example: false

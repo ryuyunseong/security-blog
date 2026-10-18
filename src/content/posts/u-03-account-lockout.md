@@ -3,7 +3,8 @@ title: "U-03: 계정 잠금 임계값 설정"
 description: "pam_faillock의 잠금 횟수·시간 설정과 서비스별 PAM 구성을 점검합니다."
 date: "2026-10-08T21:45:21+09:00"
 updated: "2026-10-17T18:17:24+09:00"
-category: "unix"
+category: "critical-infrastructure"
+assessmentTarget: "unix"
 tags: ["주통기", "U-03", "PAM"]
 draft: false
 example: false

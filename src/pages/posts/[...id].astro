@@ -9,7 +9,7 @@ import visuals from '../../data/article-visuals.json';
 import { validateArticleLayout } from '../../lib/article-layout.mjs';
 import { renderArticleBlocks } from '../../lib/article-markdown.mjs';
 import { getPosts } from '../../lib/posts';
-import { archivePath, categoryLabel, dateLabel, path, postPath, tagPath, unixSeries } from '../../lib/site';
+import { archivePath, categoryLabel, dateLabel, path, postPath, tagPath, seriesInfo, assessmentTargetPath, assessmentTargetLabel } from '../../lib/site';
 export async function getStaticPaths() {
   return (await getPosts()).map((post) => ({ params: { id: post.id }, props: { post } }));
 }
@@ -27,12 +27,13 @@ const seriesPosts = post.data.series ? (await getPosts()).filter((item) => item.
 const seriesPosition = seriesPosts.findIndex((item) => item.id === post.id);
 const previous = seriesPosts[seriesPosition - 1];
 const next = seriesPosts[seriesPosition + 1];
+const series = post.data.series ? seriesInfo(post.data.series) : undefined;
 ---
 <BaseLayout title={post.data.title} description={post.data.description} article date={post.data.date} updated={post.data.updated}>
   <article>
     <header class="article-header">
       <a class="back-link" href={archivePath()}><Icon name="back" />글 목록으로</a>
-      <p class="article-kicker"><a href={path(`categories/${post.data.category}/`)}>{categoryLabel(post.data.category)}</a>{post.data.example && ' · 예제 글'}</p>
+      <p class="article-kicker"><a href={path(`categories/${post.data.category}/`)}>{categoryLabel(post.data.category)}</a>{post.data.assessmentTarget && <><span> · </span><a href={assessmentTargetPath(post.data.assessmentTarget)}>{assessmentTargetLabel(post.data.assessmentTarget)}</a></>}{post.data.example && ' · 예제 글'}</p>
       <h1>{post.data.title}</h1><p class="article-description">{post.data.description}</p>
       <div class="article-meta"><time datetime={post.data.date.toISOString()}>{dateLabel(post.data.date)}</time>{post.data.updated && <span>수정 {dateLabel(post.data.updated)}</span>}<div class="tags">{post.data.tags.map((tag) => <a href={tagPath(tag)}>{tag}</a>)}</div></div>
     </header>
@@ -40,7 +41,7 @@ const next = seriesPosts[seriesPosition + 1];
       <div class="article-body">
         {post.data.example && <p class="notice">교육용 예제입니다. 실제 운영 환경의 점검 결과나 개인 실적을 담고 있지 않습니다.</p>}
         <div class="prose">{blocks.map((block) => block.type === 'markdown' ? <Fragment set:html={block.html} /> : block.type === 'run' ? <ExecutionResults id={post.id} run={block.index} fold={block.fold} /> : <ArticleVisual id={post.id} kind={block.type} />)}</div>
-        {post.data.series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={unixSeries.path}>{unixSeries.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}
+        {series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={series.path}>{series.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}
         {related.length > 0 && <section class="related"><h2>함께 읽기</h2><ul>{related.map((item) => <li><a href={postPath(item.id)}>{item.data.title}</a></li>)}</ul></section>}
       </div>
       {contents.length > 0 && <nav class="toc" aria-label="이 글의 목차"><h2>이 글의 목차</h2><ol>{contents.map((heading) => <li class:list={{ subheading: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}{hasExecution && <li><a href="#execution-results">실행 기록</a></li>}</ol></nav>}

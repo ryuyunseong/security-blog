@@ -2,7 +2,7 @@
 title: HTTP 응답 헤더 기록하기
 description: 응답 헤더를 근거로 남기고 적용 범위를 구분합니다.
 date: 2026-10-15
-category: web
+category: "application-security"
 tags: [HTTP, 헤더]
 draft: true
 example: true
