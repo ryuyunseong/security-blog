@@ -56,6 +56,13 @@ try {
       assert.equal(await page.locator('.prose .execution-inline').count(), runs.length);
       const actualOutput = await page.locator('.execution-full-output .execution-output code').allTextContents();
       assert.deepEqual(actualOutput.map((output) => output.trimEnd()), runs.map((run) => run.stdout.trimEnd()), `${slug}: 원본 출력 보존`);
+      if (evidence.posts[slug]?.reproduction === 'article') {
+        const metadata = page.locator('.execution-metadata');
+        await metadata.locator(':scope > summary').click();
+        assert.notEqual(await metadata.getAttribute('open'), null, `${slug}: 실행 환경 펼치기`);
+        assert.ok((await page.locator('.execution-footnote').innerText()).includes('본문의 Python 코드를 위 명령의 파일 이름으로 저장해 실행했다.'), `${slug}: 본문 예제 재현 안내`);
+        assert.equal(await page.locator('.execution-footnote a').count(), 0, `${slug}: 무관한 준비 스크립트 링크`);
+      }
       for (const details of await page.locator('.code-details, .execution-run').all()) {
         if (await details.getAttribute('open') === null) {
           await details.locator(':scope > summary').click();
