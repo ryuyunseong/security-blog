@@ -21,11 +21,11 @@ Qualys의 Vulnerability Status Levels 문서는 새 스캔 결과가 처리되�
 
 [[diagram]]
 
-Fixed는 패치 관리 시스템의 ‘설치 완료’와 같은 필드가 아니다. 패치가 설치돼도 재부팅이나 서비스 재시작이 남아 있을 수 있고, 검사 결과가 처리되기 전에는 화면이 예전 상태를 보여 줄 수 있다. 반대로 보고서에서 행이 빠진 이유가 대상 제외나 필터라면 이를 Fixed로 해석해서는 안 된다.
+Fixed는 Qualys에 기록된 탐지 상태이며 패치 설치 완료를 보증하지 않는다. Authoritative 스캔은 해당 QID가 검사 범위에 포함돼 있으면, 이전 탐지 포트가 닫혔거나 도달할 수 없는 경우에도 기존 항목을 닫을 수 있다. 인증 스캔에서 탐지한 항목을 닫으려면 후속 검사도 인증 스캔이어야 한다. 상태를 해석할 때는 조치 이력과 함께 QID·포트 범위와 인증 방식을 대조한다.
 
 ## 한 항목의 관찰 기록으로 전이를 시험한다
 
-다음은 가상 자산 하나의 같은 탐지 항목을 여섯 번 관찰한 예제다. 실제 Qualys 결과를 수집한 코드가 아니라 공식 상태 설명을 읽기 위한 작은 모델이다. `tested=True`는 이 예제에서 해당 항목을 충분히 평가한 관찰이 있다는 가정이며, 스캔 작업 전체가 완료됐다는 뜻으로 쓰지 않는다. `detected=None`은 판단에 쓸 관찰이 없다는 표시다.
+다음은 가상 자산 하나의 같은 탐지 항목을 여섯 번 관찰한 예제다. 실제 Qualys 결과를 수집한 코드가 아니라 공식 상태 설명을 읽기 위한 작은 모델이다. `tested=True`는 이 예제에서 해당 항목을 충분히 평가한 관찰이 있다는 가정이며, 스캔 작업 전체가 완료됐다는 뜻으로 쓰지 않는다. `detected=None`은 판단에 쓸 관찰이 없다는 표시다. 포트·인증·접근 차단에 따른 제품의 판정 규칙은 구현하지 않았다.
 
 코드를 `qualys_status_example.py`로 저장하고 `python -I -B qualys_status_example.py`로 실행한다. 파일·네트워크·제품 API에 접근하지 않는다. 함수는 알 수 없는 상태와 모순된 입력을 거부하고, 평가하지 못한 회차에는 마지막 상태를 보존한다.
 
@@ -88,9 +88,11 @@ for label, tested, detected in observations:
 
 ## 현재 호스트 데이터와 저장된 스캔을 나눠 읽는다
 
-VM 10.32의 보고서 템플릿 문서에서 **Host Based Findings**는 계정에서 호스트별로 색인한 최신 취약점 자료를 모은다. 기본 추세 비교는 각 호스트의 취약점에 대해 마지막 두 탐지의 상태를 대조한다. **Scan Based Findings**는 실행할 때 선택한 저장 스캔 결과를 사용하므로 그 시점의 대상을 보여 준다. 이전 스캔으로 만든 PDF와 현재 호스트 화면을 바로 대조하면 숫자가 달라질 수 있다.
+Qualys VM 최신 보고서 템플릿 문서에서 **Host Based Findings**는 계정에서 호스트별로 색인한 최신 취약점 자료를 모은다. 기본 추세 비교는 각 호스트의 취약점에 대해 마지막 두 탐지의 상태를 대조한다. **Scan Based Findings**는 실행할 때 선택한 저장 스캔 결과를 사용하므로 그 시점의 대상을 보여 준다. 이전 스캔으로 만든 PDF와 현재 호스트 화면을 바로 대조하면 숫자가 달라질 수 있다.
 
 보고서의 기간 조건도 읽어야 한다. 같은 문서의 `Only include scan results from the specified timeframe` 옵션은 지정한 기간에 수집된 자료만 포함하도록 제한한다. 이 조건을 사용하지 않으면 기간보다 전에 마지막으로 검사된 호스트의 기존 자료가 들어갈 수 있다. 보고서 생성일을 모든 자산의 검사일로 해석하면 오래된 Active나 Fixed를 최신 관찰로 오해하게 된다.
+
+Host Detection List API로 대조할 때는 `status` 매개변수도 확인한다. 생략하면 기본 응답에는 New·Active·Re-Opened만 포함되고 Fixed는 빠진다. 보고서나 API 응답에 행이 없다는 사실만으로 수정 여부를 판단하지 않는다.
 
 | 대조할 자료 | 먼저 맞출 조건 |
 | --- | --- |
@@ -98,15 +100,20 @@ VM 10.32의 보고서 템플릿 문서에서 **Host Based Findings**는 계정�
 | 두 번의 보고서 | Host Based/Scan Based 유형, 선택한 스캔, 기간과 상태 필터 |
 | 패치 작업과 Fixed 결과 | 조치 시각, 후속 검사 시각, 해당 항목의 Results |
 
-보고서 예시는 VM 10.32 문서의 기능명에 맞췄다. 실제 메뉴를 사용할 때는 계정에서 활성화된 VM/VMDR 앱과 보고서 접근 권한을 대조한다. 템플릿을 전역으로 배포하는 경우에는 별도 역할 조건도 있다. 해당 문서는 Manager와 Unit Manager에게 전역 설정을 허용하며 Unit Manager의 범위는 소속 비즈니스 단위다. 상태 이력을 읽는 일과 구독 전체의 템플릿을 바꾸는 일을 같은 권한으로 취급하지 않는다.
+보고서 기능명은 2026-10-18에 확인한 Qualys VM 최신 문서 기준이다. 실제 메뉴를 사용할 때는 계정에서 활성화된 VM/VMDR 앱과 보고서 접근 권한을 대조한다. 전역 템플릿 설정은 Manager와 Unit Manager에게 허용되며 Unit Manager의 범위는 소속 비즈니스 단위다.
 
 ## 재탐지 원인은 변경 전후의 Results로 좁힌다
 
-Re-Opened가 보이면 Fixed였던 결과와 재탐지한 결과에서 제품·버전·설정·응답 근거를 비교한다. 롤백이나 재설치로 취약한 버전이 돌아왔는지, 서비스가 이전 바이너리로 실행 중인지, 다른 경로의 설치본이 잡힌 것인지 등을 조사할 수 있다. 이들은 조사 후보이며 상태 이름만으로 원인을 확정할 수는 없다.
+Re-Opened가 보이면 Fixed였던 결과와 재탐지한 결과에서 제품·버전·설정·응답 근거를 비교한다. 롤백이나 재설치, 이전 바이너리로 실행 중인 서비스, 다른 경로의 설치본 등을 조사할 수 있다.
+
+Qualys의 Information on QIDs 문서는 레지스트리 접근 차단으로 QID가 Fixed로 바뀌고, 접근이 복구된 후 Re-Opened가 되는 사례도 설명한다. Results와 함께 IG QID 34011(방화벽 탐지), 42432(스캔 방해 가능성), 90195(Windows 레지스트리 키 접근 거부)를 살펴 이전 검사에서 탐지 근거를 수집하지 못했는지 조사한다. 상태 이름만으로 실제 수정이나 취약점 재발을 확정하지 않는다.
 
 먼저 자산 식별 정보, 수집 방식, 포트·프로토콜을 맞춰 같은 항목의 이력인지 살핀다. QID가 같아도 자산이나 탐지 위치가 다르면 한 줄로 합쳐서는 안 된다. 이력에는 상태명과 함께 이전 수정 근거, 새 탐지 근거, 각각의 관찰 시점을 남긴다.
 
 ## 참고 자료
 
 - [Qualys VMDR: Vulnerability Status Levels](https://docs.qualys.com/en/vmdr/latest/scans/vulnerability_status.htm)
-- [Qualys VM 10.32: Configure Report Templates](https://docs.qualys.com/en/vm/10.32.0.0/reports/scan_reports/win_scan_template.htm)
+- [Qualys VM: Authoritative Option for light port scans](https://docs.qualys.com/en/vm/latest/option_profiles/authoritative_scan_option.htm)
+- [Qualys VM: Information on QIDs](https://docs.qualys.com/en/vm/latest/knowledgebase/qids_created.htm)
+- [Qualys VM: Configure Report Templates](https://docs.qualys.com/en/vm/latest/reports/scan_reports/win_scan_template.htm)
+- [Qualys API: Host Detection List](https://docs.qualys.com/en/vm/qweb-all-api/mergedProjects/qapi-assets/host_lists/host_detection.htm)
