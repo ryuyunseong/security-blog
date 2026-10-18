@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { readPosts } from './daily-publish.mjs';
 import { articleDiagramFrame } from '../src/lib/article-diagrams.mjs';
 import { renderMobileArticleDiagram } from '../src/lib/article-diagrams-mobile.mjs';
+import { assessmentSeries } from '../src/lib/taxonomy.mjs';
 
 const base = process.env.BLOG_QA_ORIGIN || 'http://127.0.0.1:4322/security-blog/';
 const bundle = await readFile('.qa/daily-bundle.json', 'utf8').then(JSON.parse).catch(() => null);
@@ -12,7 +13,8 @@ const evidence = JSON.parse(await readFile('src/data/executions.json', 'utf8'));
 const visuals = JSON.parse(await readFile('src/data/article-visuals.json', 'utf8'));
 const slugs = bundle && process.env.BLOG_QA_ALL !== '1' ? bundle.articles.map((a) => a.slug) : posts
   .filter((p) => !p.draft && new Date(p.date) <= new Date()).map((p) => p.slug);
-const seriesCount = posts.filter((p) => !p.draft && new Date(p.date) <= new Date() && p.series === 'unix-2026').length;
+const published = posts.filter((p) => !p.draft && new Date(p.date) <= new Date());
+const seriesPages = assessmentSeries.filter((series) => published.some((post) => post.series === series.id));
 const browser = await chromium.launch({ headless: true,
   ...(process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE } : {}) });
 try {
@@ -24,9 +26,11 @@ try {
   const widths = [1440, 767, 390, 320];
   for (const width of widths) {
     await page.setViewportSize({ width, height: 1080 });
-    await page.goto(base + 'series/critical-infrastructure-unix-2026/');
-    assert.equal(await page.locator('.post-row').count(), seriesCount);
-    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
+    for (const series of seriesPages) {
+      await page.goto(base + `series/${series.route}/`);
+      assert.equal(await page.locator('.post-row').count(), published.filter((post) => post.series === series.id).length);
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)); checks++;
+    }
     for (const slug of slugs) {
       await page.goto(base + `posts/${slug}/`);
       assert.equal(await page.locator('h1').count(), 1);

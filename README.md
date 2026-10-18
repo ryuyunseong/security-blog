@@ -32,7 +32,7 @@ npm run verify
 4. 설명 그림과 실제 실행 기록을 등록하고, 관련 본문 사이에 배치 표식을 넣습니다. [그림·캡션 검토 순서](docs/article-media.md)로 본문·노드·캡션을 대조하고, 검토를 마친 글만 `draft: false`로 공개합니다.
 5. 위 검증과 화면 확인을 마친 뒤 커밋·푸시합니다.
 
-공개 카테고리는 주통기(`critical-infrastructure`)·Unix(`unix`)·애플리케이션 보안(`application-security`)·인프라 보안(`infrastructure`)·Qualys(`qualys`)·코딩 테스트(`coding-test`)입니다. 주통기는 `assessmentTarget`으로 점검 대상을 구분하며 공개 글이 있는 대상만 표시합니다. [분류 기준](docs/content-plan.md)을 참고하세요. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
+공개 카테고리는 주통기(`critical-infrastructure`)·Unix(`unix`)·애플리케이션 보안(`application-security`)·인프라 보안(`infrastructure`)·Qualys(`qualys`)·코딩 테스트(`coding-test`)입니다. 주통기는 `assessmentTarget`으로 점검 대상을 구분하며 공개 글이 있는 대상만 표시합니다. Unix 완료 후 Windows 서버부터 공식 가이드의 장 순서로 이어 쓰며 대상별 목록·연도별 목차는 첫 공개 글부터 자동 생성합니다. [대상 순서와 목차](docs/assessment-series.md), [분류 기준](docs/content-plan.md)을 참고하세요. 홈은 최근 8편, 전체 글 목록은 페이지당 12편을 보여 줍니다. 초안과 미래 날짜의 글은 페이지·목록·검색·RSS에서 제외됩니다. 미래 날짜의 글은 날짜가 지난 뒤 다시 빌드해야 공개됩니다. 공개 저장소의 초안 파일은 누구나 읽을 수 있으므로 비밀 자료를 넣지 않습니다.
 
 ## 그림과 실행 기록
 

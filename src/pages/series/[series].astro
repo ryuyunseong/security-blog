@@ -1,0 +1,28 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostList from '../../components/PostList.astro';
+import { getPosts } from '../../lib/posts';
+import { assessmentTargetPath, assessmentTargetLabel } from '../../lib/site';
+import { assessmentCatalog, assessmentSeries } from '../../lib/taxonomy.mjs';
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return assessmentSeries.filter((series) => posts.some((post) => post.data.series === series.id))
+    .map((series) => ({ params: { series: series.route }, props: { series } }));
+}
+const { series } = Astro.props;
+const target = assessmentCatalog.targets.find((item) => item.id === series.target)!;
+const label = assessmentTargetLabel(series.target);
+const posts = (await getPosts()).filter((post) => post.data.series === series.id)
+  .sort((a, b) => a.data.seriesOrder! - b.data.seriesOrder!);
+const codes = posts.map((post) => target.topics[post.data.seriesOrder! - 1].code);
+const range = codes.length > 1 ? `${codes[0]}~${codes.at(-1)}` : codes[0];
+---
+<BaseLayout title={series.title} description={`주요정보통신기반시설 ${label} 점검 ${range} ${posts.length}편을 가이드 순서로 읽습니다.`}>
+  <header class="page-heading"><a class="back-link" href={assessmentTargetPath(series.target)}>주통기 · {label}</a><h1>주요정보통신기반시설<br />{label} 점검 시리즈</h1><p>{series.year}년 KISA 가이드의 {label} 항목을 점검 절차와 예제 코드로 설명합니다.</p></header>
+  <section class="page-section" aria-labelledby="series-title">
+    <p class="notice">{range} · 총 {posts.length}편 · 가이드 항목순</p>
+    <div class="section-heading"><h2 id="series-title">점검 목차</h2><span class="count">{posts.length}편</span></div>
+    <PostList posts={posts} />
+    <p class="source-note">기준 자료: <a href="https://www.krcert.or.kr/kr/bbs/view.do?bbsId=B0000127&amp;menuNo=205021&amp;nttId=71928">KISA 주요정보통신기반시설 기술적 취약점 분석·평가 방법 상세가이드</a>. 세부 판단은 해당 문서와 사용하는 운영체제·버전을 함께 확인합니다.</p>
+  </section>
+</BaseLayout>

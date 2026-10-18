@@ -11,6 +11,7 @@ example: false
 
 <!-- 분류: 일반 Unix 글은 category: unix를 사용합니다. 주통기 Unix 글은 category: critical-infrastructure,
 assessmentTarget: unix, series: unix-2026, seriesOrder: 항목 번호를 지정합니다.
+다른 주통기 대상은 docs/assessment-series.md의 ID·가이드 순서를 사용하며 대상별 목록·목차가 자동 생성됩니다.
 자료구조·알고리즘 문제 풀이는 coding-test, 입력 처리 보안은 application-security로 분류합니다.
 -->
 

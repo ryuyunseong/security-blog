@@ -7,15 +7,17 @@ import { promisify } from 'node:util';
 import { pathToFileURL } from 'node:url';
 import { validateArticleLayout } from '../src/lib/article-layout.mjs';
 import { diagramTextLimits, validateDiagramNodes } from '../src/lib/diagram-spec.mjs';
-import { publicationCategory } from '../src/lib/taxonomy.mjs';
+import { publicationCategory, assessmentCatalog, classificationError } from '../src/lib/taxonomy.mjs';
 
 const exec = promisify(execFile);
 const root = resolve(process.cwd());
 const qa = join(root, '.qa');
-const topics = JSON.parse(await readFile(new URL('./unix-2026-topics.json', import.meta.url), 'utf8'));
+const catalog = assessmentCatalog;
 export const sourceHosts = ['www.kisa.kr', 'www.krcert.or.kr', 'docs.qualys.com', 'man7.org',
   'www.gnu.org', 'docs.python.org', 'www.openssh.com', 'www.freedesktop.org', 'documentation.ubuntu.com', 'docs.redhat.com',
-  'developer.mozilla.org', 'www.rfc-editor.org'];
+  'developer.mozilla.org', 'www.rfc-editor.org', 'learn.microsoft.com', 'support.microsoft.com',
+  'docs.oracle.com', 'dev.mysql.com', 'www.postgresql.org', 'httpd.apache.org', 'nginx.org',
+  'tomcat.apache.org', 'www.cisco.com', 'docs.vmware.com', 'techdocs.broadcom.com', 'docs.aws.amazon.com'];
 const image = 'python:3.12-slim';
 const digest = (s) => createHash('sha256').update(s).digest('hex');
 const normalized = (s) => s.normalize('NFKC').replace(/\s+/g, ' ').trim();
@@ -61,19 +63,31 @@ export async function readPosts() {
       assessmentTarget: field(source, 'assessmentTarget'), series: field(source, 'series'), order: Number(field(source, 'seriesOrder')) || null, source };
   }));
 }
+export function nextAssessment(posts, now = new Date()) {
+  const published = posts.filter((p) => !p.draft && new Date(p.date) <= now);
+  const progress = catalog.targets.map((target) => {
+    const entries = published.filter((p) => p.series === target.series);
+    const orders = entries.map((p) => p.order).sort((a, b) => a - b);
+    requireThat(entries.every((p) => !classificationError({ ...p, seriesOrder: p.order })) &&
+      orders.every((order, i) => order === i + 1) && orders.length <= target.topics.length, `${target.label} 시리즈 번호·분류 대조 필요`);
+    return { target: target.id, series: target.series, completed: orders.length, total: target.topics.length };
+  });
+  const pending = progress.find((item) => item.completed < item.total);
+  const target = pending ? catalog.targets.find((item) => item.id === pending.target) : null;
+  return { assessment: target ? { target: target.id, label: target.label, series: target.series, year: target.year } : null,
+    next: target ? target.topics[pending.completed] : null, progress };
+}
 export function makePlan(posts, mode, now = new Date()) {
   requireThat(['verify', 'preview', 'publish'].includes(mode), '실행 모드 오류');
   const day = seoulDay(now), requested = [], withheld = [];
-  const published = posts.filter((p) => !p.draft && new Date(p.date) <= now);
-  const orders = published.filter((p) => p.series === 'unix-2026').map((p) => p.order).sort((a, b) => a - b);
-  requireThat(orders.every((order, i) => order === i + 1) && orders.length <= 67, '시리즈 번호 대조 필요');
-  const next = topics.topics[orders.length] ?? null;
-  const today = (kind) => posts.some((p) => p.category === publicationCategory(kind) && (kind !== 'unix' || (p.series === 'unix-2026' && p.assessmentTarget === 'unix')) &&
+  const { assessment, next, progress } = nextAssessment(posts, now);
+  const today = (kind) => posts.some((p) => p.category === publicationCategory(kind) && (kind !== 'assessment' ||
+    catalog.targets.some((target) => p.series === target.series && p.assessmentTarget === target.id)) &&
     Number.isFinite(Date.parse(p.date)) && seoulDay(new Date(p.date)) === day);
   const allowedTime = mode !== 'publish' || publicationWindow(now);
-  if (allowedTime && next && (mode === 'preview' || !today('unix'))) {
-    if (posts.some((p) => p.series === 'unix-2026' && p.order === next.order)) withheld.push({ kind: 'unix', reason: '다음 번호의 기존 초안 확인 필요' });
-    else requested.push('unix');
+  if (allowedTime && next && (mode === 'preview' || !today('assessment'))) {
+    if (posts.some((p) => p.series === assessment.series && p.order === next.order)) withheld.push({ kind: 'assessment', reason: '다음 항목의 기존 초안·예약 글 확인 필요' });
+    else requested.push('assessment');
   }
   if (allowedTime && (mode === 'preview' || !today('qualys'))) requested.push('qualys');
   const local = new Date(now.getTime() + 9 * 3600000), weekday = local.getUTCDay();
@@ -89,9 +103,9 @@ export function makePlan(posts, mode, now = new Date()) {
     const last = (kind) => Math.max(0, ...practical.filter((p) => p.category === publicationCategory(kind)).map((p) => Date.parse(p.date)));
     requested.push(last('web') <= last('infrastructure') ? 'web' : 'infrastructure');
   }
-  return { version: 1, mode, day, requested, withheld, next,
-    unixTitle: next ? `U-${String(next.order).padStart(2, '0')}: ${next.title}` : null,
-    guideExcerpt: '', sourceHosts, guideUrl: topics.guideUrl, guidePage: topics.guidePage,
+  return { version: 2, mode, day, requested, withheld, assessment, next, progress,
+    assessmentTitle: next ? `${next.code}: ${next.title}` : null,
+    guideExcerpt: '', sourceHosts, guideUrl: catalog.guideUrl, guidePage: catalog.guidePage,
     inventory: posts.map(({ slug, title, category, assessmentTarget, series, date, draft, order }) => ({ slug, title, category, assessmentTarget, series, date, draft, order })) };
 }
 export function allowedUrl(value) {
@@ -129,14 +143,14 @@ export function pythonCode(body) {
 export function validateArticle(article, plan, posts) {
   keys(article, ['kind', 'slug', 'title', 'description', 'tags', 'body', 'visual', 'sources', 'scope', 'finding']);
   requireThat(plan.requested.includes(article.kind), '요청하지 않은 글 종류');
-  const prefix = article.kind === 'unix' ? `u-${String(plan.next.order).padStart(2, '0')}-` :
+  const prefix = article.kind === 'assessment' ? `${plan.next.code.toLowerCase()}-` :
     { qualys: 'qualys-', web: 'web-', infrastructure: 'infra-' }[article.kind];
   requireThat(typeof article.slug === 'string' && /^[a-z][a-z0-9-]{5,79}$/.test(article.slug) &&
     typeof prefix === 'string' && article.slug.startsWith(prefix),
   '글 경로 형식 오류');
   requireThat(!posts.some((p) => p.slug === article.slug || titleKey(p.title) === titleKey(article.title)), '기존 글과 경로 또는 제목 중복');
-  text(article.title, 8, 100, '제목'); text(article.description, 20, 200, '설명');
-  if (article.kind === 'unix') requireThat(article.title === plan.unixTitle, '공식 번호·제목 불일치');
+  text(article.title, 8, article.kind === 'assessment' ? 160 : 100, '제목'); text(article.description, 20, 200, '설명');
+  if (article.kind === 'assessment') requireThat(article.title === plan.assessmentTitle, '공식 코드·제목 불일치');
   requireThat(Array.isArray(article.tags) && article.tags.length >= 1 && article.tags.length <= 8 && article.tags.every((t) => typeof t === 'string' && /^[\p{L}\p{N}_ -]{1,30}$/u.test(t)), '태그 형식 오류');
   text(article.body, 2000, 24000, '본문'); text(article.scope, 20, 500, '실행 범위'); text(article.finding, 20, 500, '결과 해석');
   const code = pythonCode(article.body);
@@ -146,7 +160,7 @@ export function validateArticle(article, plan, posts) {
   requireThat(!/^(?:자료|문서) 확인일\s*:|^#{1,6} .*참고 자료.*\([^\n]*확인\)/m.test(prose), '확인일은 본문 대신 관리 메타데이터에 보관');
   requireThat(!/^---\s*$/m.test(prose) && !/<[!\/?A-Za-z]|!\[|(?:javascript|data|file|vbscript):/i.test(prose), '본문의 실행 가능 마크업 또는 외부 이미지 금지');
   requireThat(!/\]\s*(?:\(|\[)|^\s*\[[^\]]+\]:/m.test(prose), '본문 링크는 sources로 분리');
-  requireThat(article.kind === 'unix' || !posts.some((p) => substantiallySame(article.body, p.source)), '기존 본문과 중복');
+  requireThat(article.kind === 'assessment' || !posts.some((p) => substantiallySame(article.body, p.source)), '기존 본문과 중복');
   requireThat(!/sk-(?:proj-|svcacct-)?[A-Za-z0-9_-]{20,}|-----BEGIN .*PRIVATE KEY|gh[pousr]_[A-Za-z0-9]{20,}/.test(JSON.stringify(article)), '비밀 값 형태 감지');
   requireThat(!/ti\u0073tory|\uD2F0\uC2A4\uD1A0\uB9AC/i.test(JSON.stringify(article)), '사용하지 않는 외부 서비스 문구 감지');
   for (const match of prose.matchAll(/https?:\/\/[^\s)<>"']+/g)) allowedUrl(match[0]);
@@ -161,7 +175,7 @@ export function validateArticle(article, plan, posts) {
   }
   requireThat(urls.size === article.sources.length, '참고 문서 중복');
   requireThat(article.kind !== 'qualys' || [...urls].filter((u) => new URL(u).hostname === 'docs.qualys.com').length >= 2, 'Qualys 공식 근거 부족');
-  requireThat(article.kind !== 'unix' || [...urls].includes(topics.guidePage) || [...urls].includes(topics.guideUrl), 'KISA 원문 근거 누락');
+  requireThat(article.kind !== 'assessment' || [...urls].includes(catalog.guidePage) || [...urls].includes(catalog.guideUrl), 'KISA 원문 근거 누락');
   const visual = article.visual;
   keys(visual, ['title', 'kind', 'nodes', 'note', 'caption']);
   text(visual.title, 5, 28, '도식 제목'); text(visual.note, 10, 60, '도식 설명'); text(visual.caption, 16, 150, '도식 캡션');
@@ -173,6 +187,7 @@ export function validateArticle(article, plan, posts) {
   return code;
 }
 export function validateEnvelope(payload, plan) {
+  requireThat(plan.version === 2, '생성 계획 버전 불일치. 새 계획으로 다시 작성 필요');
   keys(payload, ['articles', 'withheld']);
   requireThat(Array.isArray(payload.articles) && Array.isArray(payload.withheld) && payload.articles.length + payload.withheld.length === plan.requested.length, '하루 글 수 불일치');
   const kinds = [...payload.articles, ...payload.withheld].map((p) => p.kind).sort();
@@ -181,7 +196,7 @@ export function validateEnvelope(payload, plan) {
 }
 async function verifySources(article, plan) {
   for (const source of article.sources) {
-    const sourceText = [topics.guidePage, topics.guideUrl].includes(source.url) ? normalized(plan.guideExcerpt) : await fetchText(source.url);
+    const sourceText = [catalog.guidePage, catalog.guideUrl].includes(source.url) ? normalized(plan.guideExcerpt) : await fetchText(source.url);
     requireThat(sourceText.includes(normalized(source.quote)), '공식 문서에서 근거를 대조하지 못함');
   }
 }
@@ -224,7 +239,8 @@ async function appendEntries(path, additions) {
 export function renderPost(article, plan, date) {
   const lines = ['---', `title: ${JSON.stringify(article.title)}`, `description: ${JSON.stringify(article.description)}`,
     `date: ${JSON.stringify(date)}`, `sourcesChecked: ${JSON.stringify(plan.day)}`, `category: ${JSON.stringify(publicationCategory(article.kind))}`, `tags: ${JSON.stringify(article.tags)}`, 'draft: false', 'example: false'];
-  if (article.kind === 'unix') lines.push('assessmentTarget: "unix"', 'series: "unix-2026"', `seriesOrder: ${plan.next.order}`);
+  if (article.kind === 'assessment') lines.push(`assessmentTarget: ${JSON.stringify(plan.assessment.target)}`,
+    `series: ${JSON.stringify(plan.assessment.series)}`, `seriesOrder: ${plan.next.order}`);
   return lines.join('\n') + '\n---\n\n' + article.body.trim() + '\n\n## 참고 자료\n\n' +
     article.sources.map((source) => `- [${source.title}](${allowedUrl(source.url).href.replace(/\(/g, '%28').replace(/\)/g, '%29')})`).join('\n') + '\n';
 }
@@ -260,26 +276,25 @@ async function output(name, value) {
 async function prepare(mode) {
   const plan = makePlan(await readPosts(), mode);
   plan.baseSha = await git('rev-parse', 'HEAD');
-  if (plan.requested.includes('unix') || (mode === 'verify' && plan.next)) {
+  if (plan.requested.includes('assessment') || (mode === 'verify' && plan.next)) {
     try {
       // 공식 URL은 curl 요청에 HTTP 400을 반환해 Node 기본 HTTP 클라이언트를 쓴다.
       // TLS 검증은 유지하고 리디렉션·크기·파일 형식·해시를 모두 확인한다.
-      const response = await fetch(topics.guideUrl, { redirect: 'error', signal: AbortSignal.timeout(45000) });
+      const response = await fetch(catalog.guideUrl, { redirect: 'error', signal: AbortSignal.timeout(45000) });
       requireThat(response.ok, '공식 PDF HTTP 응답 확인 실패');
       const chunks = []; let size = 0;
       for await (const chunk of response.body) { size += chunk.length; requireThat(size <= 16 * 1024 * 1024, '공식 PDF 크기 초과'); chunks.push(chunk); }
       const pdf = Buffer.concat(chunks);
-      requireThat(pdf.subarray(0, 5).toString() === '%PDF-' && digest(pdf) === topics.guideSha256, '공식 가이드 파일 변경 확인 필요');
+      requireThat(pdf.subarray(0, 5).toString() === '%PDF-' && digest(pdf) === catalog.guideSha256, '공식 가이드 파일 변경 확인 필요');
       await writeFile(join(qa, 'guide.pdf'), pdf);
-      const last = topics.topics[plan.next.order]?.page - 1 || 173;
-      await exec('pdftotext', ['-f', String(plan.next.page), '-l', String(last), '-layout', join(qa, 'guide.pdf'), join(qa, 'guide-excerpt.txt')]);
+      await exec('pdftotext', ['-f', String(plan.next.page), '-l', String(plan.next.endPage), '-layout', join(qa, 'guide.pdf'), join(qa, 'guide-excerpt.txt')]);
       plan.guideExcerpt = (await readFile(join(qa, 'guide-excerpt.txt'), 'utf8')).slice(0, 32000);
-      requireThat(plan.guideExcerpt.includes(`U-${String(plan.next.order).padStart(2, '0')}`), '원문 항목 추출 실패');
+      requireThat(plan.guideExcerpt.includes(plan.next.pdfCode ?? plan.next.code), '원문 항목 추출 실패');
     } catch (error) {
       console.error(error.cause?.code ?? error.message);
       if (mode === 'verify') throw new Error('클라우드에서 2026 KISA PDF 다운로드·해시·항목 대조 실패');
-      plan.requested = plan.requested.filter((kind) => kind !== 'unix');
-      plan.withheld.push({ kind: 'unix', reason: '2026 공식 PDF 다운로드·해시·항목 대조 실패' });
+      plan.requested = plan.requested.filter((kind) => kind !== 'assessment');
+      plan.withheld.push({ kind: 'assessment', reason: '2026 공식 PDF 다운로드·해시·항목 대조 실패' });
     }
   }
   await saveJson(join(qa, 'daily-plan.json'), plan);
@@ -311,7 +326,7 @@ async function validate() {
 }
 async function publish() {
   const plan = await json(join(qa, 'daily-plan.json'));
-  requireThat(plan.mode === 'publish' && plan.day === seoulDay() && /^[a-f0-9]{40}$/.test(plan.baseSha), '발행 계획 오류');
+  requireThat(plan.version === 2 && plan.mode === 'publish' && plan.day === seoulDay() && /^[a-f0-9]{40}$/.test(plan.baseSha), '발행 계획 오류');
   requireThat(await git('rev-parse', 'HEAD') === plan.baseSha && (await git('ls-remote', 'origin', 'refs/heads/main')).split(/\s+/)[0] === plan.baseSha, '원격 main이 변경됨. 새 실행에서 다시 검증 필요');
   requireThat(!(await git('status', '--porcelain')), '발행 작업 폴더가 깨끗하지 않음');
   if (!plan.requested.length) { await output('sha', plan.baseSha); return; }

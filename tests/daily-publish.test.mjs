@@ -36,18 +36,20 @@ test('한국 날짜 경계와 오늘 글 중복을 함께 처리한다', () => {
   assert.equal(seoulDay(new Date('2026-10-16T14:59:59Z')), '2026-10-16');
   assert.equal(seoulDay(new Date('2026-10-16T15:00:00Z')), '2026-10-17');
   assert.equal(plan.next.order, 12);
-  assert.deepEqual(plan.requested, ['unix', 'qualys']);
+  assert.deepEqual(plan.requested, ['assessment', 'qualys']);
   assert.deepEqual(makePlan(baselinePosts, 'publish', new Date('2026-10-16T14:00:00Z')).requested, []);
   const draft = { ...posts.find((p) => p.order === 11), order: 12, draft: true, date: '2026-10-15T00:00:00Z' };
   const held = makePlan([...baselinePosts, draft], 'publish', now);
   assert.deepEqual(held.requested, ['qualys']);
-  assert.equal(held.withheld[0].kind, 'unix');
+  assert.equal(held.withheld[0].kind, 'assessment');
 });
-test('공식 Unix 67개 이후 번호를 만들지 않고 빠진 번호를 감지한다', () => {
+test('Unix 67개 완료 후 Windows 첫 항목으로 이어 가고 빠진 번호를 감지한다', () => {
   const all = Array.from({ length: 67 }, (_, i) => ({ slug: `u-${i + 1}`, title: '항목', category: 'critical-infrastructure', assessmentTarget: 'unix',
     series: 'unix-2026', order: i + 1, draft: false, date: '2026-01-01T00:00:00Z' }));
   const complete = makePlan(all, 'publish', now);
-  assert.equal(complete.next, null); assert.deepEqual(complete.requested, ['qualys', 'web']);
+  assert.equal(complete.assessment.target, 'windows');
+  assert.equal(complete.next.code, 'W-01');
+  assert.deepEqual(complete.requested, ['assessment', 'qualys', 'web']);
   assert.throws(() => makePlan(all.filter((p) => p.order !== 3), 'publish', now), /시리즈/);
   assert.throws(() => makePlan([...all, { ...all[0], order: 68 }], 'publish', now), /시리즈/);
 });
@@ -58,18 +60,18 @@ test('평일 18시 이전 발행을 막고 주말과 읽기 전용 preview를 �
   assert.equal(publicationWindow(after), true);
   assert.equal(publicationWindow(new Date('2026-10-17T00:00:00Z')), true);
   assert.deepEqual(makePlan(baselinePosts, 'publish', before).requested, []);
-  assert.deepEqual(makePlan(baselinePosts, 'publish', after).requested, ['unix', 'qualys']);
-  assert.deepEqual(makePlan(baselinePosts, 'preview', before).requested, ['unix', 'qualys']);
+  assert.deepEqual(makePlan(baselinePosts, 'publish', after).requested, ['assessment', 'qualys']);
+  assert.deepEqual(makePlan(baselinePosts, 'preview', before).requested, ['assessment', 'qualys']);
 });
 
 test('추가 실습은 수·토에 하루 한 편, 초안과 수동 글을 포함해 주 두 편까지만 계획한다', () => {
   const wed = new Date('2026-10-21T10:00:00Z');
-  assert.deepEqual(makePlan(baselinePosts, 'publish', wed).requested, ['unix', 'qualys', 'infrastructure']);
+  assert.deepEqual(makePlan(baselinePosts, 'publish', wed).requested, ['assessment', 'qualys', 'infrastructure']);
   const extra = (category, date) => ({ category, date, draft: true, title: '추가 실습 초안' });
-  assert.deepEqual(makePlan([...baselinePosts, extra('application-security', '2026-10-21T18:00:00+09:00')], 'publish', wed).requested, ['unix', 'qualys']);
+  assert.deepEqual(makePlan([...baselinePosts, extra('application-security', '2026-10-21T18:00:00+09:00')], 'publish', wed).requested, ['assessment', 'qualys']);
   const two = [...baselinePosts, extra('application-security', '2026-10-19T18:00:00+09:00'), extra('infrastructure', '2026-10-20T18:00:00+09:00')];
-  assert.deepEqual(makePlan(two, 'publish', wed).requested, ['unix', 'qualys']);
-  assert.deepEqual(makePlan(two, 'publish', new Date('2026-10-24T01:00:00Z')).requested, ['unix', 'qualys']);
+  assert.deepEqual(makePlan(two, 'publish', wed).requested, ['assessment', 'qualys']);
+  assert.deepEqual(makePlan(two, 'publish', new Date('2026-10-24T01:00:00Z')).requested, ['assessment', 'qualys']);
 });
 test('출처 URL은 HTTPS 공식 호스트로 제한하며 인증·내부 주소·개행을 거부한다', () => {
   assert.equal(allowedUrl('https://docs.qualys.com/en/vm/').hostname, 'docs.qualys.com');
@@ -82,6 +84,7 @@ test('생성 결과는 요청한 종류별 한 편 또는 명시적인 보류만
   assert.throws(() => validateEnvelope({ articles: [article(), article()], withheld: [] }, plan));
   assert.throws(() => validateEnvelope({ articles: [], withheld: [] }, plan));
   assert.throws(() => validateEnvelope({ articles: [], withheld: [], files: [] }, plan));
+  assert.throws(() => validateEnvelope({ articles: [], withheld: [] }, { ...plan, version: 1 }), /계획 버전/);
 });
 test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 블록을 차단한다', () => {
   assert.ok(validateArticle(article(), plan, otherPosts).includes('def compare'));
@@ -99,9 +102,10 @@ test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 �
   assert.throws(() => validateArticle({ ...article(), title: posts[0].title }, plan, posts));
 });
 test('번호·원문 출처·코드와 메타데이터의 조건을 검증한다', () => {
-  assert.throws(() => validateArticle({ ...article(), kind: 'unix', slug: 'u-12-session-timeout', title: 'U-12: 임의 제목' }, plan, baselinePosts), /공식/);
+  assert.throws(() => validateArticle({ ...article(), kind: 'assessment', slug: 'u-12-session-timeout', title: 'U-12: 임의 제목' }, plan, baselinePosts), /공식/);
   assert.throws(() => validateArticle({ ...article(), sources: [article().sources[0], article().sources[0]] }, plan, otherPosts), /중복/);
   assert.throws(() => validateArticle({ ...article(), tags: ['<script>'] }, plan, posts), /태그/);
+  assert.throws(() => validateArticle({ ...article(), title: '가'.repeat(101) }, plan, otherPosts), /제목/);
   const rendered = renderPost(article(), plan, '2026-10-17T09:01:00+09:00');
   assert.ok(rendered.includes('category: "qualys"') && rendered.includes('sourcesChecked: "2026-10-17"'));
   assert.ok(rendered.includes('[VM/VMDR: Manage Tags]'));

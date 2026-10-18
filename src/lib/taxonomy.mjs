@@ -1,3 +1,6 @@
+import assessmentCatalog from '../data/assessment-catalog-2026.json' with { type: 'json' };
+
+export { assessmentCatalog };
 export const categories = [
   { id: 'critical-infrastructure', label: '주통기', description: '주요정보통신기반시설 점검 항목을 대상과 기준 연도별로 정리합니다.' },
   { id: 'unix', label: 'Unix', description: 'Unix·Linux의 파일 권한, 계정과 셸 동작을 다룹니다.' },
@@ -7,10 +10,13 @@ export const categories = [
   { id: 'coding-test', label: '코딩 테스트', description: '자료구조·알고리즘 문제를 풀고 복잡도와 경계 조건을 검증합니다.' },
 ];
 
-// 다른 점검 대상은 첫 글을 추가할 때 등록한다. 글이 없는 대상은 노출하지 않는다.
-export const assessmentTargets = [{ id: 'unix', label: 'Unix' }];
-export const assessmentSeries = [{ id: 'unix-2026', target: 'unix', year: 2026, maxOrder: 67,
-  title: '2026 주요정보통신기반시설 · Unix', route: 'critical-infrastructure-unix-2026' }];
+// 공식 가이드의 장 순서를 사용하고, 공개 글이 있는 대상·목차만 노출한다.
+export const assessmentTargets = assessmentCatalog.targets.map(({ id, label }) => ({ id, label }));
+export const assessmentSeries = assessmentCatalog.targets.map((target) => ({
+  id: target.series, target: target.id, year: target.year, maxOrder: target.topics.length,
+  title: `${target.year} 주요정보통신기반시설 · ${target.label}`,
+  route: `critical-infrastructure-${target.id}-${target.year}`,
+}));
 export const categoryLabel = (id) => categories.find((item) => item.id === id)?.label ?? id;
 export const assessmentTargetLabel = (id) => assessmentTargets.find((item) => item.id === id)?.label ?? id;
 export const populatedAssessmentTargets = (posts) => assessmentTargets.filter((target) =>
@@ -30,5 +36,5 @@ export function classificationError(data) {
 }
 
 // 생성 작업의 kind와 독자가 보는 카테고리는 별도로 관리한다.
-export const publicationCategory = (kind) => ({ unix: 'critical-infrastructure', web: 'application-security',
+export const publicationCategory = (kind) => ({ assessment: 'critical-infrastructure', web: 'application-security',
   qualys: 'qualys', infrastructure: 'infrastructure' })[kind];

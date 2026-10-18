@@ -17,7 +17,6 @@ export const seriesInfo = (id: string) => {
   const series = assessmentSeries.find((item) => item.id === id);
   return series ? { ...series, path: path(`series/${series.route}/`) } : undefined;
 };
-export const unixSeries = seriesInfo('unix-2026')!;
 export const tagPath = (tag: string) => path(`tags/${encodeURIComponent(tag)}/`);
 export const postPath = (id: string) => path(`posts/${id.split('/').map(encodeURIComponent).join('/')}/`);
 export const dateLabel = (date: Date) => new Intl.DateTimeFormat('sv-SE', { timeZone: 'Asia/Seoul' }).format(date).replaceAll('-', '.');

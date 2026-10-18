@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { resolve, relative, sep } from 'node:path';
 import { articleDiagramFrame } from '../src/lib/article-diagrams.mjs';
-import { categories, assessmentTargetLabel } from '../src/lib/taxonomy.mjs';
+import { categories, assessmentTargets, assessmentSeries, assessmentTargetLabel } from '../src/lib/taxonomy.mjs';
 import { readPosts } from './daily-publish.mjs';
 
 const root = resolve('dist');
@@ -113,7 +113,32 @@ for (const category of categories) {
     check(entries.find((entry) => entry.url === `${base}posts/${post.slug}/`)?.category === label, `검색 카테고리 불일치: ${post.slug}`);
   }
 }
-check(!sitemap.includes(`${base}categories/web/`) && sitemap.includes(`${base}categories/critical-infrastructure/unix/`), '이전 카테고리 색인 제외·점검 대상 색인 오류');
+check(!sitemap.includes(`${base}categories/web/`), '이전 카테고리가 사이트맵에 포함됨');
+const listedPostUrls = (source) => [...source.matchAll(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]);
+for (const target of assessmentTargets) {
+  const path = `categories/critical-infrastructure/${target.id}/`;
+  const expected = content.filter((post) => post.category === 'critical-infrastructure' && post.assessmentTarget === target.id)
+    .map((post) => `${base}posts/${post.slug}/`);
+  check(htmlFiles.includes(resolve(root, path, 'index.html')) === Boolean(expected.length), `점검 대상의 빈 페이지·목록 누락: ${target.id}`);
+  check(sitemap.includes(`${base}${path}`) === Boolean(expected.length), `점검 대상 사이트맵 불일치: ${target.id}`);
+  if (!expected.length) continue;
+  const source = await readFile(resolve(root, path, 'index.html'), 'utf8');
+  const actual = listedPostUrls(source);
+  check(actual.length === expected.length && expected.every((url) => actual.includes(url)), `대상별 목록의 누락·혼입: ${target.id}`);
+}
+for (const series of assessmentSeries) {
+  const path = `series/${series.route}/`;
+  const expected = content.filter((post) => post.series === series.id).sort((a, b) => a.order - b.order)
+    .map((post) => `${base}posts/${post.slug}/`);
+  check(htmlFiles.includes(resolve(root, path, 'index.html')) === Boolean(expected.length), `시리즈의 빈 목차·페이지 누락: ${series.id}`);
+  check(sitemap.includes(`${base}${path}`) === Boolean(expected.length), `시리즈 사이트맵 불일치: ${series.id}`);
+  if (!expected.length) continue;
+  const source = await readFile(resolve(root, path, 'index.html'), 'utf8');
+  check(JSON.stringify(listedPostUrls(source)) === JSON.stringify(expected), `대상별 목차의 순서·누락·혼입: ${series.id}`);
+  check(source.includes(`href="${base}categories/critical-infrastructure/${series.target}/"`), `목차의 점검 대상 연결 오류: ${series.id}`);
+  const target = await readFile(resolve(root, `categories/critical-infrastructure/${series.target}/index.html`), 'utf8');
+  check(target.includes(`href="${base}${path}"`), `대상 목록의 시리즈 목차 연결 오류: ${series.id}`);
+}
 const archiveFiles = htmlFiles.filter((file) => relative(root, file).startsWith(`archive${sep}`));
 const listed = [];
 for (const file of archiveFiles) {

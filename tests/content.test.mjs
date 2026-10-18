@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
 import { read, publishedPosts } from './content-helpers.mjs';
+import { assessmentSeries } from '../src/lib/taxonomy.mjs';
 
 const baseline = JSON.parse(await read('src/data/content-baseline.json'));
 const posts = await publishedPosts();
@@ -16,9 +17,13 @@ test('기존 글의 발행일을 보존하며 새 공개 글도 허용한다', (
 });
 
 test('주통기 번호가 중복되거나 빠지지 않고 최초 10편의 순서를 보존한다', () => {
-  const series = posts.filter((post) => post.series === 'unix-2026').sort((a, b) => a.seriesOrder - b.seriesOrder);
+  for (const definition of assessmentSeries) {
+    const series = posts.filter((post) => post.series === definition.id).sort((a, b) => a.seriesOrder - b.seriesOrder);
+    assert.ok(series.length <= definition.maxOrder);
+    assert.deepEqual(series.map((post) => post.seriesOrder), Array.from({ length: series.length }, (_, index) => index + 1));
+  }
+  const series = posts.filter((post) => post.series === 'unix-2026');
   assert.ok(series.length >= 10);
-  assert.deepEqual(series.map((post) => post.seriesOrder), Array.from({ length: series.length }, (_, index) => index + 1));
   for (const original of baseline.posts.filter((post) => post.seriesOrder)) {
     assert.equal(series.find((post) => post.slug === original.slug)?.seriesOrder, original.seriesOrder);
   }

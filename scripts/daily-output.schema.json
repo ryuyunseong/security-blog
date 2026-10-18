@@ -7,7 +7,7 @@
     "withheld": {"type": "array", "items": {
       "type": "object", "additionalProperties": false,
       "required": ["kind", "reason"],
-      "properties": {"kind": {"enum": ["unix", "qualys", "web", "infrastructure"]}, "reason": {"type": "string"}}
+      "properties": {"kind": {"enum": ["assessment", "qualys", "web", "infrastructure"]}, "reason": {"type": "string"}}
     }}
   },
   "$defs": {
@@ -15,7 +15,7 @@
       "type": "object", "additionalProperties": false,
       "required": ["kind", "slug", "title", "description", "tags", "body", "visual", "sources", "scope", "finding"],
       "properties": {
-        "kind": {"enum": ["unix", "qualys", "web", "infrastructure"]},
+        "kind": {"enum": ["assessment", "qualys", "web", "infrastructure"]},
         "slug": {"type": "string"}, "title": {"type": "string"},
         "description": {"type": "string"},
         "tags": {"type": "array", "items": {"type": "string"}},
