@@ -2,7 +2,8 @@
 title: "Qualys 인증 스캔 결과 읽기: 로그인 성공과 점검 완료의 차이"
 description: "인증 보고서의 Passed·Failed 상태와 파일·레지스트리 접근 거부를 나타내는 QID를 확인합니다."
 date: "2026-10-15T20:25:07+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-18T14:52:18+09:00"
+sourcesChecked: "2026-10-18"
 category: "qualys"
 tags: ["Qualys", "인증스캔", "QID"]
 draft: false
@@ -31,6 +32,8 @@ Unix는 SSH 서비스와 접속 경로를, Windows는 선택한 인증 방식에
 
 VM/VMDR에서는 `Reports > New > Authentication Report`에서 인증 보고서를 생성할 수 있다. 개별 스캔 결과의 `Appendix`도 함께 확인한다. 상태를 읽기 전에 대상 호스트와 인증 종류, 결과가 어느 스캔 시점에 해당하는지부터 맞춘다. 실패 원인은 보고서의 `Cause`에서 확인한다.
 
+Active Directory 인스턴스가 발견되면 OS 인증과 인스턴스별 인증을 따로 기록한다. 요약과 부록의 인증 성공 건수가 다를 때는 집계 단위부터 맞춘다.
+
 | 표시 | 의미 | 이후 확인 |
 | --- | --- | --- |
 | `Passed` | 해당 인증이 성공했다. | 필요한 정보 접근과 실제 평가 범위 |
@@ -42,7 +45,9 @@ VM/VMDR에서는 `Reports > New > Authentication Report`에서 인증 보고서�
 
 `Not Attempted`도 현재 프로필의 설정만으로 설명되지 않을 수 있다. 보고서에는 인증한 이력이 없거나 호스트 스캔 데이터가 삭제된 경우도 반영될 수 있다. 이번 스캔의 미시도 원인은 해당 실행 결과와 설정을 함께 확인해 좁힌다.
 
-`Additional Host Info`를 포함하면 `Last Auth`와 `Last Success`를 확인할 수 있다. 전자는 인증을 사용해 마지막으로 검사한 시각, 후자는 마지막 인증 성공 시각이다. 과거의 성공을 이번 스캔의 성공으로 읽지 않도록 두 값을 비교한다. 인증 이력은 Host ID에 연결되며, 인증 기록을 수정해도 과거 결과가 바뀌지는 않는다.
+`Additional Host Info`를 포함하면 `Last Auth`와 `Last Success`를 확인할 수 있다. 전자는 인증을 사용한 마지막 검사에서 상태가 Passed 또는 Failed로 갱신된 시각, 후자는 마지막 인증 성공 시각이다. `Last Success`가 `N/A`면 인증을 켠 검사에서 성공한 이력이 없다는 뜻이다. 두 값을 비교해 과거의 성공을 이번 결과로 읽지 않도록 한다.
+
+인증 이력은 Host ID에 연결돼 인증 기록을 수정·삭제해도 과거 결과가 남는다. 인증 기록의 요약이 `Failing`인데 현재 자산에는 실패가 없다면, 과거에 연결됐던 자산의 실패 이력도 살핀다.
 
 [[diagram]]
 
@@ -67,7 +72,9 @@ QID는 Qualys의 검사 항목 식별자다. 인증 관련 QID 중에는 취약�
 
 ## 권한 부족과 인증 실패는 결과가 다르다
 
-VM 취약점 스캔은 로그인에 성공한 뒤 권한이 부족하더라도 읽을 수 있는 정보로 평가를 진행할 수 있다. 이 경우 일부 검사가 빠지거나 정보 부족으로 미탐·오탐이 생길 수 있다. 로그인 자체에 실패하면 비인증 스캔을 수행하므로, 작업 종료 상태와 인증 평가 결과를 따로 읽어야 한다.
+VM 취약점 스캔은 로그인에 성공한 뒤 권한이 부족하더라도 읽을 수 있는 정보로 평가를 진행할 수 있다. 이 경우 일부 검사가 빠지거나 정보 부족으로 미탐·오탐이 생길 수 있다. 로그인 실패 시에는 일반적으로 비인증 스캔을 수행한다.
+
+Windows 인증 기록의 `SMB signing required` 또는 최소 SMB 버전 요구사항을 대상이 충족하지 못하면 인증 실패와 함께 호스트 스캔도 수행되지 않는다. 작업 종료 상태와 인증 결과뿐 아니라 실제 평가 여부도 확인한다.
 
 컴플라이언스 검사는 다르다. 공식 문서는 인증에 실패하면 평가 데이터를 수집하지 못한다고 설명한다. VM에서 비인증 결과를 얻었다는 경험을 컴플라이언스 검사에 그대로 적용하지 않고, 제품과 검사 종류를 먼저 확인한다.
 
@@ -89,3 +96,9 @@ Unix VM은 root 권한이 일률적인 필수 조건은 아니다. 다만 운영
 
 - [인증 성공 여부 확인](https://docs.qualys.com/en/vm/latest/authentication/verify_authentication_vm.htm)
 - [인증 보고서 상태 읽기](https://docs.qualys.com/en/vm/latest/module_pc/report/win_authentication_report.htm)
+- [인증 상태 QID 목록](https://docs.qualys.com/en/vm/latest/authentication/auth_stat_qids.htm)
+- [Windows 인증·접근 거부 QID](https://docs.qualys.com/en/vm/latest/authentication/windows/windows_auth_qids.htm)
+- [옵션 프로필과 인증 테스트](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)
+- [권한 부족과 검사 종류별 동작](https://docs.qualys.com/en/vm/latest/authentication/insufficient_privileges.htm)
+- [Unix 최소 권한 옵션](https://docs.qualys.com/en/vm/latest/option_profiles/attempt_least_privilege.htm)
+- [Windows 인증 설정과 SMB 조건](https://docs.qualys.com/en/vm/latest/authentication/win_windows_record.htm)
