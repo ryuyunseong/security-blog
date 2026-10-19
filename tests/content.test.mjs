@@ -29,7 +29,7 @@ test('주통기 번호가 중복되거나 빠지지 않고 최초 10편의 순�
   }
 });
 
-test('기존 코드 95개를 개수·순서·본문 해시로 대조한다', () => {
+test('기존 글의 코드 97개를 개수·순서·본문 해시로 대조한다', () => {
   let count = 0;
   for (const original of baseline.posts) {
     const source = posts.find((post) => post.slug === original.slug)?.source;
@@ -40,5 +40,5 @@ test('기존 코드 95개를 개수·순서·본문 해시로 대조한다', () 
     count += blocks.length;
     assert.ok(!source.includes('<script'));
   }
-  assert.equal(count, 95);
+  assert.equal(count, 97);
 });

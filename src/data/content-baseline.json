@@ -8,8 +8,8 @@
       "date": "2026-10-06T21:54:44+09:00",
       "category": "unix",
       "seriesOrder": 1,
-      "codeCount": 4,
-      "codeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729"
+      "codeCount": 6,
+      "codeSha256": "8baa224c41f79bd8f9ab1c0c0ef304dc0fa0d5fa092a81c2cbbfd0df2adef8b2"
     },
     {
       "slug": "tls-version-and-identity",

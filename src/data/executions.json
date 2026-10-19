@@ -343,10 +343,10 @@
           "stderr": ""
         }
       ],
-      "sourceCodeSha256": "6ba6bd29dd905de61679719d9aa1a47011395b0f74b5d0925c2f887b19d86729",
-      "recordedAt": "2026-10-16T12:29:49.824195+00:00",
+      "sourceCodeSha256": "8baa224c41f79bd8f9ab1c0c0ef304dc0fa0d5fa092a81c2cbbfd0df2adef8b2",
+      "recordedAt": "2026-10-19T20:53:27.348890+00:00",
       "environment": {
-        "os": "Ubuntu 24.04.4 LTS / WSL 2",
+        "os": "Ubuntu 24.04.4 LTS / WSL 2 (private mount namespace)",
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
