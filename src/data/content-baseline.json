@@ -41,8 +41,8 @@
       "title": "umask 설정과 실제 파일 권한",
       "date": "2026-10-08T21:26:23+09:00",
       "category": "unix",
-      "codeCount": 3,
-      "codeSha256": "73c53e8804dc85b6b8966088935449edeab22ef354dfc077b907a3e7dc9e1639"
+      "codeCount": 6,
+      "codeSha256": "49bc99c778d19e48eb1d5b2dee3c2a5ce241fa801206b2a9e1e113c79840f571"
     },
     {
       "slug": "u-03-account-lockout",

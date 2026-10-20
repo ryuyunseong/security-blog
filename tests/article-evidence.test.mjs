@@ -13,6 +13,15 @@ const executions = JSON.parse(await read('src/data/executions.json'));
 const contexts = JSON.parse(await read('src/data/execution-context.json'));
 const published = (await publishedPosts()).map((post) => post.slug).sort();
 
+test('umask 다운로드 파일은 본문 실습 코드와 같아 별도 수정본이 뒤처지지 않는다', async () => {
+  const source = (await read('src/content/posts/umask-and-file-permissions.md')).replace(/\r\n/g, '\n');
+  const shell = [...source.matchAll(/^```bash\n([\s\S]*?)\n```\s*$/gm)]
+    .map((match) => match[1]).find((code) => code.startsWith("python3 - <<'PY'"));
+  assert.ok(shell);
+  const download = (await read('public/downloads/umask_lab.sh')).replace(/\r\n/g, '\n');
+  assert.equal(download, `#!/usr/bin/env bash\nset -euo pipefail\n\n${shell}\n`);
+});
+
 test('공개 글에 설명 도식을 제공하고 외부 실행 코드가 없는 SVG로 보관한다', async () => {
   assert.deepEqual(Object.keys(visuals).sort(), published);
   for (const [slug, visual] of Object.entries(visuals)) {

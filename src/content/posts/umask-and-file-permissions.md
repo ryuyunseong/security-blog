@@ -2,7 +2,8 @@
 title: "umask 설정과 실제 파일 권한"
 description: "요청 모드·umask·기본 ACL이 새 파일의 실제 권한에 미치는 영향을 비교합니다."
 date: "2026-10-08T21:26:23+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21"
+sourcesChecked: "2026-10-21"
 category: "unix"
 tags: ["umask", "권한", "ACL"]
 draft: false
@@ -30,7 +31,7 @@ umask는 새 파일이나 디렉터리를 만들 때 제외할 권한 비트를 
 
 Linux, Python 3.7 이상, `libacl` 공유 라이브러리와 POSIX ACL을 지원하는 쓰기 가능한 로컬 경로가 필요하다. 자식 프로세스의 umask를 조회하려면 `/proc/self/status`에 `Umask` 항목이 있어야 한다. 이 항목은 Linux 4.7부터 제공된다. 별도 Python 패키지는 사용하지 않는다.
 
-일반 사용자로 본인 소유의 실습 경로에서 아래 코드 전체를 셸에 붙여넣는다. 현재 경로에 무작위 이름의 임시 폴더를 만들고 권한을 `0700`으로 제한한다. 변경 대상은 그 폴더와 내부 파일뿐이며, 생성한 파일을 실행하지 않는다. umask는 별도 Python 프로세스 안에서만 바꾸고 종료 전에 복원한다.
+일반 사용자로 아래 코드 전체를 셸에 붙여넣거나 [umask_lab.sh를 내려받아](../../downloads/umask_lab.sh) `bash umask_lab.sh`로 실행한다. 기본적으로 `/tmp`에 무작위 이름의 임시 폴더를 만들고 권한을 `0700`으로 제한한다. 스크립트 파일이나 현재 작업 경로가 Windows 드라이브에 있어도 실습 파일은 `/tmp`에 만든다. 변경 대상은 그 폴더와 내부 파일뿐이며, 생성한 파일을 실행하지 않는다. umask는 별도 Python 프로세스 안에서만 바꾸고 종료 전에 복원한다.
 
 상위 경로의 기본 ACL이 상속됐을 수 있으므로 새 실습 폴더의 기본 ACL만 지워 비교 조건을 맞춘다. ACL 실험은 별도 하위 폴더에서 진행한다.
 
@@ -38,6 +39,7 @@ Linux, Python 3.7 이상, `libacl` 공유 라이브러리와 POSIX ACL을 지원
 python3 - <<'PY'
 import ctypes
 import ctypes.util
+import errno
 import os
 import stat
 import subprocess
@@ -70,7 +72,14 @@ for key, (args, result) in signatures.items():
 
 def acl_error(label):
     code = ctypes.get_errno()
-    raise OSError(code, f"{label}: {os.strerror(code)}")
+    detail = os.strerror(code)
+    if code in {errno.ENOTSUP, errno.EOPNOTSUPP}:
+        detail += (
+            ". 이 실습 경로에서 POSIX ACL 작업을 지원하지 않는다. "
+            "findmnt로 경로의 파일시스템을 확인하고, ACL을 지원하는 "
+            "경로를 UMASK_LAB_TMPDIR로 지정해 다시 실행한다."
+        )
+    raise OSError(code, f"{label}: {detail}")
 
 
 def set_default(path, text):
@@ -118,10 +127,11 @@ def create_file(path, requested):
 
 
 # 독립된 단일 스레드 실습 프로세스 안에서만 umask를 바꾼다.
+lab_base = os.environ.get("UMASK_LAB_TMPDIR", "/tmp")
 original_umask = os.umask(0o077)
 try:
-    # 현재 작업 경로 아래에 무작위 이름의 임시 폴더를 만든다.
-    with tempfile.TemporaryDirectory(prefix="neoflux-umask-", dir=".") as folder:
+    # 현재 경로나 TMPDIR 대신 지정한 실습 경로 아래에만 폴더를 만든다.
+    with tempfile.TemporaryDirectory(prefix="neoflux-umask-", dir=lab_base) as folder:
         root = Path(folder)
         os.chmod(root, 0o700)
         # 상위 임시 경로에서 상속됐을 수 있는 기본 ACL을 실습 폴더에서만 지운다.
@@ -216,11 +226,40 @@ finally:
     os.umask(original_umask)
 PY
 ```
-`Operation not supported`가 나오면 해당 경로에서 ACL 조건을 재현하지 못한 것이다. ACL을 지원하는 실습 경로로 옮겨 실행한다. 오류나 예상값 불일치가 나오면 결과를 성공으로 취급하지 않는다.
+코드는 ACL을 설정·조회하지 못하거나 예상 권한과 다르면 오류로 종료한다. ACL 실험을 건너뛰고 성공으로 표시하지 않는다.
+
+## WSL에서 ACL 작업을 지원하지 않는다는 오류가 날 때
+
+이전 코드처럼 `dir="."`으로 현재 작업 경로에 임시 폴더를 만들면 다음 오류가 날 수 있다.
+
+```text
+OSError: [Errno 95] 실습 폴더 기본 ACL 초기화 실패: Operation not supported
+```
+
+`acl_delete_def_file()`은 디렉터리의 기본 ACL을 지우는 함수다. 기본 ACL이 없다는 것 자체는 오류가 아니다. 위의 `ENOTSUP` 오류는 해당 파일시스템에서 이 ACL 작업을 지원하지 않을 때 발생한다. umask 계산에 들어가기 전의 실패다.
+
+WSL에서 `/mnt/c`나 `/mnt/d` 아래에 실습 폴더를 만들었다면 Windows 드라이브의 권한 처리 방식을 살펴봐야 한다. 현재 경로와 실제 실습 파일을 만들 `/tmp`를 각각 조회한다.
+
+```bash
+pwd -P
+findmnt -T "$PWD" -o TARGET,SOURCE,FSTYPE,OPTIONS
+findmnt -T /tmp -o TARGET,SOURCE,FSTYPE,OPTIONS
+```
+
+Windows 드라이브는 `drvfs`로 표시되거나, WSL 2에서 `FSTYPE`이 `9p`이고 마운트 옵션에 `aname=drvfs`가 나타날 수 있다. 경로 이름만 보고 단정하지 말고 `SOURCE`와 `OPTIONS`도 함께 읽는다. Linux 쪽 경로가 `ext4`라고 표시돼도 ACL 실습까지 가능한지는 코드의 설정·조회 결과로 판단한다.
+
+수정한 코드는 기본 위치를 `/tmp`로 고정해 현재 경로와 `TMPDIR` 환경 변수의 영향을 받지 않는다. `/tmp`에서도 같은 ACL 오류가 나면 다른 쓰기 가능한 Linux 경로를 조회한 뒤 지정할 수 있다. 다음 예시는 홈 디렉터리 안에 실습용 임시 폴더를 만드는 방법이다.
+
+```bash
+findmnt -T "$HOME" -o TARGET,SOURCE,FSTYPE,OPTIONS
+UMASK_LAB_TMPDIR="$HOME" bash umask_lab.sh
+```
+
+`UMASK_LAB_TMPDIR`로 지정한 경로에서도 ACL 작업을 지원해야 한다. 이 경로 자체의 권한이나 ACL은 바꾸지 않고 새 임시 폴더 안에서만 실험한다. `sudo`로 실행해도 파일시스템의 ACL 미지원 문제가 해결되는 것은 아니다.
 
 ## 실행 결과 확인하기
 
-파일은 `0666`, 디렉터리는 `0777`로 생성을 요청했다. 생성 후 모드와 ACL을 읽어 비교한 값은 아래 표와 같다.
+검증한 WSL 2 환경에서는 Windows 드라이브의 `9p` 경로에서 스크립트를 실행했고, 실습 파일은 `/tmp`의 `ext4` 파일시스템에 만들었다. 파일은 `0666`, 디렉터리는 `0777`로 생성을 요청했다. 생성 후 모드와 ACL을 읽어 비교한 값은 아래 표와 같다.
 
 | 부모 디렉터리의 기본 ACL | umask | 파일 권한 | 디렉터리 권한 |
 | --- | --- | --- | --- |
@@ -280,6 +319,8 @@ umask는 프로세스의 속성이며 자식 프로세스에 상속된다. 로�
 - [Linux ACL, acl(5)](https://man7.org/linux/man-pages/man5/acl.5.html)
 - [Linux ACL, acl_set_file(3)](https://man7.org/linux/man-pages/man3/acl_set_file.3.html)
 - [Linux ACL, acl_delete_def_file(3)](https://man7.org/linux/man-pages/man3/acl_delete_def_file.3.html)
+- [util-linux, findmnt(8)](https://man7.org/linux/man-pages/man8/findmnt.8.html)
+- [Microsoft Learn, WSL 파일 권한](https://learn.microsoft.com/en-us/windows/wsl/file-permissions)
 - [Python, os](https://docs.python.org/3/library/os.html)
 - [Python, tempfile](https://docs.python.org/3/library/tempfile.html)
 - [Python, ctypes](https://docs.python.org/3/library/ctypes.html)
