@@ -53,6 +53,15 @@ try {
         const answers = page.locator('details.study-answer');
         assert.equal(await answers.count(), 5, `${slug}: 문제별 정답 5개`);
         assert.equal(await page.locator('details.study-answer[open]').count(), 0, `${slug}: 정답 기본 접힘`);
+        const placement = await page.locator('.prose').evaluate((prose) => [...prose.querySelectorAll('h3')]
+          .filter((heading) => /^문제 [1-5]\. /.test(heading.textContent))
+          .map((heading) => {
+            let node = heading.nextElementSibling;
+            while (node && !node.matches('h2,h3,details.study-answer')) node = node.nextElementSibling;
+            const number = heading.textContent.match(/^문제 ([1-5])/)[1];
+            return node?.matches('details.study-answer') && node.querySelector('summary')?.textContent === `문제 ${number} 정답·해설 보기`;
+          }));
+        assert.deepEqual(placement, Array(5).fill(true), `${slug}: 각 문제 바로 아래의 해설`);
         for (const answer of await answers.all()) {
           assert.equal(await answer.locator('h3').isVisible(), false, `${slug}: 초기 정답 숨김`);
           const id = await answer.locator('h3').getAttribute('id');

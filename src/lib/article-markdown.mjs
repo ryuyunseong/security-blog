@@ -4,6 +4,16 @@ import { escapeXml } from './core.mjs';
 export const articleMarkdownOptions = { shikiConfig: { themes: { light: 'github-dark', dark: 'github-dark' } } };
 let processor;
 
+/** @param {Array<{type:string,html?:string}>} blocks @returns {Set<string>} */
+export function studyAnswerHeadingIds(blocks) {
+  const ids = new Set();
+  for (const block of blocks) {
+    if (block.type !== 'markdown') continue;
+    for (const match of (block.html ?? '').matchAll(/<details\b[^>]*\bclass="study-answer"[^>]*>\s*<summary>[\s\S]*?<\/summary>\s*<h[2-6]\b[^>]*\bid="([^"]+)"/g)) ids.add(match[1]);
+  }
+  return ids;
+}
+
 /** @param {import('./article-layout.mjs').ArticleBlock[]} blocks @param {{depth:number,slug:string}[]} headings */
 export async function renderArticleBlocks(blocks, headings) {
   processor ??= createSatteriMarkdownProcessor(articleMarkdownOptions);

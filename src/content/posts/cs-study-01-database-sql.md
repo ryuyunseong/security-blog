@@ -233,7 +233,7 @@ price
 
 ## 6. 직접 풀어 보는 연습문제 5개
 
-모두 자체 제작한 연습문제다. 각 문제는 처음의 books 다섯 행에서 시작하며 앞 문제의 수정·삭제 결과를 이어받지 않는다. 먼저 답을 적고 다음 절의 해설과 대조해 보자.
+모두 자체 제작한 연습문제다. 각 문제는 처음의 books 다섯 행에서 시작하며 앞 문제의 수정·삭제 결과를 이어받지 않는다. 먼저 답을 적은 뒤 각 문제 아래의 정답·해설을 펼쳐 비교해 보자.
 
 ### 문제 1. 기본 개념
 
@@ -243,6 +243,17 @@ price
 2. 테이블의 한 열은 도서 한 권의 모든 정보를 뜻한다.
 3. 기본 키는 한 행을 식별하며, 여러 열을 조합해 지정할 수도 있다.
 4. SELECT 결과의 행은 ORDER BY가 없어도 기본 키 오름차순으로 보장된다.
+
+<details class="study-answer">
+<summary>문제 1 정답·해설 보기</summary>
+
+### 문제 1: ③
+
+<div id="7-정답과-상세-해설"></div>
+
+기본 키는 행을 식별하며 하나의 열 또는 여러 열의 조합으로 지정할 수 있다. ①의 DBMS는 관리 소프트웨어이고 SQL은 언어다. ②에서 도서 한 권 전체에 해당하는 것은 행이다. ④처럼 정렬 조건이 없는 결과를 기본 키 순서라고 단정할 수는 없다.
+
+</details>
 
 ### 문제 2. 조건과 정렬
 
@@ -254,48 +265,6 @@ FROM books
 WHERE stock > 0 AND price <= 22000
 ORDER BY price ASC, book_id ASC;
 ```
-
-### 문제 3. NULL 비교
-
-아래 두 조회가 각각 반환하는 book_id는 무엇인가? 행이 없으면 “0행”이라고 답한다.
-
-```sql
-SELECT book_id FROM books WHERE category = NULL ORDER BY book_id;
-```
-
-```sql
-SELECT book_id FROM books WHERE category IS NULL ORDER BY book_id;
-```
-
-### 문제 4. 수정 뒤 삭제
-
-두 변경 문장을 차례로 실행한 뒤 마지막 SELECT의 결과를 적어 보자.
-
-```sql
-UPDATE books SET stock = stock - 1 WHERE book_id = 1;
-DELETE FROM books WHERE stock = 0;
-
-SELECT book_id, stock FROM books ORDER BY book_id;
-```
-
-### 문제 5. 행 수와 값의 수
-
-다음 결과의 row_count와 category_count를 각각 구하고, 두 값이 달라지는 이유를 설명해 보자.
-
-```sql
-SELECT COUNT(*) AS row_count, COUNT(category) AS category_count FROM books;
-```
-
-## 7. 정답과 상세 해설
-
-<details class="study-answer">
-<summary>문제 1 정답·해설 보기</summary>
-
-### 문제 1: ③
-
-기본 키는 행을 식별하며 하나의 열 또는 여러 열의 조합으로 지정할 수 있다. ①의 DBMS는 관리 소프트웨어이고 SQL은 언어다. ②에서 도서 한 권 전체에 해당하는 것은 행이다. ④처럼 정렬 조건이 없는 결과를 기본 키 순서라고 단정할 수는 없다.
-
-</details>
 
 <details class="study-answer">
 <summary>문제 2 정답·해설 보기</summary>
@@ -313,6 +282,18 @@ SQL 첫걸음 | 20000
 2번 도서는 재고가 0이고, 5번 도서는 가격이 22000을 넘는다. 남은 1·3·4번을 가격 오름차순으로 정렬하면 3·1·4번이다. 경계값 22000은 `<=`에 포함된다.
 
 </details>
+
+### 문제 3. NULL 비교
+
+아래 두 조회가 각각 반환하는 book_id는 무엇인가? 행이 없으면 “0행”이라고 답한다.
+
+```sql
+SELECT book_id FROM books WHERE category = NULL ORDER BY book_id;
+```
+
+```sql
+SELECT book_id FROM books WHERE category IS NULL ORDER BY book_id;
+```
 
 <details class="study-answer">
 <summary>문제 3 정답·해설 보기</summary>
@@ -334,6 +315,17 @@ NULL과 일반 비교 연산을 하면 결과는 UNKNOWN이 된다. NULL인 행�
 
 </details>
 
+### 문제 4. 수정 뒤 삭제
+
+두 변경 문장을 차례로 실행한 뒤 마지막 SELECT의 결과를 적어 보자.
+
+```sql
+UPDATE books SET stock = stock - 1 WHERE book_id = 1;
+DELETE FROM books WHERE stock = 0;
+
+SELECT book_id, stock FROM books ORDER BY book_id;
+```
+
 <details class="study-answer">
 <summary>문제 4 정답·해설 보기</summary>
 
@@ -351,6 +343,14 @@ book_id | stock
 UPDATE가 바꾸는 행은 book_id가 1인 도서 한 건이다. 재고는 3에서 2로 줄어든다. 이어서 DELETE가 재고 0인 행을 지우므로 처음부터 재고가 없던 2번 도서만 제거된다. 나머지 도서의 재고는 유지된다.
 
 </details>
+
+### 문제 5. 행 수와 값의 수
+
+다음 결과의 row_count와 category_count를 각각 구하고, 두 값이 달라지는 이유를 설명해 보자.
+
+```sql
+SELECT COUNT(*) AS row_count, COUNT(category) AS category_count FROM books;
+```
 
 <details class="study-answer">
 <summary>문제 5 정답·해설 보기</summary>
@@ -572,7 +572,9 @@ if __name__ == '__main__':
 
 실행 기록은 2026-10-20에 남긴 결과를 보존했다. SQL 방언과 버전이 바뀌면 자료형·NULL·행 수 제한의 동작도 해당 DBMS에서 다시 시험해야 한다.
 
-## 8. 시험 직전에 기억할 내용
+<div id="8-시험-직전에-기억할-내용"></div>
+
+## 7. 시험 직전에 기억할 내용
 
 - **DB는 데이터의 모음, DBMS는 관리 소프트웨어, SQL은 언어다.** 행은 레코드, 열은 항목이다.
 - 기본 키는 행을 식별한다. 여러 열을 조합할 수 있고, 제목처럼 중복될 수 있는 값과 구분한다.
