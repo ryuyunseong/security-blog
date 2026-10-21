@@ -4,14 +4,16 @@ import contexts from '../data/execution-context.json';
 import { dateLabel } from '../lib/site';
 interface Props { id: string; run: number; fold?: boolean; }
 const { id, run: runNumber, fold = false } = Astro.props;
-type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string };
 type Environment = typeof executions.environment & { bash?: string };
+type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string;
+  recordedAt?: string; environment?: Environment; scope?: string; finding?: string };
 const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment; reproduction?: 'article' }>)[id];
 const context = contexts[id as keyof typeof contexts];
 const environment: Environment = record?.environment ?? executions.environment;
 const recordedAt = record?.recordedAt ?? executions.recordedAt;
 const isBashExample = id === 'u-12-session-timeout';
 const run = record?.runs[runNumber - 1];
+const runEnvironment = run?.environment ?? environment;
 const titleId = runNumber === 1 ? 'execution-title' : `execution-title-${runNumber}`;
 const output = run?.stdout.trimEnd() ?? '';
 const lines = output.split('\n');
@@ -30,6 +32,11 @@ const lines = output.split('\n');
     </details>
     {run.stderr && <><p>표준 오류 출력</p><pre class="execution-output" tabindex="0"><code>{run.stderr.trimEnd()}</code></pre></>}
   </details>
+  {run.recordedAt && run.recordedAt !== recordedAt && <details class="execution-metadata">
+    <summary>이 실행의 환경과 범위</summary>
+    <p class="execution-environment"><time datetime={run.recordedAt}>{dateLabel(new Date(run.recordedAt))}</time> · {runEnvironment.os} · {runEnvironment.bash ? `Bash ${runEnvironment.bash}` : `Python ${runEnvironment.python}`}</p>
+    {run.scope && <p>{run.scope}</p>}{run.finding && <p class="execution-finding">{run.finding}</p>}
+  </details>}
   {runNumber === 1 && <details class="execution-metadata"><summary>실행 환경과 확인 범위</summary>
     <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · {isBashExample ? `Bash ${environment.bash}` : `Python ${environment.python}`}</p>
     {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
