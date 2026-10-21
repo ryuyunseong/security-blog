@@ -10,9 +10,27 @@
 | infrastructure | 시스템·네트워크 설정과 통신 |
 | qualys | Qualys 기능과 공식 문서 해설 |
 | coding-test | 자료구조·알고리즘 문제 풀이 |
+| cs-study | 전산·NCS 개념과 연습문제 |
 
 `title`, `description`, `date`, `category`, `tags`가 기본 메타데이터입니다. 날짜는 `2026-10-17T09:00:00+09:00`처럼 시간대를 포함합니다. `sourcesChecked`는 참고 문서 확인 날짜입니다.
 
 주통기 글은 `assessmentTarget`, `series`, 숫자 `seriesOrder`를 사용합니다. Unix 예시는 `assessmentTarget: unix`, `series: unix-2026`입니다. 대상·연도별로 번호순 목차가 생성됩니다. [주통기 항목 데이터](assessment-series.md)에 대상 ID와 범위가 있습니다.
 
 `draft: true`와 미래 날짜 글은 페이지·검색·RSS에서 제외됩니다. 날짜가 지난 글은 다시 빌드한 시점에 반영됩니다. 홈은 최근 8편, 전체 목록은 페이지당 12편이며 글이 없는 대상은 표시되지 않습니다.
+
+## 정답과 해설 접기
+
+전산·NCS 글의 `정답과 해설` 절에서 문제별로 펼치는 형식입니다. `open` 속성이 없으면 처음에는 접혀 있습니다. 빈 줄을 두면 내부 제목·문단·코드도 Markdown으로 렌더링됩니다.
+
+```html
+<details class="study-answer">
+<summary>문제 1 정답·해설 보기</summary>
+
+### 문제 1: 정답
+
+풀이 내용
+
+</details>
+```
+
+이 절의 하위 제목은 목차에서 제외됩니다. 기존 해설 제목의 앵커로 이동하면 해당 문제를 펼쳐 보여 줍니다.

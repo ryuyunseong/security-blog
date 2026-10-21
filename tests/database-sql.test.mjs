@@ -4,8 +4,26 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { read, publishedPosts } from './content-helpers.mjs';
 import { categories, classificationError } from '../src/lib/taxonomy.mjs';
+import { renderArticleBlocks } from '../src/lib/article-markdown.mjs';
 
 const slug = 'cs-study-01-database-sql';
+
+test('전산·NCS 해설은 문제별 기본 접힘을 유지하고 내부 Markdown을 보존한다', async () => {
+  for (const post of (await publishedPosts()).filter((item) => item.category === 'cs-study')) {
+    const answers = [...post.source.matchAll(/<details\b([^>]*\bclass="study-answer"[^>]*)>([\s\S]*?)<\/details>/g)];
+    assert.equal(answers.length, 5, post.slug);
+    for (const [index, answer] of answers.entries()) {
+      assert.ok(!/\bopen(?:\s|=|$)/.test(answer[1]), post.slug);
+      assert.match(answer[2], new RegExp(`<summary>문제 ${index + 1} 정답·해설 보기</summary>`));
+    }
+  }
+  const source = '<details class="study-answer">\n<summary>문제 1 정답·해설 보기</summary>\n\n### 문제 1: ③\n\n선택한 이유\n\n```text\n5 | 4\n```\n\n</details>';
+  const [rendered] = await renderArticleBlocks([{ type: 'markdown', text: source }], [{ depth: 3, slug: 'original-answer-anchor' }]);
+  assert.match(rendered.html, /<details class="study-answer">/);
+  assert.ok(!/<details\b[^>]*\bopen\b/.test(rendered.html));
+  assert.ok(rendered.html.includes('<h3 id="original-answer-anchor">문제 1: ③</h3>'));
+  assert.ok(rendered.html.includes('선택한 이유') && rendered.html.includes('5 | 4'));
+});
 
 test('전산·NCS 글은 별도 카테고리를 사용하고 다섯 문제와 해설을 보존한다', async () => {
   const post = (await publishedPosts()).find((item) => item.slug === slug);

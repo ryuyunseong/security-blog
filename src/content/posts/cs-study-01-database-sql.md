@@ -288,9 +288,17 @@ SELECT COUNT(*) AS row_count, COUNT(category) AS category_count FROM books;
 
 ## 7. 정답과 상세 해설
 
+<details class="study-answer">
+<summary>문제 1 정답·해설 보기</summary>
+
 ### 문제 1: ③
 
 기본 키는 행을 식별하며 하나의 열 또는 여러 열의 조합으로 지정할 수 있다. ①의 DBMS는 관리 소프트웨어이고 SQL은 언어다. ②에서 도서 한 권 전체에 해당하는 것은 행이다. ④처럼 정렬 조건이 없는 결과를 기본 키 순서라고 단정할 수는 없다.
+
+</details>
+
+<details class="study-answer">
+<summary>문제 2 정답·해설 보기</summary>
 
 ### 문제 2: 파이썬 기초, SQL 첫걸음, 운영체제 노트
 
@@ -303,6 +311,11 @@ SQL 첫걸음 | 20000
 ```
 
 2번 도서는 재고가 0이고, 5번 도서는 가격이 22000을 넘는다. 남은 1·3·4번을 가격 오름차순으로 정렬하면 3·1·4번이다. 경계값 22000은 `<=`에 포함된다.
+
+</details>
+
+<details class="study-answer">
+<summary>문제 3 정답·해설 보기</summary>
 
 ### 문제 3: 첫 조회는 0행, 두 번째는 4
 
@@ -319,6 +332,11 @@ book_id
 
 NULL과 일반 비교 연산을 하면 결과는 UNKNOWN이 된다. NULL인 행도 `category = NULL` 조건을 참으로 만들지 못한다. WHERE는 참인 행만 남기므로 첫 조회는 0행이고, `IS NULL`을 쓴 두 번째 조회는 4번을 반환한다.
 
+</details>
+
+<details class="study-answer">
+<summary>문제 4 정답·해설 보기</summary>
+
 ### 문제 4: 1번의 재고는 2, 2번 도서는 삭제
 
 ```text
@@ -332,6 +350,11 @@ book_id | stock
 
 UPDATE가 바꾸는 행은 book_id가 1인 도서 한 건이다. 재고는 3에서 2로 줄어든다. 이어서 DELETE가 재고 0인 행을 지우므로 처음부터 재고가 없던 2번 도서만 제거된다. 나머지 도서의 재고는 유지된다.
 
+</details>
+
+<details class="study-answer">
+<summary>문제 5 정답·해설 보기</summary>
+
 ### 문제 5: row_count는 5, category_count는 4
 
 ```text
@@ -341,6 +364,8 @@ row_count | category_count
 ```
 
 전체 행은 다섯 개지만 4번 도서의 category가 NULL이다. `COUNT(*)`는 그 행까지 세고 `COUNT(category)`는 제외한다. 이 문제에서는 중복 제거를 지시하지 않았으므로 분류 값이 같더라도 NULL이 아니면 각각 한 번씩 센다.
+
+</details>
 
 ## 전체 예제를 한 파일로 실행하기
 

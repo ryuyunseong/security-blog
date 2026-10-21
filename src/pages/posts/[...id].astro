@@ -15,7 +15,11 @@ export async function getStaticPaths() {
 }
 const { post } = Astro.props;
 const { headings } = await render(post);
-const contents = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+let inStudyAnswers = false;
+const contents = headings.filter((heading) => {
+  if (heading.depth === 2) inStudyAnswers = post.data.category === 'cs-study' && /정답.*해설/.test(heading.text);
+  return heading.depth === 2 || (heading.depth === 3 && !inStudyAnswers);
+});
 const hasExecution = Object.hasOwn(executions.posts, post.id);
 const visual = visuals[post.id as keyof typeof visuals];
 const record = executions.posts[post.id as keyof typeof executions.posts];
@@ -49,6 +53,18 @@ const series = post.data.series ? seriesInfo(post.data.series) : undefined;
   </article>
   <p id="copy-status" class="visually-hidden" role="status"></p>
   <script>
+    function revealStudyAnswer() {
+      let id;
+      try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }
+      const target = document.getElementById(id);
+      const answer = target?.closest<HTMLDetailsElement>('details.study-answer');
+      if (!answer) return;
+      answer.open = true;
+      target?.scrollIntoView();
+    }
+    window.addEventListener('hashchange', revealStudyAnswer);
+    revealStudyAnswer();
+
     document.querySelectorAll<HTMLElement>('.prose pre:not(.execution-command):not(.execution-output)').forEach((pre) => {
       const code = pre.querySelector('code');
       if (!code || !navigator.clipboard) return;

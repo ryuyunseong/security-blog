@@ -49,6 +49,18 @@ try {
       });
       assert.deepEqual(duplicateIds, [], `${slug}: 중복 앵커`);
       const source = posts.find((post) => post.slug === slug).source;
+      if (posts.find((post) => post.slug === slug).category === 'cs-study') {
+        const answers = page.locator('details.study-answer');
+        assert.equal(await answers.count(), 5, `${slug}: 문제별 정답 5개`);
+        assert.equal(await page.locator('details.study-answer[open]').count(), 0, `${slug}: 정답 기본 접힘`);
+        for (const answer of await answers.all()) {
+          assert.equal(await answer.locator('h3').isVisible(), false, `${slug}: 초기 정답 숨김`);
+          const id = await answer.locator('h3').getAttribute('id');
+          assert.equal(await page.locator('.toc a').evaluateAll((links, target) => links.filter((link) => decodeURIComponent(link.hash.slice(1)) === target).length, id), 0, `${slug}: 목차 정답 미노출`);
+          await answer.locator(':scope > summary').click();
+          assert.equal(await answer.locator('h3').isVisible(), true, `${slug}: 정답 펼치기`);
+        }
+      }
       const expectedCode = [...source.matchAll(/^```[^\n]*\n([\s\S]*?)\n```\s*$/gm)].map((m) => m[1].trimEnd());
       const renderedCode = await page.locator('.prose pre:not(.execution-command):not(.execution-output) > code').allTextContents();
       assert.deepEqual(renderedCode.map((code) => code.trimEnd()), expectedCode, `${slug}: 코드 원문 보존`);
