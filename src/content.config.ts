@@ -11,7 +11,7 @@ const posts = defineCollection({
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     sourcesChecked: z.coerce.date().optional(),
-    category: z.enum(['critical-infrastructure', 'unix', 'application-security', 'infrastructure', 'cve', 'qualys', 'coding-test']),
+    category: z.enum(['critical-infrastructure', 'unix', 'application-security', 'infrastructure', 'cve', 'qualys', 'coding-test', 'cs-study']),
     assessmentTarget: z.string().regex(/^[a-z][a-z0-9-]{0,39}$/).optional(),
     tags: z.array(z.string().trim().min(1).max(30).regex(/^[\p{L}\p{N}_ -]+$/u)).min(1).max(8),
     draft: z.boolean().default(true),

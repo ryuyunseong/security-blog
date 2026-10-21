@@ -1,8 +1,8 @@
 # 보안 노트
 
-주요정보통신기반시설 점검과 Unix·애플리케이션·인프라 보안을 공부하며 정리한 글입니다. Qualys 기능 해설과 코딩 테스트 풀이도 다룹니다.
+주요정보통신기반시설 점검과 Unix·애플리케이션·인프라 보안을 공부하며 정리한 글입니다. Qualys 기능 해설, 코딩 테스트 풀이와 전산·NCS 학습 예제도 다룹니다.
 
-[블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/)
+[블로그](https://ryuyunseong.github.io/security-blog/) · [주통기 시리즈](https://ryuyunseong.github.io/security-blog/series/critical-infrastructure-unix-2026/) · [전산·NCS](https://ryuyunseong.github.io/security-blog/categories/cs-study/)
 
 ## 로컬 실행
 
