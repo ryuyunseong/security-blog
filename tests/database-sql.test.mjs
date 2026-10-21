@@ -1,7 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { readFile } from 'node:fs/promises';
+import { readFile, mkdtemp, mkdir, copyFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { read, publishedPosts } from './content-helpers.mjs';
 import { categories, classificationError } from '../src/lib/taxonomy.mjs';
 import { renderArticleBlocks, studyAnswerHeadingIds } from '../src/lib/article-markdown.mjs';
@@ -72,4 +75,53 @@ test('SQL 전체 예제 다운로드와 본문은 같은 원본이며 개별 실
   assert.match(record.runs[0].stdout, /^q3-equal: \[\]$/m);
   assert.match(record.runs[0].stdout, /^q3-is: \[\[4\]\]$/m);
   assert.match(record.runs[0].stdout, /^q5: \[\[5, 4\]\]$/m);
+});
+
+test('SQL 실습은 사전 DB 없이 실행되고 기록은 코드 옆에 생성하며 기존 기록을 덮어쓰지 않는다', async () => {
+  const directory = await mkdtemp(join(tmpdir(), 'sql study '));
+  const scriptFolder = join(directory, 'download files');
+  const workingFolder = join(directory, 'working folder');
+  const script = join(scriptFolder, '01-database-sql.py');
+  const proofPath = join(scriptFolder, '01-database-sql.verification.json');
+  const python = process.platform === 'win32' ? 'python' : 'python3';
+  const run = (...options) => spawnSync(python, ['-I', '-B', '-X', 'utf8', script, ...options], {
+    cwd: workingFolder, encoding: 'utf8', timeout: 15000,
+  });
+  try {
+    await mkdir(scriptFolder);
+    await mkdir(workingFolder);
+    await copyFile(new URL('../public/downloads/01-database-sql.py', import.meta.url), script);
+    const result = run('--record');
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(result.stderr, '');
+    assert.match(result.stdout, /^SQL 결과 22건 및 제약 조건 3건 통과/m);
+    const bytes = await readFile(proofPath);
+    const proof = JSON.parse(bytes.toString('utf8'));
+    assert.equal(proof.cases.length, 22);
+    assert.equal(proof.constraints.length, 3);
+    assert.ok(Number.isFinite(Date.parse(proof.recordedAt)));
+    assert.ok(proof.environment.python && proof.environment.sqlite);
+    assert.equal(proof.sourceCodeSha256, createHash('sha256').update(await readFile(script)).digest('hex'));
+    assert.deepEqual(proof.cases.find((item) => item.id === 'default').rows, [[null, 0]]);
+    assert.deepEqual(proof.cases.find((item) => item.id === 'binding-input').rows, []);
+    assert.deepEqual(proof.cases.find((item) => item.id === 'all-update').rows, [[5]]);
+    assert.deepEqual(proof.cases.find((item) => item.id === 'all-delete').rows, [[0]]);
+    assert.deepEqual(proof.cases.find((item) => item.id === 'drop').rows, []);
+    assert.deepEqual(proof.constraints.map((item) => item.id), ['duplicate-primary-key', 'null-title', 'negative-price']);
+    assert.ok(proof.constraints.every((item) => item.exception === 'IntegrityError'));
+    await assert.rejects(readFile(join(workingFolder, '01-database-sql.verification.json')), { code: 'ENOENT' });
+
+    const repeated = run('--record');
+    assert.equal(repeated.status, 1);
+    assert.match(repeated.stdout, /^SQL 결과 22건 및 제약 조건 3건 통과/m);
+    assert.match(repeated.stderr, /FileExistsError/);
+    assert.deepEqual(await readFile(proofPath), bytes);
+
+    const displayOnly = run();
+    assert.equal(displayOnly.status, 0, displayOnly.stderr);
+    assert.equal(displayOnly.stdout, result.stdout);
+    assert.deepEqual(await readFile(proofPath), bytes);
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
 });

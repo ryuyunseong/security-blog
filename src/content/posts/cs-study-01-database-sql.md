@@ -2,6 +2,7 @@
 title: "데이터베이스·SQL 기초: SELECT, NULL, 데이터 변경"
 description: "가상 도서 목록으로 SELECT·NULL·데이터 변경을 실행하고, 직접 만든 다섯 문제의 정답과 SQLite 결과를 비교합니다."
 date: "2026-10-21T18:52:52+09:00"
+updated: "2026-10-21T21:21:09+09:00"
 sourcesChecked: "2026-10-21"
 category: "cs-study"
 tags: ["전산", "NCS", "SQL", "데이터베이스", "SQLite"]
@@ -61,6 +62,12 @@ FROM 테이블
 
 예제는 외부 연결 없이 메모리 데이터베이스에서 실행했다. 실행 환경은 Python 3.12.1의 sqlite3 모듈, SQLite 3.43.1이며 실행일은 2026-10-20이다. 아래 예제와 뒤의 문제는 각각 처음의 도서 5건에서 독립적으로 시작한다.
 
+Python의 `sqlite3` 표준 모듈을 사용하므로 별도 DB 서버·로그인 계정·SQLite 명령행 프로그램은 필요하지 않다. 먼저 [01-database-sql.py](../../downloads/01-database-sql.py)를 내려받아 빈 실습 폴더에 저장한다. 터미널의 작업 폴더를 그 위치로 옮긴 뒤 `python -I -B -X utf8 01-database-sql.py`로 실행한다. Linux·WSL에서 명령 이름이 `python3`라면 그 부분만 바꾼다. 파일 이름 뒤에 `.txt`가 붙지 않았는지도 살펴본다.
+
+`python --version`으로 Python을, `python -c "import sqlite3; print(sqlite3.sqlite_version)"`으로 연결된 SQLite 버전을 조회할 수 있다. 이 글의 실행 기록은 Python 3.12 환경에서 남겼다. 브라우저의 코드 복사 버튼은 코드를 복사할 뿐 실행하지 않으며, SQL 블록을 Python 프롬프트나 PowerShell에 그대로 입력하는 방식도 아니다.
+
+전체 파일이 초기 테이블과 다섯 행을 직접 만들기 때문에 `.db` 파일이나 `books` 테이블을 미리 준비하지 않는다. SQL만 개별 실행하는 경우에는 SQLite 연결에서 4-1의 생성·삽입 문장부터 실행해야 한다. 수정·삭제한 뒤 다음 문제를 풀 때는 초기 다섯 행으로 다시 시작한다. 같은 연결에 CREATE TABLE을 반복하면 이미 테이블이 있다는 오류가 나므로, 초기화 없이 이어 실행한 결과와 구별한다.
+
 ### 4-1. 테이블을 만들고 다섯 행 넣기
 
 ```sql
@@ -85,6 +92,8 @@ VALUES
 `TEXT`는 문자열, `INTEGER`는 정수에 사용했다. SQLite의 일반 테이블은 유연한 자료형 규칙을 적용하므로 INTEGER 선언 하나가 모든 잘못된 문자열 입력을 거부한다고 생각하면 안 된다. 아래 `NOT NULL`은 NULL을, `CHECK (price >= 0)`는 음수 가격을 제한하는 별도 조건이다.
 
 `DEFAULT 0`은 INSERT에서 재고 열을 생략했을 때 쓸 값이다. NULL을 명시적으로 입력하는 것과는 다르다. 문자열은 작은따옴표로 감싸고, 값이 없음을 나타내는 NULL에는 따옴표를 붙이지 않는다.
+
+CREATE TABLE은 열과 제약 조건을 정의하고, 이어지는 INSERT는 명시한 열 순서에 맞춰 다섯 행을 넣는다. 이 두 문장은 아래 표를 자동으로 출력하지는 않는다. 전체 실행 파일의 `base` 조회가 `SELECT * FROM books ORDER BY book_id`로 초기 자료를 읽어 대조한다.
 
 생성 직후의 `books`는 다음과 같다. NULL 표시는 미입력 상태를 나타내며 실제로 “NULL”이라는 네 글자를 저장한 것이 아니다.
 
@@ -188,9 +197,13 @@ book_id | title | stock
 
 INSERT는 6번 도서를 추가하고, UPDATE는 그 도서의 재고를 2로 바꾼다. DELETE는 2번 도서만 지운다. 이 세 문장이 테이블의 구조를 바꾸는 것은 아니다.
 
+다섯 행으로 시작해 한 행을 추가하고 다른 한 행을 지웠으므로 최종 행 수는 다시 5다. book_id 2가 사라지고 6이 들어왔다는 점도 함께 봐야 한다. 행 수만 같다고 변경 전후 자료가 같지는 않다. 아래 파일의 `changes`는 이 순서를 한 사례 안에서 실행하며, `default` 사례는 별도의 초기 자료에서 재고 생략 직후의 0을 조회한다.
+
 WHERE 없는 UPDATE와 DELETE는 테이블의 모든 행을 대상으로 한다. 수정할 때에는 같은 조건의 SELECT로 대상 행을 먼저 살펴볼 수 있다. 여러 사용자가 동시에 바꾸는 환경에서는 그 조회만으로 이후의 변경 범위가 고정되지는 않으므로 트랜잭션 등도 함께 고려해야 한다.
 
-입력값을 SQL 문자열에 이어 붙이는 방식도 피해야 한다. Python sqlite3에서는 다음처럼 매개변수로 값을 전달한다. conn은 위 도서 목록을 만든 연결이라고 가정한다.
+입력값을 SQL 문자열에 이어 붙이는 방식도 피해야 한다. Python sqlite3에서는 다음처럼 매개변수로 값을 전달한다.
+
+이 짧은 코드는 연결 준비 부분을 생략한 발췌다. 별도로 실행하려면 먼저 `import sqlite3`를 하고, 4-1의 SQL 전체를 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(":memory:")`와 `conn.executescript(BASE)`를 실행한 같은 Python 세션에서 아래 코드를 사용한다. 조회 후에는 `conn.close()`로 연결을 닫는다. 준비 없이 이 블록만 실행해 `NameError`가 나면 SQL 결과가 아니라 `conn` 변수가 없는 상태다. 전체 내려받기 파일에는 이 준비 과정이 포함돼 있다.
 
 ```python
 # 도서 번호를 SQL 문장과 분리해서 전달한다.
@@ -204,6 +217,8 @@ print(rows)
 ```text
 [('SQL 첫걸음',)]
 ```
+
+`(1,)`의 쉼표는 값 하나를 가진 튜플을 만든다. 물음표 한 개에 값 한 개를 대응시키며, `fetchall()`은 결과 행 전체를 튜플의 목록으로 돌려준다. 따라서 `[('SQL 첫걸음',)]`는 제목 한 열을 가진 행이 하나라는 뜻이다. 전체 실행 파일은 JSON에 저장하기 위해 각 행을 `list(row)`로 바꾸므로 같은 결과가 `[['SQL 첫걸음']]`으로 표시된다.
 
 `?`는 값을 넣을 자리다. 이 방식은 입력값이 SQL 조건식으로 합쳐지는 것을 막는다. 조회 권한이나 반환할 데이터 범위를 정하는 일은 별도로 필요하다.
 
@@ -566,9 +581,40 @@ if __name__ == '__main__':
     run()
 ```
 
-각 SQL은 독립된 초기 자료에서 실행한다. 출력의 `q2`부터 `q5`까지를 위 해설과 비교할 수 있고, `q3-equal`의 빈 목록과 `q3-is`의 4번 행이 NULL 비교 차이를 보여 준다.
+전체 코드에서 입력과 실행을 연결하는 부분은 다음과 같다.
+
+| 단계 | 코드가 하는 일 |
+| --- | --- |
+| 초기 자료 | `BASE`가 테이블 생성문과 가상 도서 다섯 행의 INSERT를 보관 |
+| 사례 목록 | `CASES`가 이름·조회 SQL·기대 결과, 필요한 사전 변경과 바인딩 값을 보관 |
+| 연결 생성 | `sqlite3.connect(':memory:')`로 사례마다 새 메모리 연결 생성 |
+| 자료 준비 | `executescript(BASE)`로 초기 자료를 만든 뒤 `before`에 있는 해당 사례의 변경 문장만 순서대로 실행 |
+| 조회 | `execute(...).fetchall()`로 결과를 가져와 행 단위 목록으로 변환 |
+| 결과 대조 | `rows != case['expected']`이면 값·열 순서·행 순서 중 기대값과 다른 부분이 있어 AssertionError로 중단 |
+| 연결 정리 | `finally: conn.close()`로 조회나 비교가 실패해도 해당 연결 정리 |
+
+`executescript()`에는 여러 SQL 문장을 담을 수 있고, `execute()`에는 조회 한 문장과 별도의 매개변수를 전달한다. 하나의 연결을 계속 수정하는 구조가 아니라 사례마다 BASE부터 다시 실행한다. 따라서 `changes`에서 2번 도서를 지워도 뒤의 문제에는 영향을 주지 않는다.
+
+`invalid`에 있는 기본 키 중복·NULL 제목·음수 가격은 거부돼야 하는 입력이다. 코드가 `sqlite3.IntegrityError`를 잡으면 제약 조건 검사를 통과한 사례로 기록하고, 저장에 성공하면 오히려 AssertionError를 발생시킨다. 거부 뒤에도 초기 다섯 행이 남는지 조회한다. 화면의 ‘제약 조건 3건 통과’는 잘못된 입력 세 건이 저장됐다는 뜻이 아니다. 이 부가 검사를 유지하려면 Python의 `-O` 옵션을 붙이지 않는다.
 
 [[run:1:fold]]
+
+출력 첫 줄의 22는 `CASES`에 등록된 실행 수다. 연습문제 수가 22개라는 뜻은 아니며, 개념형 문제 1은 SQL 사례에 포함되지 않는다. `q2`~`q5`는 각 문제의 해설과 대조하는 식별자이고 문제 3은 두 조회로 나뉜다.
+
+| 사례 | 출력과 해석 |
+| --- | --- |
+| 조회 순서 | `filter`의 두 행에서 각 행의 값은 SELECT에 적힌 book_id·title·price 순서다. 결과 순서도 기대값과 비교한다. |
+| 기본값 | `default: [[None, 0]]`은 행이 하나이며 category는 SQL NULL, stock은 기본값 0이다. Python 표시에서 NULL이 None으로 바뀐다. |
+| 바인딩 | `binding-input: []`은 `1 OR 1=1`을 하나의 입력값으로 전달했을 때 일치하는 도서가 없다. 조건식으로 이어 붙여 실행한 결과가 아니다. |
+| 전체 수정 | `all-update: [[5]]`는 WHERE 없는 UPDATE 뒤 재고가 9인 행 수를 센 결과다. 다섯 행을 출력한 것이 아니라 개수 5를 가진 한 행이다. |
+| 전체 삭제 | `all-delete: [[0]]`은 테이블이 남아 있고 COUNT(*)가 0인 행 하나를 돌려준다. |
+| 테이블 삭제 | `drop: []`은 sqlite_schema에서 books라는 테이블을 찾는 조회가 0행이다. 위의 COUNT 결과와 구분한다. |
+
+바깥 대괄호는 결과 행 목록, 안쪽 대괄호는 한 행의 열 값이다. `[]`는 반환 행이 없는 것이고 `[[0]]`은 값 0을 가진 행이 하나라는 뜻이다. 오류가 발생해 프로그램이 중단된 상황을 빈 목록으로 바꿔 출력하지는 않는다.
+
+기본 명령은 조회 결과만 화면에 표시한다. 기록도 남기려면 `python -I -B -X utf8 01-database-sql.py --record`로 실행한다. `Path(__file__).with_suffix('.verification.json')`가 경로를 정하므로 JSON은 현재 작업 폴더가 아니라 Python 파일 옆의 `01-database-sql.verification.json`에 생긴다. 그 폴더에 새 파일을 쓸 수 있어야 한다. SQL 데이터는 연결을 닫으면 사라지지만 이 JSON은 남는다.
+
+`target.open('x', ...)`는 같은 이름의 기록이 있으면 FileExistsError로 실패한다. 이때 SQL 비교가 먼저 끝나 ‘통과’ 문구가 출력돼도 기록 생성까지 성공한 것은 아니다. `$LASTEXITCODE`(PowerShell) 또는 `$?`(Bash)를 명령 직후 조회해 프로세스가 0으로 끝났는지 함께 본다. 기존 기록을 보존하며 결과만 다시 볼 때는 `--record`를 빼고 실행하면 된다.
 
 실행 기록은 2026-10-20에 남긴 결과를 보존했다. SQL 방언과 버전이 바뀌면 자료형·NULL·행 수 제한의 동작도 해당 DBMS에서 다시 시험해야 한다.
 
@@ -593,3 +639,5 @@ if __name__ == '__main__':
 - [SQLite Aggregate Functions: COUNT](https://www.sqlite.org/lang_aggfunc.html)
 - [SQLite Datatypes: 자료형 친화도와 변환](https://www.sqlite.org/datatype3.html)
 - [Python 3.12 sqlite3: 매개변수 바인딩](https://docs.python.org/3.12/library/sqlite3.html)
+- [SQLite: 연결별 메모리 데이터베이스](https://www.sqlite.org/inmemorydb.html)
+- [Python 3.12 open: 기존 파일을 덮어쓰지 않는 생성 모드](https://docs.python.org/3.12/library/functions.html#open)
