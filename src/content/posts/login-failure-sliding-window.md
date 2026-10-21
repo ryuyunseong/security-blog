@@ -2,7 +2,7 @@
 title: "로그에서 반복 로그인 실패 IP 찾기"
 description: "슬라이딩 윈도와 덱으로 최근 구간에 로그인 실패가 반복된 IPv4 주소를 찾습니다."
 date: "2026-10-10T21:22:40+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21"
 category: "coding-test"
 tags: ["Python", "알고리즘", "로그"]
 draft: false
@@ -98,6 +98,8 @@ NONE
 
 다음 코드를 `solution.py`로 저장한다. Python 3의 표준 라이브러리만 사용하며, 입력 조건을 만족하는 코딩 테스트 데이터용 풀이이다.
 
+직접 복사하는 대신 [solution.py](../../downloads/login-failure/solution.py), [첫 번째 예제의 input.txt](../../downloads/login-failure/input.txt), [test_solution.py](../../downloads/login-failure/test_solution.py)를 내려받아 새 폴더 하나에 함께 둘 수도 있다. 파일 이름을 유지하고 그 폴더에서 실행한다. CIDR 글도 `solution.py`라는 이름을 사용하므로 두 문제는 폴더를 나눠 보관한다. 실제 서버 로그나 로그인 계정은 필요 없다.
+
 ```python
 from collections import deque
 import sys
@@ -153,7 +155,9 @@ if __name__ == "__main__":
 ```bash
 python3 solution.py < input.txt
 ```
-예제 1에서는 9초와 12초의 두 IP가 출력된다. 이 시각은 문제의 집계 조건을 처음 만족한 시각이다.
+위 명령은 Bash의 입력 리다이렉션이다. PowerShell에서는 `Get-Content .\input.txt | python .\solution.py`로 예제 텍스트를 전달할 수 있다. `input.txt`에는 `입력 1`이라는 제목이나 코드 블록 표시를 넣지 않고 첫 줄 `9 10 3`부터 기록한다.
+
+예제 1에서는 9초와 12초의 두 IP가 출력된다. 이 시각은 문제의 집계 조건을 처음 만족한 시각이다. `solve()`는 첫 줄에서 N·W·K를 읽고 `read_events()`가 정확히 N줄을 공급하도록 한다. `detect()`가 결과를 하나 내보낼 때마다 출력하고, 끝까지 하나도 없었을 때만 `NONE`을 한 줄 쓴다. 입력이 잘못된 경우를 교정하는 파서는 아니므로 헤더나 기록이 빠지면 예외로 중단할 수 있다.
 
 ## 복잡도와 자주 틀리는 부분
 
@@ -259,7 +263,9 @@ if __name__ == "__main__":
 ```bash
 python3 test_solution.py
 ```
-경계 사례와 무작위 입력 2,000건에서 기대값 또는 단순 풀이와 같은 결과를 얻었다.
+`test_solution.py`의 `from solution import ...`는 같은 폴더의 풀이를 가져온다. 두 파일을 따로 두면 모듈을 찾지 못하거나 다른 풀이를 읽을 수 있다. 테스트 명령에는 `-I`를 추가하지 않는다. 격리 모드에서는 이 폴더가 모듈 검색 경로에서 빠지기 때문이다. `input.txt`는 풀이를 직접 실행할 때 쓰며, 테스트 파일은 자체 문자열과 목록으로 자료를 만든다.
+
+세 출력 줄은 각각 다음 검사를 마쳤다는 뜻이다. 첫 줄은 이름을 붙인 경계 사례 9개, 두 번째는 고정 시드의 무작위 입력 2,000건과 `brute_force()`의 결과 비교, 세 번째는 `StringIO`로 첫 예제·빈 입력·왼쪽 경계를 넣은 입출력 비교다. 기대값이 다르면 해당 `assert`에서 중단하므로 `python -O`로 검사를 끄지 않고 실행한다. 모두 통과하면 종료 코드 0이다.
 
 ```text
 경계·동시각·중복 알림 확인: 성공

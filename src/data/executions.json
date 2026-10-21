@@ -16,6 +16,24 @@
           "exitCode": 0,
           "stdout": "큰 예제: 압축 544바이트, 원문 524288바이트\n한도와 같은 출력: 성공, 출력 65536바이트\n한도보다 1바이트 큰 출력: 성공, 예상한 거부 확인\n작은 입력의 큰 출력: 성공, 예상한 거부 확인\n빈 원문과 0 한도: 성공, 출력 0바이트\n잘린 마지막 부분: 성공, 예상한 거부 확인\n두 멤버 연결: 성공, 예상한 거부 확인\n뒤에 붙은 문자열: 성공, 예상한 거부 확인\n압축 입력 한도 초과: 성공, 예상한 거부 확인\ngzip이 아닌 입력: 성공, 예상한 거부 확인\n",
           "stderr": ""
+        },
+        {
+          "label": "가상 gzip 파일 준비와 파일 경로 검사",
+          "command": "python3 -c 'import gzip; open(\"sample.gz\", \"xb\").write(gzip.compress(b\"A\" * 65536, mtime=0))'\npython3 -I -B gzip_limit.py ./sample.gz --limit 65536",
+          "exitCode": 0,
+          "stdout": "검사 완료: 출력 65536바이트, 설정한 정책 범위 내\n",
+          "stderr": "",
+          "recordedAt": "2026-10-21T12:46:14.003935+00:00",
+          "environment": {
+            "os": "Ubuntu 24.04.4 LTS / WSL 2",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
+          },
+          "sourceCodeSha256": "939ca3771db22da2bd35102779a6a901d2cddfa565a16d388ed006238ee6d93a",
+          "preparationCodeSha256": "476cabe9c1784fec0a6b8f6e6580c5029ca5343464cc955ba67410df4e9d637b",
+          "scope": "전용 임시 폴더에 A 65536바이트를 압축한 sample.gz를 배타적 생성 모드로 만들고 같은 폴더에서 파일 경로 검사 명령을 실행했다. 기존 파일·외부 입력은 사용하지 않았으며 폴더를 정리했다.",
+          "finding": "해제 출력이 한도 65536바이트와 같은 단일 gzip 파일은 종료 코드 0으로 완료됐고, 원문은 표시하거나 저장하지 않았다."
         }
       ],
       "sourceCodeSha256": "bfb95a58bd9e2ef49b3c0ee00fd5d307f4a552c966b8c655f4aab22c5e092465",
@@ -25,7 +43,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "gzip_limit.py"
+      ]
     },
     "download-path-validation": {
       "runs": [
@@ -44,7 +65,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "path_lab.py"
+      ]
     },
     "cors-authentication-authorization": {
       "runs": [
@@ -63,7 +87,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "cors_auth_lab.py"
+      ]
     },
     "tls-version-and-identity": {
       "runs": [
@@ -82,7 +109,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "tls_identity_lab.py"
+      ]
     },
     "login-failure-sliding-window": {
       "runs": [
@@ -101,7 +131,12 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "login-failure/solution.py",
+        "login-failure/test_solution.py",
+        "login-failure/input.txt"
+      ]
     },
     "cidr-interval-binary-search": {
       "runs": [
@@ -120,7 +155,12 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "cidr-lookup/solution.py",
+        "cidr-lookup/test_solution.py",
+        "cidr-lookup/input.txt"
+      ]
     },
     "umask-and-file-permissions": {
       "runs": [
@@ -139,7 +179,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "umask_lab.sh"
+      ]
     },
     "u-02-password-policy": {
       "runs": [
@@ -499,6 +542,9 @@
           "stdout": "{\n  \"직접 지정한 목록\": [\n    \"lab-01\",\n    \"lab-02\"\n  ],\n  \"Linux와 prod 조건에 맞는 목록\": [\n    \"lab-01\"\n  ],\n  \"직접 지정했지만 조건과 다른 자산\": [\n    \"lab-02\"\n  ],\n  \"조건에 맞지만 직접 지정하지 않은 자산\": []\n}\nlab-03의 가상 환경 값을 prod로 변경: 조건 목록에 추가\n속성 누락: 비교 중단\n중복 ID: 비교 중단\n자산 자료 누락: 비교 중단\n",
           "stderr": ""
         }
+      ],
+      "preparationFiles": [
+        "compare_tags_demo.py"
       ]
     },
     "u-12-session-timeout": {
@@ -565,7 +611,10 @@
           "stderr": ""
         }
       ],
-      "reproduction": "article"
+      "reproduction": "article",
+      "preparationFiles": [
+        "qualys_status_example.py"
+      ]
     },
     "u-14-root-path-search": {
       "recordedAt": "2026-10-19T09:33:57.618Z",
@@ -608,6 +657,9 @@
           "stdout": "tcp/53: 선택 목록 밖\ntcp/443: 선택 목록에 포함\ntcp/8443: 선택 목록 밖\nudp/53: 선택 목록에 포함\n목록에 빠진 조합: tcp/53, tcp/8443\n가상 목록 보완 후 빠진 조합 수: 0\n",
           "stderr": ""
         }
+      ],
+      "preparationFiles": [
+        "qualys_port_scope.py"
       ]
     },
     "u-15-file-directory-owners": {

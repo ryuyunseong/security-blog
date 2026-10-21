@@ -19,6 +19,8 @@ test('예약 발행 파일 목록에는 각 글의 원본과 모바일 도식을
 });
 const source = posts.find((p) => p.slug === 'qualys-static-dynamic-tags').source;
 const body = source.slice(source.indexOf('\n---\n') + 5).split('\n## 공식 참고 자료')[0]
+  // 생성 결과 계약은 본문 링크를 받지 않는다. 공개 글에 추가된 다운로드 안내만 텍스트로 둔다.
+  .replace('[compare_tags_demo.py](../../downloads/compare_tags_demo.py)', 'compare_tags_demo.py')
   .replace('assigned = {"lab-01", "lab-02"}', 'assigned = {"lab-01", "lab-02"}\n    assert len(assets) == 3');
 function article() {
   return { kind: 'qualys', slug: 'qualys-guard-fixture', title: 'Qualys 태그 비교 입력 검증 사례',
@@ -92,7 +94,7 @@ test('경로 탈출·기존 글 덮어쓰기·실행 마크업·추가 코드 �
   for (const slug of ['../README', 'qualys-../../x', 'qualys-x/y', 'qualys-static-dynamic-tags']) {
     assert.throws(() => validateArticle({ ...article(), slug }, plan, posts));
   }
-  for (const suffix of ['\n<img src=x onerror=alert(1)>', '\n![외부](https://example.com/a.png)', '\n```bash\necho x\n```']) {
+  for (const suffix of ['\n<img src=x onerror=alert(1)>', '\n![외부](https://example.com/a.png)', '\n```bash\necho x\n```', '\n[다운로드](../../downloads/compare_tags_demo.py)']) {
     assert.throws(() => validateArticle({ ...article(), body: body + suffix }, plan, posts));
   }
   assert.throws(() => validateArticle({ ...article(), body: body.replace('[[diagram]]', '') }, plan, otherPosts), /배치 수/);

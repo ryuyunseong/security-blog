@@ -2,7 +2,7 @@
 title: "TLS 1.3이면 안전할까? 버전과 인증서 검증의 차이"
 description: "로컬 TLS 실습으로 프로토콜 버전, 인증서 신뢰 경로, 서버 이름 검증을 비교합니다."
 date: "2026-10-06T22:56:53+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21"
 category: "infrastructure"
 tags: ["TLS", "인증서", "Python"]
 draft: false
@@ -21,7 +21,9 @@ TLS 1.3 연결이 성립해도 접속한 서버가 의도한 상대인지 확인
 
 Python 3.10 이상과 OpenSSL 3.x 명령줄 도구가 필요합니다. Python에 연결된 TLS 라이브러리도 TLS 1.3을 지원해야 합니다. 별도 Python 패키지는 사용하지 않습니다.
 
-아래 코드를 tls_identity_lab.py로 저장합니다.
+아래 코드를 `tls_identity_lab.py`로 저장하거나 [실습 파일을 내려받습니다](../../downloads/tls_identity_lab.py). 터미널에서 파일을 저장한 폴더로 이동합니다. 먼저 `openssl version`으로 명령줄 도구를 조회하고, `python3 -c 'import ssl; print(ssl.OPENSSL_VERSION, ssl.HAS_TLSv1_3)'`로 Python 쪽 라이브러리와 TLS 1.3 지원을 따로 살펴봅니다. 두 도구가 같은 OpenSSL을 사용하는 것은 아닙니다.
+
+인증서나 비밀키를 미리 만들 필요는 없습니다. 코드는 쓰기 가능한 임시 경로에 전용 폴더를 만들고 `req.cnf`·`server.ext`와 CA 두 쌍, 서버 키·CSR·인증서를 생성합니다. `trusted.pem`은 서버 인증서의 발급 CA이고 `unrelated.pem`은 신뢰 불일치를 비교할 CA입니다. 파일들은 종료할 때 삭제되며, 별도 CA 설치나 hosts 파일 수정은 하지 않습니다.
 
 ```python
 import shutil
@@ -408,6 +410,14 @@ raise SystemExit(
 python3 -I -B tls_identity_lab.py
 ```
 
+## 인증서 생성에서 응답 비교까지
+
+`run()`은 임시 폴더를 작업 경로로 삼아 OpenSSL을 실행합니다. 명령이 실패하거나 제한 시간을 넘기면 이후 연결 비교로 넘어가지 않습니다. 생성한 인증서·키는 서버의 `load_cert_chain()`에, 신뢰할 CA는 클라이언트의 `load_verify_locations()`에 각각 전달합니다.
+
+`check()`는 TCP 연결 주소를 `127.0.0.1`로 고정하고, `server_hostname`으로 인증서에서 검증할 이름을 별도로 전달합니다. `lab.example.invalid`를 DNS에서 찾는 작업은 없습니다. 클라이언트 컨텍스트의 인증서·이름 검증을 유지한 채 최소·최대 TLS 버전을 같은 값으로 정해 한 버전씩 비교합니다.
+
+TLS 연결이 성립한 경우에만 HTTP 요청을 보내고, 협상 버전·HTTP 200·ALPN `http/1.1`을 모두 대조합니다. 인증서가 거절돼야 하는 사례에서는 예외 종류와 검증 오류 코드를 기대값과 비교합니다. 마지막에는 각 반환값을 모아 성공 수를 계산하고 로컬 서버와 임시 폴더를 정리합니다.
+
 [[diagram]]
 
 ## 이름과 CA가 달라지면 연결도 거절된다
@@ -425,7 +435,9 @@ python3 -I -B tls_identity_lab.py
 
 TLS 1.2 테스트의 암호 스위트(cipher suite)는 ECDHE-RSA-AES256-GCM-SHA384로 제한했습니다. Python의 set_ciphers()는 TLS 1.3 암호 스위트를 제어하지 않으므로, TLS 1.3에도 같은 설정이 적용됐다고 해석하면 안 됩니다.
 
-정상 종료하면 임시 인증서와 비밀키도 정리됩니다. 오류 코드가 예상과 다르면 실제 출력과 Python이 사용하는 OpenSSL 버전을 확인해야 합니다.
+거절된 두 줄의 `요청 버전=TLSv1.3`은 클라이언트에 지정한 조건입니다. HTTP 응답을 받은 줄의 `실제 협상=TLSv1.3`과 구분해야 합니다. 네 사례가 기대대로 동작하고 임시 폴더가 사라졌을 때 종료 코드 0이 됩니다.
+
+OpenSSL 부재·TLS 1.3 미지원은 비교 전에 중단되고, 예상과 다른 응답이나 검증 오류도 실패로 처리됩니다. 오류 코드가 다른 환경에서는 Python이 사용하는 OpenSSL 버전과 실제 오류를 함께 살펴봅니다. 문제를 통과시키려고 인증서 검증을 끄면 이 실습의 비교 조건이 달라집니다.
 
 [[run:1:fold]]
 
@@ -433,7 +445,7 @@ TLS 1.2 테스트의 암호 스위트(cipher suite)는 ECDHE-RSA-AES256-GCM-SHA3
 
 OpenSSL s_client는 기본적으로 인증서 검증 오류가 발생해도 연결을 계속할 수 있습니다. CONNECTED나 TLSv1.3이 표시됐다는 이유만으로 서버 인증까지 성공했다고 판단하면 안 됩니다.
 
-점검할 권한이 있는 서버를 대상으로 다음처럼 확인합니다. example.com은 실제 점검 대상 이름으로 바꿉니다.
+아래 명령은 별도의 서버 점검 예시이며 위 로컬 실행 기록에 포함하지 않았습니다. 앞 실습은 서버를 종료하고 임시 인증서를 지우므로 그 포트나 CA 파일을 그대로 재사용할 수 없습니다. 점검할 권한이 있는 서버를 대상으로 다음처럼 확인합니다. example.com은 실제 점검 대상 이름으로 바꿉니다.
 
 ```bash
 openssl s_client \
