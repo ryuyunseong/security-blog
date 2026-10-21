@@ -1,0 +1,18 @@
+---
+import bundles from '../data/practice-bundles.json';
+import { path } from '../lib/site';
+interface Props { id: string; }
+const { id } = Astro.props;
+const bundle = bundles.posts[id as keyof typeof bundles.posts];
+const size = bundle ? `${(bundle.archive.bytes / 1024).toFixed(1)} KiB` : '';
+---
+{bundle && <aside class="practice-download" aria-label="실습 파일 다운로드">
+  <a href={path(bundle.archive.path)} download={`${id}.zip`}>실습 파일 한 번에 받기 <span>ZIP · {size}</span></a>
+  <p>코드와 준비 파일을 담았습니다. 압축을 풀고 README.md의 실행 순서를 따라가세요.</p>
+</aside>}
+<style>
+  .practice-download { margin: 0 0 2rem; padding: 1rem 1.2rem; border: 1px solid var(--line); border-radius: .5rem; }
+  a { display: flex; flex-wrap: wrap; align-items: baseline; gap: .35rem 1rem; font-weight: 700; color: var(--accent); text-underline-offset: .2em; }
+  span { font-size: .8rem; font-weight: 400; white-space: nowrap; color: var(--muted); }
+  p { margin: .6rem 0 0; font-size: .9rem; line-height: 1.7; color: var(--muted); overflow-wrap: anywhere; }
+</style>

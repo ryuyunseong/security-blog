@@ -46,3 +46,7 @@ python3 scripts/run-article-examples.py
 - [주통기 항목 데이터](docs/assessment-series.md)
 - [도식과 실행 기록](docs/article-media.md)
 - [검증과 배포](docs/publishing.md)
+
+## 글별 실습 파일
+
+실행 예제가 있는 글의 상단에서 코드·입력 파일·실행 안내를 ZIP으로 내려받을 수 있습니다. 압축 안의 `README.md`에 도구, 실행 위치와 예상 종료 코드가 있습니다. [묶음 파일 형식과 생성 방법](docs/practice-bundles.md)을 참고하세요.

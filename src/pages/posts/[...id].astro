@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import ArticleVisual from '../../components/ArticleVisual.astro';
 import ExecutionResults from '../../components/ExecutionResults.astro';
+import PracticeDownload from '../../components/PracticeDownload.astro';
 import executions from '../../data/executions.json';
 import visuals from '../../data/article-visuals.json';
 import { validateArticleLayout } from '../../lib/article-layout.mjs';
@@ -40,6 +41,7 @@ const series = post.data.series ? seriesInfo(post.data.series) : undefined;
     </header>
     <div class="article-grid">
       <div class="article-body">
+        <PracticeDownload id={post.id} />
         {post.data.example && <p class="notice">교육용 예제입니다. 실제 운영 환경의 점검 결과나 개인 실적을 담고 있지 않습니다.</p>}
         <div class="prose">{blocks.map((block) => block.type === 'markdown' ? <Fragment set:html={block.html} /> : block.type === 'run' ? <ExecutionResults id={post.id} run={block.index} fold={block.fold} /> : <ArticleVisual id={post.id} kind={block.type} />)}</div>
         {series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={series.path}>{series.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}

@@ -1,0 +1,858 @@
+{
+  "version": 1,
+  "posts": {
+    "gzip-output-limit": {
+      "files": [
+        {
+          "source": "gzip_limit.py",
+          "name": "gzip_limit.py"
+        },
+        {
+          "source": "gzip-sample.gz",
+          "name": "sample.gz"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B gzip_limit.py",
+          "exitCode": 0,
+          "expected": "메모리의 정상·초과·형식 오류 예제를 비교하고 예상한 거부도 성공으로 표시한다."
+        },
+        {
+          "command": "python3 -I -B gzip_limit.py ./sample.gz --limit 65536",
+          "exitCode": 0,
+          "expected": "“검사 완료: 출력 65536바이트, 설정한 정책 범위 내”가 나온다."
+        },
+        {
+          "command": "python3 -I -B gzip_limit.py ./sample.gz --limit 65535",
+          "exitCode": 1,
+          "expected": "표준 오류에 정책상 거부: 압축 해제 출력 한도 초과가 나온다."
+        }
+      ],
+      "notes": [
+        "sample.gz는 A 65,536바이트를 압축한 가상 입력이다. 해제 내용을 디스크에 저장하지 않는다. ZIP에 이미 들어 있으므로 본문의 파일 생성 명령은 다시 실행하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/gzip-output-limit.zip",
+        "bytes": 6403,
+        "sha256": "18e6ae6a40a12dc0584520b517319857335ee2b0736bfd10b6a163ad27f4aab5",
+        "members": {
+          "README.md": "376040a73be695badde2dce5d8897955e1aabaf88adf4489fa1e4cf04883f9da",
+          "gzip_limit.py": "939ca3771db22da2bd35102779a6a901d2cddfa565a16d388ed006238ee6d93a",
+          "sample.gz": "51fd36b1ade393b52c5038caf61cf14c1e82c143239966b85bac3df9f866df28"
+        }
+      }
+    },
+    "download-path-validation": {
+      "files": [
+        {
+          "source": "path_lab.py",
+          "name": "path_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B path_lab.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오고 내부 기대값 검사가 통과한다."
+        }
+      ],
+      "notes": [
+        "심볼릭 링크를 만들 수 있는 Linux 파일시스템이 필요하다. 시험 파일과 링크는 임시 폴더 안에 만들고 정리하며 /app/files를 직접 만들 필요는 없다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/download-path-validation.zip",
+        "bytes": 6088,
+        "sha256": "c7e95c9c9ed953238eb2fbc032568a9de221910e2e81b67c05155b6be1da5686",
+        "members": {
+          "README.md": "555e19c990911fa18d526814bba00ebde1a547c4a938bf2f8dcb92400b618b9f",
+          "path_lab.py": "305cbf071487f8196e886cd7c369353377a3bac0153aabdc0e4eeb16d884c5e4"
+        }
+      }
+    },
+    "cors-authentication-authorization": {
+      "files": [
+        {
+          "source": "cors_auth_lab.py",
+          "name": "cors_auth_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B cors_auth_lab.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오고 내부 기대값 검사가 통과한다."
+        }
+      ],
+      "notes": [
+        "서버와 클라이언트가 한 번에 실행된다. 127.0.0.1의 임의 포트만 사용하고 끝나면 서버를 닫는다. 실제 토큰이나 브라우저 준비는 필요 없다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cors-authentication-authorization.zip",
+        "bytes": 6608,
+        "sha256": "673ad88068616b96c4ae32aca205e9fe9bfb9fdd160144389b6a897c938d7691",
+        "members": {
+          "README.md": "8b17e0b06b0ef656d87e37847b1ed15807f9b4b7689f91f6772735fc73c4e7a7",
+          "cors_auth_lab.py": "30ab5b9b8bc1ecadf5c7f231b35ed924c785157c1cda76920e8b005722e9ecc6"
+        }
+      }
+    },
+    "tls-version-and-identity": {
+      "files": [
+        {
+          "source": "tls_identity_lab.py",
+          "name": "tls_identity_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. OpenSSL 3.x 명령줄 도구와 TLS 1.3을 지원하는 Python ssl 라이브러리가 필요하다.",
+      "steps": [
+        {
+          "command": "python3 -I -B tls_identity_lab.py",
+          "exitCode": 0,
+          "expected": "성공=4 실패=0 전체=4와 임시 인증서·비밀키 정리: 성공이 나온다. 성공에는 예상한 인증서 거절 두 건도 포함된다."
+        }
+      ],
+      "notes": [
+        "인증서·키는 코드가 임시 폴더에 생성하고 지운다. 운영체제 신뢰 저장소는 바꾸지 않으며 서버는 127.0.0.1의 임의 포트만 사용한다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/tls-version-and-identity.zip",
+        "bytes": 10713,
+        "sha256": "b24ed1ea63d8355d6460a7ac24dc3aec53437e76f6ccaf532ce74f11584076ae",
+        "members": {
+          "README.md": "97ddede3790b475431c282300c31dd8fba005c2a960154aa1e8c5b07f4fe63ff",
+          "tls_identity_lab.py": "1a083752ae28115c5b418ad362c626dff561ff9a01ec522529d43be8c23302c4"
+        }
+      }
+    },
+    "login-failure-sliding-window": {
+      "files": [
+        {
+          "source": "login-failure/solution.py",
+          "name": "solution.py"
+        },
+        {
+          "source": "login-failure/test_solution.py",
+          "name": "test_solution.py"
+        },
+        {
+          "source": "login-failure/input.txt",
+          "name": "input.txt"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 solution.py",
+          "exitCode": 0,
+          "expected": "본문 첫 번째 입출력 예제와 같은 결과가 나온다.",
+          "stdin": "input.txt"
+        },
+        {
+          "command": "python3 -B test_solution.py",
+          "exitCode": 0,
+          "expected": "경계값과 무작위 기준 풀이 비교가 성공한다."
+        }
+      ],
+      "notes": [
+        "solution.py·test_solution.py·input.txt를 같은 폴더에 둔다. 테스트는 같은 폴더의 solution을 가져오므로 -I를 추가하지 않는다.",
+        "PowerShell에서는 첫 명령 대신 Get-Content .\\input.txt | python .\\solution.py를 사용하고, 테스트는 python -B test_solution.py로 실행할 수 있다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/login-failure-sliding-window.zip",
+        "bytes": 6300,
+        "sha256": "ff7b8afc082676c90d4cfbc8869f864165057d5b83dcb9981bae3ba71c5d4d7f",
+        "members": {
+          "README.md": "cf0e682bdcc8c58e22a057f5e1ce7b78acc0e5d16f06f087dc67bdc018728612",
+          "input.txt": "3bb0ed06042af0ab45c6f2225af0ce4dcbecf48905a363090c21932ea464456e",
+          "solution.py": "1ccf81734cca4785fa60c116b1c79bdba89600a4f935f9fa56fd3a9b89e8797c",
+          "test_solution.py": "fd387cec32c312192e12a6c97f49956b5c42c8e15be12fe08aa7a1d17999fe0f"
+        }
+      }
+    },
+    "cidr-interval-binary-search": {
+      "files": [
+        {
+          "source": "cidr-lookup/solution.py",
+          "name": "solution.py"
+        },
+        {
+          "source": "cidr-lookup/test_solution.py",
+          "name": "test_solution.py"
+        },
+        {
+          "source": "cidr-lookup/input.txt",
+          "name": "input.txt"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 solution.py",
+          "exitCode": 0,
+          "expected": "본문 첫 번째 입출력 예제와 같은 결과가 나온다.",
+          "stdin": "input.txt"
+        },
+        {
+          "command": "python3 -B test_solution.py",
+          "exitCode": 0,
+          "expected": "경계값과 무작위 기준 풀이 비교가 성공한다."
+        }
+      ],
+      "notes": [
+        "solution.py·test_solution.py·input.txt를 같은 폴더에 둔다. 테스트는 같은 폴더의 solution을 가져오므로 -I를 추가하지 않는다.",
+        "PowerShell에서는 첫 명령 대신 Get-Content .\\input.txt | python .\\solution.py를 사용하고, 테스트는 python -B test_solution.py로 실행할 수 있다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cidr-interval-binary-search.zip",
+        "bytes": 8524,
+        "sha256": "0e0dd26ff028b89664d8b104c9bfa03a3629723730d8a169ac55db9d022d8cf5",
+        "members": {
+          "README.md": "8dc0301a3bfc521725c554e0dfd0d0870fc9ba2fee6c76911ae18857cc3fcaad",
+          "input.txt": "cb97c5789f570a43318c9cda8efd6a7898e177c7d8beb74883f5afa91f9ff950",
+          "solution.py": "9d7db94fbe5ca2e7b3576b484d2f149d4cd84a1c8cf0180af3bf88492bfb0329",
+          "test_solution.py": "e1da320a31cbfb51ca14458340722812dac63c0319678cd460d7c03b3fec43a1"
+        }
+      }
+    },
+    "umask-and-file-permissions": {
+      "files": [
+        {
+          "source": "umask_lab.sh",
+          "name": "umask_lab.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12, libacl 공유 라이브러리. /tmp가 POSIX ACL을 지원하고 /proc/self/status에 Umask 항목이 있어야 한다.",
+      "steps": [
+        {
+          "command": "bash umask_lab.sh",
+          "exitCode": 0,
+          "expected": "umask·요청 모드·기본 ACL 비교가 통과하고 실습 임시 폴더와 생성 파일 삭제가 나온다."
+        }
+      ],
+      "notes": [
+        "실습 파일은 기본적으로 /tmp에 만든다. ACL 미지원 오류는 본문의 파일시스템 진단 절차를 따른다. sudo만으로 ACL 미지원이 해결되지는 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/umask-and-file-permissions.zip",
+        "bytes": 9717,
+        "sha256": "e53b2b0b31383eb54a511ec4401f66536878a02fb99efd187f77e66942d85097",
+        "members": {
+          "README.md": "f88e57a6ddd53f18a5344dbdb48dabacd76ef4c09fcfff41f337e16f5bcb7ee1",
+          "umask_lab.sh": "3fa2ce4189f9de73ae4584c37d9cbb7940b324d467c2de0a7c0083707d9e14cd"
+        }
+      }
+    },
+    "u-02-password-policy": {
+      "files": [
+        {
+          "source": "check_u02_policy.sh",
+          "name": "check_u02_policy.sh"
+        },
+        {
+          "source": "u02_fixture_lab.py",
+          "name": "u02_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash, awk와 GNU coreutils를 사용한다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh",
+          "exitCode": 0,
+          "expected": "가상 입력의 수집 코드가 예상값과 일치하고 마지막에 실습 파일 정리: 완료가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-02-password-policy.zip",
+        "bytes": 9433,
+        "sha256": "c9a4e858afdffc0f26182a40589ebcdbd213817f938fbb8b019505a73555c54e",
+        "members": {
+          "README.md": "fd7d81a2e1791a68347ca73dba7a3b5f4a594ba7489dcecfcfe51545e39526b9",
+          "check_u02_policy.sh": "7fe0a7f7442fae425e09d62bd1562dda80e571f95e2fe6d2b83405e190dea0b3",
+          "u02_fixture_lab.py": "2ce1fc657ef77d2d98324227f1cc93180157b24b076b949dd42422a6c28d32fb"
+        }
+      }
+    },
+    "u-03-account-lockout": {
+      "files": [
+        {
+          "source": "check_u03_lockout.sh",
+          "name": "check_u03_lockout.sh"
+        },
+        {
+          "source": "u03_fixture_lab.py",
+          "name": "u03_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash, awk와 GNU coreutils를 사용한다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh",
+          "exitCode": 0,
+          "expected": "가상 입력의 수집 코드가 예상값과 일치하고 마지막에 실습 파일 정리: 완료가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-03-account-lockout.zip",
+        "bytes": 9528,
+        "sha256": "f2b72e4ce1e753213bb20f16a2efe77428dfbfc3f116827f5af88dfe372443ff",
+        "members": {
+          "README.md": "54c5aaa6015831766b524089edafda0946da2fb3719e4ed362de4513601038f1",
+          "check_u03_lockout.sh": "70fa98de871533947f33cb023f7c0e359717ea9b2342edaa3dbc0091a674fd21",
+          "u03_fixture_lab.py": "60c59d042886b5f5e2cfeed12b66afe80ae314ecffcbd6d49b0220e1a9f6934e"
+        }
+      }
+    },
+    "u-04-password-file": {
+      "files": [
+        {
+          "source": "check_u04_password_file.sh",
+          "name": "check_u04_password_file.sh"
+        },
+        {
+          "source": "u04_fixture_lab.sh",
+          "name": "u04_fixture_lab.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, awk와 GNU coreutils. /tmp에 가상 파일을 만들 수 있어야 한다.",
+      "steps": [
+        {
+          "command": "bash u04_fixture_lab.sh ./check_u04_password_file.sh",
+          "exitCode": 0,
+          "expected": "수집기 코드 0·1·2를 차례로 비교하고 세 경우의 종료 코드 비교: 통과와 실습 파일 정리: 완료가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-04-password-file.zip",
+        "bytes": 6759,
+        "sha256": "c85282517af3c467cb2bf89f86671ccb9dd18338395190e6fd8e70963d59e476",
+        "members": {
+          "README.md": "b5fb102e75f76257bdd7987687b79f34ecf7b2ff942a1cc1e1b3aa021049a84c",
+          "check_u04_password_file.sh": "02263054c201f6699878234622d245f243013414d68f932c66f40bd45ed0806e",
+          "u04_fixture_lab.sh": "c876c580df3892fde0fa9a7041507839686a54a958536bc2b6d4b4d01f64db32"
+        }
+      }
+    },
+    "u-05-root-uid": {
+      "files": [
+        {
+          "source": "check_u05.sh",
+          "name": "check_u05.sh"
+        },
+        {
+          "source": "u05_fixture_lab.py",
+          "name": "u05_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash, awk와 GNU coreutils를 사용한다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u05_fixture_lab.py ./check_u05.sh",
+          "exitCode": 0,
+          "expected": "가상 입력의 수집 코드가 예상값과 일치하고 마지막에 실습 파일 정리: 완료가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-05-root-uid.zip",
+        "bytes": 6912,
+        "sha256": "96885b9b5e17ef5084b3873b1eb95ac5d4a3f9ecb70bf69bd9f06f183f26a17d",
+        "members": {
+          "README.md": "a68e1b54ca6b0f662573b54089d226acb61e5914654ffbf8231386edd67f4fb9",
+          "check_u05.sh": "65053b0232869b25a29d8efbbe6f4dd6977eda43e773b3647082a38e82e263a1",
+          "u05_fixture_lab.py": "8f6cf8285c40c2f1b2302d9216ea64dda94533b8f742eff56ca15c3bcbd5b74d"
+        }
+      }
+    },
+    "u-06-su-restriction": {
+      "files": [
+        {
+          "source": "check_u06.py",
+          "name": "check_u06.py"
+        },
+        {
+          "source": "u06_fixture_lab.py",
+          "name": "u06_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. 파일 소유자·모드를 읽으므로 Linux 파일시스템에서 실행한다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u06_fixture_lab.py ./check_u06.py",
+          "exitCode": 0,
+          "expected": "가상 입력의 수집 코드가 예상값과 일치하고 마지막에 실습 파일 정리: 완료가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-06-su-restriction.zip",
+        "bytes": 8701,
+        "sha256": "42debed2cba1b3e6480b47a4d248401cfa8c0df71c90161c7ad495afda414a70",
+        "members": {
+          "README.md": "4141d611700c511d6a384474265865ac747c50c9a6e07fa15ea427b2b94b9fcf",
+          "check_u06.py": "27695890f2f8ec1c4e48cf5f5fa8f440bdac998408c6f3bcd7a9917c06bb6259",
+          "u06_fixture_lab.py": "e25ddf894c04797dbfe5af7aa6db32765ca35b06baf8a14e5a28c94e1ae3b1fa"
+        }
+      }
+    },
+    "u-07-unused-accounts": {
+      "files": [
+        {
+          "source": "check_u07.py",
+          "name": "check_u07.py"
+        },
+        {
+          "block": 3,
+          "language": "bash",
+          "name": "fixture.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash와 기본 파일 생성·정리 명령을 사용한다.",
+      "steps": [
+        {
+          "command": "bash fixture.sh",
+          "exitCode": 0,
+          "expected": "가상 자료의 추가 검토 대상과 종료 코드: 1이 출력된다. 바깥 Bash 명령의 종료 코드는 0이다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-07-unused-accounts.zip",
+        "bytes": 5700,
+        "sha256": "fc62424b6c28431978e2204ec4b2ea27695026b7a5971aa7c8a9f094555baf6e",
+        "members": {
+          "README.md": "aca10a5f4c3c4a8fc025b06feabc331ae6e1d4f27a072ea3ecf91f976cc2dd8e",
+          "check_u07.py": "dfdbe010af9616b138146f72f7f422e58d9d76e363f9773234ff19eda608a307",
+          "fixture.sh": "f3921a56224d6371f27e56a778b58a3e1d8c855d53300d7d19f55ee2752c63c9"
+        }
+      }
+    },
+    "u-08-admin-group": {
+      "files": [
+        {
+          "source": "check_u08.py",
+          "name": "check_u08.py"
+        },
+        {
+          "block": 6,
+          "language": "bash",
+          "name": "fixture.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash와 기본 파일 생성·정리 명령을 사용한다.",
+      "steps": [
+        {
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "expected": "가상 자료의 추가 검토 대상과 종료 코드: 1이 출력된다. 바깥 Bash 명령의 종료 코드는 1이다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-08-admin-group.zip",
+        "bytes": 6582,
+        "sha256": "ab9b3de4fc267893f58040f6429df995c280117c3bee48d4b039eec278b1950e",
+        "members": {
+          "README.md": "89905338ee2c5b7672ab6d17b8d694b7ecf59514b5b9e7fc99122ab06b7217c7",
+          "check_u08.py": "1b42c84fe83a842d31bc35557dd81fa9643d6df7e64275372de73568023d6bba",
+          "fixture.sh": "ef0cc717178127816f0f2339c33a0820e3cf73c4da95859e47c4d40d71b4420a"
+        }
+      }
+    },
+    "u-09-unused-gid": {
+      "files": [
+        {
+          "source": "check_u09.py",
+          "name": "check_u09.py"
+        },
+        {
+          "block": 7,
+          "language": "bash",
+          "name": "fixture.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash와 기본 파일 생성·정리 명령을 사용한다.",
+      "steps": [
+        {
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "expected": "가상 자료의 추가 검토 대상과 종료 코드: 1이 출력된다. 바깥 Bash 명령의 종료 코드는 1이다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-09-unused-gid.zip",
+        "bytes": 6354,
+        "sha256": "aac3ebaba51201e5af4b981bd46e5b45776b2a01d8d2297ae6a9fa2f4163bd72",
+        "members": {
+          "README.md": "495299912de1956ae8afbcf678f8cd2e2d32be8c8cbcf9ac15818529f53555fb",
+          "check_u09.py": "15271a516180d0b1857b8cc5af83b552528916bbe45bd4ba62c7ee926410f6ec",
+          "fixture.sh": "dc0a448dc4374a827e6fbc0f46ab233691dbf66ada0553d40d753a779b983c15"
+        }
+      }
+    },
+    "u-10-duplicate-uid": {
+      "files": [
+        {
+          "source": "check_u10.py",
+          "name": "check_u10.py"
+        },
+        {
+          "block": 4,
+          "language": "bash",
+          "name": "fixture.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다. Bash와 기본 파일 생성·정리 명령을 사용한다.",
+      "steps": [
+        {
+          "command": "bash fixture.sh",
+          "exitCode": 1,
+          "expected": "가상 자료의 추가 검토 대상과 종료 코드: 1이 출력된다. 바깥 Bash 명령의 종료 코드는 1이다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-10-duplicate-uid.zip",
+        "bytes": 5122,
+        "sha256": "1dc18f7a7283d3821a0be8bba70356be6a6d32f9fb80adc5d7fa9760eb4d58a7",
+        "members": {
+          "README.md": "a9f98755490aaa7452ea1de5b800ae2c385cabb796246e92ac7e4ab687fb0fc7",
+          "check_u10.py": "0ba028bc922aabe966e0d0bba061e7c63b90717d6d66fd4e8500ba3f4eb97c54",
+          "fixture.sh": "b8f8db665ab9e1ab65c94bac90085772ec0db8543737715cdd95e7a02052ff8e"
+        }
+      }
+    },
+    "u-01-root-remote-login": {
+      "files": [
+        {
+          "source": "check_u01_ssh.sh",
+          "name": "check_u01_ssh.sh"
+        },
+        {
+          "source": "u01_match_lab.sh",
+          "name": "u01_match_lab.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, awk, OpenSSH 서버 프로그램(/usr/sbin/sshd)과 ssh-keygen.",
+      "steps": [
+        {
+          "command": "TMPDIR=/tmp bash u01_match_lab.sh",
+          "exitCode": 0,
+          "expected": "permitrootlogin no 다음에 permitrootlogin yes가 나온다. 두 주소 조건에서 설정을 해석한 결과다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 대상으로 실행하는 명령이다. 수집기를 인자 없이 실행하거나 실제 /etc 경로로 바꾸면 조사 범위가 달라진다.",
+        "명령 앞의 TMPDIR=/tmp는 이 실습 프로세스에만 적용한다. HostKey에 넣을 임시 키 경로에 공백이 섞이지 않도록 하며, ZIP을 푼 폴더에는 공백이 있어도 된다.",
+        "일회용 키와 설정만 생성하고 SSH 서버를 시작하지 않는다. check_u01_ssh.sh는 실제 설정을 읽는 별도 수집기이므로 이 실습 명령에서는 실행하지 않는다.",
+        "Missing privilege separation directory 오류는 본문의 /run/sshd 준비 조건을 참고한다. 권한 분리 기능을 끄거나 실제 SSH 설정을 바꾸지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-01-root-remote-login.zip",
+        "bytes": 3541,
+        "sha256": "6076f048207340f43996532dad3ce158201272e82c9c5cc1fdec3b9daaa765b2",
+        "members": {
+          "README.md": "e131dfc62d03a759ed587cfd55bce00dc9a72378b5198ee3c0de96666e15ae94",
+          "check_u01_ssh.sh": "78fecf9c6fd66e140002f64c6d3c1d921f397128c358633d43f3ffe127978f11",
+          "u01_match_lab.sh": "18310f90d949e74f66cafaa8729c59e1a0a68c6f57cfa17ac7f0e7865ab415ce"
+        }
+      }
+    },
+    "u-11-service-account-shell": {
+      "files": [
+        {
+          "source": "check_u11_demo.py",
+          "name": "check_u11_demo.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B check_u11_demo.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오며 기대값 검사가 통과한다. 출력의 판정은 가상 입력 범위다."
+        }
+      ],
+      "notes": [],
+      "archive": {
+        "path": "downloads/bundles/u-11-service-account-shell.zip",
+        "bytes": 4061,
+        "sha256": "d416acafb630a4386380bdb60bd06ca99e57373409cd016c09ebad00b13c8d4a",
+        "members": {
+          "README.md": "e2dd3b8fde1caf5f371114ee38f881d6ee0236b5187d823007af69a7e9943d0e",
+          "check_u11_demo.py": "890ed94d96872b0de350d832576840b3b955d41d7006d780cd2f9860e1c23184"
+        }
+      }
+    },
+    "qualys-static-dynamic-tags": {
+      "files": [
+        {
+          "source": "compare_tags_demo.py",
+          "name": "compare_tags_demo.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B compare_tags_demo.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오고 내부 기대값 검사가 통과한다."
+        }
+      ],
+      "notes": [
+        "입력은 코드 안의 가상 목록이다. Qualys 계정·구독·API 키는 사용하지 않으며 실제 제품의 설정이나 결과를 조회하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/qualys-static-dynamic-tags.zip",
+        "bytes": 3904,
+        "sha256": "7cbfc3feae7d1f1b28d85765a7019e9d4a0183f813919a3045b5866665a87832",
+        "members": {
+          "README.md": "35f061f90609edddbaa5f07fac0308ce9170eb26f870b1c8faecc838a51c6b0d",
+          "compare_tags_demo.py": "9bb0113591fdabe147a0a792210d207f89ea611299fc2d6c2e303fd987df7e5a"
+        }
+      }
+    },
+    "u-12-session-timeout": {
+      "files": [
+        {
+          "source": "check_u12_idle.sh",
+          "name": "check_u12_idle.sh"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash와 util-linux의 script 명령, sleep, tr. 가상 터미널을 만들 수 있어야 한다.",
+      "steps": [
+        {
+          "command": "bash check_u12_idle.sh",
+          "exitCode": 0,
+          "expected": "입력 없는 프롬프트가 TMOUT으로 종료되고 확인: 입력 없는 프롬프트에서 셸 자동 종료가 나온다."
+        }
+      ],
+      "notes": [
+        "일회용 자식 Bash의 TMOUT만 바꾸며 현재 로그인 셸의 설정을 변경하지 않는다. 약 4초가 걸린다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-12-session-timeout.zip",
+        "bytes": 1913,
+        "sha256": "a4a0a909bee75d59dd1c974e1ad3eb634f2ad8598ff49d14b5c5d751fc035908",
+        "members": {
+          "README.md": "6edac3929afb4a3b0ae197019b1251d10f94aa590af84726899b8c2625c99387",
+          "check_u12_idle.sh": "9fa9736efc30863ae8f61340ccb591763f560ad0111d9f1af6ba5a38e74528cc"
+        }
+      }
+    },
+    "u-13-password-hash-algorithms": {
+      "files": [
+        {
+          "source": "u13_hash_format.py",
+          "name": "u13_hash_format.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u13_hash_format.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오며 기대값 검사가 통과한다. 출력의 판정은 가상 입력 범위다."
+        }
+      ],
+      "notes": [],
+      "archive": {
+        "path": "downloads/bundles/u-13-password-hash-algorithms.zip",
+        "bytes": 2682,
+        "sha256": "7b35e2dc40c1d4c380f29832c7992c85a9fdf948604b58a391339a74c2d72ebe",
+        "members": {
+          "README.md": "57ebe88bd1425039907d0c0b54fbb691ff2289003cf3353a58761b94ecd08615",
+          "u13_hash_format.py": "9406c2cb85d11d6febbb9b1bc6d5131acf6ef7b2c5a52ddff9dcc6891755a290"
+        }
+      }
+    },
+    "qualys-detection-status-transitions": {
+      "files": [
+        {
+          "source": "qualys_status_example.py",
+          "name": "qualys_status_example.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B qualys_status_example.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오고 내부 기대값 검사가 통과한다."
+        }
+      ],
+      "notes": [
+        "입력은 코드 안의 가상 목록이다. Qualys 계정·구독·API 키는 사용하지 않으며 실제 제품의 설정이나 결과를 조회하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/qualys-detection-status-transitions.zip",
+        "bytes": 3203,
+        "sha256": "94873639ff24c1edb21afb3a3e78a4d080fea70c67971b8e5f501bdf14ca53fd",
+        "members": {
+          "README.md": "5003ffb3abeb2b1f813c96a364ca6bbaae3f2e3d7e8def5062285febffd01521",
+          "qualys_status_example.py": "898e26954d409a925851560189a35b2fd77896dc2f791373eb0713b0ff223502"
+        }
+      }
+    },
+    "u-14-root-path-search": {
+      "files": [
+        {
+          "source": "u14_path_lookup.py",
+          "name": "u14_path_lookup.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u14_path_lookup.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오며 기대값 검사가 통과한다. 출력의 판정은 가상 입력 범위다."
+        }
+      ],
+      "notes": [],
+      "archive": {
+        "path": "downloads/bundles/u-14-root-path-search.zip",
+        "bytes": 2943,
+        "sha256": "21fd176722d44f4746c833b1bf68debd223725c6a2051fd7f46a28f9fb2108ef",
+        "members": {
+          "README.md": "e5dd2977c86d3ba47538e853a895af1866f5ae340d1e904319ecd0cd09deda0e",
+          "u14_path_lookup.py": "c03bd66e7e959658fac203fb9a47a9465c0b89fff0047d25600bdd266293b807"
+        }
+      }
+    },
+    "qualys-tcp-udp-port-scope": {
+      "files": [
+        {
+          "source": "qualys_port_scope.py",
+          "name": "qualys_port_scope.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B qualys_port_scope.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오고 내부 기대값 검사가 통과한다."
+        }
+      ],
+      "notes": [
+        "입력은 코드 안의 가상 목록이다. Qualys 계정·구독·API 키는 사용하지 않으며 실제 제품의 설정이나 결과를 조회하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/qualys-tcp-udp-port-scope.zip",
+        "bytes": 2864,
+        "sha256": "2e4ae78823cefed7765ba25a7727939996fd9501381d1f4adf7cee736ddf323d",
+        "members": {
+          "README.md": "f3046968f8d07e5821cf70288b4c672afaff03c667bc5270c5d335747ec60de1",
+          "qualys_port_scope.py": "57195632f829994945cf44e5eef755b082035e8dc384859bb3c06a9929e37e9a"
+        }
+      }
+    },
+    "u-15-file-directory-owners": {
+      "files": [
+        {
+          "source": "u15_owner_mapping.py",
+          "name": "u15_owner_mapping.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u15_owner_mapping.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오며 기대값 검사가 통과한다. 출력의 판정은 가상 입력 범위다."
+        }
+      ],
+      "notes": [],
+      "archive": {
+        "path": "downloads/bundles/u-15-file-directory-owners.zip",
+        "bytes": 2934,
+        "sha256": "d4006c22b1036721273f0b419a8b3e7b565fea0f947158ebebc058b39d03c206",
+        "members": {
+          "README.md": "c158b5bf95862f9ddad1811e65df141aa4be2b65e0c7ef14d6b9068a30dde64f",
+          "u15_owner_mapping.py": "a35785dbe019fa0b10448b7041026c2371d05b95ca009631874c1d9f09f637bd"
+        }
+      }
+    },
+    "cs-study-01-database-sql": {
+      "files": [
+        {
+          "source": "01-database-sql.py",
+          "name": "01-database-sql.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 01-database-sql.py --record",
+          "exitCode": 0,
+          "expected": "SQL 결과 22건 및 제약 조건 3건 통과와 각 쿼리 결과가 나온다."
+        }
+      ],
+      "notes": [
+        "가상 자료를 메모리 SQLite에 만든다. 별도 DB나 입력 파일은 필요 없다. 실행 환경과 코드 해시가 든 01-database-sql.verification.json을 코드 옆에 새로 만든다.",
+        "기록 파일이 이미 있으면 덮어쓰지 않고 오류로 종료한다. 새 기록이 필요 없으면 --record 없이 실행한다. Python·SQLite 버전 줄은 환경에 따라 달라진다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-01-database-sql.zip",
+        "bytes": 10479,
+        "sha256": "e4a42af753ce19f8fee1b5f10c4cfa4045c8a46513c9338309dc43340064ebfb",
+        "members": {
+          "01-database-sql.py": "250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8",
+          "README.md": "7a8641d89136ebbaba140fc3d2e6018d89c6bea059546d61af01bea596ac520e"
+        }
+      }
+    },
+    "u-16-passwd-owner-permissions": {
+      "files": [
+        {
+          "source": "u16_passwd_mode.py",
+          "name": "u16_passwd_mode.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL의 Bash, Python 3.12. 별도 Python 패키지는 사용하지 않는다.",
+      "steps": [
+        {
+          "command": "python3 -I -B u16_passwd_mode.py",
+          "exitCode": 0,
+          "expected": "본문의 가상 예제 출력이 나오며 기대값 검사가 통과한다. 출력의 판정은 가상 입력 범위다."
+        }
+      ],
+      "notes": [],
+      "archive": {
+        "path": "downloads/bundles/u-16-passwd-owner-permissions.zip",
+        "bytes": 2776,
+        "sha256": "65e3f8d26fdae722edd9f18aab4ae9b1bb49048a36829341f1ba79158242591d",
+        "members": {
+          "README.md": "af6a30253f4ddca15e08724be009c12d23778f154df800bcc067c7ebb7b327e8",
+          "u16_passwd_mode.py": "ca735cbb6cac79ba90e7edb8a25e5ab3b5e83ebb5c16a2b6e006574de6b91306"
+        }
+      }
+    }
+  }
+}
