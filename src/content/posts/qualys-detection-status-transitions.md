@@ -2,7 +2,7 @@
 title: "Fixed였던 QID가 다시 나올 때: Qualys 탐지 상태 읽기"
 description: "평가 자료가 없는 구간과 Fixed 이후 재탐지를 가상 이력으로 구분하고, 보고서 시점과 상태 변화를 대조합니다."
 date: "2026-10-18T12:14:00+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-18"
 category: "qualys"
 tags: ["Qualys","VMDR","QID","탐지 상태","보고서"]
@@ -28,7 +28,7 @@ Fixed는 Qualys에 기록된 탐지 상태이며 패치 설치 완료를 보증�
 
 다음은 가상 자산 하나의 같은 탐지 항목을 여섯 번 관찰한 예제다. 실제 Qualys 결과를 수집한 코드가 아니라 공식 상태 설명을 읽기 위한 작은 모델이다. `tested=True`는 이 예제에서 해당 항목을 충분히 평가한 관찰이 있다는 가정이며, 스캔 작업 전체가 완료됐다는 뜻으로 쓰지 않는다. `detected=None`은 판단에 쓸 관찰이 없다는 표시다. 포트·인증·접근 차단에 따른 제품의 판정 규칙은 구현하지 않았다.
 
-[qualys_status_example.py](../../downloads/qualys_status_example.py)를 내려받거나 코드를 같은 이름으로 저장한다. Python 3 표준 기능만 사용하며 별도 입력 파일이나 패키지는 필요 없다. 파일이 있는 폴더에서 `python -I -B qualys_status_example.py`로 실행한다. 파일·네트워크·제품 API에 접근하지 않는다. 함수는 알 수 없는 상태와 모순된 입력을 거부하고, 평가하지 못한 회차에는 마지막 상태를 보존한다.
+ZIP의 `qualys_status_example.py`를 사용하거나 코드를 같은 이름으로 저장한다. Python 3 표준 기능만 사용하며 별도 입력 파일이나 패키지는 필요 없다. 파일이 있는 폴더에서 `python -I -B qualys_status_example.py`로 실행한다. 파일·네트워크·제품 API에 접근하지 않는다. 함수는 알 수 없는 상태와 모순된 입력을 거부하고, 평가하지 못한 회차에는 마지막 상태를 보존한다.
 
 ```python
 STATES = {None, "New", "Active", "Fixed", "Re-Opened"}

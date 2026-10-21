@@ -2,7 +2,7 @@
 title: "U-09: 계정이 존재하지 않는 GID 금지"
 description: "기본·보조 그룹 구성원을 조회하고, 그룹이 서비스나 파일에서 사용 중인지 확인합니다."
 date: "2026-10-14T20:16:39+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-09", "GID"]
@@ -242,7 +242,7 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 파일로 결과를 확인한다
 
-[check_u09.py 내려받기](../../downloads/check_u09.py). 준비 명령 안의 `mktemp -d`가 `$work`를 만들고 passwd와 group을 채운다. 실행 기록의 `$LAB`을 실제 경로로 입력할 필요는 없다. Linux의 Bash와 Python 3가 필요하다.
+ZIP의 `check_u09.py` 파일을 사용한다. 준비 명령 안의 `mktemp -d`가 `$work`를 만들고 passwd와 group을 채운다. 실행 기록의 `$LAB`을 실제 경로로 입력할 필요는 없다. Linux의 Bash와 Python 3가 필요하다.
 
 다음 예제는 가상 계정·그룹 파일만 생성한다. 실제 계정을 만들거나 변경하지 않는다. Bash에서 `check_u09.py`가 있는 디렉터리를 기준으로 명령 전체를 실행한다.
 

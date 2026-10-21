@@ -26,12 +26,12 @@ const examples = [
   ['u-16-passwd-owner-permissions', 'u16_passwd_mode.py', 0],
 ];
 
-test('주통기 다운로드는 본문 전체 코드와 같고 준비 파일 링크도 존재한다', async () => {
+test('주통기 준비 파일은 본문 전체 코드와 같고 파일명 안내를 보존한다', async () => {
   for (const [slug, filename, index] of examples) {
     const source = await read(`src/content/posts/${slug}.md`);
     const blocks = [...source.matchAll(/^```[^\n]*\n([\s\S]*?)\n```\s*$/gm)].map((m) => m[1]);
     assert.equal(await read(`public/downloads/${filename}`), `${blocks[index]}\n`, slug);
-    assert.ok(source.includes(`../../downloads/${filename}`), slug);
+    assert.ok(source.includes(`\`${filename}\``), slug);
     const files = evidence.posts[slug].preparationFiles;
     assert.ok(files.includes(filename), slug);
     for (const file of files) {

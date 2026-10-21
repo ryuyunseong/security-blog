@@ -2,7 +2,7 @@
 title: "작은 gzip 파일도 안전하지 않다: 압축 해제 출력량 제한하기"
 description: "작은 gzip 입력도 해제 출력량을 기준으로 제한해야 하는 이유와 경계값 검증을 다룹니다."
 date: "2026-10-12T20:52:00+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 category: "application-security"
 tags: ["Python", "압축", "입력검증"]
 draft: false
@@ -38,7 +38,7 @@ Python의 `zlib.decompressobj()`로 gzip 해제기를 만들고, `decompress()`�
 
 ## 실제 출력량을 세는 전체 코드
 
-다음 코드를 `gzip_limit.py`로 저장하거나 [같은 파일을 내려받는다](../../downloads/gzip_limit.py). 터미널에서 이 파일이 있는 폴더로 이동한 뒤 실행한다. 인자 없이 실행하면 메모리에서 만든 시험 데이터만 검사한다. 로컬 파일 경로를 지정하면 압축 입력도 한도를 확인할 수 있는 크기까지만 읽는다.
+실습 ZIP의 `gzip_limit.py`를 사용하거나 다음 코드를 같은 이름으로 저장한다. 터미널에서 이 파일이 있는 폴더로 이동한 뒤 실행한다. 인자 없이 실행하면 메모리에서 만든 시험 데이터만 검사한다. 로컬 파일 경로를 지정하면 압축 입력도 한도를 확인할 수 있는 크기까지만 읽는다.
 
 ```python
 import argparse
@@ -171,7 +171,7 @@ gzip이 아닌 입력: 성공, 예상한 거부 확인
 
 [[run:1:fold]]
 
-파일 경로를 전달하는 실행에는 실제 `sample.gz`가 필요하다. 빈 실습 폴더에 `gzip_limit.py`를 둔 뒤, 다음 한 줄로 `A` 65,536바이트를 압축한 파일을 만든다. Bash 또는 PowerShell에서 `python3 -c 'import gzip; open("sample.gz", "xb").write(gzip.compress(b"A" * 65536, mtime=0))'`를 실행한다. `xb`는 같은 이름의 파일이 있으면 실패하므로 기존 파일을 덮어쓰지 않는다. Windows에서 명령 이름이 `python`이면 `python3` 대신 사용한다.
+ZIP에는 `A` 65,536바이트를 압축한 `sample.gz`가 함께 들어 있어 바로 아래 파일 검사 명령을 실행할 수 있다. 입력을 직접 만들려면 `sample.gz`가 없는 새 실습 폴더에 `gzip_limit.py`를 둔 뒤 다음 한 줄을 사용한다. Bash 또는 PowerShell에서 `python3 -c 'import gzip; open("sample.gz", "xb").write(gzip.compress(b"A" * 65536, mtime=0))'`를 실행한다. `xb`는 같은 이름의 파일이 있으면 실패하므로 기존 파일을 덮어쓰지 않는다. Windows에서 명령 이름이 `python`이면 `python3` 대신 사용한다.
 
 이제 같은 폴더에서 아래 명령을 실행한다. `--limit`은 파일 경로를 전달했을 때만 적용한다. 경로 없이 `--limit`만 바꾸면 `run_demo()`의 고정된 시험 사례가 실행된다. 파일 검사도 해제 내용 대신 출력 바이트 수만 표시한다.
 

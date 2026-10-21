@@ -2,7 +2,7 @@
 title: "CIDR 허용 목록에서 IP 찾기: 구간 병합과 이진 탐색"
 description: "IPv4 CIDR을 정수 구간으로 병합한 뒤 이진 탐색으로 허용 목록 포함 여부를 계산합니다."
 date: "2026-10-11T16:01:39+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 category: "coding-test"
 tags: ["Python", "알고리즘", "CIDR"]
 draft: false
@@ -121,7 +121,7 @@ position = bisect_right(starts, x) - 1
 
 ## Python 구현
 
-아래 코드를 `solution.py`로 저장한다. Python 3의 표준 라이브러리만 사용한다. [solution.py](../../downloads/cidr-lookup/solution.py), [예제 input.txt](../../downloads/cidr-lookup/input.txt), [test_solution.py](../../downloads/cidr-lookup/test_solution.py)를 내려받아 같은 새 폴더에 둘 수도 있다. 로그인 실패 집계 문제와 파일 이름이 같으므로 폴더를 구분한다. 외부 주소에 접속하거나 방화벽을 준비할 필요는 없다.
+본문 앞의 실습 ZIP을 풀면 `solution.py`, 예제 `input.txt`, `test_solution.py`가 같은 폴더에 있다. 아래 코드를 `solution.py`로 저장해 사용해도 된다. Python 3의 표준 라이브러리만 사용한다. 로그인 실패 집계 문제와 파일 이름이 같으므로 폴더를 구분한다. 외부 주소에 접속하거나 방화벽을 준비할 필요는 없다.
 
 ```python
 import sys

@@ -2,7 +2,7 @@
 title: "U-06: 사용자 계정 su 기능 제한"
 description: "su 실행 권한과 PAM 그룹 제한이 실제 사용자 전환 경로에 적용되는지 확인합니다."
 date: "2026-10-11T15:59:47+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-06", "PAM"]
@@ -213,7 +213,7 @@ printf '종료 코드=%s\n' "$result"
 # 별도로 준비한 파일 트리 확인
 python3 check_u06.py --root ./sample --group wheel --su /usr/bin/su
 ```
-[check_u06.py](../../downloads/check_u06.py)와 [u06_fixture_lab.py](../../downloads/u06_fixture_lab.py)를 같은 폴더에 두고 `python3 -I -B u06_fixture_lab.py ./check_u06.py`로 실행하면 파일 트리를 직접 준비할 수 있다. Linux의 Python 3 표준 라이브러리만 사용하고 관리자 권한은 쓰지 않는다. 준비 파일은 `/tmp`의 전용 폴더에 passwd·group·PAM 파일과 속성 조회용 `usr/bin/su` 텍스트 파일을 만든다. 이 가짜 su는 실행하지 않는다.
+ZIP의 `check_u06.py`와 `u06_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u06_fixture_lab.py ./check_u06.py`로 실행하면 파일 트리를 직접 준비할 수 있다. Linux의 Python 3 표준 라이브러리만 사용하고 관리자 권한은 쓰지 않는다. 준비 파일은 `/tmp`의 전용 폴더에 passwd·group·PAM 파일과 속성 조회용 `usr/bin/su` 텍스트 파일을 만든다. 이 가짜 su는 실행하지 않는다.
 
 `--root ./sample`을 지정하면 sample 아래의 etc/passwd, etc/group, etc/pam.d/su, etc/pam.d/su-l, usr/bin/su를 읽는다. 심볼릭 링크도 해석하지만 지정 범위 밖을 가리키면 거부한다. 복사한 파일의 소유권과 모드는 원본과 다를 수 있어 원본 서버의 권한 증거를 대신하지 못한다.
 

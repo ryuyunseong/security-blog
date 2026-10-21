@@ -2,7 +2,7 @@
 title: "U-16: /etc/passwd 파일 소유자 및 권한 설정"
 description: "root 소유 여부와 0644 권한 비트를 대조합니다. 가상 UID·모드 다섯 가지로 숫자 대소 비교가 놓치는 쓰기 권한을 실행해 봅니다."
 date: "2026-10-21T18:52:52+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-21"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
@@ -80,7 +80,7 @@ print(f"0606 <= 0644 숫자 비교: {0o606 <= 0o644}")
 print("0606에서 추가된 기타 쓰기 비트: 002")
 ```
 
-[u16_passwd_mode.py 내려받기](../../downloads/u16_passwd_mode.py). 저장한 폴더에서 위 명령을 실행하고 Linux·WSL에서는 `python3`를 사용할 수 있다. `/etc/passwd`의 복사본이나 별도 파일 권한 준비는 필요하지 않다. `CASES`의 숫자만 함수에 전달한다.
+ZIP의 `u16_passwd_mode.py` 파일을 사용한다. 저장한 폴더에서 위 명령을 실행하고 Linux·WSL에서는 `python3`를 사용할 수 있다. `/etc/passwd`의 복사본이나 별도 파일 권한 준비는 필요하지 않다. `CASES`의 숫자만 함수에 전달한다.
 
 `inspect()`는 UID·모드가 정수인지 검사하면서 Python에서 정수의 하위 유형인 참·거짓 값은 제외한다. `~ALLOWED`를 `0o777`로 한정한 뒤 AND 연산을 하므로 일반 권한 9비트에서 허용하지 않은 비트만 남는다. 반환값은 ‘UID가 0이고 추가 비트가 없음’과 ‘추가된 비트 값’ 두 개다. `:04o`와 `:03o`는 결과를 8진수 자릿수에 맞춰 출력한다.
 

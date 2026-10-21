@@ -2,7 +2,7 @@
 title: "U-03: 계정 잠금 임계값 설정"
 description: "pam_faillock의 잠금 횟수·시간 설정과 서비스별 PAM 구성을 점검합니다."
 date: "2026-10-08T21:45:21+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-03", "PAM"]
@@ -234,7 +234,7 @@ bash check_u03_lockout.sh
 # 별도로 준비한 설정 복사본 조회
 U03_ROOT=/absolute/config-copy bash check_u03_lockout.sh
 ```
-이 예제의 `/absolute/config-copy`는 직접 준비할 경로를 나타낸다. [check_u03_lockout.sh](../../downloads/check_u03_lockout.sh)와 [u03_fixture_lab.py](../../downloads/u03_fixture_lab.py)를 같은 폴더에 저장하고 `python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh`로 실행하면 가상 파일 생성부터 정리까지 이어진다. Linux의 Python 3, Bash, awk가 필요하다. 준비 파일은 `/tmp`의 전용 폴더에 `etc/security/faillock.conf`와 `etc/pam.d/sshd`를 만들고 `U03_ROOT`를 지정한다. 실제 로그인 시도는 하지 않는다.
+이 예제의 `/absolute/config-copy`는 직접 준비할 경로를 나타낸다. ZIP에 들어 있는 `check_u03_lockout.sh`와 `u03_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh`로 실행하면 가상 파일 생성부터 정리까지 이어진다. Linux의 Python 3, Bash, awk가 필요하다. 준비 파일은 `/tmp`의 전용 폴더에 `etc/security/faillock.conf`와 `etc/pam.d/sshd`를 만들고 `U03_ROOT`를 지정한다. 실제 로그인 시도는 하지 않는다.
 
 `collect()`는 파일 모드에서 `deny`의 개수와 마지막 값을 모은다. 종료 시 한 번 지정된 양의 정수인지, 0인지, 중복인지, 형식이 잘못됐는지를 안내한다. PAM 모드에서는 `auth`·`account` 단계와 제어문을 보존하고 잠금 모듈의 허용된 인수만 표시한다. 두 모드의 출력이 있어도 서비스의 분기를 자동으로 합쳐 판정하지는 않는다.
 

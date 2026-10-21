@@ -23,6 +23,16 @@ test('공개 실행 예제는 글별 ZIP을 제공하고 모든 개별 준비 �
   }
 });
 
+test('공개 본문에는 ZIP 외의 실습 파일 다운로드 링크가 남지 않는다', async () => {
+  for (const post of await publishedPosts()) {
+    const prose = post.source.replace(/^(`{3,}|~{3,})[^\n]*\n[\s\S]*?\n\1\s*$/gm, '');
+    for (const [, href] of prose.matchAll(/\[[^\]\n]*\]\(([^)\s]+)\)/g)) {
+      if (!href.includes('/downloads/')) continue;
+      assert.match(href, /\/downloads\/bundles\/[a-z0-9-]+\.zip$/, post.slug);
+    }
+  }
+});
+
 test('실습 ZIP의 원본 일치·경로 경계·준비 입력·재생성 검사를 통과한다', () => {
   const python = process.platform === 'win32' ? 'python' : 'python3';
   const result = spawnSync(python, ['-I', '-B', '-X', 'utf8', 'tests/practice-bundles.test.py'], {

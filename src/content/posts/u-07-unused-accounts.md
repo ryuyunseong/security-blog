@@ -2,7 +2,7 @@
 title: "U-07: 불필요한 계정 제거"
 description: "계정 목록을 승인 명단과 대조하고, 삭제 전에 확인할 서비스·예약 작업·소유 파일을 정리합니다."
 date: "2026-10-12T20:48:05+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-07", "계정관리"]
@@ -183,7 +183,7 @@ UID가 작거나 셸이 nologin이어도 비교에서 제외하지 않는다. �
 
 ## 실제 계정을 만들지 않고 결과를 확인한다
 
-[check_u07.py 내려받기](../../downloads/check_u07.py). Linux의 Bash와 Python 3가 필요하다. 아래 준비 명령에서 `$work`는 `mktemp -d`가 반환한 실제 임시 경로다. 기록의 `$LAB`은 표시용 이름이므로 같은 이름의 폴더를 따로 만들지 않는다.
+ZIP의 `check_u07.py` 파일을 사용한다. Linux의 Bash와 Python 3가 필요하다. 아래 준비 명령에서 `$work`는 `mktemp -d`가 반환한 실제 임시 경로다. 기록의 `$LAB`은 표시용 이름이므로 같은 이름의 폴더를 따로 만들지 않는다.
 
 다음 예제는 임시 디렉터리에 가상 계정 파일과 승인 목록을 만든다. oldvendor가 승인 목록에서 빠진 상황이며 실제 시스템 계정은 변경하지 않는다. Bash에서 check_u07.py가 있는 디렉터리를 기준으로 실행한다.
 

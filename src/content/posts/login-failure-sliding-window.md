@@ -2,7 +2,7 @@
 title: "로그에서 반복 로그인 실패 IP 찾기"
 description: "슬라이딩 윈도와 덱으로 최근 구간에 로그인 실패가 반복된 IPv4 주소를 찾습니다."
 date: "2026-10-10T21:22:40+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 category: "coding-test"
 tags: ["Python", "알고리즘", "로그"]
 draft: false
@@ -98,7 +98,7 @@ NONE
 
 다음 코드를 `solution.py`로 저장한다. Python 3의 표준 라이브러리만 사용하며, 입력 조건을 만족하는 코딩 테스트 데이터용 풀이이다.
 
-직접 복사하는 대신 [solution.py](../../downloads/login-failure/solution.py), [첫 번째 예제의 input.txt](../../downloads/login-failure/input.txt), [test_solution.py](../../downloads/login-failure/test_solution.py)를 내려받아 새 폴더 하나에 함께 둘 수도 있다. 파일 이름을 유지하고 그 폴더에서 실행한다. CIDR 글도 `solution.py`라는 이름을 사용하므로 두 문제는 폴더를 나눠 보관한다. 실제 서버 로그나 로그인 계정은 필요 없다.
+실습 ZIP에는 `solution.py`, 첫 번째 예제의 `input.txt`, `test_solution.py`가 들어 있다. 압축을 풀면 세 파일을 같은 폴더에서 사용할 수 있다. 파일 이름을 유지하고 그 폴더에서 실행한다. CIDR 글도 `solution.py`라는 이름을 사용하므로 두 문제는 폴더를 나눠 보관한다. 실제 서버 로그나 로그인 계정은 필요 없다.
 
 ```python
 from collections import deque

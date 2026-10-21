@@ -2,7 +2,7 @@
 title: "U-01: root 계정 원격 접속 제한"
 description: "OpenSSH의 유효 설정과 접속 조건을 확인해 root 원격 로그인 제한을 점검합니다."
 date: "2026-10-06T21:54:44+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-01", "SSH"]
@@ -79,7 +79,7 @@ case "$value" in
         ;;
 esac
 ```
-[check_u01_ssh.sh 내려받기](../../downloads/check_u01_ssh.sh). 파일을 저장한 폴더에서 아래 명령을 실행합니다. 이 수집기는 `/etc/ssh/sshd_config`를 읽으므로, 뒤의 가상 설정 실습과 구분합니다.
+ZIP의 `check_u01_ssh.sh`가 있는 폴더에서 아래 명령을 실행합니다. 이 수집기는 `/etc/ssh/sshd_config`를 읽으므로, 뒤의 가상 설정 실습과 구분합니다.
 
 ```bash
 sudo bash check_u01_ssh.sh
@@ -135,7 +135,7 @@ done
 )
 ```
 
-[u01_match_lab.sh 내려받기](../../downloads/u01_match_lab.sh)를 이용하면 위 준비 코드를 통째로 저장할 수 있습니다. 저장한 폴더에서 `bash u01_match_lab.sh`로 실행하며, 두 주소의 결과가 위에서 아래 순서로 나옵니다. `/run/sshd` 오류가 발생하면 앞 절의 원인과 준비 조건을 먼저 살펴봅니다.
+ZIP의 `u01_match_lab.sh`에는 위 준비 코드가 들어 있습니다. 저장한 폴더에서 `bash u01_match_lab.sh`로 실행하며, 두 주소의 결과가 위에서 아래 순서로 나옵니다. `/run/sshd` 오류가 발생하면 앞 절의 원인과 준비 조건을 먼저 살펴봅니다.
 
 `mktemp -d`로 만든 폴더 안에서 명령을 실행하므로 `./sshd_config`가 가리키는 파일이 분명해집니다. `HostKey`도 그 폴더의 키를 가리키며, 소괄호로 묶은 실습이 끝나면 `trap`이 임시 파일과 키를 지웁니다. 예제의 IP와 호스트명은 조건 비교에 쓰는 문자열이며 해당 주소로 접속하지 않습니다.
 

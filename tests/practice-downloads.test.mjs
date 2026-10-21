@@ -37,11 +37,11 @@ const execute = (directory, args, input) => {
   return result;
 };
 
-test('실습 다운로드는 본문 코드·예제 입력과 같고 개별 준비 링크가 연결된다', async () => {
+test('실습 준비 파일은 본문 코드·예제 입력과 같고 파일명 안내를 보존한다', async () => {
   for (const [slug, filename, index] of files) {
     const source = await read(`src/content/posts/${slug}.md`);
     assert.equal(await read(`public/downloads/${filename}`), `${blocks(source)[index]}\n`, filename);
-    assert.ok(source.includes(`../../downloads/${filename}`), filename);
+    assert.ok(source.includes(`\`${basename(filename)}\``), filename);
     assert.ok(evidence.posts[slug].preparationFiles.includes(filename), filename);
   }
   assert.deepEqual(evidence.posts['umask-and-file-permissions'].preparationFiles, ['umask_lab.sh']);

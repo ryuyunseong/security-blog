@@ -2,7 +2,7 @@
 title: "데이터베이스·SQL 기초: SELECT, NULL, 데이터 변경"
 description: "가상 도서 목록으로 SELECT·NULL·데이터 변경을 실행하고, 직접 만든 다섯 문제의 정답과 SQLite 결과를 비교합니다."
 date: "2026-10-21T18:52:52+09:00"
-updated: "2026-10-21T21:21:09+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-21"
 category: "cs-study"
 tags: ["전산", "NCS", "SQL", "데이터베이스", "SQLite"]
@@ -62,7 +62,7 @@ FROM 테이블
 
 예제는 외부 연결 없이 메모리 데이터베이스에서 실행했다. 실행 환경은 Python 3.12.1의 sqlite3 모듈, SQLite 3.43.1이며 실행일은 2026-10-20이다. 아래 예제와 뒤의 문제는 각각 처음의 도서 5건에서 독립적으로 시작한다.
 
-Python의 `sqlite3` 표준 모듈을 사용하므로 별도 DB 서버·로그인 계정·SQLite 명령행 프로그램은 필요하지 않다. 먼저 [01-database-sql.py](../../downloads/01-database-sql.py)를 내려받아 빈 실습 폴더에 저장한다. 터미널의 작업 폴더를 그 위치로 옮긴 뒤 `python -I -B -X utf8 01-database-sql.py`로 실행한다. Linux·WSL에서 명령 이름이 `python3`라면 그 부분만 바꾼다. 파일 이름 뒤에 `.txt`가 붙지 않았는지도 살펴본다.
+Python의 `sqlite3` 표준 모듈을 사용하므로 별도 DB 서버·로그인 계정·SQLite 명령행 프로그램은 필요하지 않다. 먼저 본문 앞의 실습 ZIP을 풀어 `01-database-sql.py`가 있는 폴더를 연다. 터미널의 작업 폴더를 그 위치로 옮긴 뒤 `python -I -B -X utf8 01-database-sql.py`로 실행한다. Linux·WSL에서 명령 이름이 `python3`라면 그 부분만 바꾼다. 파일 이름 뒤에 `.txt`가 붙지 않았는지도 살펴본다.
 
 `python --version`으로 Python을, `python -c "import sqlite3; print(sqlite3.sqlite_version)"`으로 연결된 SQLite 버전을 조회할 수 있다. 이 글의 실행 기록은 Python 3.12 환경에서 남겼다. 브라우저의 코드 복사 버튼은 코드를 복사할 뿐 실행하지 않으며, SQL 블록을 Python 프롬프트나 PowerShell에 그대로 입력하는 방식도 아니다.
 
@@ -203,7 +203,7 @@ WHERE 없는 UPDATE와 DELETE는 테이블의 모든 행을 대상으로 한다.
 
 입력값을 SQL 문자열에 이어 붙이는 방식도 피해야 한다. Python sqlite3에서는 다음처럼 매개변수로 값을 전달한다.
 
-이 짧은 코드는 연결 준비 부분을 생략한 발췌다. 별도로 실행하려면 먼저 `import sqlite3`를 하고, 4-1의 SQL 전체를 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(":memory:")`와 `conn.executescript(BASE)`를 실행한 같은 Python 세션에서 아래 코드를 사용한다. 조회 후에는 `conn.close()`로 연결을 닫는다. 준비 없이 이 블록만 실행해 `NameError`가 나면 SQL 결과가 아니라 `conn` 변수가 없는 상태다. 전체 내려받기 파일에는 이 준비 과정이 포함돼 있다.
+이 짧은 코드는 연결 준비 부분을 생략한 발췌다. 별도로 실행하려면 먼저 `import sqlite3`를 하고, 4-1의 SQL 전체를 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(":memory:")`와 `conn.executescript(BASE)`를 실행한 같은 Python 세션에서 아래 코드를 사용한다. 조회 후에는 `conn.close()`로 연결을 닫는다. 준비 없이 이 블록만 실행해 `NameError`가 나면 SQL 결과가 아니라 `conn` 변수가 없는 상태다. ZIP의 전체 예제 파일에는 이 준비 과정이 포함돼 있다.
 
 ```python
 # 도서 번호를 SQL 문장과 분리해서 전달한다.
@@ -386,7 +386,7 @@ row_count | category_count
 
 조회 결과와 다섯 문제의 SQL 정답은 같은 초기 도서 목록에서 각각 실행했다. 아래 파일은 SQLite 메모리 데이터베이스를 만들고 조회 22건과 제약 조건 오류 세 건을 비교한다. 시스템의 실제 데이터베이스에는 연결하지 않는다.
 
-[전체 Python 예제 다운로드](/security-blog/downloads/01-database-sql.py) 후 `python -I -B -X utf8 01-database-sql.py`로 실행할 수 있다. `--record`는 새 JSON 기록 파일을 만드는 선택 사항이며 기존 파일이 있으면 덮어쓰지 않는다.
+ZIP에 담긴 `01-database-sql.py`를 `python -I -B -X utf8 01-database-sql.py`로 실행할 수 있다. `--record`는 새 JSON 기록 파일을 만드는 선택 사항이며 기존 파일이 있으면 덮어쓰지 않는다.
 
 ```python
 from datetime import datetime

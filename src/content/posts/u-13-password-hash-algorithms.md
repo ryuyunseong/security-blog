@@ -2,7 +2,7 @@
 title: "U-13: 안전한 비밀번호 암호화 알고리즘 사용"
 description: "새 비밀번호의 해시 정책과 기존 계정의 저장 형식을 나눠 점검하고, 가상 필드에서 잠금과 알고리즘을 분류합니다."
 date: "2026-10-18T12:14:00+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-18"
 category: "critical-infrastructure"
 tags: ["주통기","U-13","비밀번호","PAM","해시"]
@@ -91,7 +91,7 @@ for name, field in samples.items():
 print("정책 변수 지정 후 기존 필드: 변경 없음")
 ```
 
-[u13_hash_format.py 내려받기](../../downloads/u13_hash_format.py). 파일을 저장한 폴더에서 위 명령을 실행한다. Linux·WSL에서는 `python` 대신 `python3`를 사용할 수 있다. `/etc/shadow`나 별도 salt 파일은 준비하지 않는다. 입력은 `samples`의 가상 문자열에 모두 들어 있다.
+ZIP의 `u13_hash_format.py` 파일을 사용한다. 파일을 저장한 폴더에서 위 명령을 실행한다. Linux·WSL에서는 `python` 대신 `python3`를 사용할 수 있다. `/etc/shadow`나 별도 salt 파일은 준비하지 않는다. 입력은 `samples`의 가상 문자열에 모두 들어 있다.
 
 `classify()`는 먼저 원본의 `!` 유무를 보관한 뒤 `lstrip("!")`로 잠금 접두부를 제거해 형식을 읽는다. 그래서 `!$1$...`는 잠금과 MD5-crypt가 동시에 표시된다. 빈 필드·`*`·`!!`는 사용 가능한 해시가 없는 경우로 구분하고, 알려진 식별자에 대응하지 않으면 ‘대상별 해석 필요’를 반환한다. 이 함수는 salt나 뒤의 본문이 유효한 해시인지 검증하지 않는다.
 

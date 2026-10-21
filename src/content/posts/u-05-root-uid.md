@@ -2,7 +2,7 @@
 title: "U-05: root 이외의 UID가 ‘0’ 금지"
 description: "root 이외의 UID 0 계정을 찾고 로컬·중앙 계정의 확인 범위를 구분합니다."
 date: "2026-10-10T21:19:36+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-05", "UID"]
@@ -181,7 +181,7 @@ NSS 모드에서는 조회 명령의 종료 코드를 먼저 확인한다. 실�
 
 ## 테스트 파일에서 확인한 출력
 
-[check_u05.sh](../../downloads/check_u05.sh)와 [u05_fixture_lab.py](../../downloads/u05_fixture_lab.py)를 같은 폴더에 저장한다. Linux의 Python 3, Bash, awk가 있는 터미널에서 `python3 -I -B u05_fixture_lab.py ./check_u05.sh`로 실행하면 아래 세 사례를 차례로 재현한다. 수집기에 `--file`을 항상 전달하므로 운영 계정 파일이나 NSS를 조회하지 않는다.
+ZIP을 풀면 `check_u05.sh`와 `u05_fixture_lab.py`가 같은 폴더에 있다. Linux의 Python 3, Bash, awk가 있는 터미널에서 `python3 -I -B u05_fixture_lab.py ./check_u05.sh`로 실행하면 아래 세 사례를 차례로 재현한다. 수집기에 `--file`을 항상 전달하므로 운영 계정 파일이나 NSS를 조회하지 않는다.
 
 준비 파일은 `/tmp`의 새 폴더에 `etc/passwd`를 만든다. 처음에는 root와 alice 두 줄, 다음에는 UID 0인 backup 한 줄을 추가하고, 마지막에는 `malformed` 한 줄로 교체한다. 따라서 본문 실행 예시의 `./passwd.sample`이나 기록에 표시된 `$LAB/fixture/etc/passwd`를 별도로 갖고 있을 필요는 없다. 준비 파일 안의 `TemporaryDirectory`가 종료 시 자신이 만든 폴더를 정리한다.
 

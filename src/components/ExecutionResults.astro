@@ -1,7 +1,7 @@
 ---
 import executions from '../data/executions.json';
 import contexts from '../data/execution-context.json';
-import { dateLabel, path } from '../lib/site';
+import { dateLabel } from '../lib/site';
 interface Props { id: string; run: number; fold?: boolean; }
 const { id, run: runNumber, fold = false } = Astro.props;
 type Environment = typeof executions.environment & { bash?: string };
@@ -42,11 +42,11 @@ const lines = output.split('\n');
     {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
     <p>{context.scope}</p><p class="execution-finding">{context.finding}</p>
     {record.preparationFiles?.length
-    ? <p class="execution-footnote">본문의 준비 절차와 함께 사용할 파일: {record.preparationFiles.map((file, index) => <>{index > 0 && ', '}<a href={path(`downloads/${file}`)}>{file}</a></>)}.{record.runs.some((item) => item.command.includes('$LAB')) && <> <code>$LAB</code>은 기록에서 무작위 임시 경로를 통일한 표시다.</>}</p>
+    ? <p class="execution-footnote">실습 ZIP에 포함된 파일: {record.preparationFiles.map((file, index) => <>{index > 0 && ', '}<code>{file.split('/').at(-1)}</code></>)}.{record.runs.some((item) => item.command.includes('$LAB')) && <> <code>$LAB</code>은 기록에서 무작위 임시 경로를 통일한 표시다.</>}</p>
     : isBashExample
     ? <p class="execution-footnote">본문의 Bash 코드를 <code>check_u12_idle.sh</code>로 저장해 실행했다. 화면에 보인 출력과 종료 코드를 기록했다.</p>
     : record.reproduction === 'article'
     ? <p class="execution-footnote">본문의 Python 코드를 위 명령의 파일 이름으로 저장해 실행했다. 별도 준비 파일은 사용하지 않았다.</p>
-    : <p class="execution-footnote">무작위 임시 경로는 <code>$LAB</code>으로 통일해 표시했다. 준비 파일과 재현 절차는 <a href="https://github.com/ryuyunseong/security-blog/blob/main/scripts/run-article-examples.py">예제 실행 스크립트</a>에서 확인할 수 있다.</p>}
+    : <p class="execution-footnote">무작위 임시 경로는 <code>$LAB</code>으로 통일해 표시했다. 준비 파일과 실행 순서는 실습 ZIP의 <code>README.md</code>에서 확인할 수 있다.</p>}
   </details>}
 </section>}

@@ -76,6 +76,12 @@ const visuals = JSON.parse(await readFile('src/data/article-visuals.json', 'utf8
 for (const file of posts) {
   const source = await readFile(file, 'utf8');
   const slug = relative(root, file).split(sep)[1];
+  const downloadLinks = [...source.matchAll(/<a\b[^>]*\bhref="([^"]+)"/g)]
+    .map((match) => new URL(match[1].replaceAll('&amp;', '&'), new URL(base + `posts/${slug}/`, home.origin)))
+    .filter((url) => url.origin === home.origin && url.pathname.startsWith(base + 'downloads/'))
+    .map((url) => url.pathname);
+  const expectedDownloads = Object.hasOwn(evidence.posts, slug) ? [`${base}downloads/bundles/${slug}.zip`] : [];
+  check(JSON.stringify(downloadLinks) === JSON.stringify(expectedDownloads), `글별 ZIP 외의 다운로드 링크 또는 묶음 링크 누락: ${slug}`);
   check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
   const frame = articleDiagramFrame(visuals[slug].kind);
   check(new RegExp(`<img[^>]+alt="[^"]+"[^>]+width="${frame.width}"[^>]+height="${frame.height}"`).test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);

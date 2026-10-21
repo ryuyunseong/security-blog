@@ -2,7 +2,7 @@
 title: "Qualys 포트 범위 대조: TCP·UDP와 호스트 탐색 나눠 보기"
 description: "옵션 프로필의 서비스 포트와 Host Discovery 설정을 구분하고 가상 목록에서 TCP·UDP별 빠진 조합을 찾습니다."
 date: "2026-10-19T18:33:58+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-19"
 category: "qualys"
 tags: ["Qualys","VMDR","Option Profile","TCP","UDP"]
@@ -31,7 +31,7 @@ TCP 53과 UDP 53은 같은 숫자를 쓰더라도 서로 다른 검사 대상이
 
 ## 가상 서비스 네 개를 선택 목록과 대조한다
 
-[qualys_port_scope.py](../../downloads/qualys_port_scope.py)를 내려받거나 아래 코드로 저장한다. Python 3만 있으면 되며 별도 입력 파일·패키지·제품 계정은 필요 없다. 저장한 폴더에서 `python -I -B -X utf8 qualys_port_scope.py`로 실행한다. TCP 443·8443·53, UDP 53을 기대 서비스로 두고 TCP 22·443, UDP 53을 선택했다고 가정했다. 이 값은 설명용 사용자 지정 목록이며 Qualys의 Standard 또는 Light 기본 목록을 복제한 것이 아니다.
+ZIP의 `qualys_port_scope.py`를 사용하거나 아래 코드를 같은 이름으로 저장한다. Python 3만 있으면 되며 별도 입력 파일·패키지·제품 계정은 필요 없다. 저장한 폴더에서 `python -I -B -X utf8 qualys_port_scope.py`로 실행한다. TCP 443·8443·53, UDP 53을 기대 서비스로 두고 TCP 22·443, UDP 53을 선택했다고 가정했다. 이 값은 설명용 사용자 지정 목록이며 Qualys의 Standard 또는 Light 기본 목록을 복제한 것이 아니다.
 
 코드는 메모리의 집합을 비교한다. 실제 호스트, 포트, 제품 API에 요청을 보내지 않으며 열린 포트나 취약점 탐지를 재현하지 않는다. 입력 형식이 잘못됐을 때도 번호만 남기고 처리하지 않도록 검사를 넣었다.
 

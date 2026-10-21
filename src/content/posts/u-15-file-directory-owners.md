@@ -2,7 +2,7 @@
 title: "U-15: 파일 및 디렉터리 소유자 설정"
 description: "파일의 UID·GID와 계정·그룹 조회 결과를 대조하고, 가상 자료에서 정의가 없는 소유권과 UID 재사용의 영향을 비교합니다."
 date: "2026-10-20T18:38:46+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-20"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
@@ -90,7 +90,7 @@ print(f"archive의 UID: {snapshot[1][2]} -> {FILES[1][2]}")
 print("재사용 뒤 남은 후보: " + ", ".join(row[0] for row in after))
 ```
 
-[u15_owner_mapping.py 내려받기](../../downloads/u15_owner_mapping.py). 저장한 폴더에서 위 명령을 사용하고 Linux·WSL에서는 명령 이름을 `python3`로 바꿀 수 있다. `/lab` 아래 파일은 만들지 않는다. `FILES`의 각 튜플이 경로·종류·UID·GID를 제공하고, `USERS`와 `GROUPS`가 이 실습의 조회 표다.
+ZIP의 `u15_owner_mapping.py` 파일을 사용한다. 저장한 폴더에서 위 명령을 사용하고 Linux·WSL에서는 명령 이름을 `python3`로 바꿀 수 있다. `/lab` 아래 파일은 만들지 않는다. `FILES`의 각 튜플이 경로·종류·UID·GID를 제공하고, `USERS`와 `GROUPS`가 이 실습의 조회 표다.
 
 `unmapped()`는 각 ID가 표의 키에 없는지 따로 계산하고 둘 중 하나가 참이면 결과에 넣는다. `kind`는 표시용 값으로 비교 조건을 바꾸지 않는다. `sum(row[2] ...)`와 `sum(row[3] ...)`는 각각 참인 항목 수를 세므로 두 건수를 더한 값은 고유 경로 수와 다를 수 있다.
 

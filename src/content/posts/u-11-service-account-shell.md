@@ -2,7 +2,7 @@
 title: "U-11: 사용자 shell 점검"
 description: "로그인 불필요 계정의 셸을 분류하고 nologin으로 바꾸기 전 서비스 실행 방식을 조사합니다."
 date: "2026-10-16T21:58:00+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-16"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
@@ -123,7 +123,7 @@ if __name__ == "__main__":
             raise AssertionError(f"{label} 검증 실패")
 ```
 
-[check_u11_demo.py 내려받기](../../downloads/check_u11_demo.py). 파일을 저장한 폴더에서 `python3 -I -B check_u11_demo.py`로 실행한다. Windows에서는 같은 Python 옵션과 함께 명령 이름을 `python`으로 바꾼다. passwd 파일이나 `/srv/report` 디렉터리를 만들 필요는 없다. `fixture` 안의 각 행이 입력 데이터이며 홈 경로는 문자열로만 사용한다. 코드는 가상 자료의 셸 문자열을 분류하므로 제한용 셸 파일의 존재 여부나 실제 로그인 차단은 검사하지 않는다. 출력에는 후보 계정과 제한용 셸·빈 셸·입력 오류를 비교한 결과가 남는다.
+ZIP에 들어 있는 `check_u11_demo.py` 파일을 사용한다. 파일을 저장한 폴더에서 `python3 -I -B check_u11_demo.py`로 실행한다. Windows에서는 같은 Python 옵션과 함께 명령 이름을 `python`으로 바꾼다. passwd 파일이나 `/srv/report` 디렉터리를 만들 필요는 없다. `fixture` 안의 각 행이 입력 데이터이며 홈 경로는 문자열로만 사용한다. 코드는 가상 자료의 셸 문자열을 분류하므로 제한용 셸 파일의 존재 여부나 실제 로그인 차단은 검사하지 않는다. 출력에는 후보 계정과 제한용 셸·빈 셸·입력 오류를 비교한 결과가 남는다.
 
 `inspect()`는 입력 전체를 먼저 검증한 뒤 조사 대상 이름이 빠졌는지 검사한다. 반환 목록에서는 `accounts[name] not in RESTRICTED`의 참·거짓이 ‘검토 필요’ 값이 된다. 빈 셸은 안내 문구로 표시하면서도 제한용 셸 집합에는 없으므로 후보로 남는다.
 

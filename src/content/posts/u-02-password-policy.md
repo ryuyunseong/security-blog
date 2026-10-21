@@ -2,7 +2,7 @@
 title: "U-02: 비밀번호 관리정책 설정"
 description: "비밀번호 복잡성·사용 기간·재사용 제한을 PAM 적용 경로와 함께 확인합니다."
 date: "2026-10-07T21:27:23+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-02", "PAM"]
@@ -197,7 +197,7 @@ bash check_u02_policy.sh
 ```
 종료 코드는 정책의 적합 여부가 아니라 수집 상태를 나타낸다. 건너뛴 파일이 있어도 절차를 마치면 `0`이며, `awk` 누락·읽기·파싱 오류나 잘못된 시험 경로는 `2`다. 따라서 `0`을 받았더라도 출력에 누락된 파일이 있는지 읽어야 한다.
 
-가상 자료로 실행하려면 [check_u02_policy.sh](../../downloads/check_u02_policy.sh)와 [u02_fixture_lab.py](../../downloads/u02_fixture_lab.py)를 같은 폴더에 저장하고 `python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh`로 실행한다. Linux의 Python 3, Bash, awk가 필요하며 관리자 권한은 쓰지 않는다.
+가상 자료로 실행하려면 ZIP을 풀어 `check_u02_policy.sh`와 `u02_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh`로 실행한다. Linux의 Python 3, Bash, awk가 필요하며 관리자 권한은 쓰지 않는다.
 
 준비 파일은 `/tmp` 아래에 새 폴더를 만든다. 그 안에 `etc/login.defs`, `etc/security/pwquality.conf`, `etc/security/pwhistory.conf`, `etc/pam.d/passwd`와 `common-password`를 작성하고, 그 폴더의 절대 경로를 `U02_ROOT`로 전달한다. 직접 만드는 경우에도 `/absolute/fixture`라는 이름의 폴더가 미리 있다고 가정하지 말고 이 구조를 먼저 준비한다. 실행이 끝나거나 Python 예외가 발생하면 `TemporaryDirectory`가 만든 자료를 정리한다.
 

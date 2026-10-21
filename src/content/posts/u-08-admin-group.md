@@ -2,7 +2,7 @@
 title: "U-08: 관리자 그룹에 최소한의 계정 포함"
 description: "기본 GID와 보조 그룹을 함께 조회해 관리자 그룹 구성원의 필요성을 검토합니다."
 date: "2026-10-13T21:07:40+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-08", "그룹관리"]
@@ -250,7 +250,7 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 자료로 기본 GID 누락을 확인한다
 
-[check_u08.py 내려받기](../../downloads/check_u08.py). 실습에 필요한 파일은 아래 Bash 묶음에서 모두 만든다. `mktemp -d`가 정한 `$work` 안에 passwd와 group을 저장하므로 미리 준비할 운영 파일은 없다. Linux의 Bash와 Python 3로 실행한다.
+ZIP의 `check_u08.py` 파일을 사용한다. 실습에 필요한 파일은 아래 Bash 묶음에서 모두 만든다. `mktemp -d`가 정한 `$work` 안에 passwd와 group을 저장하므로 미리 준비할 운영 파일은 없다. Linux의 Bash와 Python 3로 실행한다.
 
 실제 계정을 만들지 않고 가상 파일 두 개로 확인한다. root만 승인한 상태에서 기본 GID가 0인 `deploy`와 명시적 보조 구성원 `audit`을 넣으면 두 계정이 모두 승인 목록 밖으로 나와야 한다.
 

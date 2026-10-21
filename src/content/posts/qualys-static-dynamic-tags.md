@@ -2,7 +2,7 @@
 title: "Qualys 자산 태그 읽기: 정적 분류와 동적 규칙"
 description: "정적 목록과 동적 규칙의 차이를 가상 자산 세 개로 비교하고 태그 재평가 시점을 짚습니다."
 date: "2026-10-16T21:58:01+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-16"
 category: "qualys"
 tags: ["Qualys", "자산관리", "태그", "점검범위"]
@@ -44,7 +44,7 @@ VM/VMDR과 GAV의 태그 지정·재평가 방식을 정리하고, 작은 Python
 
 이 조건식은 **분류 개념을 설명하는 독립적인 Python 코드**다. Qualys의 QQL 문법, 태그 엔진, 동기화 방식이나 API 응답 형식을 재현한 것은 아니다. 자격 증명이나 네트워크 연결도 사용하지 않는다.
 
-[compare_tags_demo.py](../../downloads/compare_tags_demo.py)를 내려받거나 아래 코드로 저장한 뒤, 같은 폴더에서 `python3 compare_tags_demo.py`로 실행한다. Python 3의 `json`·`re` 표준 라이브러리만 사용한다. 자산 파일을 따로 만들거나 실제 호스트 이름으로 값을 바꿀 필요는 없다.
+ZIP의 `compare_tags_demo.py`를 사용하거나 아래 코드로 저장한 뒤, 같은 폴더에서 `python3 compare_tags_demo.py`로 실행한다. Python 3의 `json`·`re` 표준 라이브러리만 사용한다. 자산 파일을 따로 만들거나 실제 호스트 이름으로 값을 바꿀 필요는 없다.
 
 ```python
 import json

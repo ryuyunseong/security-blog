@@ -2,7 +2,7 @@
 title: "U-12: 세션 종료 시간 설정"
 description: "600초 이하의 유휴 종료 기준을 정리하고 별도 Bash에서 TMOUT의 대기 동작을 시험합니다."
 date: "2026-10-17T09:07:00+09:00"
-updated: "2026-10-21T21:00:44+09:00"
+updated: "2026-10-22"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-12", "세션", "TMOUT"]
@@ -49,7 +49,7 @@ printf '%s\n' "$result" | tr -d '\a\r'
 printf '%s\n' '확인: 입력 없는 프롬프트에서 셸 자동 종료'
 ```
 
-[check_u12_idle.sh 내려받기](../../downloads/check_u12_idle.sh). 파일을 저장한 폴더에서 위 실행 명령을 사용한다. `HOME=/nonexistent`는 생성할 디렉터리가 아니라 시작 파일을 읽지 않는 별도 셸에 전달하는 값이다. 임시 설정 파일이나 로그인 계정 준비는 필요하지 않다. `script`의 기록 대상은 `/dev/null`이어서 터미널 기록 파일도 남기지 않는다.
+ZIP에 들어 있는 `check_u12_idle.sh` 파일을 사용한다. 파일을 저장한 폴더에서 위 실행 명령을 사용한다. `HOME=/nonexistent`는 생성할 디렉터리가 아니라 시작 파일을 읽지 않는 별도 셸에 전달하는 값이다. 임시 설정 파일이나 로그인 계정 준비는 필요하지 않다. `script`의 기록 대상은 `/dev/null`이어서 터미널 기록 파일도 남기지 않는다.
 
 `result=$(...)`는 가상 터미널의 출력을 모은다. `sleep 4`는 입력이 없는 채로 파이프를 열어 두는 역할이며 TMOUT 자체는 `2`초다. 출력에서 자동 로그아웃 문구를 찾지 못하면 코드 `1`, 필요한 `script`가 없으면 `2`로 끝난다. `set -euo pipefail` 때문에 그 밖의 명령·파이프 실패도 성공 출력으로 이어지지 않는다.
 

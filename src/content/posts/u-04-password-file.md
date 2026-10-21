@@ -2,7 +2,7 @@
 title: "U-04: 비밀번호 파일 보호"
 description: "passwd 필드 집계와 shadow 메타데이터의 수집 범위를 설명하고, 가상 파일로 종료 코드 0·1·2와 미수집 경로를 비교합니다."
 date: "2026-10-09T21:11:54+09:00"
-updated: "2026-10-21T20:44:41+09:00"
+updated: "2026-10-22"
 sourcesChecked: "2026-10-21"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
@@ -57,7 +57,7 @@ GID 42가 어떤 그룹인지는 해당 시스템에서 `getent group 42`로 조
 
 ## 읽기 전용 스크립트로 유형을 수집한다
 
-[수집기 파일 내려받기](/security-blog/downloads/check_u04_password_file.sh) 또는 다음 코드를 `check_u04_password_file.sh`로 저장한다. Bash, awk, GNU stat이 있는 Linux에서 사용하며 기본 대상은 `/etc`다. 일반 사용자 권한으로 읽을 수 있는 범위부터 실행한다.
+ZIP의 `check_u04_password_file.sh`를 사용하거나 다음 코드를 같은 이름으로 저장한다. Bash, awk, GNU stat이 있는 Linux에서 사용하며 기본 대상은 `/etc`다. 일반 사용자 권한으로 읽을 수 있는 범위부터 실행한다.
 
 스크립트는 passwd의 필드 유형과 shadow의 UID·GID·모드만 출력한다. shadow 내용은 읽지 않으며, 메타데이터를 조회할 수 없는 경우는 미수집으로 남긴다. 파일 변경이나 로그인 시도는 하지 않으며, 실행 중 파일이 교체되지 않는 신뢰할 수 있는 경로에서 사용한다.
 
@@ -227,7 +227,7 @@ NIS 호환 표기: 0
 
 ## 가상 파일을 준비해 종료 코드 0·1·2 비교하기
 
-[실습기 내려받기](/security-blog/downloads/u04_fixture_lab.sh)와 위 수집기를 같은 폴더에 저장한 뒤 `bash u04_fixture_lab.sh ./check_u04_password_file.sh`로 실행한다. Bash·awk·GNU stat과 일반 Coreutils가 있는 Linux 또는 WSL 환경을 사용한다.
+ZIP의 `u04_fixture_lab.sh`와 위 수집기를 같은 폴더에 두고 `bash u04_fixture_lab.sh ./check_u04_password_file.sh`로 실행한다. Bash·awk·GNU stat과 일반 Coreutils가 있는 Linux 또는 WSL 환경을 사용한다.
 
 실습기는 `/tmp`에 새 디렉터리를 만들고 그 안에서만 가상 파일을 생성·변경한다. shadow는 내용이 없는 파일로 만들고 모드를 `600`으로 지정한다. 이 값은 비교용 파일의 설정이며 U-18의 운영 권장값을 뜻하지 않는다. 끝나면 자신이 생성한 임시 경로인지 대조한 뒤 정리한다.
 

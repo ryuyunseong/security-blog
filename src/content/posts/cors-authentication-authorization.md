@@ -2,7 +2,7 @@
 title: "CORS 설정과 서버 접근 권한의 차이"
 description: "로컬 API 실습으로 CORS 허용과 서버의 인증·자료별 권한 검사를 구분합니다."
 date: "2026-10-09T21:15:19+09:00"
-updated: "2026-10-21"
+updated: "2026-10-22"
 category: "application-security"
 tags: ["CORS", "인증", "인가"]
 draft: false
@@ -29,7 +29,7 @@ CORS(Cross-Origin Resource Sharing)는 브라우저가 다른 출처의 응답�
 
 /cors-only는 CORS 헤더만 설정하고 문서를 반환하는 잘못된 예다. /protected는 같은 CORS 설정에 인증과 문서 소유자 검사를 추가한다. 문서는 앨리스만 읽을 수 있도록 정하고, 밥에게는 읽기 권한을 주지 않는다.
 
-Python 3 표준 라이브러리만 사용한다. 아래 코드를 `cors_auth_lab.py`로 저장하거나 [실습 파일을 내려받는다](../../downloads/cors_auth_lab.py). 터미널에서 해당 폴더로 이동한 뒤 실행한다. 입력 파일·계정·인증서·고정 포트를 따로 준비할 필요는 없다.
+Python 3 표준 라이브러리만 사용한다. 실습 ZIP의 `cors_auth_lab.py`를 사용하거나 아래 코드를 같은 이름으로 저장한다. 터미널에서 해당 폴더로 이동한 뒤 실행한다. 입력 파일·계정·인증서·고정 포트를 따로 준비할 필요는 없다.
 
 ```bash
 python3 cors_auth_lab.py
