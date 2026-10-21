@@ -35,6 +35,8 @@ Linux의 `getent`는 NSS(Name Service Switch)에 설정된 데이터베이스를
 
 아래 코드는 파일 네 개의 속성 목록을 가상 계정·그룹 표와 비교한다. 실제 파일이나 계정 데이터베이스를 읽지 않으며 소유권도 변경하지 않는다. `u15_owner_mapping.py`로 저장해 `python -I -B -X utf8 u15_owner_mapping.py`로 실행한다.
 
+[[download]]
+
 ```python
 USERS = {1000: "alice"}
 GROUPS = {1000: "app"}

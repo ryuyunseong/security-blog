@@ -121,7 +121,9 @@ position = bisect_right(starts, x) - 1
 
 ## Python 구현
 
-본문 앞의 실습 ZIP을 풀면 `solution.py`, 예제 `input.txt`, `test_solution.py`가 같은 폴더에 있다. 아래 코드를 `solution.py`로 저장해 사용해도 된다. Python 3의 표준 라이브러리만 사용한다. 로그인 실패 집계 문제와 파일 이름이 같으므로 폴더를 구분한다. 외부 주소에 접속하거나 방화벽을 준비할 필요는 없다.
+실습 ZIP을 풀면 `solution.py`, 예제 `input.txt`, `test_solution.py`가 같은 폴더에 있다. 아래 코드를 `solution.py`로 저장해 사용해도 된다. Python 3의 표준 라이브러리만 사용한다. 로그인 실패 집계 문제와 파일 이름이 같으므로 폴더를 구분한다. 외부 주소에 접속하거나 방화벽을 준비할 필요는 없다.
+
+[[download]]
 
 ```python
 import sys

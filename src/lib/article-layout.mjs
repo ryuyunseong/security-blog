@@ -1,4 +1,4 @@
-/** @typedef {{type:'markdown',text:string}|{type:'diagram'}|{type:'photo'}|{type:'run',index:number,fold:boolean}} ArticleBlock */
+/** @typedef {{type:'markdown',text:string}|{type:'diagram'}|{type:'photo'}|{type:'download'}|{type:'run',index:number,fold:boolean}} ArticleBlock */
 
 /** Split only standalone editorial markers outside fenced code. @param {string} body @returns {ArticleBlock[]} */
 export function parseArticleLayout(body) {
@@ -17,9 +17,9 @@ export function parseArticleLayout(body) {
       continue;
     }
     if (boundary) { fence = { char: boundary[1][0], length: boundary[1].length }; pending.push(line); continue; }
-    const marker = line.match(/^\[\[(diagram|photo|run:([1-9]\d*)(:fold)?)\]\]$/);
+    const marker = line.match(/^\[\[(diagram|photo|download|run:([1-9]\d*)(:fold)?)\]\]$/);
     if (!marker) {
-      if (/^\[\[(?:diagram|photo|run:)/.test(line)) throw new Error('본문 자료 배치 표식 형식 오류');
+      if (/^\[\[(?:diagram|photo|download|run:)/.test(line)) throw new Error('본문 자료 배치 표식 형식 오류');
       pending.push(line); continue;
     }
     flush();
@@ -34,8 +34,10 @@ export function validateArticleLayout(body, { runCount, hasPhoto = false }) {
   const blocks = parseArticleLayout(body);
   const count = (type) => blocks.filter((block) => block.type === type).length;
   if (count('diagram') !== 1 || count('photo') !== Number(hasPhoto)) throw new Error('설명 그림·사진의 배치 수 불일치');
+  if (count('download') !== Number(runCount > 0)) throw new Error('실습 ZIP의 배치 수 불일치');
   const runs = blocks.filter((block) => block.type === 'run').map((block) => block.index);
   if (JSON.stringify(runs) !== JSON.stringify(Array.from({ length: runCount }, (_, i) => i + 1))) throw new Error('실행 기록 배치의 누락·중복·순서 오류');
+  if (runCount > 0 && blocks.findIndex((block) => block.type === 'download') > blocks.findIndex((block) => block.type === 'run')) throw new Error('실습 ZIP은 첫 실행 기록 앞에 배치해야 함');
   for (let i = 0; i < blocks.length; i++) {
     if (blocks[i].type === 'markdown') continue;
     if (blocks[i - 1]?.type !== 'markdown' || blocks[i + 1]?.type !== 'markdown') {

@@ -34,6 +34,8 @@ sh·ksh·bash 계열에서는 KISA의 예처럼 `TMOUT` 값을 초 단위로 설
 
 다음은 Linux의 `bash`, `script`(util-linux), `sleep`, `tr`로 실행하는 작은 실험이다. 코드를 `check_u12_idle.sh`로 저장해 `bash check_u12_idle.sh`로 실행한다. `script`가 별도의 가상 터미널을 만들고, `sleep`이 입력 파이프를 열어 둔 사이 새 셸이 프롬프트에서 입력을 기다린다. 실습 셸에는 `env -i`로 최소 환경만 전달하고 시작 파일은 읽지 않게 했다. 실제 로그인 계정이나 `/etc/profile`은 수정하지 않는다.
 
+[[download]]
+
 ```bash
 #!/usr/bin/env bash
 set -euo pipefail

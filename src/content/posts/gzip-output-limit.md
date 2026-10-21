@@ -40,6 +40,8 @@ Python의 `zlib.decompressobj()`로 gzip 해제기를 만들고, `decompress()`�
 
 실습 ZIP의 `gzip_limit.py`를 사용하거나 다음 코드를 같은 이름으로 저장한다. 터미널에서 이 파일이 있는 폴더로 이동한 뒤 실행한다. 인자 없이 실행하면 메모리에서 만든 시험 데이터만 검사한다. 로컬 파일 경로를 지정하면 압축 입력도 한도를 확인할 수 있는 크기까지만 읽는다.
 
+[[download]]
+
 ```python
 import argparse
 import gzip

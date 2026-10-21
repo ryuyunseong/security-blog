@@ -37,6 +37,8 @@ root 소유 여부는 표시된 이름과 숫자 UID를 함께 수집한다. Lin
 
 `u16_passwd_mode.py`로 저장한 뒤 `python -I -B -X utf8 u16_passwd_mode.py`로 실행한다.
 
+[[download]]
+
 ```python
 ALLOWED = 0o644
 CASES = (

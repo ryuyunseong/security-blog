@@ -105,6 +105,8 @@ awk -F: -v g=oldapp '$1 == g {print "그룹=" $1, "관리자=" $3, "구성원=" 
 
 이 코드는 `/etc/gshadow`, 중앙 디렉터리, 서비스 설정, 파일 권한을 자동으로 조사하지 않는다. 결과는 후속 검토 대상을 추리는 데 사용한다.
 
+[[download]]
+
 ```python
 #!/usr/bin/env python3
 """로컬 passwd/group 자료에서 그룹 검토 대상을 수집한다."""

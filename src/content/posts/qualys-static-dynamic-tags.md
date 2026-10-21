@@ -46,6 +46,8 @@ VM/VMDR과 GAV의 태그 지정·재평가 방식을 정리하고, 작은 Python
 
 ZIP의 `compare_tags_demo.py`를 사용하거나 아래 코드로 저장한 뒤, 같은 폴더에서 `python3 compare_tags_demo.py`로 실행한다. Python 3의 `json`·`re` 표준 라이브러리만 사용한다. 자산 파일을 따로 만들거나 실제 호스트 이름으로 값을 바꿀 필요는 없다.
 
+[[download]]
+
 ```python
 import json
 import re

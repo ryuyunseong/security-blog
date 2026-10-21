@@ -48,6 +48,8 @@ Linux-PAM의 `pam_unix(8)` 매뉴얼은 비밀번호 변경 시 해시를 만들
 
 다음 코드를 `u13_hash_format.py`로 저장하고 `python -I -B u13_hash_format.py`로 실행한다. 실제 계정 파일을 열지 않고 문자열만 분류한다. `DEMO`와 `salt`는 형식 설명용 글자이며 유효한 비밀번호 해시가 아니다. 비밀번호 검증이나 복호화, 계정의 양호·취약 자동 판정을 수행하지 않는다.
 
+[[download]]
+
 ```python
 ALGORITHMS = {"1": "MD5-crypt", "5": "SHA256-crypt", "6": "SHA512-crypt"}
 

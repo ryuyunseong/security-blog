@@ -86,11 +86,14 @@ for (const file of posts) {
   const frame = articleDiagramFrame(visuals[slug].kind);
   check(new RegExp(`<img[^>]+alt="[^"]+"[^>]+width="${frame.width}"[^>]+height="${frame.height}"`).test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
   check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
-  check(!/\[\[(?:diagram|photo|run:)/.test(source), `본문 배치 표식 노출: ${slug}`);
+  check(!/\[\[(?:diagram|photo|download|run:)/.test(source), `본문 배치 표식 노출: ${slug}`);
   const bodyStart = source.indexOf('class="prose"');
   check(source.indexOf('class="article-visual"') > bodyStart, `본문 밖에 그림을 일괄 배치함: ${slug}`);
   check((source.match(/class="article-visual"/g) ?? []).length === 1, `설명 그림 중복: ${slug}`);
   if (Object.hasOwn(evidence.posts, slug)) {
+    const downloadPosition = source.indexOf('class="practice-download"');
+    check(downloadPosition > bodyStart && downloadPosition < source.indexOf('id="execution-results"'), `실습 ZIP이 본문 밖이나 첫 실행 기록 뒤에 배치됨: ${slug}`);
+    check((source.match(/class="practice-download"/g) ?? []).length === 1, `실습 ZIP 안내 누락·중복: ${slug}`);
     check(source.indexOf('id="execution-results"') > bodyStart, `본문 밖에 실행 기록 배치: ${slug}`);
     check((source.match(/data-run="\d+"/g) ?? []).length === evidence.posts[slug].runs.length, `실행 기록 누락·중복: ${slug}`);
   }

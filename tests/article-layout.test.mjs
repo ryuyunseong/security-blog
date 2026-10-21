@@ -6,14 +6,26 @@ import { renderArticleBlocks } from '../src/lib/article-markdown.mjs';
 import { publishedPosts } from './content-helpers.mjs';
 
 test('본문 배치 표식만 해석하고 코드 안의 같은 문자열은 보존한다', () => {
-  const source = '설명\n\n````text\n[[diagram]]\n```\n[[run:9]]\n````\n\n[[diagram]]\n\n이후 설명';
+  const source = '설명\n\n````text\n[[diagram]]\n```\n[[download]]\n[[run:9]]\n````\n\n[[diagram]]\n\n이후 설명';
   const blocks = validateArticleLayout(source, { runCount: 0 });
   assert.equal(blocks.filter((b) => b.type === 'diagram').length, 1);
   assert.ok(blocks[0].text.includes('[[run:9]]'));
+  assert.ok(blocks[0].text.includes('[[download]]'));
+  assert.throws(() => parseArticleLayout('[[download:1]]'), /형식/);
   assert.throws(() => parseArticleLayout('[[run:0]]'), /형식/);
   for (const text of ['[[diagram]]\n\n끝', '앞\n\n[[diagram]]', '앞\n\n[[diagram]]\n\n[[run:2]]\n\n끝']) {
     assert.throws(() => validateArticleLayout(text, { runCount: 0 }));
   }
+});
+
+test('실습 ZIP은 설명 사이에서 첫 실행 기록 앞에 한 번만 배치한다', () => {
+  const source = '개념 설명\n\n[[diagram]]\n\n## 실습 준비\n\nPython 3의 가상 자료를 사용한다.\n\n[[download]]\n\n```python\nprint(1)\n```\n\n출력을 읽는다.\n\n[[run:1]]\n\n해석';
+  assert.equal(validateArticleLayout(source, { runCount: 1 }).filter((block) => block.type === 'download').length, 1);
+  assert.throws(() => validateArticleLayout(source.replace('[[download]]', ''), { runCount: 1 }), /ZIP의 배치 수/);
+  assert.throws(() => validateArticleLayout(source.replace('[[download]]', '[[download]]\n\n준비\n\n[[download]]'), { runCount: 1 }), /ZIP의 배치 수/);
+  assert.throws(() => validateArticleLayout(source.replace('[[download]]', '') + '\n\n[[download]]\n\n마침', { runCount: 1 }), /첫 실행 기록 앞/);
+  assert.throws(() => validateArticleLayout('설명\n\n[[diagram]]\n\n준비\n\n[[download]]\n\n마침', { runCount: 0 }), /ZIP의 배치 수/);
+  assert.throws(() => validateArticleLayout(source.replace('[[download]]\n\n', '').replace('[[run:1]]', '[[download]]\n\n[[run:1]]'), { runCount: 1 }), /설명 사이/);
 });
 
 test('공개 글마다 본문 속 그림과 모든 실행 기록을 한 번씩 배치한다', async () => {

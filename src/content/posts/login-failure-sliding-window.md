@@ -100,6 +100,8 @@ NONE
 
 실습 ZIP에는 `solution.py`, 첫 번째 예제의 `input.txt`, `test_solution.py`가 들어 있다. 압축을 풀면 세 파일을 같은 폴더에서 사용할 수 있다. 파일 이름을 유지하고 그 폴더에서 실행한다. CIDR 글도 `solution.py`라는 이름을 사용하므로 두 문제는 폴더를 나눠 보관한다. 실제 서버 로그나 로그인 계정은 필요 없다.
 
+[[download]]
+
 ```python
 from collections import deque
 import sys

@@ -25,6 +25,8 @@ Python 3.10 이상과 OpenSSL 3.x 명령줄 도구가 필요합니다. Python에
 
 인증서나 비밀키를 미리 만들 필요는 없습니다. 코드는 쓰기 가능한 임시 경로에 전용 폴더를 만들고 `req.cnf`·`server.ext`와 CA 두 쌍, 서버 키·CSR·인증서를 생성합니다. `trusted.pem`은 서버 인증서의 발급 CA이고 `unrelated.pem`은 신뢰 불일치를 비교할 CA입니다. 파일들은 종료할 때 삭제되며, 별도 CA 설치나 hosts 파일 수정은 하지 않습니다.
 
+[[download]]
+
 ```python
 import shutil
 import socket

@@ -52,6 +52,8 @@ getent passwd 0도 전체 중복 계정을 찾는 명령은 아니다. UID 하�
 
 Bash와 awk가 필요하며, NSS 모드에서는 getent와 GNU timeout도 사용한다. 계정 설정을 변경하거나 로그인 시도를 하지는 않는다. 다만 NSS 조회는 설정된 중앙 계정 서버에 요청을 보낼 수 있다.
 
+[[download]]
+
 ```bash
 #!/usr/bin/env bash
 # 계정 정보만 읽는다. 비밀번호 필드와 전체 레코드는 출력하지 않는다.

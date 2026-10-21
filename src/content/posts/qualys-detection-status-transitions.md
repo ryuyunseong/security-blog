@@ -30,6 +30,8 @@ Fixed는 Qualys에 기록된 탐지 상태이며 패치 설치 완료를 보증�
 
 ZIP의 `qualys_status_example.py`를 사용하거나 코드를 같은 이름으로 저장한다. Python 3 표준 기능만 사용하며 별도 입력 파일이나 패키지는 필요 없다. 파일이 있는 폴더에서 `python -I -B qualys_status_example.py`로 실행한다. 파일·네트워크·제품 API에 접근하지 않는다. 함수는 알 수 없는 상태와 모순된 입력을 거부하고, 평가하지 못한 회차에는 마지막 상태를 보존한다.
 
+[[download]]
+
 ```python
 STATES = {None, "New", "Active", "Fixed", "Re-Opened"}
 

@@ -35,6 +35,8 @@ GNU Bash의 명령 탐색 설명에서는 함수·내장 명령이 아닌 외부
 
 다음은 외부 명령의 경로 탐색만 가상 목록으로 표현한 Python 코드다. `u14_path_lookup.py`로 저장해 `python -I -B -X utf8 u14_path_lookup.py`로 실행한다. 실제 root 계정이나 환경변수, 파일 권한을 바꾸지 않는다. 목록의 후보는 실행 가능하다고 가정하며 셸 함수·별칭·내장 명령·해시 캐시·심볼릭 링크는 구현하지 않았다.
 
+[[download]]
+
 ```python
 import posixpath
 

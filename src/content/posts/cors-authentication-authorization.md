@@ -31,6 +31,8 @@ CORS(Cross-Origin Resource Sharing)는 브라우저가 다른 출처의 응답�
 
 Python 3 표준 라이브러리만 사용한다. 실습 ZIP의 `cors_auth_lab.py`를 사용하거나 아래 코드를 같은 이름으로 저장한다. 터미널에서 해당 폴더로 이동한 뒤 실행한다. 입력 파일·계정·인증서·고정 포트를 따로 준비할 필요는 없다.
 
+[[download]]
+
 ```bash
 python3 cors_auth_lab.py
 ```

@@ -35,6 +35,8 @@ Linux, Python 3.7 이상, `libacl` 공유 라이브러리와 POSIX ACL을 지원
 
 상위 경로의 기본 ACL이 상속됐을 수 있으므로 새 실습 폴더의 기본 ACL만 지워 비교 조건을 맞춘다. ACL 실험은 별도 하위 폴더에서 진행한다.
 
+[[download]]
+
 ```bash
 python3 - <<'PY'
 import ctypes

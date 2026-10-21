@@ -35,6 +35,8 @@ ZIP의 `qualys_port_scope.py`를 사용하거나 아래 코드를 같은 이름�
 
 코드는 메모리의 집합을 비교한다. 실제 호스트, 포트, 제품 API에 요청을 보내지 않으며 열린 포트나 취약점 탐지를 재현하지 않는다. 입력 형식이 잘못됐을 때도 번호만 남기고 처리하지 않도록 검사를 넣었다.
 
+[[download]]
+
 ```python
 def endpoints(rows):
     result = set()

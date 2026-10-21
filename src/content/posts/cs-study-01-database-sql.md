@@ -62,7 +62,9 @@ FROM 테이블
 
 예제는 외부 연결 없이 메모리 데이터베이스에서 실행했다. 실행 환경은 Python 3.12.1의 sqlite3 모듈, SQLite 3.43.1이며 실행일은 2026-10-20이다. 아래 예제와 뒤의 문제는 각각 처음의 도서 5건에서 독립적으로 시작한다.
 
-Python의 `sqlite3` 표준 모듈을 사용하므로 별도 DB 서버·로그인 계정·SQLite 명령행 프로그램은 필요하지 않다. 먼저 본문 앞의 실습 ZIP을 풀어 `01-database-sql.py`가 있는 폴더를 연다. 터미널의 작업 폴더를 그 위치로 옮긴 뒤 `python -I -B -X utf8 01-database-sql.py`로 실행한다. Linux·WSL에서 명령 이름이 `python3`라면 그 부분만 바꾼다. 파일 이름 뒤에 `.txt`가 붙지 않았는지도 살펴본다.
+[[download]]
+
+Python의 `sqlite3` 표준 모듈을 사용하므로 별도 DB 서버·로그인 계정·SQLite 명령행 프로그램은 필요하지 않다. 먼저 실습 ZIP을 풀어 `01-database-sql.py`가 있는 폴더를 연다. 터미널의 작업 폴더를 그 위치로 옮긴 뒤 `python -I -B -X utf8 01-database-sql.py`로 실행한다. Linux·WSL에서 명령 이름이 `python3`라면 그 부분만 바꾼다. 파일 이름 뒤에 `.txt`가 붙지 않았는지도 살펴본다.
 
 `python --version`으로 Python을, `python -c "import sqlite3; print(sqlite3.sqlite_version)"`으로 연결된 SQLite 버전을 조회할 수 있다. 이 글의 실행 기록은 Python 3.12 환경에서 남겼다. 브라우저의 코드 복사 버튼은 코드를 복사할 뿐 실행하지 않으며, SQL 블록을 Python 프롬프트나 PowerShell에 그대로 입력하는 방식도 아니다.
 

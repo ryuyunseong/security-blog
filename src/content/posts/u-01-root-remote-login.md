@@ -47,6 +47,8 @@ Match User root
 
 `addr`는 클라이언트 IP, `host`는 서버가 판단하는 클라이언트 호스트명, `laddr`와 `lport`는 서버가 연결을 받는 IP와 포트입니다. 예제 주소와 이름을 실제 점검할 경로에 맞게 바꾸고, `user=root`는 유지합니다. `Match RDomain`을 사용하는 환경은 `rdomain`도 지정해야 합니다.
 
+[[download]]
+
 ```bash
 #!/usr/bin/env bash
 set -uo pipefail

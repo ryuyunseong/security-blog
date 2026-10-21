@@ -99,6 +99,8 @@ grep -E '^[[:space:]]*(passwd|group|initgroups)[[:space:]]*:' /etc/nsswitch.conf
 
 Linux의 Python 3 표준 라이브러리로 실행한다. 코드를 `check_u08.py`로 저장하고, 승인 목록에는 업무 담당자와 유지 필요성을 확인한 계정을 적는다. 현재 구성원을 그대로 복사하면 검토 없이도 일치 결과가 나온다.
 
+[[download]]
+
 ```python
 #!/usr/bin/env python3
 """로컬 관리자 그룹 구성원을 승인 목록과 읽기 전용으로 비교한다."""

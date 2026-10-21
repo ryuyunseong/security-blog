@@ -42,7 +42,7 @@ try {
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
       assert.equal(await page.locator('.prose .article-visual').count(), 1);
       assert.equal(await page.locator('.prose .article-photo').count(), Number(Boolean(visuals[slug].photo)));
-      assert.ok(!/\[\[(?:diagram|photo|run:)/.test(await page.locator('.prose').innerText()), `${slug}: 배치 표식 노출`);
+      assert.ok(!/\[\[(?:diagram|photo|download|run:)/.test(await page.locator('.prose').innerText()), `${slug}: 배치 표식 노출`);
       const duplicateIds = await page.evaluate(() => {
         const ids = [...document.querySelectorAll('[id]')].map((node) => node.id);
         return ids.filter((id, index) => ids.indexOf(id) !== index);
