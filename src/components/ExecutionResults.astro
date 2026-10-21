@@ -1,13 +1,13 @@
 ---
 import executions from '../data/executions.json';
 import contexts from '../data/execution-context.json';
-import { dateLabel } from '../lib/site';
+import { dateLabel, path } from '../lib/site';
 interface Props { id: string; run: number; fold?: boolean; }
 const { id, run: runNumber, fold = false } = Astro.props;
 type Environment = typeof executions.environment & { bash?: string };
 type Run = { label: string; command: string; exitCode: number; stdout: string; stderr: string;
   recordedAt?: string; environment?: Environment; scope?: string; finding?: string };
-const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment; reproduction?: 'article' }>)[id];
+const record = (executions.posts as Record<string, { runs: Run[]; recordedAt?: string; environment?: Environment; reproduction?: 'article'; preparationFiles?: string[] }>)[id];
 const context = contexts[id as keyof typeof contexts];
 const environment: Environment = record?.environment ?? executions.environment;
 const recordedAt = record?.recordedAt ?? executions.recordedAt;
@@ -41,7 +41,9 @@ const lines = output.split('\n');
     <p class="execution-environment">{dateLabel(new Date(recordedAt))} · {environment.os} · {isBashExample ? `Bash ${environment.bash}` : `Python ${environment.python}`}</p>
     {id === 'tls-version-and-identity' && <p class="execution-environment">Python TLS 라이브러리: {environment.pythonSsl}</p>}
     <p>{context.scope}</p><p class="execution-finding">{context.finding}</p>
-    {isBashExample
+    {record.preparationFiles?.length
+    ? <p class="execution-footnote">본문의 준비 절차와 함께 사용할 파일: {record.preparationFiles.map((file, index) => <>{index > 0 && ', '}<a href={path(`downloads/${file}`)}>{file}</a></>)}.{record.runs.some((item) => item.command.includes('$LAB')) && <> <code>$LAB</code>은 기록에서 무작위 임시 경로를 통일한 표시다.</>}</p>
+    : isBashExample
     ? <p class="execution-footnote">본문의 Bash 코드를 <code>check_u12_idle.sh</code>로 저장해 실행했다. 화면에 보인 출력과 종료 코드를 기록했다.</p>
     : record.reproduction === 'article'
     ? <p class="execution-footnote">본문의 Python 코드를 위 명령의 파일 이름으로 저장해 실행했다. 별도 준비 파일은 사용하지 않았다.</p>

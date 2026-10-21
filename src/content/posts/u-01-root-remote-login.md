@@ -2,7 +2,7 @@
 title: "U-01: root 계정 원격 접속 제한"
 description: "OpenSSH의 유효 설정과 접속 조건을 확인해 root 원격 로그인 제한을 점검합니다."
 date: "2026-10-06T21:54:44+09:00"
-updated: "2026-10-20T05:55:00+09:00"
+updated: "2026-10-21T21:00:44+09:00"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-01", "SSH"]
@@ -79,7 +79,7 @@ case "$value" in
         ;;
 esac
 ```
-`check_u01_ssh.sh`로 저장한 뒤 실행합니다.
+[check_u01_ssh.sh 내려받기](../../downloads/check_u01_ssh.sh). 파일을 저장한 폴더에서 아래 명령을 실행합니다. 이 수집기는 `/etc/ssh/sshd_config`를 읽으므로, 뒤의 가상 설정 실습과 구분합니다.
 
 ```bash
 sudo bash check_u01_ssh.sh
@@ -135,7 +135,18 @@ done
 )
 ```
 
+[u01_match_lab.sh 내려받기](../../downloads/u01_match_lab.sh)를 이용하면 위 준비 코드를 통째로 저장할 수 있습니다. 저장한 폴더에서 `bash u01_match_lab.sh`로 실행하며, 두 주소의 결과가 위에서 아래 순서로 나옵니다. `/run/sshd` 오류가 발생하면 앞 절의 원인과 준비 조건을 먼저 살펴봅니다.
+
 `mktemp -d`로 만든 폴더 안에서 명령을 실행하므로 `./sshd_config`가 가리키는 파일이 분명해집니다. `HostKey`도 그 폴더의 키를 가리키며, 소괄호로 묶은 실습이 끝나면 `trap`이 임시 파일과 키를 지웁니다. 예제의 IP와 호스트명은 조건 비교에 쓰는 문자열이며 해당 주소로 접속하지 않습니다.
+
+| 코드에서 바뀌는 부분 | 역할 |
+| --- | --- |
+| `ssh-keygen`과 `HostKey` | 임시 폴더에 새 키를 만들고 이 설정 검사에만 사용 |
+| `-f ./sshd_config` | `cd "$LAB"` 이후 생성한 파일을 읽음 |
+| 반복문의 `address`와 `-C addr=...` | 설정 파일은 유지하고 접속 주소 조건만 바꿈 |
+| `awk`의 필드 선택 | 전체 유효 설정 중 `permitrootlogin` 한 줄만 표시 |
+
+두 실행 기록의 종료 코드가 모두 `0`인 것은 `sshd`의 설정 해석과 결과 추출에 성공했다는 뜻입니다. 두 번째 출력의 `yes`를 차단 성공으로 읽으면 안 됩니다. 앞의 수집기는 같은 값을 만나면 추가 검토를 뜻하는 `1`을 반환하지만, 여기서는 그 수집기 대신 설정 해석 명령을 직접 실행했습니다.
 
 첫 번째 주소인 `192.0.2.11`에서는 `Match Address 192.0.2.10`에 일치하지 않아 `permitrootlogin no`가 나왔습니다.
 

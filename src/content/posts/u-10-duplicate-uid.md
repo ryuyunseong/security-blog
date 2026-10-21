@@ -2,7 +2,7 @@
 title: "U-10: 동일한 UID 금지"
 description: "중복 UID를 찾는 Python 예제와 UID 분리 전에 조사할 파일 소유권·서비스 영향을 다룹니다."
 date: "2026-10-15T20:23:44+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21T21:00:44+09:00"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-10", "UID"]
@@ -188,6 +188,8 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 계정 자료로 결과를 확인한다
 
+[check_u10.py 내려받기](../../downloads/check_u10.py). Linux의 Bash와 Python 3를 사용한다. 아래 묶음을 실행하면 `mktemp -d`로 배정한 `$work` 아래에 passwd가 생성되므로, 기록의 `$LAB` 경로를 직접 준비할 필요는 없다.
+
 다음 Bash 예제는 가상 계정 파일만 만든다. `check_u10.py`를 저장한 디렉터리에서 명령 전체를 실행한다. `deploy`와 `backup`의 UID는 1500으로 같고 기본 GID는 다르게 설정했다.
 
 ```bash
@@ -239,6 +241,10 @@ EOF
 ```
 
 [[run:1:fold]]
+
+코드는 각 행을 검증한 뒤 `by_uid.setdefault(uid, []).append(name)`로 UID별 이름을 모은다. 그 목록 길이가 2 이상인 항목만 `duplicates`에 남긴다. GID가 1500과 1600으로 달라도 이 묶음에는 영향을 주지 않으며 nologin인 backup도 제외하지 않는다.
+
+출력의 ‘확인한 계정 수’ 3은 root를 포함해 읽은 전체 이름 수다. 중복 묶음은 UID 1500 한 개, 그 묶음의 계정은 두 개다. Bash의 `exit "$result"`가 수집기의 발견 코드 `1`을 그대로 반환하며 trap이 준비 파일을 지운다. 입력 오류로 코드 `2`가 나왔다면 중복 개수가 0인 결과로 바꿔 기록하지 않는다.
 
 두 이름이 UID 1500에 묶였고 종료 코드 `1`이 나왔다. `backup`의 셸이 `nologin`이어도 UID 비교 결과는 달라지지 않는다.
 

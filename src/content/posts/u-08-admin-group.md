@@ -2,7 +2,7 @@
 title: "U-08: 관리자 그룹에 최소한의 계정 포함"
 description: "기본 GID와 보조 그룹을 함께 조회해 관리자 그룹 구성원의 필요성을 검토합니다."
 date: "2026-10-13T21:07:40+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21T21:00:44+09:00"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-08", "그룹관리"]
@@ -250,6 +250,8 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 자료로 기본 GID 누락을 확인한다
 
+[check_u08.py 내려받기](../../downloads/check_u08.py). 실습에 필요한 파일은 아래 Bash 묶음에서 모두 만든다. `mktemp -d`가 정한 `$work` 안에 passwd와 group을 저장하므로 미리 준비할 운영 파일은 없다. Linux의 Bash와 Python 3로 실행한다.
+
 실제 계정을 만들지 않고 가상 파일 두 개로 확인한다. root만 승인한 상태에서 기본 GID가 0인 `deploy`와 명시적 보조 구성원 `audit`을 넣으면 두 계정이 모두 승인 목록 밖으로 나와야 한다.
 
 Bash에서 `check_u08.py`가 있는 디렉터리를 기준으로 아래 명령 전체를 실행한다.
@@ -320,7 +322,11 @@ EOF
 
 [[run:1:fold]]
 
-`deploy`는 기본 GID에서, `audit`은 명시적 구성원 목록에서 발견됐다. 두 계정 모두 승인 목록에 없어 종료 코드 `1`이 나왔다. 파일 비교는 끝났으며, 다음에는 각 계정의 관리 업무와 승인 내역을 조사한다.
+`primary`는 passwd의 기본 GID로 만든 집합이고 `supplementary`는 같은 GID를 쓰는 그룹 행들의 구성원을 합친 집합이다. `observed = primary | supplementary`로 합친 뒤 `observed - allowed`를 구하므로 deploy와 audit이 함께 남는다. `--allow root`는 승인 목록을 전달하는 인자이며 실제 그룹을 바꾸지 않는다.
+
+이 자료에서 ‘승인됐지만 관찰되지 않음’과 ‘passwd에서 찾지 못한 구성원’은 모두 비어 있다. 전자는 승인 목록 쪽의 누락, 후자는 group에만 있는 이름을 찾는 서로 다른 검사다. 마지막 `exit "$result"`가 수집기의 `1`을 바깥 Bash까지 전달하며, EXIT trap은 그 뒤에 준비한 두 파일을 정리한다.
+
+deploy와 audit의 이름이 대조 결과에 남았으므로, 다음에는 두 계정의 관리 업무와 승인 내역을 조사한다.
 
 ## 그룹에서 제외할 때도 소속 경로를 확인한다
 

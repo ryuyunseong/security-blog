@@ -2,7 +2,7 @@
 title: "U-02: 비밀번호 관리정책 설정"
 description: "비밀번호 복잡성·사용 기간·재사용 제한을 PAM 적용 경로와 함께 확인합니다."
 date: "2026-10-07T21:27:23+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21T21:00:44+09:00"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-02", "PAM"]
@@ -197,11 +197,19 @@ bash check_u02_policy.sh
 ```
 종료 코드는 정책의 적합 여부가 아니라 수집 상태를 나타낸다. 건너뛴 파일이 있어도 절차를 마치면 `0`이며, `awk` 누락·읽기·파싱 오류나 잘못된 시험 경로는 `2`다. 따라서 `0`을 받았더라도 출력에 누락된 파일이 있는지 읽어야 한다.
 
-별도 시험 디렉터리에서는 `U02_ROOT=/절대/경로 bash check_u02_policy.sh`로 실행할 수 있다. 해당 경로 아래에 `etc/login.defs`와 같은 파일 구조를 만들면 된다.
+가상 자료로 실행하려면 [check_u02_policy.sh](../../downloads/check_u02_policy.sh)와 [u02_fixture_lab.py](../../downloads/u02_fixture_lab.py)를 같은 폴더에 저장하고 `python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh`로 실행한다. Linux의 Python 3, Bash, awk가 필요하며 관리자 권한은 쓰지 않는다.
+
+준비 파일은 `/tmp` 아래에 새 폴더를 만든다. 그 안에 `etc/login.defs`, `etc/security/pwquality.conf`, `etc/security/pwhistory.conf`, `etc/pam.d/passwd`와 `common-password`를 작성하고, 그 폴더의 절대 경로를 `U02_ROOT`로 전달한다. 직접 만드는 경우에도 `/absolute/fixture`라는 이름의 폴더가 미리 있다고 가정하지 말고 이 구조를 먼저 준비한다. 실행이 끝나거나 Python 예외가 발생하면 `TemporaryDirectory`가 만든 자료를 정리한다.
+
+수집기의 `safe_path()`는 경로를 구성하는 각 디렉터리의 링크를 검사한다. `collect()`는 파일의 용도에 맞춰 awk 모드를 바꾸고 `emit()`이 허용한 키·숫자·옵션만 남긴다. PAM의 대괄호 제어문은 닫는 괄호까지 모아 표시하지만, 그 분기를 실행하거나 최종 정책을 계산하지는 않는다. 줄 번호는 원본 파일의 행 번호다.
 
 ## 출력은 이렇게 읽는다
 
-시험용 파일에는 기본 길이 14를 넣고, PAM 호출에는 길이 8과 `enforcing=0`을 지정했다. 아래는 수집 결과의 일부다.
+먼저 보관된 실행 기록은 `minlen=12`, `remember=4`가 들어 있는 가상 파일의 수집 결과다. `passwd`, `system-auth`, `password-auth` 등의 파일은 준비하지 않아 건너뜀으로 표시됐다. 이때 종료 코드 `0`은 읽은 파일의 수집 절차가 끝났다는 뜻이고, 비밀번호 정책 전체가 적용됐다는 뜻은 아니다.
+
+[[run:1:fold]]
+
+위 준비 파일은 값이 충돌하는 경우를 별도로 재현한다. 기본 파일에는 길이 14, PAM 호출에는 길이 8과 `enforcing=0`을 넣었다. 새 실행 출력의 관련 부분은 다음과 같다.
 
 ```text
 [파일] /etc/security/pwquality.conf
@@ -216,9 +224,11 @@ bash check_u02_policy.sh
 
 출력에 `include`나 `conf=`가 보이면 원본 줄에서 참조 파일을 따라간다. 수집 과정에서 일부 경로·옵션이 생략될 수 있으며 출력 순서는 적용 우선순위가 아니다. 보이지 않는 설정은 모듈 기본값과 사용자 지정 경로에서 찾고, 수집된 설정은 실제 비밀번호 변경 경로에서 호출되는지 대조한다.
 
-예시 출력은 별도 시험 디렉터리에서 확인했다. 실제 PAM 실행이나 비밀번호 변경 시험은 포함하지 않는다.
+새 기록의 첫 사례에서는 `minlen=14`와 `minlen=8 enforcing=0`이 함께 보인다. `@include`는 대상 미추적으로 표시돼, 경로 연결을 이 수집기가 대신 검증하지 않는다는 것도 드러난다. 두 번째 사례는 `U02_ROOT`에 상대 경로를 넣어 파일 조회 전에 코드 `2`로 거부되는지 시험한다.
 
-[[run:1:fold]]
+[[run:2:fold]]
+
+준비 파일 자체의 종료 코드 `0`은 두 사례의 출력과 수집기 코드가 예상대로 나왔고 임시 자료도 정리됐다는 뜻이다. 비밀번호를 실제로 바꾸거나 PAM을 호출한 시험은 아니다.
 
 ## 운영 설정을 바꾸기 전에
 

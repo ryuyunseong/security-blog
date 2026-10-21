@@ -149,6 +149,25 @@
           "exitCode": 0,
           "stdout": "U-02 읽기 전용 증거 수집 (파일 표시 순서는 적용 우선순위가 아님)\n\n[파일] /etc/login.defs\n1: PASS_MIN_DAYS=1\n2: PASS_MAX_DAYS=90\n\n[파일] /etc/security/pwquality.conf\n1: minlen=12\n2: enforce_for_root\n\n[pwquality.conf.d] 없음/디렉터리 아님/접근 불가\n\n[파일] /etc/security/pwhistory.conf\n1: remember=4\n\n[파일] /etc/pam.d/passwd\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n[파일] /etc/pam.d/common-password\n1: password requisite pam_pwquality.so retry=3\n2: password required pam_pwhistory.so remember=4\n\n[파일] /etc/pam.d/system-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n[파일] /etc/pam.d/password-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n이 출력은 설정 후보이며 실제 유효값·모듈 설치·PAM 실행 경로를 판정하지 않습니다\n\n기본값/우선순위/include/사용자 지정 경로/외부 인증/기존 계정 만료 정책을 별도 확인하세요\n\n수동 검토 필요\n",
           "stderr": ""
+        },
+        {
+          "label": "가상 정책 파일과 PAM 인수·경로 오류 비교",
+          "command": "python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh",
+          "exitCode": 0,
+          "stdout": "[사례] 기본 길이 14와 PAM 인수 8\nU-02 읽기 전용 증거 수집 (파일 표시 순서는 적용 우선순위가 아님)\n\n[파일] /etc/login.defs\n1: PASS_MIN_DAYS=1\n2: PASS_MAX_DAYS=90\n\n[파일] /etc/security/pwquality.conf\n1: minlen=14\n2: enforce_for_root\n\n[pwquality.conf.d] 없음/디렉터리 아님/접근 불가\n\n[파일] /etc/security/pwhistory.conf\n1: remember=4\n2: enforce_for_root\n\n[파일] /etc/pam.d/passwd\n1: @include [대상 미추적: 수동 검토]\n\n[파일] /etc/pam.d/common-password\n1: password requisite pam_pwquality.so minlen=8 enforcing=0 enforce_for_root\n2: password required pam_pwhistory.so remember=4 enforce_for_root\n3: password required pam_unix.so use_authtok\n\n[파일] /etc/pam.d/system-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n[파일] /etc/pam.d/password-auth\n건너뜀: 없음/일반 파일 아님/읽기 불가\n\n이 출력은 설정 후보이며 실제 유효값·모듈 설치·PAM 실행 경로를 판정하지 않습니다\n\n기본값/우선순위/include/사용자 지정 경로/외부 인증/기존 계정 만료 정책을 별도 확인하세요\n\n수동 검토 필요\n수집기 종료 코드: 0\n[사례] 상대 경로 입력 거부\n오류: U02_ROOT는 점 경로가 없는 절대 경로여야 합니다\n수동 검토 필요\n수집기 종료 코드: 2\n실습 파일 정리: 완료\n",
+          "stderr": "",
+          "recordedAt": "2026-10-21T12:01:59.476422+00:00",
+          "environment": {
+            "os": "Ubuntu 24.04.4 LTS / WSL 2",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)",
+            "bash": "5.2.21(1)-release"
+          },
+          "sourceCodeSha256": "2ce1fc657ef77d2d98324227f1cc93180157b24b076b949dd42422a6c28d32fb",
+          "collectorSourceCodeSha256": "7fe0a7f7442fae425e09d62bd1562dda80e571f95e2fe6d2b83405e190dea0b3",
+          "scope": "가상 login.defs·pwquality·pwhistory·PAM 파일만 생성하고 U02_ROOT로 지정했다. 상대 경로 거부도 시험했으며 실제 PAM 호출이나 비밀번호 변경은 하지 않았다.",
+          "finding": "기본 파일 14와 PAM 인수 8·enforcing=0이 함께 수집됐다. 상대 루트 입력은 코드 2로 거부됐고 두 사례 뒤 임시 자료가 정리됐다."
         }
       ],
       "sourceCodeSha256": "36c93b858d58fc652bd2b7a172bbed8488ea81a88819cec96cd76e58d79b7def",
@@ -158,7 +177,11 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u02_policy.sh",
+        "u02_fixture_lab.py"
+      ]
     },
     "u-03-account-lockout": {
       "runs": [
@@ -168,6 +191,25 @@
           "exitCode": 0,
           "stdout": "U-03 읽기 전용 점검 자료\n파일 표시 순서는 적용 우선순위가 아니다\n\n[파일] /etc/security/faillock.conf\n1: deny=10\n2: fail_interval=900\n3: unlock_time=120\n임계값 후보: 1~10, 실제 적용 경로 확인\n\n[파일] /usr/share/pam/security/faillock.conf\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sshd\n1: auth required pam_faillock.so preauth\n2: account required pam_faillock.so\n\n[파일] /etc/pam.d/login\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sudo\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/su\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-account\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n최종 판단: 수동 검토 필요\n\n서비스 연결·분기·모듈 설치·인수 우선값·외부 인증·root 예외를 확인한다\n\n종료 코드 0은 절차 종료이며 양호 판정이나 완전한 수집을 뜻하지 않는다\n",
           "stderr": ""
+        },
+        {
+          "label": "가상 임계값 5·20·0의 수집 결과 비교",
+          "command": "python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh",
+          "exitCode": 0,
+          "stdout": "[사례] 파일 임계값 5와 PAM 인수 20\nU-03 읽기 전용 점검 자료\n파일 표시 순서는 적용 우선순위가 아니다\n\n[파일] /etc/security/faillock.conf\n1: deny=5\n2: fail_interval=900\n3: unlock_time=600\n임계값 후보: 1~10, 실제 적용 경로 확인\n\n[파일] /usr/share/pam/security/faillock.conf\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sshd\n1: auth required pam_faillock.so preauth deny=20\n\n[파일] /etc/pam.d/login\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sudo\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/su\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-account\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n최종 판단: 수동 검토 필요\n\n서비스 연결·분기·모듈 설치·인수 우선값·외부 인증·root 예외를 확인한다\n\n종료 코드 0은 절차 종료이며 양호 판정이나 완전한 수집을 뜻하지 않는다\n수집기 종료 코드: 0\n[사례] deny 0의 후보 안내\nU-03 읽기 전용 점검 자료\n파일 표시 순서는 적용 우선순위가 아니다\n\n[파일] /etc/security/faillock.conf\n1: deny=0\n임계값 후보: 0, 잠금 비활성 여부 확인\n\n[파일] /usr/share/pam/security/faillock.conf\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sshd\n1: auth required pam_faillock.so preauth deny=20\n\n[파일] /etc/pam.d/login\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/sudo\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/su\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/pam.d/common-account\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/system-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n[파일] /etc/authselect/password-auth\n미수집: 없음·일반 파일 아님·읽기 불가\n\n최종 판단: 수동 검토 필요\n\n서비스 연결·분기·모듈 설치·인수 우선값·외부 인증·root 예외를 확인한다\n\n종료 코드 0은 절차 종료이며 양호 판정이나 완전한 수집을 뜻하지 않는다\n수집기 종료 코드: 0\n실습 파일 정리: 완료\n",
+          "stderr": "",
+          "recordedAt": "2026-10-21T12:01:59.548919+00:00",
+          "environment": {
+            "os": "Ubuntu 24.04.4 LTS / WSL 2",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)",
+            "bash": "5.2.21(1)-release"
+          },
+          "sourceCodeSha256": "60c59d042886b5f5e2cfeed12b66afe80ae314ecffcbd6d49b0220e1a9f6934e",
+          "collectorSourceCodeSha256": "70fa98de871533947f33cb023f7c0e359717ea9b2342edaa3dbc0091a674fd21",
+          "scope": "가상 faillock.conf와 sshd PAM 파일을 U03_ROOT로 읽었다. deny 5·PAM 20·deny 0의 출력만 비교했으며 실제 인증 실패나 계정 잠금은 발생시키지 않았다.",
+          "finding": "기본 파일·PAM 인수의 차이가 수집됐고 deny 0은 잠금 비활성 확인 안내로 표시됐다. 두 수집 코드는 0이며 정책 적합 판정은 아니다."
         }
       ],
       "sourceCodeSha256": "94059f72386f44f80c405511c24328076cf573693c865df71beb9d41faa8fd65",
@@ -177,7 +219,11 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u03_lockout.sh",
+        "u03_fixture_lab.py"
+      ]
     },
     "u-04-password-file": {
       "runs": [
@@ -248,7 +294,11 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u05.sh",
+        "u05_fixture_lab.py"
+      ]
     },
     "u-06-su-restriction": {
       "runs": [
@@ -258,6 +308,25 @@
           "exitCode": 0,
           "stdout": "[그룹] wheel GID=10\n[기본 그룹] alice\n[추가 그룹] alice\n[파일] /usr/bin/su UID=1000 GID=1000 모드=0750\n[기타 사용자 실행 비트] 없음\n[PAM 파일] /etc/pam.d/su\n  1: auth required pam_wheel.so use_uid\n[PAM 파일] /etc/pam.d/su-l\n  1: auth include su\n[범위] 로컬 파일 수집; PAM 흐름·모듈 로딩·NSS·ACL은 별도 확인\n[판정] 자동 판정하지 않음\n",
           "stderr": ""
+        },
+        {
+          "label": "가상 기본·추가 그룹과 su-l 누락 비교",
+          "command": "python3 -I -B u06_fixture_lab.py ./check_u06.py",
+          "exitCode": 0,
+          "stdout": "[사례] 기본 그룹 admin과 추가 그룹 alice\n[그룹] wheel GID=10\n[기본 그룹] admin\n[추가 그룹] alice\n[파일] /usr/bin/su UID=1000 GID=1000 모드=0750\n[기타 사용자 실행 비트] 없음\n[PAM 파일] /etc/pam.d/su\n  1: auth required pam_wheel.so use_uid\n[PAM 파일] /etc/pam.d/su-l\n  1: auth include su\n[범위] 로컬 파일 수집; PAM 흐름·모듈 로딩·NSS·ACL은 별도 확인\n[판정] 자동 판정하지 않음\n수집기 종료 코드: 0\n[사례] 가상 su-l 파일 누락\n[그룹] wheel GID=10\n[기본 그룹] admin\n[추가 그룹] alice\n[파일] /usr/bin/su UID=1000 GID=1000 모드=0750\n[기타 사용자 실행 비트] 없음\n[PAM 파일] /etc/pam.d/su\n  1: auth required pam_wheel.so use_uid\n[확인 필요] /etc/pam.d/su-l: ValueError\n[범위] 로컬 파일 수집; PAM 흐름·모듈 로딩·NSS·ACL은 별도 확인\n[판정] 자동 판정하지 않음\n수집기 종료 코드: 2\n실습 파일 정리: 완료\n",
+          "stderr": "",
+          "recordedAt": "2026-10-21T12:01:59.768906+00:00",
+          "environment": {
+            "os": "Ubuntu 24.04.4 LTS / WSL 2",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)",
+            "bash": "5.2.21(1)-release"
+          },
+          "sourceCodeSha256": "e25ddf894c04797dbfe5af7aa6db32765ca35b06baf8a14e5a28c94e1ae3b1fa",
+          "collectorSourceCodeSha256": "27695890f2f8ec1c4e48cf5f5fa8f440bdac998408c6f3bcd7a9917c06bb6259",
+          "scope": "가상 passwd·group·PAM과 속성 조회용 su 텍스트 파일만 사용했다. su 실행·계정 전환·운영 파일 변경은 하지 않았다.",
+          "finding": "기본 그룹 admin과 추가 그룹 alice가 구분됐으며 가상 su-l 누락은 ValueError 안내와 수집 코드 2로 표시됐다. 모형 파일의 소유권은 실행 사용자의 속성이다."
         }
       ],
       "sourceCodeSha256": "10e5755ec84edb4f0316ac99a75de2c2cae65318ef9b35777a3f679c8b498d29",
@@ -267,7 +336,11 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u06.py",
+        "u06_fixture_lab.py"
+      ]
     },
     "u-07-unused-accounts": {
       "runs": [
@@ -286,7 +359,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u07.py"
+      ]
     },
     "u-08-admin-group": {
       "runs": [
@@ -305,7 +381,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u08.py"
+      ]
     },
     "u-09-unused-gid": {
       "runs": [
@@ -324,7 +403,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u09.py"
+      ]
     },
     "u-10-duplicate-uid": {
       "runs": [
@@ -343,7 +425,10 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u10.py"
+      ]
     },
     "u-01-root-remote-login": {
       "runs": [
@@ -369,7 +454,11 @@
         "python": "3.12.3",
         "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
         "openssl": "OpenSSL 3.0.13 30 Jan 2024 (Library: OpenSSL 3.0.13 30 Jan 2024)"
-      }
+      },
+      "preparationFiles": [
+        "check_u01_ssh.sh",
+        "u01_match_lab.sh"
+      ]
     },
     "u-11-service-account-shell": {
       "recordedAt": "2026-10-16T12:59:03.585575+00:00",
@@ -388,6 +477,9 @@
           "stdout": "[\n  {\n    \"계정\": \"daemon\",\n    \"셸\": \"/usr/sbin/nologin\",\n    \"검토 필요\": false\n  },\n  {\n    \"계정\": \"svc_report\",\n    \"셸\": \"/bin/bash\",\n    \"검토 필요\": true\n  }\n]\n제한용 셸로 바꾼 가상 자료: 검토 후보 0개\n빈 셸: 검토 후보로 유지\n필드 오류: 오류로 구분\n중복 이름: 오류로 구분\n대상 누락: 오류로 구분\n",
           "stderr": ""
         }
+      ],
+      "preparationFiles": [
+        "check_u11_demo.py"
       ]
     },
     "qualys-static-dynamic-tags": {
@@ -427,14 +519,181 @@
           "stdout": "bash-5.2$ timed out waiting for input: auto-logout\n확인: 입력 없는 프롬프트에서 셸 자동 종료\n",
           "stderr": ""
         }
+      ],
+      "preparationFiles": [
+        "check_u12_idle.sh"
       ]
     },
-    "u-13-password-hash-algorithms": {"recordedAt":"2026-10-18T03:14:00.430Z","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"c7c2892a141e6a3fcd3435de0ca38fe2cfda0b340b363842a51631bccb1bf62b","runs":[{"label":"로컬 Python에서 가상 비밀번호 필드 분류","command":"python -I -B -X utf8 u13_hash_format.py","exitCode":0,"stdout":"새 비밀번호 정책(가정): SHA512\nold: 잠금 접두부=없음, 형식=MD5-crypt\nlocked_old: 잠금 접두부=있음, 형식=MD5-crypt\nnew: 잠금 접두부=없음, 형식=SHA512-crypt\nsha256: 잠금 접두부=없음, 형식=SHA256-crypt\nplatform: 잠금 접두부=없음, 형식=대상별 해석 필요\nempty: 잠금 접두부=없음, 형식=빈 필드\ndisabled: 잠금 접두부=없음, 형식=사용할 해시 없음\n정책 변수 지정 후 기존 필드: 변경 없음\n","stderr":""}],"reproduction":"article"},
-    "qualys-detection-status-transitions": {"recordedAt":"2026-10-18T03:14:00.657Z","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"395bb7414b432cd89c1f3a706d446bf2cee4d425e837a8e7df72398378c011b0","runs":[{"label":"로컬 Python에서 가상 탐지 상태 전이 검증","command":"python -I -B -X utf8 qualys_status_example.py","exitCode":0,"stdout":"1차: 탐지 -> New\n2차: 탐지 -> Active\n3차: 평가 자료 없음 -> Active (마지막 상태 보존)\n4차: 미탐지 -> Fixed\n5차: 탐지 -> Re-Opened\n6차: 탐지 -> Active\n","stderr":""}],"reproduction":"article"},
-    "u-14-root-path-search": {"recordedAt":"2026-10-19T09:33:57.618Z","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"1bbba8252a53c361d4f91ea93bef3d4ae344e00bafa2b73d0d0d6f0d747feed4","reproduction":"article","runs":[{"label":"가상 PATH 순서와 명령 후보 비교","command":"python -I -B -X utf8 u14_path_lookup.py","exitCode":0,"stdout":"현재 경로가 앞: /lab/work/lab-tool\n현재 경로가 중간: /lab/work/lab-tool\n현재 경로가 끝: /usr/bin/lab-tool\n앞부분이 빈 필드: /lab/work/lab-tool\n절대 경로만 사용: /usr/bin/lab-tool\n끝에 현재 경로가 있고 시스템 후보가 없을 때: /lab/work/local-only\n현재 경로를 뺀 뒤 같은 이름을 찾을 때: None\n","stderr":""}]},
-    "qualys-tcp-udp-port-scope": {"recordedAt":"2026-10-19T09:33:57.855Z","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"74b0aa2e03818a4404467d7156cc46e7a972282bccaa5bbfdc6c89d8d6911e57","reproduction":"article","runs":[{"label":"가상 TCP·UDP 선택 범위 대조","command":"python -I -B -X utf8 qualys_port_scope.py","exitCode":0,"stdout":"tcp/53: 선택 목록 밖\ntcp/443: 선택 목록에 포함\ntcp/8443: 선택 목록 밖\nudp/53: 선택 목록에 포함\n목록에 빠진 조합: tcp/53, tcp/8443\n가상 목록 보완 후 빠진 조합 수: 0\n","stderr":""}]},
-    "u-15-file-directory-owners": {"recordedAt":"2026-10-20T09:38:46.790029+00:00","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"2d4cf470c104c7d0b69a6ec60ce24a62654100be68adb1b8080c354b3a63bae8","reproduction":"article","runs":[{"label":"가상 파일의 미조회 UID·GID와 번호 재사용 비교","command":"python -I -B -X utf8 u15_owner_mapping.py","exitCode":0,"stdout":"/lab/archive (directory): UID 정의 없음\n/lab/report.txt (file): GID 정의 없음\n/lab/old.log (file): UID·GID 정의 없음\nUID 조회 실패: 2개\nGID 조회 실패: 2개\nUID 41001의 이름: 없음 -> newapp\narchive의 UID: 41001 -> 41001\n재사용 뒤 남은 후보: /lab/report.txt, /lab/old.log\n","stderr":""}]},
-      "cs-study-01-database-sql": {"recordedAt":"2026-10-20T21:14:16+09:00","environment":{"os":"Windows 11 / 로컬 SQLite 메모리 데이터베이스","python":"3.12.1","sqlite":"3.43.1","pythonSsl":"SQL 실습에서 사용하지 않음","openssl":"SQL 실습에서 사용하지 않음"},"sourceCodeSha256":"d8c291b38b5393c66fc0734d569ccc762712345ede88259713b2f537cf84763f","sourceArtifactSha256":"250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8","reproduction":"article","runs":[{"label":"SQLite 메모리 DB에서 조회 22건과 제약 조건 3건 실행","command":"python -X utf8 01-database-sql.py --record","exitCode":0,"stdout":"SQL 결과 22건 및 제약 조건 3건 통과\nPython 3.12.1 / SQLite 3.43.1\nbase: [[1, 'SQL 첫걸음', 'DB', 20000, 3], [2, '네트워크 입문', 'Network', 25000, 0], [3, '파이썬 기초', 'Programming', 18000, 5], [4, '운영체제 노트', None, 22000, 2], [5, '보안 기초', 'Security', 25000, 1]]\nfilter: [[5, '보안 기초', 25000], [4, '운영체제 노트', 22000]]\nbetween: [[1], [2], [4], [5]]\nin: [[1], [5]]\nlike: [[1]]\nprecedence: [[1]]\nparentheses: []\ndistinct: [[18000], [20000], [22000], [25000]]\ndistinct-identity: [[1, 20000], [2, 25000], [3, 18000], [4, 22000], [5, 25000]]\nauto-key: [[6]]\nchanges: [[1, 'SQL 첫걸음', 3], [3, '파이썬 기초', 5], [4, '운영체제 노트', 2], [5, '보안 기초', 1], [6, 'SQL 연습 노트', 2]]\ndefault: [[None, 0]]\nbinding: [['SQL 첫걸음']]\nbinding-input: []\nq2: [['파이썬 기초', 18000], ['SQL 첫걸음', 20000], ['운영체제 노트', 22000]]\nq3-equal: []\nq3-is: [[4]]\nq4: [[1, 2], [3, 5], [4, 2], [5, 1]]\nq5: [[5, 4]]\nall-update: [[5]]\nall-delete: [[0]]\ndrop: []\n","stderr":"","recordedAt":"2026-10-20T21:14:16+09:00","environment":{"os":"Windows 11 / 로컬 SQLite 메모리 데이터베이스","python":"3.12.1","sqlite":"3.43.1","pythonSsl":"SQL 실습에서 사용하지 않음","openssl":"SQL 실습에서 사용하지 않음"},"sourceCodeSha256":"250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8"}]},
-      "u-16-passwd-owner-permissions": {"recordedAt":"2026-10-21T18:53:20+09:00","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"8a100c88b8c6db73469ad18ce3d070d3087b08c45e5b931ee3ab8cd96f9a5ce9","reproduction":"article","runs":[{"label":"가상 UID·일반 권한 비트 비교","command":"python -I -B -X utf8 u16_passwd_mode.py","exitCode":0,"stdout":"기준 설정: UID=0, 모드=0644, 허용 밖 비트=000, 기준 충족\n그룹 쓰기 추가: UID=0, 모드=0664, 허용 밖 비트=020, 기준 불일치\n소유자 다름: UID=1001, 모드=0644, 허용 밖 비트=000, 기준 불일치\n숫자 비교 함정: UID=0, 모드=0606, 허용 밖 비트=002, 기준 불일치\n소유자만 읽기·쓰기: UID=0, 모드=0600, 허용 밖 비트=000, 기준 충족\n특수 비트가 있는 모드: 일반 권한 예제 범위 밖\n0606 <= 0644 숫자 비교: True\n0606에서 추가된 기타 쓰기 비트: 002\n","stderr":"","recordedAt":"2026-10-21T18:53:20+09:00","environment":{"os":"Windows-11-10.0.29683-SP0 / local Python (in-memory examples)","python":"3.12.1","pythonSsl":"OpenSSL 3.0.11 19 Sep 2023","openssl":"CLI 미사용; Python ssl 버전으로 기록"},"sourceCodeSha256":"ca735cbb6cac79ba90e7edb8a25e5ab3b5e83ebb5c16a2b6e006574de6b91306"}]}
+    "u-13-password-hash-algorithms": {
+      "recordedAt": "2026-10-18T03:14:00.430Z",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "c7c2892a141e6a3fcd3435de0ca38fe2cfda0b340b363842a51631bccb1bf62b",
+      "runs": [
+        {
+          "label": "로컬 Python에서 가상 비밀번호 필드 분류",
+          "command": "python -I -B -X utf8 u13_hash_format.py",
+          "exitCode": 0,
+          "stdout": "새 비밀번호 정책(가정): SHA512\nold: 잠금 접두부=없음, 형식=MD5-crypt\nlocked_old: 잠금 접두부=있음, 형식=MD5-crypt\nnew: 잠금 접두부=없음, 형식=SHA512-crypt\nsha256: 잠금 접두부=없음, 형식=SHA256-crypt\nplatform: 잠금 접두부=없음, 형식=대상별 해석 필요\nempty: 잠금 접두부=없음, 형식=빈 필드\ndisabled: 잠금 접두부=없음, 형식=사용할 해시 없음\n정책 변수 지정 후 기존 필드: 변경 없음\n",
+          "stderr": ""
+        }
+      ],
+      "reproduction": "article",
+      "preparationFiles": [
+        "u13_hash_format.py"
+      ]
+    },
+    "qualys-detection-status-transitions": {
+      "recordedAt": "2026-10-18T03:14:00.657Z",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "395bb7414b432cd89c1f3a706d446bf2cee4d425e837a8e7df72398378c011b0",
+      "runs": [
+        {
+          "label": "로컬 Python에서 가상 탐지 상태 전이 검증",
+          "command": "python -I -B -X utf8 qualys_status_example.py",
+          "exitCode": 0,
+          "stdout": "1차: 탐지 -> New\n2차: 탐지 -> Active\n3차: 평가 자료 없음 -> Active (마지막 상태 보존)\n4차: 미탐지 -> Fixed\n5차: 탐지 -> Re-Opened\n6차: 탐지 -> Active\n",
+          "stderr": ""
+        }
+      ],
+      "reproduction": "article"
+    },
+    "u-14-root-path-search": {
+      "recordedAt": "2026-10-19T09:33:57.618Z",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "1bbba8252a53c361d4f91ea93bef3d4ae344e00bafa2b73d0d0d6f0d747feed4",
+      "reproduction": "article",
+      "runs": [
+        {
+          "label": "가상 PATH 순서와 명령 후보 비교",
+          "command": "python -I -B -X utf8 u14_path_lookup.py",
+          "exitCode": 0,
+          "stdout": "현재 경로가 앞: /lab/work/lab-tool\n현재 경로가 중간: /lab/work/lab-tool\n현재 경로가 끝: /usr/bin/lab-tool\n앞부분이 빈 필드: /lab/work/lab-tool\n절대 경로만 사용: /usr/bin/lab-tool\n끝에 현재 경로가 있고 시스템 후보가 없을 때: /lab/work/local-only\n현재 경로를 뺀 뒤 같은 이름을 찾을 때: None\n",
+          "stderr": ""
+        }
+      ],
+      "preparationFiles": [
+        "u14_path_lookup.py"
+      ]
+    },
+    "qualys-tcp-udp-port-scope": {
+      "recordedAt": "2026-10-19T09:33:57.855Z",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "74b0aa2e03818a4404467d7156cc46e7a972282bccaa5bbfdc6c89d8d6911e57",
+      "reproduction": "article",
+      "runs": [
+        {
+          "label": "가상 TCP·UDP 선택 범위 대조",
+          "command": "python -I -B -X utf8 qualys_port_scope.py",
+          "exitCode": 0,
+          "stdout": "tcp/53: 선택 목록 밖\ntcp/443: 선택 목록에 포함\ntcp/8443: 선택 목록 밖\nudp/53: 선택 목록에 포함\n목록에 빠진 조합: tcp/53, tcp/8443\n가상 목록 보완 후 빠진 조합 수: 0\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "u-15-file-directory-owners": {
+      "recordedAt": "2026-10-20T09:38:46.790029+00:00",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "2d4cf470c104c7d0b69a6ec60ce24a62654100be68adb1b8080c354b3a63bae8",
+      "reproduction": "article",
+      "runs": [
+        {
+          "label": "가상 파일의 미조회 UID·GID와 번호 재사용 비교",
+          "command": "python -I -B -X utf8 u15_owner_mapping.py",
+          "exitCode": 0,
+          "stdout": "/lab/archive (directory): UID 정의 없음\n/lab/report.txt (file): GID 정의 없음\n/lab/old.log (file): UID·GID 정의 없음\nUID 조회 실패: 2개\nGID 조회 실패: 2개\nUID 41001의 이름: 없음 -> newapp\narchive의 UID: 41001 -> 41001\n재사용 뒤 남은 후보: /lab/report.txt, /lab/old.log\n",
+          "stderr": ""
+        }
+      ],
+      "preparationFiles": [
+        "u15_owner_mapping.py"
+      ]
+    },
+    "cs-study-01-database-sql": {
+      "recordedAt": "2026-10-20T21:14:16+09:00",
+      "environment": {
+        "os": "Windows 11 / 로컬 SQLite 메모리 데이터베이스",
+        "python": "3.12.1",
+        "sqlite": "3.43.1",
+        "pythonSsl": "SQL 실습에서 사용하지 않음",
+        "openssl": "SQL 실습에서 사용하지 않음"
+      },
+      "sourceCodeSha256": "d8c291b38b5393c66fc0734d569ccc762712345ede88259713b2f537cf84763f",
+      "sourceArtifactSha256": "250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8",
+      "reproduction": "article",
+      "runs": [
+        {
+          "label": "SQLite 메모리 DB에서 조회 22건과 제약 조건 3건 실행",
+          "command": "python -X utf8 01-database-sql.py --record",
+          "exitCode": 0,
+          "stdout": "SQL 결과 22건 및 제약 조건 3건 통과\nPython 3.12.1 / SQLite 3.43.1\nbase: [[1, 'SQL 첫걸음', 'DB', 20000, 3], [2, '네트워크 입문', 'Network', 25000, 0], [3, '파이썬 기초', 'Programming', 18000, 5], [4, '운영체제 노트', None, 22000, 2], [5, '보안 기초', 'Security', 25000, 1]]\nfilter: [[5, '보안 기초', 25000], [4, '운영체제 노트', 22000]]\nbetween: [[1], [2], [4], [5]]\nin: [[1], [5]]\nlike: [[1]]\nprecedence: [[1]]\nparentheses: []\ndistinct: [[18000], [20000], [22000], [25000]]\ndistinct-identity: [[1, 20000], [2, 25000], [3, 18000], [4, 22000], [5, 25000]]\nauto-key: [[6]]\nchanges: [[1, 'SQL 첫걸음', 3], [3, '파이썬 기초', 5], [4, '운영체제 노트', 2], [5, '보안 기초', 1], [6, 'SQL 연습 노트', 2]]\ndefault: [[None, 0]]\nbinding: [['SQL 첫걸음']]\nbinding-input: []\nq2: [['파이썬 기초', 18000], ['SQL 첫걸음', 20000], ['운영체제 노트', 22000]]\nq3-equal: []\nq3-is: [[4]]\nq4: [[1, 2], [3, 5], [4, 2], [5, 1]]\nq5: [[5, 4]]\nall-update: [[5]]\nall-delete: [[0]]\ndrop: []\n",
+          "stderr": "",
+          "recordedAt": "2026-10-20T21:14:16+09:00",
+          "environment": {
+            "os": "Windows 11 / 로컬 SQLite 메모리 데이터베이스",
+            "python": "3.12.1",
+            "sqlite": "3.43.1",
+            "pythonSsl": "SQL 실습에서 사용하지 않음",
+            "openssl": "SQL 실습에서 사용하지 않음"
+          },
+          "sourceCodeSha256": "250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8"
+        }
+      ]
+    },
+    "u-16-passwd-owner-permissions": {
+      "recordedAt": "2026-10-21T18:53:20+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "8a100c88b8c6db73469ad18ce3d070d3087b08c45e5b931ee3ab8cd96f9a5ce9",
+      "reproduction": "article",
+      "runs": [
+        {
+          "label": "가상 UID·일반 권한 비트 비교",
+          "command": "python -I -B -X utf8 u16_passwd_mode.py",
+          "exitCode": 0,
+          "stdout": "기준 설정: UID=0, 모드=0644, 허용 밖 비트=000, 기준 충족\n그룹 쓰기 추가: UID=0, 모드=0664, 허용 밖 비트=020, 기준 불일치\n소유자 다름: UID=1001, 모드=0644, 허용 밖 비트=000, 기준 불일치\n숫자 비교 함정: UID=0, 모드=0606, 허용 밖 비트=002, 기준 불일치\n소유자만 읽기·쓰기: UID=0, 모드=0600, 허용 밖 비트=000, 기준 충족\n특수 비트가 있는 모드: 일반 권한 예제 범위 밖\n0606 <= 0644 숫자 비교: True\n0606에서 추가된 기타 쓰기 비트: 002\n",
+          "stderr": "",
+          "recordedAt": "2026-10-21T18:53:20+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "ca735cbb6cac79ba90e7edb8a25e5ab3b5e83ebb5c16a2b6e006574de6b91306"
+        }
+      ],
+      "preparationFiles": [
+        "u16_passwd_mode.py"
+      ]
+    }
   }
 }

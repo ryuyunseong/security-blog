@@ -2,7 +2,7 @@
 title: "U-09: 계정이 존재하지 않는 GID 금지"
 description: "기본·보조 그룹 구성원을 조회하고, 그룹이 서비스나 파일에서 사용 중인지 확인합니다."
 date: "2026-10-14T20:16:39+09:00"
-updated: "2026-10-17T18:17:24+09:00"
+updated: "2026-10-21T21:00:44+09:00"
 category: "critical-infrastructure"
 assessmentTarget: "unix"
 tags: ["주통기", "U-09", "GID"]
@@ -242,6 +242,8 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 파일로 결과를 확인한다
 
+[check_u09.py 내려받기](../../downloads/check_u09.py). 준비 명령 안의 `mktemp -d`가 `$work`를 만들고 passwd와 group을 채운다. 실행 기록의 `$LAB`을 실제 경로로 입력할 필요는 없다. Linux의 Bash와 Python 3가 필요하다.
+
 다음 예제는 가상 계정·그룹 파일만 생성한다. 실제 계정을 만들거나 변경하지 않는다. Bash에서 `check_u09.py`가 있는 디렉터리를 기준으로 명령 전체를 실행한다.
 
 ```bash
@@ -305,7 +307,9 @@ EOF
 
 [[run:1:fold]]
 
-`root`와 `alice`는 명시적 구성원 칸이 비어 있어도 기본 GID로 연결된다. `share`에는 로컬 계정으로 확인된 `alice`가 보조 구성원으로 등록돼 있다. `oldapp`만 두 경로에서 구성원이 관찰되지 않아 추가 확인 대상으로 나온다.
+`primary`는 GID별 기본 구성원 집합이다. 그룹 파일의 명시 이름은 로컬 계정표와 교집합을 구해 `known`, 차집합을 구해 `unknown`으로 나눈다. oldapp의 GID 3000에는 기본 구성원도 `known`도 없어 ‘로컬 구성원 미관찰’이 붙었다. 반면 share는 alice를 보조 구성원으로 참조하므로 후보에서 빠진다.
+
+`그룹 정의 없는 기본GID`가 빈 것은 root와 alice의 기본 GID가 모두 group 입력에 있기 때문이다. 이 항목은 oldapp의 필요성을 승인하지도, 파일·서비스의 GID 사용 여부를 조회하지도 않는다. `exit "$result"`가 후보 발견 코드 `1`을 바깥 Bash에 전달하고 trap이 가상 파일을 정리한다.
 
 추가 조사 대상은 `oldapp`이다. 계정 파일에서 구성원이 발견되지 않았으므로 다음에는 GID 3000으로 실행되는 서비스와 그 GID가 소유한 파일을 찾는다.
 
