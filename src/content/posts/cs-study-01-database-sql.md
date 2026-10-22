@@ -209,7 +209,7 @@ WHERE 없는 UPDATE와 DELETE는 테이블의 모든 행을 대상으로 한다.
 
 다음 여섯 줄은 전체 실행 파일에서 연결 준비를 생략한 발췌다.
 
-직접 시험하려면 `import sqlite3`를 한 뒤 4-1의 SQL 전체를 문자열 `BASE`로 저장하고, `conn = sqlite3.connect(":memory:")`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다. 그 연결에 아래 조회를 전달하고 끝나면 `conn.close()`로 닫는다.
+직접 시험하려면 `import sqlite3`를 한 뒤 4-1의 SQL 전체를 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(":memory:")`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다. 그 연결에 아래 조회를 전달하고 끝나면 `conn.close()`로 닫는다.
 
 준비 없이 발췌 부분만 실행해 `NameError`가 나면 조회 결과를 얻기 전에 `conn` 변수를 찾지 못한 상태다. ZIP의 전체 예제 파일에는 연결 생성과 초기 자료 준비가 포함돼 있다.
 

@@ -39,7 +39,7 @@ VM/VMDR 문서의 [Configure Search Lists](https://docs.qualys.com/en/vm/latest/
 
 ## 옵션 프로필에서 한 번 더 범위를 좁힐 수 있다
 
-[VM Option Profile의 Scan 설정](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)에서 **Complete**는 호스트에 적용 가능한 지식 베이스 QID를 검사한다. **Custom**은 Search List로 QID를 제한한다. `Select at runtime`은 일회성 사용자 지정 검사에서 목록을 고르며 예약 검사에는 사용할 수 없다. Custom을 쓴다면 기본 호스트 정보 수집도 별도로 선택해야 한다는 점을 문서가 명시한다.
+[VM Option Profile의 Scan 설정](https://docs.qualys.com/en/vm/latest/option_profiles/op_scan_tab.htm)에서 **Complete**는 호스트에 적용 가능한 지식 베이스 QID를 검사한다. **Custom**은 Search List로 QID를 제한한다. `Select at runtime`은 일회성 사용자 지정 검사에서 목록을 고르며 예약 검사에는 사용할 수 없다. 문서는 Custom을 쓸 때 기본 호스트 정보 수집도 별도로 선택해야 한다고 명시한다.
 
 제외 QID 목록을 추가해도 해당 QID와 관련된 네트워크 트래픽이 모두 차단되는 것은 아니다. 하나의 검사가 여러 QID의 자료를 수집할 수 있고, 필요한 검사를 시작 전에 완전히 분리하지 못할 수 있기 때문이다. 따라서 **Excluded QIDs를 통신 차단 장치처럼 사용하지 않는다**.
 
