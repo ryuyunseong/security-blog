@@ -10,10 +10,10 @@ const mobile = renderMobileArticleDiagram(visual);
 const desktop = articleDiagramFrame(visual.kind);
 ---
 <picture class="responsive-diagram">
-  <source media="(max-width: 767px)" srcset={path(`assets/posts/${id}.mobile.svg`)} width={mobile.width} height={mobile.height} />
+  <source media="(width < 768px)" srcset={path(`assets/posts/${id}.mobile.svg`)} width={mobile.width} height={mobile.height} />
   <img src={path(`assets/posts/${id}.svg`)} alt={visual.title} width={desktop.width} height={desktop.height} decoding="async" />
 </picture>
 <style>
   picture { display:block; }
-  @media (max-width:767px) { picture { max-width:420px; margin-inline:auto; } }
+  @media (width < 768px) { picture { max-width:420px; margin-inline:auto; } }
 </style>

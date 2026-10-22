@@ -4,7 +4,7 @@ export { categories, categoryLabel, assessmentTargets, assessmentTargetLabel, po
 
 export const siteInfo = {
   title: '보안 노트',
-  description: '주통기 점검, Unix·애플리케이션 보안 실습, Qualys 기능과 알고리즘 풀이를 정리합니다.',
+  description: '서버 보안 설정, 취약점 관리, SQL과 알고리즘을 실습 코드와 함께 설명합니다.',
   github: 'https://github.com/ryuyunseong',
   portfolio: 'https://ryuyunseong.github.io/security-portfolio/',
 };

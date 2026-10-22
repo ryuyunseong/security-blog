@@ -102,7 +102,7 @@ for (const file of posts) {
   const figurePath = `${base}figures/${slug}/`;
   const svgPath = `${base}assets/posts/${slug}.svg`;
   const mobilePath = `${base}assets/posts/${slug}.mobile.svg`;
-  check(source.includes(`srcset="${mobilePath}"`) && source.includes('media="(max-width: 767px)"'), `모바일 도식 선택 누락: ${slug}`);
+  check(source.includes(`srcset="${mobilePath}"`) && source.includes('media="(width &lt; 768px)"'), `모바일 도식 선택 누락: ${slug}`);
   check(!source.includes(`href="${figurePath}"`) && source.includes('id="article-diagram"'), `본문 그림의 직접 읽기 구성 오류: ${slug}`);
   check(!source.includes(`href="${svgPath}"`), `그림 링크가 SVG 문서를 직접 엶: ${slug}`);
   check(source.includes(`src="${svgPath}"`), `본문의 데스크톱 도식 누락: ${slug}`);

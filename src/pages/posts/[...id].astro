@@ -46,11 +46,19 @@ const series = post.data.series ? seriesInfo(post.data.series) : undefined;
         {series && <nav class="series-navigation" aria-label="시리즈 탐색"><a class="series-home" href={series.path}>{series.title} · 전체 목차</a><div>{previous && <a href={postPath(previous.id)}><small>이전 글</small>{previous.data.title}</a>}{next && <a href={postPath(next.id)}><small>다음 글</small>{next.data.title}</a>}</div></nav>}
         {related.length > 0 && <section class="related"><h2>함께 읽기</h2><ul>{related.map((item) => <li><a href={postPath(item.id)}>{item.data.title}</a></li>)}</ul></section>}
       </div>
-      {contents.length > 0 && <nav class="toc" aria-label="이 글의 목차"><h2>이 글의 목차</h2><ol>{contents.map((heading) => <li class:list={{ subheading: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}{hasExecution && <li><a href="#execution-results">실행 기록</a></li>}</ol></nav>}
+      {contents.length > 0 && <nav class="toc" aria-label="이 글의 목차"><details class="toc-disclosure" open><summary>이 글의 목차</summary><ol>{contents.map((heading) => <li class:list={{ subheading: heading.depth === 3 }}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}{hasExecution && <li><a href="#execution-results">실행 기록</a></li>}</ol></details></nav>}
     </div>
   </article>
   <p id="copy-status" class="visually-hidden" role="status"></p>
   <script>
+    const toc = document.querySelector<HTMLDetailsElement>('.toc-disclosure');
+    if (toc) {
+      const smallScreen = matchMedia('(width < 768px)');
+      const setTocDefault = () => { toc.open = !smallScreen.matches; };
+      setTocDefault();
+      smallScreen.addEventListener('change', setTocDefault);
+    }
+
     function revealStudyAnswer() {
       let id;
       try { id = decodeURIComponent(location.hash.slice(1)); } catch { return; }

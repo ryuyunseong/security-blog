@@ -12,7 +12,10 @@ const posts = await getPosts();
     <h1 id="intro-title">보안 점검과 실습</h1>
     <p>{siteInfo.description}</p>
     <div class="intro-links"><a href="#posts">글 목록 보기<Icon name="arrow" /></a><a href={path('categories/critical-infrastructure/')}>주통기 점검 글</a></div>
-    <nav class="mobile-topics" aria-label="주제별 글">{categories.map((category) => <a href={path(`categories/${category.id}/`)}>{category.label}<span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a>)}</nav>
+    <details class="mobile-topics">
+      <summary>카테고리로 찾기 <span class="count">{categories.length}개</span></summary>
+      <nav aria-label="주제별 글">{categories.map((category) => <a href={path(`categories/${category.id}/`)}>{category.label}<span class="count">{posts.filter((post) => post.data.category === category.id).length}</span></a>)}</nav>
+    </details>
   </section>
   <div class="content-grid">
     <section id="posts" aria-labelledby="posts-title">
