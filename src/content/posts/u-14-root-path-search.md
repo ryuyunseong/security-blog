@@ -85,9 +85,11 @@ print("현재 경로를 뺀 뒤 같은 이름을 찾을 때:",
       lookup("local-only", cases[4][1]))
 ```
 
-ZIP의 `u14_path_lookup.py` 파일을 사용한다. 저장한 폴더에서 위 명령으로 실행한다. Linux·WSL에서는 명령 이름을 `python3`로 바꿔도 된다. `/lab/work`와 `/usr/bin/lab-tool`을 실제로 만들 필요는 없다. `FILES`의 키가 가상 파일 목록이고 `posixpath`가 Unix 형식의 경로 문자열만 계산한다.
+Python 3 표준 라이브러리만 사용한다. ZIP을 푼 폴더에서 위 명령으로 실행하고, Linux·WSL에서는 명령 이름을 `python3`로 바꿔도 된다. `/lab/work`와 `/usr/bin/lab-tool`은 실제로 만들지 않는다. `FILES`의 키가 가상 파일 목록이고 `posixpath`가 Unix 형식의 경로 문자열만 계산한다.
 
 `lookup()`은 명령에 슬래시가 있으면 지정 경로만 대조한다. 이름만 있으면 `path.split(":")`의 왼쪽부터 후보를 만들고, 처음 `FILES`에 있는 경로를 만나자마자 반환한다. `entry or "."`가 빈 항목을 현재 디렉터리로 바꾸며 끝까지 못 찾으면 `None`이다. 파일의 내용을 실행하는 함수는 아니다.
+
+중간에 현재 디렉터리를 둔 `/usr/sbin:.:/usr/bin`을 따라가 보자. 첫 후보 `/usr/sbin/lab-tool`은 `FILES`에 없다. 다음 `.`을 `CWD`와 연결하면 `/lab/work/lab-tool`이 되고, 이 키가 있으므로 즉시 반환한다. 뒤의 `/usr/bin`까지 조사하지 않는 것이 결과를 바꾸는 지점이다.
 
 [[run:1]]
 

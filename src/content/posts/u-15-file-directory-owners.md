@@ -92,11 +92,13 @@ print(f"archive의 UID: {snapshot[1][2]} -> {FILES[1][2]}")
 print("재사용 뒤 남은 후보: " + ", ".join(row[0] for row in after))
 ```
 
-ZIP의 `u15_owner_mapping.py` 파일을 사용한다. 저장한 폴더에서 위 명령을 사용하고 Linux·WSL에서는 명령 이름을 `python3`로 바꿀 수 있다. `/lab` 아래 파일은 만들지 않는다. `FILES`의 각 튜플이 경로·종류·UID·GID를 제공하고, `USERS`와 `GROUPS`가 이 실습의 조회 표다.
+Python 3 표준 기능으로 실행한다. ZIP을 푼 폴더에서 위 명령을 사용하고 Linux·WSL에서는 명령 이름을 `python3`로 바꿀 수 있다. `/lab` 아래 파일은 만들지 않는다. `FILES`의 각 튜플이 경로·종류·UID·GID를 제공하고, `USERS`와 `GROUPS`가 이 실습의 조회 표다.
 
-`unmapped()`는 각 ID가 표의 키에 없는지 따로 계산하고 둘 중 하나가 참이면 결과에 넣는다. `kind`는 표시용 값으로 비교 조건을 바꾸지 않는다. `sum(row[2] ...)`와 `sum(row[3] ...)`는 각각 참인 항목 수를 세므로 두 건수를 더한 값은 고유 경로 수와 다를 수 있다.
+`unmapped()`는 각 ID가 표의 키에 없는지 따로 계산한다. 예를 들어 `old.log`의 UID 41001과 GID 42001은 두 표에 모두 없으므로 `no_user`·`no_group`이 둘 다 참이다. `if no_user or no_group`을 통과하면 이 파일은 결과에 한 번 들어간다. `kind`는 표시용 값으로 조건을 바꾸지 않는다.
 
-`archive`는 소유자만, `report.txt`는 그룹만, `old.log`는 둘 다 가상 표에 없다. UID·GID 조회 실패가 각각 두 개지만, 두 조건 중 하나라도 해당하는 후보는 세 개다.
+결과 튜플의 세 번째·네 번째 값이 이 두 참·거짓이다. `sum(row[2] ...)`와 `sum(row[3] ...)`는 각 열에서 참인 수를 따로 세므로 같은 파일을 양쪽 건수에 포함할 수 있다.
+
+입력의 `archive`는 소유자만, `report.txt`는 그룹만, `old.log`는 둘 다 가상 표에 없는 경우다. 조회되는 `live.conf`와 함께 비교한다.
 
 [[run:1]]
 

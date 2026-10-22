@@ -326,7 +326,7 @@ EOF
 
 `primary`는 passwd의 기본 GID로 만든 집합이고 `supplementary`는 같은 GID를 쓰는 그룹 행들의 구성원을 합친 집합이다. `observed = primary | supplementary`로 합친 뒤 `observed - allowed`를 구하므로 deploy와 audit이 함께 남는다. `--allow root`는 승인 목록을 전달하는 인자이며 실제 그룹을 바꾸지 않는다.
 
-이 자료에서 ‘승인됐지만 관찰되지 않음’과 ‘passwd에서 찾지 못한 구성원’은 모두 비어 있다. 전자는 승인 목록 쪽의 누락, 후자는 group에만 있는 이름을 찾는 서로 다른 검사다. 마지막 `exit "$result"`가 수집기의 `1`을 바깥 Bash까지 전달하며, EXIT trap은 그 뒤에 준비한 두 파일을 정리한다.
+이 자료에서 ‘승인됐지만 관찰되지 않음’과 ‘passwd에서 찾지 못한 구성원’은 모두 비어 있다. 전자는 승인 명단에는 있지만 조사한 그룹의 구성원으로 나오지 않은 이름, 후자는 group에 적혔지만 로컬 passwd에는 없는 이름을 찾는다. 빈 목록 두 개가 서로 다른 질문의 답이라는 점을 구별하자. 마지막 `exit "$result"`가 수집기의 `1`을 바깥 Bash까지 전달하며, EXIT trap은 그 뒤에 준비한 두 파일을 정리한다.
 
 deploy와 audit의 이름이 대조 결과에 남았으므로, 다음에는 두 계정의 관리 업무와 승인 내역을 조사한다.
 

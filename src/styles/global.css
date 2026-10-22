@@ -527,13 +527,17 @@ main:focus {
   border-radius:3px;
   overflow-wrap:anywhere
 }
+.prose pre {
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+  word-break:normal
+}
 .prose pre:not(.execution-command):not(.execution-output) {
   background-color:#18251f!important;
   position:relative;
   padding:46px 22px 22px;
   border:1px solid var(--line);
   border-radius:6px;
-  overflow-x:auto;
   font-size:14px;
   line-height:1.85
 }
@@ -989,7 +993,6 @@ main:focus {
   border-radius:6px 6px 0 0;
 }
 .execution-command,.execution-output {
-  overflow:auto;
   max-width:100%;
   margin:0;
   padding:18px;
@@ -997,7 +1000,6 @@ main:focus {
   color:#e2efe6;
   font:13px/1.85 Consolas,monospace;
   tab-size:2;
-  white-space:pre;
 }
 .execution-command {
   border-radius:0 0 6px 6px;

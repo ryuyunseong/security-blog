@@ -9,7 +9,7 @@ draft: false
 example: false
 ---
 
-PHP 업데이트 공지를 받았을 때 먼저 필요한 것은 서비스가 어느 PHP로 요청을 처리하는지 적힌 목록이다. 같은 서버에서도 터미널의 PHP와 웹 서버에 연결된 PHP가 다를 수 있고, 배포판 패키지는 원래 버전 번호를 유지하면서 보안 패치를 적용하기도 한다.
+터미널에서 PHP 버전을 조회했는데, 그 값으로 웹 서비스의 업데이트 여부까지 판단해도 될까? 같은 서버에서도 터미널의 PHP와 웹 서버에 연결된 PHP가 다를 수 있다. 배포판 패키지는 원래 버전 번호를 유지하면서 보안 패치를 적용하기도 하므로 서비스가 사용하는 PHP와 공급 경로부터 찾아야 한다.
 
 PHP2Shell은 PHP의 **CVE-2026-109618과 CVE-2026-109619**를 함께 부르는 이름이다. [네덜란드 NCSC의 대응 자료](https://github.com/NCSC-NL/php2shell)도 이 두 식별자로 안내한다. PHP 프로젝트는 2026년 10월 21일 수정 릴리스를 공개했다.
 
@@ -24,7 +24,7 @@ PHP2Shell은 PHP의 **CVE-2026-109618과 CVE-2026-109619**를 함께 부르는 �
 
 [OOM corruption 권고](https://github.com/php/php-src/security/advisories/GHSA-w8hw-w9fx-j79w)에서 OOM은 메모리 부족을 뜻한다. PHP가 `longjmp()`로 현재 처리를 빠져나간 뒤, 요청 종료 과정이 아직 초기화되지 않은 자료를 정상 자료처럼 사용할 수 있다는 설명이다. mod_php에서 검증된 공격은 애플리케이션의 로그인 검사보다 앞에서 발생한다.
 
-[Stale global state 권고](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp)는 요청이 소유한 메모리와 워커가 보관하는 참조의 수명이 어긋나는 문제다. 이전 요청의 상태가 정리되지 않은 채 메모리만 해제되고, 같은 워커가 다음 요청의 초기화 전에 그 상태를 사용하면 use-after-free로 이어진다.
+[Stale global state 권고](https://github.com/php/php-src/security/advisories/GHSA-6wmf-4rv5-p3rp)는 요청에 쓰던 메모리를 해제한 뒤에도 워커가 그 메모리를 가리키는 참조를 보관하는 문제다. 같은 워커가 다음 요청의 초기화 전에 남은 참조를 사용하면, 이미 해제한 메모리에 다시 접근하는 use-after-free로 이어진다.
 
 아래는 두 번째 취약점의 요청 간 관계다. 앞 요청과 뒤 요청이 같은 워커에서 처리되는 조건을 함께 읽어야 한다.
 
