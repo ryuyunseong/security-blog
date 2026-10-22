@@ -9,7 +9,7 @@ draft: false
 example: false
 ---
 
-TLS 1.3 연결이 성립해도 접속한 서버가 의도한 상대인지 확인하는 절차는 남아 있습니다. 클라이언트가 인증서의 이름과 신뢰 경로를 검증해야 합니다.
+TLS 1.3으로 연결됐다는 사실만으로 접속한 서버가 의도한 상대인지 알 수는 없습니다. 클라이언트에서 인증서의 이름과 신뢰 경로도 검증해야 합니다.
 
 같은 로컬 서버에 허용 TLS 버전, 신뢰 CA, 검증할 이름을 바꿔 접속해 봅니다. 네 조건에서 연결이 허용되거나 거절되는 결과를 비교합니다.
 
@@ -21,7 +21,7 @@ TLS 1.3 연결이 성립해도 접속한 서버가 의도한 상대인지 확인
 
 Python 3.10 이상과 OpenSSL 3.x 명령줄 도구가 필요합니다. Python에 연결된 TLS 라이브러리도 TLS 1.3을 지원해야 합니다. 별도 Python 패키지는 사용하지 않습니다.
 
-실습 ZIP의 `tls_identity_lab.py`를 사용하거나 아래 코드를 같은 이름으로 저장합니다. 터미널에서 파일을 저장한 폴더로 이동합니다. 먼저 `openssl version`으로 명령줄 도구를 조회하고, `python3 -c 'import ssl; print(ssl.OPENSSL_VERSION, ssl.HAS_TLSv1_3)'`로 Python 쪽 라이브러리와 TLS 1.3 지원을 따로 살펴봅니다. 두 도구가 같은 OpenSSL을 사용하는 것은 아닙니다.
+실습 ZIP의 `tls_identity_lab.py`를 사용하거나 아래 코드를 같은 이름으로 저장합니다. 터미널에서 파일을 저장한 폴더로 이동합니다. 먼저 `openssl version`으로 명령줄 도구를 조회하고, `python3 -c 'import ssl; print(ssl.OPENSSL_VERSION, ssl.HAS_TLSv1_3)'`로 Python 쪽 라이브러리와 TLS 1.3 지원을 따로 살펴봅니다. OpenSSL 명령줄 도구와 Python의 TLS 라이브러리는 서로 다른 OpenSSL 버전을 사용할 수 있습니다.
 
 인증서나 비밀키를 미리 만들 필요는 없습니다. 코드는 쓰기 가능한 임시 경로에 전용 폴더를 만들고 `req.cnf`·`server.ext`와 CA 두 쌍, 서버 키·CSR·인증서를 생성합니다. `trusted.pem`은 서버 인증서의 발급 CA이고 `unrelated.pem`은 신뢰 불일치를 비교할 CA입니다. 파일들은 종료할 때 삭제되며, 별도 CA 설치나 hosts 파일 수정은 하지 않습니다.
 

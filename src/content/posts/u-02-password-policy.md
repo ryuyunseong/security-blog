@@ -201,11 +201,13 @@ bash check_u02_policy.sh
 
 가상 자료로 실행하려면 ZIP을 풀어 `check_u02_policy.sh`와 `u02_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u02_fixture_lab.py ./check_u02_policy.sh`로 실행한다. Linux의 Python 3, Bash, awk가 필요하며 관리자 권한은 쓰지 않는다.
 
-준비 파일은 `/tmp` 아래에 새 폴더를 만든다. 그 안에 `etc/login.defs`, `etc/security/pwquality.conf`, `etc/security/pwhistory.conf`, `etc/pam.d/passwd`와 `common-password`를 작성하고, 그 폴더의 절대 경로를 `U02_ROOT`로 전달한다. 직접 만드는 경우에도 `/absolute/fixture`라는 이름의 폴더가 미리 있다고 가정하지 말고 이 구조를 먼저 준비한다. 실행이 끝나거나 Python 예외가 발생하면 `TemporaryDirectory`가 만든 자료를 정리한다.
+준비 파일은 `/tmp` 아래에 새 폴더를 만든다. 그 안에 `etc/login.defs`, `etc/security/pwquality.conf`, `etc/security/pwhistory.conf`, `etc/pam.d/passwd`와 `common-password`를 작성하고, 그 폴더의 절대 경로를 `U02_ROOT`로 전달한다. 직접 자료를 만드는 경우에도 `/absolute/fixture`는 예시 경로일 뿐이다. 그 아래에 같은 디렉터리 구조와 파일을 먼저 준비해야 한다. 실행이 끝나거나 Python 예외가 발생하면 `TemporaryDirectory`가 만든 자료를 정리한다.
 
 수집기의 `safe_path()`는 경로를 구성하는 각 디렉터리의 링크를 검사한다. 가상 실습에서는 `root`에 `U02_ROOT`를 받은 뒤 `/etc/security/pwquality.conf` 같은 조사 경로를 붙이므로 운영 파일 대신 임시 트리 안의 파일을 읽는다. `collect()`가 넘기는 `quality`·`history`·`pam` 모드에 따라 awk에서 남길 항목도 달라진다.
 
-예를 들어 `quality` 모드의 `minlen = 14`는 공백과 등호로 나뉘어 키 `minlen`과 값 `14`가 된다. `emit()`은 이 키가 허용된 숫자 항목이고 값도 정수 형식일 때 `minlen=14`로 출력한다. PAM 모드에서는 모듈 뒤의 `minlen=8`을 따로 읽어 표시한다. 대괄호 제어문은 닫는 괄호까지 모으지만 그 분기를 실행하거나 두 값을 합쳐 유효 정책을 계산하지는 않는다. 출력의 줄 번호는 각 원본 파일의 행 번호다.
+예를 들어 `quality` 모드의 `minlen = 14`는 공백과 등호로 나뉘어 키 `minlen`과 값 `14`가 된다. `emit()`은 이 키가 허용된 숫자 항목이고 값도 정수 형식일 때 `minlen=14`로 출력한다. PAM 모드에서는 모듈 뒤의 `minlen=8`을 따로 읽어 표시한다.
+
+대괄호 제어문은 닫는 괄호까지 모으지만 그 분기를 실행하거나 두 값을 합쳐 유효 정책을 계산하지는 않는다. 출력의 줄 번호는 각 원본 파일의 행 번호다.
 
 ## 출력은 이렇게 읽는다
 

@@ -190,7 +190,7 @@ printf '종료 코드: %s\n' "$result"
 
 ## 임시 계정 자료로 결과를 확인한다
 
-ZIP의 `check_u10.py` 파일을 사용한다. Linux의 Bash와 Python 3를 사용한다. 아래 묶음을 실행하면 `mktemp -d`로 배정한 `$work` 아래에 passwd가 생성되므로, 기록의 `$LAB` 경로를 직접 준비할 필요는 없다.
+ZIP의 `check_u10.py` 파일을 준비하고 Linux의 Bash와 Python 3로 실행한다. 아래 묶음을 실행하면 `mktemp -d`로 배정한 `$work` 아래에 passwd가 생성되므로, 기록의 `$LAB` 경로를 직접 준비할 필요는 없다.
 
 다음 Bash 예제는 가상 계정 파일만 만든다. `check_u10.py`를 저장한 디렉터리에서 명령 전체를 실행한다. `deploy`와 `backup`의 UID는 1500으로 같고 기본 GID는 다르게 설정했다.
 

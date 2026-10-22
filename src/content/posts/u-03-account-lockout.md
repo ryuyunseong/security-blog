@@ -236,7 +236,9 @@ bash check_u03_lockout.sh
 # 별도로 준비한 설정 복사본 조회
 U03_ROOT=/absolute/config-copy bash check_u03_lockout.sh
 ```
-이 예제의 `/absolute/config-copy`는 직접 준비할 경로를 나타낸다. ZIP에 들어 있는 `check_u03_lockout.sh`와 `u03_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh`로 실행하면 가상 파일 생성부터 정리까지 이어진다. Linux의 Python 3, Bash, awk가 필요하다. 준비 파일은 `/tmp`의 전용 폴더에 `etc/security/faillock.conf`와 `etc/pam.d/sshd`를 만들고 `U03_ROOT`를 지정한다. 실제 로그인 시도는 하지 않는다.
+이 예제의 `/absolute/config-copy`는 직접 준비할 경로를 나타낸다.
+
+ZIP에 들어 있는 `check_u03_lockout.sh`와 `u03_fixture_lab.py`를 같은 폴더에 두고 `python3 -I -B u03_fixture_lab.py ./check_u03_lockout.sh`로 실행하면 가상 파일 생성부터 정리까지 이어진다. Linux의 Python 3, Bash, awk가 필요하다. 준비 파일은 `/tmp`의 전용 폴더에 `etc/security/faillock.conf`와 `etc/pam.d/sshd`를 만들고 `U03_ROOT`를 지정한다. 실제 로그인 시도는 하지 않는다.
 
 `collect()`는 기본 파일을 `conf` 모드로 읽을 때 `deny`가 나온 횟수를 `count`에, 마지막 값을 `value`에 저장한다. 예를 들어 `deny=5` 한 줄이면 `count=1`, `value=5`가 되어 ‘1~10’ 후보 안내로 이어진다. 같은 키가 두 번 나오면 마지막 숫자가 5여도 중복 안내가 먼저 적용된다. 줄을 읽은 순서만으로 유효값을 정하지 않기 위해서다.
 
@@ -266,7 +268,7 @@ PAM 모드는 `auth`·`account` 단계와 제어문을 남기고 잠금 모듈�
 ```
 이 PAM 호출에서는 기본 파일의 5보다 인수로 지정한 20이 우선한다. 다만 이 줄이 존재하는 것만으로 잠금 동작을 알 수는 없다. 인증 경로에서 해당 모듈이 실행되고 실패 기록과 성공 후 처리가 이어지는지 분기를 따라가야 한다.
 
-두 번째 사례는 같은 가상 기본 파일의 값을 `deny=0`으로 바꾼다. 출력은 ‘잠금 비활성 여부 확인’으로 달라지지만 수집기 코드는 계속 `0`이다. 수집 완료 상태와 정책의 의미를 분리해서 읽어야 하는 이유다.
+두 번째 사례는 같은 가상 기본 파일의 값을 `deny=0`으로 바꾼다. 출력은 ‘잠금 비활성 여부 확인’으로 달라지지만 수집기의 종료 코드는 계속 `0`이다. 수집 완료 상태와 정책의 의미를 분리해서 읽어야 하는 이유다.
 
 [[run:2:fold]]
 

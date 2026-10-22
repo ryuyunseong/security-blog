@@ -21,7 +21,9 @@ Python 3.12의 `sqlite3` 표준 모듈을 사용한다. 아래 실행 기록은 
 
 ZIP의 Python 파일은 테이블 생성과 자료 입력, 조회 결과 비교까지 한 번에 실행한다. 아래 SQL은 그 파일에서 사용한 생성문이다. 처음에는 파일을 그대로 실행하고, 조회를 바꿔 보고 싶을 때 같은 연결에서 SQL을 시험하면 된다.
 
-SQL만 따로 실행하려면 SQLite에 전달할 연결을 먼저 준비한다. Python에서는 `import sqlite3`를 한 뒤, 아래 SQL 전체를 삼중 따옴표 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(':memory:')`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다. 조회문도 문자열로 `conn.execute()`에 넘기고 `fetchall()`로 행 목록을 받는다. SQL을 PowerShell에 바로 입력하는 방식과 구별하자. 연결과 초기화를 포함한 전체 코드는 글 뒤에 접어 두었다.
+SQL만 따로 실행하려면 SQLite에 전달할 연결을 먼저 준비한다. Python에서는 `import sqlite3`를 한 뒤, 아래 SQL 전체를 삼중 따옴표 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(':memory:')`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다.
+
+조회문도 문자열로 `conn.execute()`에 넘기고 `fetchall()`로 행 목록을 받는다. SQL을 PowerShell에 바로 입력하는 방식과 구별하자. 연결과 초기화를 포함한 전체 코드는 글 뒤에 접어 두었다.
 
 ```sql
 CREATE TABLE members (
@@ -87,7 +89,9 @@ SELECT m.member_id, COUNT(*), COUNT(o.order_id), SUM(o.amount)
 
 3번은 조인 결과에 보충 행 한 개가 있으므로 `COUNT(*)`가 1이다. 주문 기본 키는 NULL이라 `COUNT(o.order_id)`는 0이다. 반면 4번은 실제 주문 번호 105가 있어 주문 수가 1이다.
 
-두 회원 모두 SUM은 NULL이지만 이유는 다르다. 3번은 주문이 없고, 4번은 주문 금액이 NULL이다. `SUM`은 NULL을 제외한 금액을 더하므로 두 그룹에는 합산할 숫자가 없다. 주문 유무는 합계와 주문 기본 키의 COUNT를 함께 읽어 구별한다. `COUNT(X)`와 `SUM(X)`의 NULL 처리는 [SQLite 집계 함수 문서](https://sqlite.org/lang_aggfunc.html)에 나온다. 화면에 합계를 0으로 표시한다면 주문 수나 금액 누락 여부도 함께 보여 주어야 두 상황이 섞이지 않는다.
+두 회원 모두 SUM은 NULL이지만 이유는 다르다. 3번은 주문이 없고, 4번은 주문 금액이 NULL이다. `SUM`은 NULL을 제외한 금액을 더하므로 두 그룹에는 합산할 숫자가 없다. 주문 유무는 합계와 주문 기본 키의 COUNT를 함께 읽어 구별한다. `COUNT(X)`와 `SUM(X)`의 NULL 처리는 [SQLite 집계 함수 문서](https://sqlite.org/lang_aggfunc.html)에 나온다.
+
+화면에 합계를 0으로 표시한다면 주문 수나 금액 누락 여부도 함께 보여 주어야 두 상황이 섞이지 않는다.
 
 ## 4. ON과 WHERE에 같은 조건을 놓아 보기
 
@@ -138,7 +142,7 @@ SELECT o.member_id, COUNT(*) AS paid_count, SUM(o.amount) AS total
 | GROUP BY | 같은 회원 번호를 한 그룹으로 모음 |
 | HAVING | 집계한 그룹을 남길 조건을 적용 |
 
-집계하지 않은 열을 SELECT에 더 넣을 때는 그 열도 그룹 기준에 포함할지 생각한다. SQLite가 일부 비집계 열을 허용한다는 이유로 다른 DBMS도 같은 행의 값을 고를 것이라고 가정하지 않는다. 이 글의 집계 SELECT는 그룹 기준 열과 집계식으로 구성했다.
+SUM이나 COUNT 같은 함수로 집계하지 않은 열을 SELECT에 더 넣을 때는 그 열도 그룹 기준에 포함할지 생각한다. SQLite가 일부 비집계 열을 허용한다는 이유로 다른 DBMS도 같은 행의 값을 고를 것이라고 가정하지 않는다. 이 글의 집계 SELECT는 그룹 기준 열과 집계식으로 구성했다.
 
 ## 6. 행을 붙이지 않고 존재 여부만 묻기
 
