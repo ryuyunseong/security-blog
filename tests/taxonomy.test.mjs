@@ -16,6 +16,8 @@ test('주통기와 일반 Unix·코딩 테스트를 분리하고 모든 공개 �
   for (const slug of ['cidr-interval-binary-search', 'login-failure-sliding-window']) assert.equal(find(slug).category, 'coding-test');
   for (const slug of ['gzip-output-limit', 'download-path-validation', 'cors-authentication-authorization']) assert.equal(find(slug).category, 'application-security');
   assert.equal(find('tls-version-and-identity').category, 'infrastructure');
+  assert.equal(find('php2shell-runtime-patch-check').category, 'cve');
+  for (const category of categories) assert.ok(posts.some((post) => post.category === category.id), `빈 카테고리: ${category.id}`);
   assert.ok(!posts.some((post) => post.category === 'unix' && post.assessmentTarget));
 });
 

@@ -909,6 +909,37 @@
           "README.md": "eb8bac5e67e4f4fb54c2b3b56980c3118f366c5bb7063df7421791fc3b85069e"
         }
       }
+    },
+    "php2shell-runtime-patch-check": {
+      "files": [
+        {
+          "source": "php2shell_inventory.py",
+          "name": "php2shell_inventory.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Linux·WSL에서는 python3, Windows PowerShell에서는 python 명령을 사용한다. PHP나 외부 서버는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 php2shell_inventory.py",
+          "exitCode": 0,
+          "expected": "가상 목록 6건의 분류를 출력하고 비교를 통과한다. 업데이트 대상·워커 반영 검토·업체 공지 대조·웹 실행 환경 미수집·구형 계열·정식 버전 형식 검토가 각각 나타난다."
+        }
+      ],
+      "notes": [
+        "ZIP 안의 코드에 가상 입력이 들어 있다. 파일·설정·서버·계정을 추가로 준비하거나 변경하지 않는다.",
+        "실제 패키지나 웹 실행 환경을 수집하지 않는 분류 예제다. 버전 조건 충족은 웹 워커의 패치 적용을 증명하지 않는다.",
+        "Windows에서는 같은 폴더에서 python -I -B -X utf8 php2shell_inventory.py를 실행하고 $LASTEXITCODE를 조회한다.",
+        "실행 과정은 파일을 생성하지 않으므로 별도 정리 명령이 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/php2shell-runtime-patch-check.zip",
+        "bytes": 3916,
+        "sha256": "0e461f90b65927c216018ff6081386b9bfdc44d6e395cd8673bc2e3d76fe5f32",
+        "members": {
+          "README.md": "37be262204765d48714c9c01f691cd3b47a69a4dc4ffa2e29a7eff512947793b",
+          "php2shell_inventory.py": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36"
+        }
+      }
     }
   }
 }

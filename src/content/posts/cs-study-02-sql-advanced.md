@@ -19,7 +19,9 @@ Python 3.12의 `sqlite3` 표준 모듈을 사용한다. 아래 실행 기록은 
 
 [[download]]
 
-전체 Python 파일이 초기 테이블과 자료를 직접 만든다. SQL만 따로 시험하려면 **같은 SQLite 연결에서** 다음 생성문을 먼저 실행한다. SQL을 PowerShell이나 Python 프롬프트에 그대로 붙여 넣는 방식은 아니다. Python에서 SQL만 실행하려면 먼저 `import sqlite3`를 하고, 아래 SQL 전체를 삼중 따옴표 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(':memory:')`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다. 조회할 SQL 한 문장도 문자열로 `conn.execute()`에 전달하고 `fetchall()`로 결과를 받는다. 이 과정을 모두 포함한 파일은 글 뒤의 접힌 전체 코드에 있다.
+ZIP의 Python 파일은 테이블 생성과 자료 입력, 조회 결과 비교까지 한 번에 실행한다. 아래 SQL은 그 파일에서 사용한 생성문이다. 처음에는 파일을 그대로 실행하고, 조회를 바꿔 보고 싶을 때 같은 연결에서 SQL을 시험하면 된다.
+
+SQL만 따로 실행하려면 SQLite에 전달할 연결을 먼저 준비한다. Python에서는 `import sqlite3`를 한 뒤, 아래 SQL 전체를 삼중 따옴표 문자열 `BASE`로 저장한다. 이어서 `conn = sqlite3.connect(':memory:')`와 `conn.executescript(BASE)`를 같은 Python 세션에서 실행한다. 조회문도 문자열로 `conn.execute()`에 넘기고 `fetchall()`로 행 목록을 받는다. SQL을 PowerShell에 바로 입력하는 방식과 구별하자. 연결과 초기화를 포함한 전체 코드는 글 뒤에 접어 두었다.
 
 ```sql
 CREATE TABLE members (
@@ -85,7 +87,7 @@ SELECT m.member_id, COUNT(*), COUNT(o.order_id), SUM(o.amount)
 
 3번은 조인 결과에 보충 행 한 개가 있으므로 `COUNT(*)`가 1이다. 주문 기본 키는 NULL이라 `COUNT(o.order_id)`는 0이다. 반면 4번은 실제 주문 번호 105가 있어 주문 수가 1이다.
 
-두 회원 모두 SUM은 NULL이지만 이유는 다르다. 3번은 주문이 없고, 4번은 주문 금액이 NULL이다. 금액 합계 하나만으로 주문 유무를 판별하지 않는다. `COUNT(X)`와 `SUM(X)`의 NULL 처리는 [SQLite 집계 함수 문서](https://sqlite.org/lang_aggfunc.html)에 나온다. 화면 표시 때문에 합계를 0으로 바꾸더라도 원래 NULL이 의미하던 자료 누락까지 없어지는 것은 아니다.
+두 회원 모두 SUM은 NULL이지만 이유는 다르다. 3번은 주문이 없고, 4번은 주문 금액이 NULL이다. `SUM`은 NULL을 제외한 금액을 더하므로 두 그룹에는 합산할 숫자가 없다. 주문 유무는 합계와 주문 기본 키의 COUNT를 함께 읽어 구별한다. `COUNT(X)`와 `SUM(X)`의 NULL 처리는 [SQLite 집계 함수 문서](https://sqlite.org/lang_aggfunc.html)에 나온다. 화면에 합계를 0으로 표시한다면 주문 수나 금액 누락 여부도 함께 보여 주어야 두 상황이 섞이지 않는다.
 
 ## 4. ON과 WHERE에 같은 조건을 놓아 보기
 
@@ -103,7 +105,7 @@ SELECT m.member_id, COUNT(o.order_id)
 
 [[diagram]]
 
-아래가 WHERE로 옮긴 조회다. LEFT JOIN이라는 단어가 남아 있어도 WHERE가 어떤 오른쪽 열을 검사하는지 읽어야 한다.
+아래 조회에서는 조인 뒤에 `WHERE o.status = 'paid'`를 적용한다. 주문이 없는 3번의 보충 행은 `status`도 NULL이다. 이 비교는 참이 되지 않으므로 그 행이 빠진다.
 
 ```sql
 SELECT m.member_id, COUNT(o.order_id)
@@ -127,7 +129,7 @@ SELECT o.member_id, COUNT(*) AS paid_count, SUM(o.amount) AS total
         ORDER BY o.member_id
 ```
 
-조회 결과는 `member_id=2`, `paid_count=2`, `total=20000` 한 행이다. WHERE에서 미결제 주문 102번을 먼저 제외하므로 1번의 합계에는 20000원이 더해지지 않는다. GROUP BY가 회원별로 묶고, HAVING이 그 그룹의 합계를 비교한다.
+조회 결과는 `member_id=2`, `paid_count=2`, `total=20000` 한 행이다. WHERE에서 미결제 주문 102번을 제외하므로 1번의 합계는 10000원이다. 2번은 5000원과 15000원을 합쳐 20000원이고, 4번의 합계는 NULL이다. HAVING 비교에서 1번과 4번이 제외돼 2번만 남는다. 이는 SQL 결과를 설명하는 논리적 순서이며 DBMS가 내부에서 수행할 물리적 실행 순서를 지정한 것은 아니다.
 
 | 구문 | 이 조회에서 하는 일 |
 | --- | --- |
@@ -415,7 +417,9 @@ if __name__ == "__main__":
     main()
 ```
 
-`BASE`가 초기 자료, `CASES`의 각 항목이 사례 이름·SQL·기대 행 목록이다. `main()`은 사례마다 새 연결을 만들고 외래 키 검사를 켠 다음 자료를 넣는다. 조회 결과의 **값과 행 순서**가 기대 목록과 다르면 `AssertionError`로 멈춘다. `finally`가 연결을 닫으므로 다음 사례가 앞선 연결에 의존하지 않는다.
+`BASE`에는 테이블과 초기 행이 들어 있고, `CASES`의 각 항목에는 사례 이름·SQL·기대 행 목록이 들어 있다. `main()`은 매번 새 메모리 연결을 만들고 외래 키 검사를 켠 다음 `executescript(BASE)`로 자료를 넣는다. 앞선 조회나 자료 변경을 이어받지 않으므로 각 사례를 같은 출발점에서 비교한다.
+
+`rows`는 `fetchall()`로 받은 실제 행 목록이다. 열의 값뿐 아니라 열의 위치와 행 순서까지 `expected`와 같아야 `results`에 추가된다. 다르면 사례 이름과 두 목록을 담은 `AssertionError`로 멈춘다. 이때도 `finally`에서 연결을 닫는다. 입력 SQL에 오류가 생기면 빈 목록으로 숨기지 않고 예외가 그대로 드러난다.
 
 결과는 Python의 튜플 목록으로 비교하고, 출력할 때는 JSON으로 바꾼다. 따라서 화면의 `null`은 SQL NULL이며, `[]`는 결과 행이 없다는 뜻이다. 한 행에 숫자 0이 있는 `[[0]]`과 구별한다. 오류를 빈 결과로 바꾸는 예외 처리는 넣지 않았다.
 

@@ -115,6 +115,7 @@ const sitemap = await readFile(resolve(root, 'sitemap.xml'), 'utf8');
 for (const category of categories) {
   const source = await readFile(resolve(root, `categories/${category.id}/index.html`), 'utf8');
   const expected = content.filter((post) => post.category === category.id).map((post) => `${base}posts/${post.slug}/`);
+  check(expected.length > 0, `빈 카테고리 노출: ${category.id}`);
   const actual = [...source.matchAll(/<h3\b[^>]*>\s*<a\b[^>]*href="([^"]+)"/g)].map((match) => match[1]);
   check(actual.length === expected.length && expected.every((url) => actual.includes(url)), `카테고리의 글 누락·혼입: ${category.id}`);
   for (const post of content.filter((post) => post.category === category.id)) {
@@ -161,7 +162,6 @@ for (const file of archiveFiles) {
 }
 check(listed.length === posts.length && new Set(listed).size === posts.length && entries.every((entry) => listed.includes(entry.url)), '전체 글 목록에 누락·중복된 글이 있음');
 check((index.match(/class="post-row"/g) ?? []).length === Math.min(posts.length, 8), '홈 최근 글 수 오류');
-check(!sitemap.includes(`${base}categories/cve/`) && !index.includes(`${base}categories/cve/`), '빈 CVE 카테고리 노출');
 for (const entry of entries) {
   check(entry.url.startsWith(base), '검색 URL의 base 누락');
   const url = new URL(entry.url, home).href;

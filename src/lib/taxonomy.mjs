@@ -6,6 +6,7 @@ export const categories = [
   { id: 'unix', label: 'Unix', description: 'Unix·Linux의 파일 권한, 계정과 셸 동작을 다룹니다.' },
   { id: 'application-security', label: '애플리케이션 보안', description: 'CORS, 접근 제어, 파일 경로와 압축 입력의 안전한 처리를 다룹니다.' },
   { id: 'infrastructure', label: '인프라 보안', description: 'TLS와 인증서 등 시스템·네트워크의 보안 설정을 다룹니다.' },
+  { id: 'cve', label: 'CVE 분석', description: '공개 취약점의 원인, 적용 조건과 수정 버전을 공식 권고에 따라 살펴봅니다.' },
   { id: 'qualys', label: 'Qualys', description: '인증 스캔, 자산 태그, Cloud Agent 등 Qualys 기능과 공식 문서를 설명합니다.' },
   { id: 'cs-study', label: '전산·NCS', description: '데이터베이스·운영체제·네트워크와 NCS 개념을 예제와 연습문제로 다룹니다.' },
   { id: 'coding-test', label: '코딩 테스트', description: '자료구조·알고리즘 문제를 풀고 복잡도와 경계 조건을 검증합니다.' },
