@@ -1,6 +1,6 @@
 ---
 title: "U-01: root 계정 원격 접속 제한"
-description: "OpenSSH의 유효 설정과 접속 조건을 확인해 root 원격 로그인 제한을 점검합니다."
+description: "OpenSSH 설정과 접속 조건에 따라 root 원격 로그인이 허용되는지 살펴봅니다. 설정 파일에 적힌 값과 실제 적용 값의 차이를 짚습니다."
 date: "2026-10-06T21:54:44+09:00"
 updated: "2026-10-22"
 category: "critical-infrastructure"

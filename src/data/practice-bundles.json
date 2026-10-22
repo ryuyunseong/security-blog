@@ -35,10 +35,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/gzip-output-limit.zip",
-        "bytes": 6403,
-        "sha256": "18e6ae6a40a12dc0584520b517319857335ee2b0736bfd10b6a163ad27f4aab5",
+        "bytes": 6394,
+        "sha256": "9bd505ebc574d4cb99578be9a861e88b1869ee472793503b9308601fa1ad4134",
         "members": {
-          "README.md": "376040a73be695badde2dce5d8897955e1aabaf88adf4489fa1e4cf04883f9da",
+          "README.md": "af5ca9c7e3e5d66bb9ac310d86509bc763ddeea0a015462609f0e339eeb2ca80",
           "gzip_limit.py": "939ca3771db22da2bd35102779a6a901d2cddfa565a16d388ed006238ee6d93a",
           "sample.gz": "51fd36b1ade393b52c5038caf61cf14c1e82c143239966b85bac3df9f866df28"
         }
@@ -64,10 +64,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/download-path-validation.zip",
-        "bytes": 6088,
-        "sha256": "c7e95c9c9ed953238eb2fbc032568a9de221910e2e81b67c05155b6be1da5686",
+        "bytes": 6083,
+        "sha256": "739cffe21e2189b705a3d5b6de555a3825f8246bba98b42fa7171022306d759d",
         "members": {
-          "README.md": "555e19c990911fa18d526814bba00ebde1a547c4a938bf2f8dcb92400b618b9f",
+          "README.md": "7f58e80b9f654033ce6f9a1da49cdaaac6e80ea99f21e622f9fa155a7af12417",
           "path_lab.py": "305cbf071487f8196e886cd7c369353377a3bac0153aabdc0e4eeb16d884c5e4"
         }
       }
@@ -238,10 +238,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/umask-and-file-permissions.zip",
-        "bytes": 9717,
-        "sha256": "e53b2b0b31383eb54a511ec4401f66536878a02fb99efd187f77e66942d85097",
+        "bytes": 9749,
+        "sha256": "ab57b86178b4bb2546149e87c6150c910c811ccbb33453da90fda988add86e60",
         "members": {
-          "README.md": "f88e57a6ddd53f18a5344dbdb48dabacd76ef4c09fcfff41f337e16f5bcb7ee1",
+          "README.md": "fbe6764c6e739a0c0213bd0fde528a96b12642821bf7fc8c0ef310b0f1b3244b",
           "umask_lab.sh": "3fa2ce4189f9de73ae4584c37d9cbb7940b324d467c2de0a7c0083707d9e14cd"
         }
       }
@@ -629,10 +629,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/qualys-static-dynamic-tags.zip",
-        "bytes": 3904,
-        "sha256": "7cbfc3feae7d1f1b28d85765a7019e9d4a0183f813919a3045b5866665a87832",
+        "bytes": 3920,
+        "sha256": "8c5654dc37990690a84f70d8073559655128475f1ff0bd83c96579841d846dc1",
         "members": {
-          "README.md": "35f061f90609edddbaa5f07fac0308ce9170eb26f870b1c8faecc838a51c6b0d",
+          "README.md": "b8fb24d62c42b3babf0508ec2181f97d12284eaa20ad9dcd51834ca5d53adc62",
           "compare_tags_demo.py": "9bb0113591fdabe147a0a792210d207f89ea611299fc2d6c2e303fd987df7e5a"
         }
       }
@@ -711,10 +711,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/qualys-detection-status-transitions.zip",
-        "bytes": 3203,
-        "sha256": "94873639ff24c1edb21afb3a3e78a4d080fea70c67971b8e5f501bdf14ca53fd",
+        "bytes": 3210,
+        "sha256": "fa814652ee7399f83fa9b1fe2c94ddb541f049557f0880c2fde5f36ce59fad34",
         "members": {
-          "README.md": "5003ffb3abeb2b1f813c96a364ca6bbaae3f2e3d7e8def5062285febffd01521",
+          "README.md": "b70512032523793f7f8d5aa50a5912a9742053689b4806cb4afb70285baf5a1d",
           "qualys_status_example.py": "898e26954d409a925851560189a35b2fd77896dc2f791373eb0713b0ff223502"
         }
       }
@@ -765,10 +765,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/qualys-tcp-udp-port-scope.zip",
-        "bytes": 2864,
-        "sha256": "2e4ae78823cefed7765ba25a7727939996fd9501381d1f4adf7cee736ddf323d",
+        "bytes": 2870,
+        "sha256": "c98b2a4892252ca62b1a9d773de0e94208ee403928798f1bd6d0579196e1a9e4",
         "members": {
-          "README.md": "f3046968f8d07e5821cf70288b4c672afaff03c667bc5270c5d335747ec60de1",
+          "README.md": "2584b1b862f26fd59332cd2ec9abce43ca191425011586ba5b24b2c8ad92c9ea",
           "qualys_port_scope.py": "57195632f829994945cf44e5eef755b082035e8dc384859bb3c06a9929e37e9a"
         }
       }
@@ -820,11 +820,11 @@
       ],
       "archive": {
         "path": "downloads/bundles/cs-study-01-database-sql.zip",
-        "bytes": 10479,
-        "sha256": "e4a42af753ce19f8fee1b5f10c4cfa4045c8a46513c9338309dc43340064ebfb",
+        "bytes": 10481,
+        "sha256": "64da501548c0537d09e82360af3a67098849210cb4ae856c19c5e8ca1b2efa42",
         "members": {
           "01-database-sql.py": "250e05c58b48b20c5ce0421d6d608cdb7d173e34bf245ed8d34e40c75788e8a8",
-          "README.md": "7a8641d89136ebbaba140fc3d2e6018d89c6bea059546d61af01bea596ac520e"
+          "README.md": "5bb422f42fc553b1eb8e235ae78c8fce9e63d72ffdecb6d22f40693fabc3552f"
         }
       }
     },
@@ -902,11 +902,11 @@
       ],
       "archive": {
         "path": "downloads/bundles/cs-study-02-sql-advanced.zip",
-        "bytes": 6183,
-        "sha256": "97eed8b64d3f0130c31a7cc95d71f91e35a534fcc3e8e90be938f9e9b9399056",
+        "bytes": 6192,
+        "sha256": "711d0c5bb4c6743ce69a23965c298a4cd53ddaed6a52f10d6c0e5d3142dc0be5",
         "members": {
           "02-sql-advanced.py": "fc21537dbbf281028c148647b6eda62db30daf6403e9be2f346df0fb6843f34a",
-          "README.md": "eb8bac5e67e4f4fb54c2b3b56980c3118f366c5bb7063df7421791fc3b85069e"
+          "README.md": "ca33176521664ae774cd41bffe3617ddf3d9359a8961588d211f8ac65ebf498b"
         }
       }
     },

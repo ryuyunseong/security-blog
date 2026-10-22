@@ -1,6 +1,6 @@
 ---
-title: "Fixed였던 QID가 다시 나올 때: Qualys 탐지 상태 읽기"
-description: "평가 자료가 없는 구간과 Fixed 이후 재탐지를 가상 이력으로 구분하고, 보고서 시점과 상태 변화를 대조합니다."
+title: "Qualys 탐지 상태: Fixed 이후 같은 QID가 다시 나오는 이유"
+description: "가상 탐지 이력으로 Fixed 이후 재탐지와 평가 자료가 없는 기간을 구별합니다. 보고서를 만든 시점에 따라 상태를 어떻게 읽을지 설명합니다."
 date: "2026-10-18T12:14:00+09:00"
 updated: "2026-10-22"
 sourcesChecked: "2026-10-18"

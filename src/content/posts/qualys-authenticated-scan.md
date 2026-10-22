@@ -1,6 +1,6 @@
 ---
 title: "Qualys 인증 스캔 결과 읽기: 로그인 성공과 점검 완료의 차이"
-description: "인증 보고서의 Passed·Failed 상태와 파일·레지스트리 접근 거부를 나타내는 QID를 확인합니다."
+description: "인증 보고서의 Passed·Failed와 접근 거부 QID를 읽는 방법을 설명합니다. 로그인 성공 여부와 파일·레지스트리 검사 범위를 나눠 살펴봅니다."
 date: "2026-10-15T20:25:07+09:00"
 updated: "2026-10-18T14:52:18+09:00"
 sourcesChecked: "2026-10-18"

@@ -1,6 +1,6 @@
 ---
-title: "VMDR 인증 준비: 공식 커리큘럼을 학습 질문으로 바꾸기"
-description: "VMDR with TruRisk 과정의 다섯 학습 범위를 정리하고, 정규 과정·보충 영상·평가·인증서 발급에서 구별할 내용을 살펴봅니다."
+title: "VMDR 인증 준비: 공식 교육 과정과 복습할 내용"
+description: "VMDR with TruRisk의 다섯 학습 범위와 복습 질문을 정리합니다. 정규 과정과 보충 영상, 평가와 인증서 발급 절차도 구별합니다."
 date: "2026-10-21T18:52:52+09:00"
 sourcesChecked: "2026-10-21"
 category: "qualys"

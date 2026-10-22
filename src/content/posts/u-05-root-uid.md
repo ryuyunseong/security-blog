@@ -1,6 +1,6 @@
 ---
 title: "U-05: root 이외의 UID가 ‘0’ 금지"
-description: "root 이외의 UID 0 계정을 찾고 로컬·중앙 계정의 확인 범위를 구분합니다."
+description: "root 이외에 UID 0을 쓰는 계정을 찾습니다. 로컬 계정 파일과 중앙 계정 조회가 다루는 범위를 구분하고, 발견한 계정을 조사할 때 볼 자료를 짚습니다."
 date: "2026-10-10T21:19:36+09:00"
 updated: "2026-10-22"
 category: "critical-infrastructure"

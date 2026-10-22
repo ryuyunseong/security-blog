@@ -1,6 +1,6 @@
 ---
 title: "Qualys Search List: 스캔 범위와 보고서 필터를 구분하기"
-description: "Search List를 연결한 위치에 따라 달라지는 QID 검사 범위와 보고서 표시 필터를 비교합니다."
+description: "Search List를 스캔 옵션과 보고서 중 어디에 연결했는지에 따라 달라지는 동작을 설명합니다. QID 검사 범위와 결과 표시 필터를 구별합니다."
 date: "2026-10-17T09:07:01+09:00"
 updated: "2026-10-17T18:17:24+09:00"
 category: "qualys"

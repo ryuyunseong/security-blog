@@ -1,6 +1,6 @@
 ---
 title: "U-11: 사용자 shell 점검"
-description: "로그인 불필요 계정의 셸을 분류하고 nologin으로 바꾸기 전 서비스 실행 방식을 조사합니다."
+description: "로그인이 필요 없는 계정의 셸을 분류하고, nologin으로 바꾸기 전에 서비스의 실행 방식을 살펴봅니다."
 date: "2026-10-16T21:58:00+09:00"
 updated: "2026-10-22"
 sourcesChecked: "2026-10-16"

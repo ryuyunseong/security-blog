@@ -1,5 +1,5 @@
 ---
-title: "umask 설정과 실제 파일 권한"
+title: "umask와 실제 파일 권한: 요청 모드와 기본 ACL의 영향"
 description: "요청 모드·umask·기본 ACL이 새 파일의 실제 권한에 미치는 영향을 비교합니다."
 date: "2026-10-08T21:26:23+09:00"
 updated: "2026-10-22"

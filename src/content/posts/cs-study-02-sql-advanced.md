@@ -1,6 +1,6 @@
 ---
-title: "SQL JOIN과 집계: ON·WHERE, GROUP BY·HAVING, 서브쿼리"
-description: "회원 네 명과 주문 다섯 건으로 조인 행 수와 NULL 보충 행을 비교합니다. SQLite 실행 예제와 자체 연습문제 5개로 조건 위치에 따른 결과를 풉니다."
+title: "SQL JOIN과 집계, 서브쿼리: 조건에 따라 달라지는 결과"
+description: "회원과 주문을 연결할 때 행 수가 늘거나 NULL로 채운 행이 생기는 이유를 살펴봅니다. SQLite 예제와 연습문제 5개로 조인·집계·서브쿼리를 익힙니다."
 date: "2026-10-22T18:46:15+09:00"
 sourcesChecked: "2026-10-22"
 category: "cs-study"

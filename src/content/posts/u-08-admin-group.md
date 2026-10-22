@@ -1,6 +1,6 @@
 ---
 title: "U-08: 관리자 그룹에 최소한의 계정 포함"
-description: "기본 GID와 보조 그룹을 함께 조회해 관리자 그룹 구성원의 필요성을 검토합니다."
+description: "관리자 그룹을 조사할 때 기본 GID와 보조 그룹을 함께 조회하는 이유를 가상 계정 목록으로 살펴봅니다."
 date: "2026-10-13T21:07:40+09:00"
 updated: "2026-10-22"
 category: "critical-infrastructure"

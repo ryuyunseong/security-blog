@@ -1,6 +1,6 @@
 ---
-title: "데이터베이스·SQL 기초: SELECT, NULL, 데이터 변경"
-description: "가상 도서 목록으로 SELECT·NULL·데이터 변경을 실행하고, 직접 만든 다섯 문제의 정답과 SQLite 결과를 비교합니다."
+title: "데이터베이스와 SQL 기초: 조회, NULL, 데이터 변경"
+description: "가상 도서 목록으로 데이터를 조회·수정·삭제해 봅니다. SQLite 실행 결과와 연습문제 5개로 SELECT와 NULL 처리를 익힙니다."
 date: "2026-10-21T18:52:52+09:00"
 updated: "2026-10-22"
 sourcesChecked: "2026-10-21"

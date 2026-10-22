@@ -1,6 +1,6 @@
 ---
-title: "Qualys 수집 누락 찾기: Cloud Agent와 Scanner Appliance 확인 순서"
-description: "Cloud Agent의 VM 활성화와 평가 시점, 스캐너의 관리·검사 통신에서 수집 누락을 찾습니다."
+title: "Qualys 자산 정보가 빠졌을 때: Cloud Agent와 스캐너 점검"
+description: "Cloud Agent의 VM 활성화·평가 시점부터 스캐너의 통신 경로까지, 자산 정보가 빠졌을 때 살펴볼 설정을 짚습니다."
 date: "2026-10-14T20:18:00+09:00"
 updated: "2026-10-17T18:17:24+09:00"
 category: "qualys"

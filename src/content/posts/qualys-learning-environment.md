@@ -1,6 +1,6 @@
 ---
-title: "Qualys 실습 환경 고르기: Community Edition·VMDR·Training의 차이"
-description: "Community Edition·VMDR·Training의 차이와 실습 전에 확인할 구독·권한 조건을 설명합니다."
+title: "Qualys 실습 환경 비교: Community Edition, VMDR, Training"
+description: "Community Edition, VMDR, Training의 실습 환경을 비교합니다. 실습을 고르기 전에 알아둘 구독·권한 조건도 함께 다룹니다."
 date: "2026-10-13T21:08:54+09:00"
 updated: "2026-10-17T18:17:24+09:00"
 category: "qualys"

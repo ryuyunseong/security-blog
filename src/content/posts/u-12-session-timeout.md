@@ -1,6 +1,6 @@
 ---
 title: "U-12: 세션 종료 시간 설정"
-description: "600초 이하의 유휴 종료 기준을 정리하고 별도 Bash에서 TMOUT의 대기 동작을 시험합니다."
+description: "600초 이하의 유휴 세션 종료 기준을 설명합니다. 별도 Bash에서 TMOUT을 시험하며 명령 실행 시간과 입력 대기 시간을 구별합니다."
 date: "2026-10-17T09:07:00+09:00"
 updated: "2026-10-22"
 category: "critical-infrastructure"

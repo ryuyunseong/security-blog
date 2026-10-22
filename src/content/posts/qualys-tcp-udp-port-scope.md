@@ -1,6 +1,6 @@
 ---
-title: "Qualys 포트 범위 대조: TCP·UDP와 호스트 탐색 나눠 보기"
-description: "옵션 프로필의 서비스 포트와 Host Discovery 설정을 구분하고 가상 목록에서 TCP·UDP별 빠진 조합을 찾습니다."
+title: "Qualys 스캔 설정: TCP·UDP 포트 범위와 호스트 탐색 구분하기"
+description: "호스트 탐색과 서비스 포트 검사를 구분합니다. 가상 서비스 목록을 (프로토콜, 포트) 쌍으로 대조해 TCP·UDP별 누락을 찾습니다."
 date: "2026-10-19T18:33:58+09:00"
 updated: "2026-10-22"
 sourcesChecked: "2026-10-19"
