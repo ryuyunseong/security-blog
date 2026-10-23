@@ -749,6 +749,89 @@
     },
     "u-17-startup-script-permissions": {"recordedAt": "2026-10-22T18:41:18+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록", "sqlite": "3.43.1"}, "sourceCodeSha256": "ad296f88877711d336922a8402844945081f669196d7bf598e6e788bf4a38a4e", "sourceArtifactSha256": "7f44fada3dd9840d51025dc65e93654e89742101d86c7a1763de9bd166566a29", "reproduction": "article", "preparationFiles": ["u17_startup_paths.py"], "runs": [{"label": "가상 시작 경로 여섯 가지 비교", "recordedAt": "2026-10-22T18:41:18+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록", "sqlite": "3.43.1"}, "sourceCodeSha256": "7f44fada3dd9840d51025dc65e93654e89742101d86c7a1763de9bd166566a29", "stdout": "정상 대상: 기본 조건 충족; 대상=/lab/init.d/app, UID=0, 모드=0755\n기타 쓰기: 조건 불일치; 대상=/lab/init.d/job, UID=0, 모드=0756\n소유자 다름: 조건 불일치; 대상=/lab/custom.service, UID=1001, 모드=0644\n그룹 쓰기: 그룹 구성원 추가 검토; 대상=/lab/override.conf, UID=0, 모드=0664\n끊어진 링크: 미수집; 대상 자료 없음\n링크 순환: 미수집; 링크 순환\n가상 경로 6건 비교 통과\n", "stderr": "", "exitCode": 0, "command": "python -I -B -X utf8 u17_startup_paths.py"}]},
     "cs-study-02-sql-advanced": {"recordedAt": "2026-10-22T18:41:19+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록", "sqlite": "3.43.1"}, "sourceCodeSha256": "a11c75803004bcbeed7ca7bd60f0d1c35a0d9ebdf6e21dc5e1fc962b03dfe96b", "sourceArtifactSha256": "fc21537dbbf281028c148647b6eda62db30daf6403e9be2f346df0fb6843f34a", "reproduction": "article", "preparationFiles": ["02-sql-advanced.py"], "runs": [{"label": "본문 SQL과 자체 문제 결과 대조", "recordedAt": "2026-10-22T18:41:19+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (in-memory examples)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록", "sqlite": "3.43.1"}, "sourceCodeSha256": "fc21537dbbf281028c148647b6eda62db30daf6403e9be2f346df0fb6843f34a", "stdout": "SQL 사례 13건 통과; SQLite 3.43.1\ninner: [[1, 101], [1, 102], [2, 103], [2, 104], [4, 105]]\nleft-count: [[1, 2, 2, 30000], [2, 2, 2, 20000], [3, 1, 0, null], [4, 1, 1, null]]\non-paid: [[1, 1], [2, 2], [3, 0], [4, 1]]\nwhere-paid: [[1, 1], [2, 2], [4, 1]]\nhaving: [[2, 2, 20000]]\nexists-paid: [[1], [2], [4]]\nq1-cardinality: [[2]]\nq2-pending: [[1, 1, 1], [2, 1, 0], [3, 1, 0], [4, 1, 0]]\nq3-on: [[1], [2], [3], [4]]\nq3-where: [[1], [2]]\nq4-having: [[2, 2, 20000]]\nq5-not-in: []\nq5-not-exists: [[3]]\n", "stderr": "", "exitCode": 0, "command": "python -I -B -X utf8 02-sql-advanced.py"}]},
-    "php2shell-runtime-patch-check": {"recordedAt": "2026-10-22T19:25:52+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (synthetic inventory only)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록"}, "sourceCodeSha256": "a0e423c730ac5effeac7f2a04bf07122dbca9bce71f652a59b3c5eb9ed002894", "sourceArtifactSha256": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36", "reproduction": "article", "preparationFiles": ["php2shell_inventory.py"], "runs": [{"label": "가상 PHP 공급 경로와 버전 여섯 가지 분류", "recordedAt": "2026-10-22T19:25:52+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (synthetic inventory only)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록"}, "sourceCodeSha256": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36", "stdout": "web-a | 8.3.35 | 업데이트 대상\nweb-b | 8.3.36 | 수정 버전 조건 충족; 워커 반영 검토\nweb-c | 8.2.30-1.vendor1 | 공급업체 보안 공지 대조\ncli-a | 8.5.12 | 웹 실행 환경 미수집\nlegacy | 8.1.33 | 구형 계열 지원 경로 검토\npreview | 8.6.0RC4 | 정식 버전 형식 재검토\n가상 목록 6건 분류 통과\n", "stderr": "", "exitCode": 0, "command": "python -I -B -X utf8 php2shell_inventory.py"}]}
+    "php2shell-runtime-patch-check": {"recordedAt": "2026-10-22T19:25:52+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (synthetic inventory only)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록"}, "sourceCodeSha256": "a0e423c730ac5effeac7f2a04bf07122dbca9bce71f652a59b3c5eb9ed002894", "sourceArtifactSha256": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36", "reproduction": "article", "preparationFiles": ["php2shell_inventory.py"], "runs": [{"label": "가상 PHP 공급 경로와 버전 여섯 가지 분류", "recordedAt": "2026-10-22T19:25:52+09:00", "environment": {"os": "Windows-11-10.0.29683-SP0 / local Python (synthetic inventory only)", "python": "3.12.1", "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023", "openssl": "CLI 미사용; Python ssl 버전으로 기록"}, "sourceCodeSha256": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36", "stdout": "web-a | 8.3.35 | 업데이트 대상\nweb-b | 8.3.36 | 수정 버전 조건 충족; 워커 반영 검토\nweb-c | 8.2.30-1.vendor1 | 공급업체 보안 공지 대조\ncli-a | 8.5.12 | 웹 실행 환경 미수집\nlegacy | 8.1.33 | 구형 계열 지원 경로 검토\npreview | 8.6.0RC4 | 정식 버전 형식 재검토\n가상 목록 6건 분류 통과\n", "stderr": "", "exitCode": 0, "command": "python -I -B -X utf8 php2shell_inventory.py"}]},
+    "u-18-shadow-owner-permissions": {
+      "recordedAt": "2026-10-23T18:39:49+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local isolated in-memory examples",
+        "python": "3.12.1",
+        "sqlite": "3.43.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "d9ed151339365d168e03b8dabf4cfd5d3966c09f3fa02ad685cf33f793bcddc6",
+      "reproduction": "article",
+      "preparationFiles": [
+        "u18_shadow_mode.py"
+      ],
+      "runs": [
+        {
+          "label": "가상 shadow 속성 아홉 건 비교",
+          "command": "python -I -B -X utf8 u18_shadow_mode.py",
+          "recordedAt": "2026-10-23T18:39:49+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29683-SP0 / local isolated in-memory examples",
+            "python": "3.12.1",
+            "sqlite": "3.43.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "317195dcfd2529774858447c83ad701a2631c62e1b69f5bfda8ef52727edb5f2",
+          "exitCode": 0,
+          "stdout": "기준 권한: UID=0, 모드=0400, 추가 비트=000, 조건 충족\n소유자 쓰기: UID=0, 모드=0600, 추가 비트=200, 권한 초과\n그룹 읽기: UID=0, 모드=0440, 추가 비트=040, 권한 초과\n기타 읽기: UID=0, 모드=0404, 추가 비트=004, 권한 초과\n숫자가 작은 모드: UID=0, 모드=0004, 추가 비트=004, 권한 초과\n일반 권한 없음: UID=0, 모드=0000, 추가 비트=000, 조건 충족\n다른 소유자: UID=1001, 모드=0400, 추가 비트=000, 소유자 불일치\n특수 비트: UID=0, 모드=4400, 추가 비트=비교 안 함, 범위 밖\n소유자 미수집: UID=None, 모드=0400, 추가 비트=비교 안 함, 미수집\n가상 속성 9건의 기대 상태 일치\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "cs-study-03-database-design": {
+      "recordedAt": "2026-10-23T18:39:49+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29683-SP0 / local isolated in-memory examples",
+        "python": "3.12.1",
+        "sqlite": "3.43.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "97ff38357c72b2c45377e5568316c6189dad5f7ff6a330f5e4b83c3e3ebccdea",
+      "reproduction": "article",
+      "preparationFiles": [
+        "03-database-design.py",
+        "03-database-design-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "정규화 조회·트랜잭션·인덱스 계획 비교",
+          "command": "python -I -B -X utf8 03-database-design.py",
+          "recordedAt": "2026-10-23T18:39:49+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29683-SP0 / local isolated in-memory examples",
+            "python": "3.12.1",
+            "sqlite": "3.43.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "e626f2edd65a330ee72a125d81e4e8fbdf36a89b6c74e0e01164d286a1637aea",
+          "exitCode": 0,
+          "stdout": "Python sqlite3 실습 / SQLite 3.43.1\n수정한 강좌 행 수: 1\n분리한 테이블의 조회: [[1, \"SQL 기초\", \"301호\"], [2, \"SQL 기초\", \"301호\"], [2, \"네트워크\", \"301호\"]]\n오류 직후 같은 연결: [[1, 70], [2, 50]]\nROLLBACK 뒤: [[1, 100], [2, 50]]\n정상 이체 COMMIT 뒤: [[1, 70], [2, 80]]\n인덱스 전 계획: [\"SCAN events\"]\n인덱스 후 계획: [\"SEARCH events USING COVERING INDEX idx_events_member (member_id=?)\"]\n두 조회가 반환한 행 수: 10\n정규화 조회·트랜잭션·인덱스 결과 비교 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "자체 문제 SQL 실행과 개념 비교 자료",
+          "command": "python -I -B -X utf8 03-database-design-questions.py",
+          "recordedAt": "2026-10-23T18:39:50+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29683-SP0 / local isolated in-memory examples",
+            "python": "3.12.1",
+            "sqlite": "3.43.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "48e0e55b0e3fc985d12925d073ce974623c679e3ca767564d55e85fdba28ddaa",
+          "exitCode": 0,
+          "stdout": "q1: \"course_name은 복합 키 일부인 course_id에 종속\"\nq2: [[10, \"새이름\"], [20, \"가온\"]]\nq3: [\"courses(course_id, instructor_id)\", \"instructors(instructor_id, room)\"]\nq4: [[1, 80], [2, 70]]\nq5: [[20], [30]]\n자체 문제: SQL 3건 실행, 개념 2건의 비교 자료 출력\n",
+          "stderr": ""
+        }
+      ]
+    }
   }
 }

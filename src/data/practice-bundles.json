@@ -940,6 +940,76 @@
           "php2shell_inventory.py": "cffb114bb6bc25894f67a1700f5b1f3e9e2202d8c95c9b62a5ae1245d3040a36"
         }
       }
+    },
+    "u-18-shadow-owner-permissions": {
+      "files": [
+        {
+          "source": "u18_shadow_mode.py",
+          "name": "u18_shadow_mode.py"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Linux·WSL에서는 python3, Windows에서는 python을 사용한다. 관리자 권한과 별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u18_shadow_mode.py",
+          "exitCode": 0,
+          "expected": "기대값 비교를 마치고 종료 코드 0, 빈 표준 오류로 끝난다. 출력 필드와 비교 범위는 본문의 코드 설명과 대조한다."
+        }
+      ],
+      "notes": [
+        "가상 자료는 코드 안에 있다. 입력 파일·계정·DB 서버를 준비하지 않는다.",
+        "Windows에서는 명령의 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE를 조회한다.",
+        "새 파일을 만들지 않으며 메모리 자원은 종료 시 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-18-shadow-owner-permissions.zip",
+        "bytes": 3328,
+        "sha256": "6b0763451f057da95dc4dbfeb065847a50a1a840415867e1299ee911fed23500",
+        "members": {
+          "README.md": "c03a1a493452a48dde5468ffca6105723a575e40b5232c41411681d4ccdbcddb",
+          "u18_shadow_mode.py": "317195dcfd2529774858447c83ad701a2631c62e1b69f5bfda8ef52727edb5f2"
+        }
+      }
+    },
+    "cs-study-03-database-design": {
+      "files": [
+        {
+          "source": "03-database-design.py",
+          "name": "03-database-design.py"
+        },
+        {
+          "source": "03-database-design-questions.py",
+          "name": "03-database-design-questions.py"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Linux·WSL에서는 python3, Windows에서는 python을 사용한다. 관리자 권한과 별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 03-database-design.py",
+          "exitCode": 0,
+          "expected": "기대값 비교를 마치고 종료 코드 0, 빈 표준 오류로 끝난다. 출력 필드와 비교 범위는 본문의 코드 설명과 대조한다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 03-database-design-questions.py",
+          "exitCode": 0,
+          "expected": "기대값 비교를 마치고 종료 코드 0, 빈 표준 오류로 끝난다. 출력 필드와 비교 범위는 본문의 코드 설명과 대조한다."
+        }
+      ],
+      "notes": [
+        "가상 자료는 코드 안에 있다. 입력 파일·계정·DB 서버를 준비하지 않는다.",
+        "Windows에서는 명령의 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE를 조회한다.",
+        "새 파일을 만들지 않으며 메모리 자원은 종료 시 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-03-database-design.zip",
+        "bytes": 9573,
+        "sha256": "d82a7df9e101b03a51c5ddba0c81daa5be53143d10be3b07dc9f0d9f7d7d1822",
+        "members": {
+          "03-database-design-questions.py": "48e0e55b0e3fc985d12925d073ce974623c679e3ca767564d55e85fdba28ddaa",
+          "03-database-design.py": "e626f2edd65a330ee72a125d81e4e8fbdf36a89b6c74e0e01164d286a1637aea",
+          "README.md": "91432fe24ecb7d53e0cf0b1e0ed0a286801b156a5d0d8d55702559ef66e8b4c8"
+        }
+      }
     }
   }
 }
