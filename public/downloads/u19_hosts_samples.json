@@ -1,0 +1,10 @@
+[
+  {"name": "기준 모드", "uid": 0, "mode": "0644", "kind": "file", "acl": "none"},
+  {"name": "숫자는 작은 모드", "uid": 0, "mode": "0624", "kind": "file", "acl": "none"},
+  {"name": "그룹 쓰기", "uid": 0, "mode": "0664", "kind": "file", "acl": "none"},
+  {"name": "기타 쓰기", "uid": 0, "mode": "0646", "kind": "file", "acl": "none"},
+  {"name": "소유자와 모드 차이", "uid": 1001, "mode": "0664", "kind": "file", "acl": "none"},
+  {"name": "읽기 범위 축소", "uid": 0, "mode": "0600", "kind": "file", "acl": "none"},
+  {"name": "추가 ACL", "uid": 0, "mode": "0644", "kind": "file", "acl": "present"},
+  {"name": "심볼릭 링크", "uid": 0, "mode": "0644", "kind": "symlink", "acl": "unknown"}
+]

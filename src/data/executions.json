@@ -832,6 +832,85 @@
           "stderr": ""
         }
       ]
+    },
+    "u-19-hosts-owner-permissions": {
+      "recordedAt": "2026-10-24T18:36:50+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "f48bb5229f4154f9aa6fc7044186916739d23d776a33e19e73c49e64427b04e9",
+      "reproduction": "article",
+      "preparationFiles": [
+        "u19_hosts_records.py",
+        "u19_hosts_samples.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 hosts 수집 자료 여덟 건 비교",
+          "command": "python -I -B -X utf8 u19_hosts_records.py u19_hosts_samples.json",
+          "recordedAt": "2026-10-24T18:36:50+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "4c84833424866deebb88e14ff4b33f572c85d42f8f418f828fa4a81bd535c912",
+          "exitCode": 0,
+          "stdout": "기준 모드: UID=0, 모드=0644, 추가 비트=000, 소유자·일반 권한 조건 충족\n숫자는 작은 모드: UID=0, 모드=0624, 추가 비트=020, 허용 밖 권한\n그룹 쓰기: UID=0, 모드=0664, 추가 비트=020, 허용 밖 권한\n기타 쓰기: UID=0, 모드=0646, 추가 비트=002, 허용 밖 권한\n소유자와 모드 차이: UID=1001, 모드=0664, 추가 비트=020, 소유자 불일치, 허용 밖 권한\n읽기 범위 축소: UID=0, 모드=0600, 추가 비트=000, 소유자·일반 권한 조건 충족\n추가 ACL: UID=0, 모드=0644, 추가 비트=000, ACL 추가 조사\n심볼릭 링크: UID=0, 모드=0644, 추가 비트=비교 안 함, 링크 대상 조사\n가상 자료 8건 비교 완료\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "cs-study-04-data-structures-complexity": {
+      "recordedAt": "2026-10-24T18:36:51+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "df0549c073f9f58015a9dffb380780c1b9536970ccfd06ca9e98024d1c65d1dd",
+      "reproduction": "article",
+      "preparationFiles": [
+        "04-data-structures-complexity.py",
+        "04-data-structures-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "자료구조 순서와 연산 카운터",
+          "command": "python -I -B -X utf8 04-data-structures-complexity.py",
+          "recordedAt": "2026-10-24T18:36:51+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "cfbc0416be1394a12790fc2624876c7a9728fb6bbbde1ef4b658bc683ad6b100",
+          "exitCode": 0,
+          "stdout": "스택에서 꺼낸 값과 남은 값: [30, [10, 20]]\n큐에서 꺼낸 값과 남은 값: [10, [20, 30, 40]]\nn=8 선형 비교·반감 반복·쌍 방문: [8, 3, 28]\nn=8 FIFO 전체 꺼내기: {\"앞당김 모형\": 28, \"popleft 호출\": 8}\nn=16 선형 비교·반감 반복·쌍 방문: [16, 4, 120]\nn=16 FIFO 전체 꺼내기: {\"앞당김 모형\": 120, \"popleft 호출\": 16}\n카운터 기대값과 두 FIFO 반환 순서 일치\n",
+          "stderr": ""
+        },
+        {
+          "label": "자체 문제 코드와 계산 대조",
+          "command": "python -I -B -X utf8 04-data-structures-questions.py",
+          "recordedAt": "2026-10-24T18:36:51+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "b87a25203ff093a543658a0aa6db9bb1fb326b98cc396a2c7dd0edfa8e2e8843",
+          "exitCode": 0,
+          "stdout": "q1: [\"C\", \"A\"]\nq2: 10\nq3: {\"n=10 값\": 83, \"n=20 값\": 163}\nq4: 6\nq5: 2\n자체 문제: 코드 4건과 계산 예시 대조 완료\n",
+          "stderr": ""
+        }
+      ]
     }
   }
 }

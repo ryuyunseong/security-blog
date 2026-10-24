@@ -1010,6 +1010,83 @@
           "README.md": "91432fe24ecb7d53e0cf0b1e0ed0a286801b156a5d0d8d55702559ef66e8b4c8"
         }
       }
+    },
+    "u-19-hosts-owner-permissions": {
+      "files": [
+        {
+          "source": "u19_hosts_records.py",
+          "name": "u19_hosts_records.py"
+        },
+        {
+          "source": "u19_hosts_samples.json",
+          "name": "u19_hosts_samples.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. 검증 환경은 Python 3.12.1이다. 별도 패키지·서버·관리자 권한은 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u19_hosts_records.py u19_hosts_samples.json",
+          "exitCode": 0,
+          "expected": "가상 자료 8건을 비교하고 끝난다. 권한 차이나 추가 조사 항목이 있어도 비교 완료의 종료 코드는 0이며, 입력 오류는 2다."
+        }
+      ],
+      "notes": [
+        "JSON은 포함된 가상 자료다. 실제 hosts 파일·계정·권한·ACL은 읽거나 변경하지 않는다.",
+        "입력 JSON이 이미 들어 있으므로 다시 만들지 않는다. 인수 생략 시 실제 시스템 경로로 넘어가지 않는다.",
+        "Windows에서는 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "생성 파일이 없으며 자료는 프로세스 종료와 함께 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-19-hosts-owner-permissions.zip",
+        "bytes": 5550,
+        "sha256": "8d4ff9b9bb2f1a9a0f7e5c01e3c1c31ad5de32640a2a1d9ed2ba54aa15b190eb",
+        "members": {
+          "README.md": "cf849f4806bcdb1e6e98f0cddc15d12d7bdbaa44e0800317d3eddbe256c61244",
+          "u19_hosts_records.py": "4c84833424866deebb88e14ff4b33f572c85d42f8f418f828fa4a81bd535c912",
+          "u19_hosts_samples.json": "69f62d2d224e60aa48698cb06731b0850b502b3fd578c9b1d61379cf5125f228"
+        }
+      }
+    },
+    "cs-study-04-data-structures-complexity": {
+      "files": [
+        {
+          "source": "04-data-structures-complexity.py",
+          "name": "04-data-structures-complexity.py"
+        },
+        {
+          "source": "04-data-structures-questions.py",
+          "name": "04-data-structures-questions.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. 검증 환경은 Python 3.12.1이다. 별도 패키지·서버·관리자 권한은 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 04-data-structures-complexity.py",
+          "exitCode": 0,
+          "expected": "기대값과 반환 순서를 대조하고 종료 코드 0, 빈 표준 오류로 끝난다. 카운터는 본문이 정의한 연산 수이며 초 단위 측정값이 아니다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 04-data-structures-questions.py",
+          "exitCode": 0,
+          "expected": "자체 문제 코드 4건과 산술 예시를 대조한다. q 번호는 문제 번호이며 점근 표기의 증명은 본문 해설로 읽는다."
+        }
+      ],
+      "notes": [
+        "입력은 코드 안의 작은 자료다. 별도 파일·DB·서버를 준비하지 않는다.",
+        "문제 검증 파일은 문제를 푼 뒤 실행한다. Python 컨테이너와 카운터만 다룬다.",
+        "Windows에서는 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "생성 파일이 없으며 자료는 프로세스 종료와 함께 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-04-data-structures-complexity.zip",
+        "bytes": 5676,
+        "sha256": "064dbaaf8065ea573074e2134160d3a23a71b48fb5209e18bcae42107c627ea1",
+        "members": {
+          "04-data-structures-complexity.py": "cfbc0416be1394a12790fc2624876c7a9728fb6bbbde1ef4b658bc683ad6b100",
+          "04-data-structures-questions.py": "b87a25203ff093a543658a0aa6db9bb1fb326b98cc396a2c7dd0edfa8e2e8843",
+          "README.md": "bde48ad77fb80fd039b7d118b70cbd17a541c7b71138576e2d8eeab2a7317a80"
+        }
+      }
     }
   }
 }
