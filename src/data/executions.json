@@ -911,6 +911,85 @@
           "stderr": ""
         }
       ]
+    },
+    "u-20-inetd-owner-permissions": {
+      "recordedAt": "2026-10-25T18:37:56+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "386a493a3b7eb861f8c714ec922410536b56cdf47099335ae477ef4892d30708",
+      "reproduction": "article",
+      "preparationFiles": [
+        "u20_superdaemon_records.py",
+        "u20_superdaemon_samples.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 서비스 설정 자료 일곱 건 비교",
+          "command": "python -I -B -X utf8 u20_superdaemon_records.py u20_superdaemon_samples.json",
+          "recordedAt": "2026-10-25T18:37:56+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "08b05ac7ce7e4dfac5e2196c60a6e4a2c18aab72b56acb202e9d41bb23a14707",
+          "exitCode": 0,
+          "stdout": "/etc/xinetd.conf: 조건 충족, UID 0, 허용 밖 비트 000\n/etc/xinetd.d/example: 기준 차이, 허용 밖 비트 044\n/etc/inetd.conf: 미수집, 설치·사용 여부와 실제 적용 경로 조사\n/etc/systemd/system.conf: 조건 충족, UID 0, 허용 밖 비트 000\n/etc/xinetd.d: 대상 구분, 디렉터리는 파일의 0600 기준으로 판정하지 않음\n/etc/xinetd.d/other: 기준 차이, root 소유가 아님, 허용 밖 비트 060\n/etc/xinetd.d/linked: 대상 조사, 링크가 가리키는 실제 파일 자료 필요\n가상 자료 7건 비교 완료\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "cs-study-05-sorting-search": {
+      "recordedAt": "2026-10-25T18:37:56+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+      },
+      "sourceCodeSha256": "118b83ebd738fc784d3df9752c3056f08248ce8ac5873c7be1de90adeb1a64f9",
+      "reproduction": "article",
+      "preparationFiles": [
+        "05-sorting-search.py",
+        "05-sorting-search-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "삽입 정렬과 이진 탐색 경계",
+          "command": "python -I -B -X utf8 05-sorting-search.py",
+          "recordedAt": "2026-10-25T18:37:56+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "bb060e49e13e97143def9d54c50eecfd4fbf005412ea32d9a0134c13545a52c5",
+          "exitCode": 0,
+          "stdout": "삽입 단계: [[2, 5, 4, 2], [2, 4, 5, 2], [2, 2, 4, 5]]\n키 비교와 오른쪽 이동: [6, 4]\n입력 [1, 2, 3, 4]의 비교와 이동: [3, 0]\n입력 [4, 3, 2, 1]의 비교와 이동: [6, 6]\n값 5의 위치와 존재: [3, true]\n값 5의 lo·hi·mid·중간값: [[0, 6, 3, 5], [0, 3, 1, 2], [2, 3, 2, 4]]\n값 6의 위치와 존재: [4, false]\n값 6의 lo·hi·mid·중간값: [[0, 6, 3, 5], [4, 6, 5, 12], [4, 5, 4, 9]]\n값 20의 위치와 존재: [6, false]\n값 20의 lo·hi·mid·중간값: [[0, 6, 3, 5], [4, 6, 5, 12]]\n빈 배열의 삽입 위치: 0\n값 2의 왼쪽·오른쪽 경계: [0, 2]\n키만 정렬한 레코드: [[\"B\", 1], [\"A\", 2], [\"C\", 2]]\n기본 예제의 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "자체 정렬·탐색 문제 코드 대조",
+          "command": "python -I -B -X utf8 05-sorting-search-questions.py",
+          "recordedAt": "2026-10-25T18:37:57+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / local isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용; Python ssl 버전으로 기록"
+          },
+          "sourceCodeSha256": "0562fa7656d9fb3da092c1f89ae54468d76718444970b81cdc29bbc6fd0d1007",
+          "exitCode": 0,
+          "stdout": "q1: [\"나\", \"라\", \"가\", \"다\"]\nq2: [3, 7, 5]\nq3: [1, 4, 3]\nq4: [[3, 6, 8], [3, 6, 8], null]\n문제 코드 4건 대조 완료\n",
+          "stderr": ""
+        }
+      ]
     }
   }
 }

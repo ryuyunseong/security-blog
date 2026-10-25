@@ -1,0 +1,44 @@
+[
+  {
+    "path": "/etc/xinetd.conf",
+    "kind": "file",
+    "uid": 0,
+    "mode": "0600"
+  },
+  {
+    "path": "/etc/xinetd.d/example",
+    "kind": "file",
+    "uid": 0,
+    "mode": "0644"
+  },
+  {
+    "path": "/etc/inetd.conf",
+    "kind": "missing",
+    "uid": null,
+    "mode": null
+  },
+  {
+    "path": "/etc/systemd/system.conf",
+    "kind": "file",
+    "uid": 0,
+    "mode": "0400"
+  },
+  {
+    "path": "/etc/xinetd.d",
+    "kind": "directory",
+    "uid": 0,
+    "mode": "0700"
+  },
+  {
+    "path": "/etc/xinetd.d/other",
+    "kind": "file",
+    "uid": 1001,
+    "mode": "0660"
+  },
+  {
+    "path": "/etc/xinetd.d/linked",
+    "kind": "symlink",
+    "uid": 0,
+    "mode": "0777"
+  }
+]

@@ -1087,6 +1087,83 @@
           "README.md": "bde48ad77fb80fd039b7d118b70cbd17a541c7b71138576e2d8eeab2a7317a80"
         }
       }
+    },
+    "u-20-inetd-owner-permissions": {
+      "files": [
+        {
+          "source": "u20_superdaemon_records.py",
+          "name": "u20_superdaemon_records.py"
+        },
+        {
+          "source": "u20_superdaemon_samples.json",
+          "name": "u20_superdaemon_samples.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. 검증 환경은 Python 3.12.1이다. 별도 패키지·서버·관리자 권한은 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u20_superdaemon_records.py u20_superdaemon_samples.json",
+          "exitCode": 0,
+          "expected": "가상 자료 7건을 비교하고 끝난다. 권한 차이나 추가 조사 항목이 있어도 비교 완료의 종료 코드는 0이며, 입력 오류는 2다."
+        }
+      ],
+      "notes": [
+        "JSON은 포함된 가상 자료다. 실제 서비스 설정 파일·계정·권한·ACL은 읽거나 변경하지 않는다.",
+        "입력 JSON이 이미 들어 있으므로 다시 만들지 않는다. 인수 생략 시 실제 시스템 경로로 넘어가지 않는다.",
+        "Windows에서는 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "생성 파일이 없으며 자료는 프로세스 종료와 함께 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-20-inetd-owner-permissions.zip",
+        "bytes": 5725,
+        "sha256": "7a6c69338b780599eae8c0d8a4bbd4c9121ec82dcf954dbbfc05486bfd38acf2",
+        "members": {
+          "README.md": "1d20c2281099b503ac0645a92a50f1177b212699eadb01c787236513d5bc3b38",
+          "u20_superdaemon_records.py": "08b05ac7ce7e4dfac5e2196c60a6e4a2c18aab72b56acb202e9d41bb23a14707",
+          "u20_superdaemon_samples.json": "004cd406068b89879285ddbcd0ba7f2fcd224da484a84cd5d9e09cc90875b436"
+        }
+      }
+    },
+    "cs-study-05-sorting-search": {
+      "files": [
+        {
+          "source": "05-sorting-search.py",
+          "name": "05-sorting-search.py"
+        },
+        {
+          "source": "05-sorting-search-questions.py",
+          "name": "05-sorting-search-questions.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. 검증 환경은 Python 3.12.1이다. 별도 패키지·서버·관리자 권한은 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 05-sorting-search.py",
+          "exitCode": 0,
+          "expected": "기대값과 반환 순서를 대조하고 종료 코드 0, 빈 표준 오류로 끝난다. 카운터는 본문이 정의한 연산 수이며 초 단위 측정값이 아니다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 05-sorting-search-questions.py",
+          "exitCode": 0,
+          "expected": "자체 문제 코드 4건을 대조한다. q 번호는 문제 번호이며 점근 표기의 증명은 본문 해설로 읽는다."
+        }
+      ],
+      "notes": [
+        "입력은 코드 안의 작은 자료다. 별도 파일·DB·서버를 준비하지 않는다.",
+        "문제 검증 파일은 문제를 푼 뒤 실행한다. Python 배열과 연산 카운터만 다룬다.",
+        "Windows에서는 python3를 python으로 바꾸고 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "생성 파일이 없으며 자료는 프로세스 종료와 함께 정리된다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-05-sorting-search.zip",
+        "bytes": 5951,
+        "sha256": "69def33551dc1c1a8b115e2cc6b0635d5d98e174a62d4a8e7260bec5caa92882",
+        "members": {
+          "05-sorting-search-questions.py": "0562fa7656d9fb3da092c1f89ae54468d76718444970b81cdc29bbc6fd0d1007",
+          "05-sorting-search.py": "bb060e49e13e97143def9d54c50eecfd4fbf005412ea32d9a0134c13545a52c5",
+          "README.md": "e5799c7cebada54543434b4c5426a5712e956e52bfdb5435a66664beffb4c26a"
+        }
+      }
     }
   }
 }
