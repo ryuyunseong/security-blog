@@ -990,6 +990,220 @@
           "stderr": ""
         }
       ]
+    },
+    "u-21-syslog-owner-permissions": {
+      "recordedAt": "2026-10-26T18:47:53+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "sourceCodeSha256": "ab449aa06a72dd0a250176c5041e501a78ec0d7408bc07b28a0f7b0b0a3c5b70",
+      "reproduction": "article",
+      "preparationFiles": [
+        "u21_syslog_records.py",
+        "u21_syslog_samples.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 로그 설정 자료 여덟 건 비교",
+          "command": "python -I -B -X utf8 u21_syslog_records.py u21_syslog_samples.json",
+          "recordedAt": "2026-10-26T18:47:53+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "7f5cefeffb67a2b1d9bc7186a6a25e9335092d7ca34568ab69f7138c906c104a",
+          "sourceFilesSha256": {
+            "u21_syslog_records.py": "7f5cefeffb67a2b1d9bc7186a6a25e9335092d7ca34568ab69f7138c906c104a",
+            "u21_syslog_samples.json": "bd8d2c42eca18f7ec9f460e843581afab76d0c9ae5a120b398147a8ada015412"
+          },
+          "exitCode": 0,
+          "stdout": "/etc/rsyslog.conf: 조건 충족, 소유자 root, 허용 밖 비트 000\n/sample/bin-syslog.conf: 조건 충족, 소유자 bin, 허용 밖 비트 000\n/sample/sys-syslog.conf: 조건 충족, 소유자 sys, 허용 밖 비트 000\n/sample/group-write.conf: 기준 차이, 허용 밖 비트 020\n/sample/app-owned.conf: 기준 차이, 허용 소유자 목록 밖, 허용 밖 비트 004\n/etc/syslog.conf: 미수집, 로그 데몬과 실제 설정 경로 조사\n/etc/rsyslog.d: 대상 구분, 디렉터리에는 파일의 0640 기준을 적용하지 않음\n/sample/linked.conf: 대상 조사, 링크 대상 파일의 소유자와 모드 필요\n가상 자료 8건 비교 완료\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "cs-study-06-programming-basics": {
+      "recordedAt": "2026-10-26T18:47:54+09:00",
+      "environment": {
+        "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python": "3.12.3",
+        "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+        "openssl": "CLI 미사용",
+        "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, -std=c11 -Wall -Wextra -Werror"
+      },
+      "sourceCodeSha256": "c8650d18e08b4c56301a6fd9c8529bdf8bd6c6ff4abb47e80a827cc6fef38bb1",
+      "reproduction": "article",
+      "preparationFiles": [
+        "06-run-examples.py",
+        "06-programming-basics.c",
+        "ProgrammingBasics.java",
+        "06-programming-basics.py",
+        "06-question1.c",
+        "Question2.java",
+        "06-question3.py",
+        "06-question4.c"
+      ],
+      "runs": [
+        {
+          "label": "c 일반 예제",
+          "command": "python3 -I -B -X utf8 06-run-examples.py c",
+          "recordedAt": "2026-10-26T18:47:54+09:00",
+          "environment": {
+            "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "CLI 미사용",
+            "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, -std=c11 -Wall -Wextra -Werror"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: 06-programming-basics.c\ndivision: -2 -1\nguard: 0\nvalue: 5 6\ntotal: 4\n예제 1건 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "java 일반 예제",
+          "command": "python -I -B -X utf8 06-run-examples.py java",
+          "recordedAt": "2026-10-26T18:47:56+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용",
+            "compiler": "javac 25 / Java 25+37-LTS-3491"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: ProgrammingBasics.java\ndivision: -2 -1\nguard: false\nvalue: 5 6\ntotal: 4\n예제 1건 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "python 일반 예제",
+          "command": "python -I -B -X utf8 06-run-examples.py python",
+          "recordedAt": "2026-10-26T18:48:01+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: 06-programming-basics.py\ndivision: -3 2\nguard: False\nvalue: 5 6\ntotal: 4\n예제 1건 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "c 자체 코드 문제",
+          "command": "python3 -I -B -X utf8 06-run-examples.py c --questions",
+          "recordedAt": "2026-10-26T18:48:02+09:00",
+          "environment": {
+            "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "python": "3.12.3",
+            "pythonSsl": "OpenSSL 3.0.13 30 Jan 2024",
+            "openssl": "CLI 미사용",
+            "compiler": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0, -std=c11 -Wall -Wextra -Werror"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: 06-question1.c\n4 5\n파일: 06-question4.c\n9 0\n예제 2건 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "java 자체 코드 문제",
+          "command": "python -I -B -X utf8 06-run-examples.py java --questions",
+          "recordedAt": "2026-10-26T18:48:04+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용",
+            "compiler": "javac 25 / Java 25+37-LTS-3491"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: Question2.java\n7\n예제 1건 기대값 대조 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "python 자체 코드 문제",
+          "command": "python -I -B -X utf8 06-run-examples.py python --questions",
+          "recordedAt": "2026-10-26T18:48:08+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "sourceFilesSha256": {
+            "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+            "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+            "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+            "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+            "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+            "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+            "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+            "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5"
+          },
+          "exitCode": 0,
+          "stdout": "파일: 06-question3.py\n[1, 2, 5]\n[9, 2]\n예제 1건 기대값 대조 완료\n",
+          "stderr": ""
+        }
+      ]
     }
   }
 }

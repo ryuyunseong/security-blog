@@ -1164,6 +1164,135 @@
           "README.md": "e5799c7cebada54543434b4c5426a5712e956e52bfdb5435a66664beffb4c26a"
         }
       }
+    },
+    "u-21-syslog-owner-permissions": {
+      "files": [
+        {
+          "source": "u21_syslog_records.py",
+          "name": "u21_syslog_records.py"
+        },
+        {
+          "source": "u21_syslog_samples.json",
+          "name": "u21_syslog_samples.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. 검증은 Windows Python 3.12.1에서 수행했다. 관리자 권한·실제 로그 서비스·외부 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u21_syslog_records.py u21_syslog_samples.json",
+          "exitCode": 0,
+          "expected": "8건 비교 완료다. 종료 0은 입력 비교 완료이며 양호 항목의 수가 아니다. 입력 오류는 2다."
+        }
+      ],
+      "notes": [
+        "포함된 JSON의 경로·계정명·모드는 가상 입력이다. 운영 설정 파일이나 계정·ACL·링크를 읽거나 변경하지 않는다.",
+        "ZIP에 포함된 파일을 다시 만들 필요는 없다. 빈 폴더에 압축을 풀고 소스와 도우미를 함께 둔다.",
+        "Windows PowerShell에서는 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "출력 파일을 만들지 않는다. 별도 삭제 명령은 필요하지 않다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-21-syslog-owner-permissions.zip",
+        "bytes": 5714,
+        "sha256": "6bb5cfd83469b8895a7f13714224185127e4a71d47974d6773351feaa562ad63",
+        "members": {
+          "README.md": "8f27087aeaa176cee6b9e5f44b45fdb8b07ee4e0cd45b1e87db71d77da752ab9",
+          "u21_syslog_records.py": "7f5cefeffb67a2b1d9bc7186a6a25e9335092d7ca34568ab69f7138c906c104a",
+          "u21_syslog_samples.json": "bd8d2c42eca18f7ec9f460e843581afab76d0c9ae5a120b398147a8ada015412"
+        }
+      }
+    },
+    "cs-study-06-programming-basics": {
+      "files": [
+        {
+          "source": "06-run-examples.py",
+          "name": "06-run-examples.py"
+        },
+        {
+          "source": "06-programming-basics.c",
+          "name": "06-programming-basics.c"
+        },
+        {
+          "source": "ProgrammingBasics.java",
+          "name": "ProgrammingBasics.java"
+        },
+        {
+          "source": "06-programming-basics.py",
+          "name": "06-programming-basics.py"
+        },
+        {
+          "source": "06-question1.c",
+          "name": "06-question1.c"
+        },
+        {
+          "source": "Question2.java",
+          "name": "Question2.java"
+        },
+        {
+          "source": "06-question3.py",
+          "name": "06-question3.py"
+        },
+        {
+          "source": "06-question4.c",
+          "name": "06-question4.c"
+        }
+      ],
+      "requirements": "Python 3.9 이상, C11을 지원하는 gcc, Java의 javac·java가 있는 JDK 17 이상. 언어별 도구는 실행할 터미널 PATH에 있어야 한다. 별도 Python 패키지·서버·계정은 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py c",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py java",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py python",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py c --questions",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py java --questions",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 06-run-examples.py python --questions",
+          "exitCode": 0,
+          "expected": "선택한 언어의 소스를 실행하고 stdout을 기대값과 대조한다. 컴파일·프로그램 종료 0과 빈 stderr도 요구하며 실패하면 도우미는 2로 끝난다."
+        }
+      ],
+      "notes": [
+        "검증 환경: C는 WSL Ubuntu 24.04 / GCC 13.3.0 / Python 3.12.3, Java는 Windows JDK 25 / Python 3.12.1, Python 예제는 Windows Python 3.12.1.",
+        "Windows에서 C는 GCC가 있는 WSL/Linux 터미널에서 실행한다. 본문에 현재 폴더 경로를 WSL 경로로 변환하는 선택 명령이 있다. Java·Python은 Windows에서 python3를 python으로 바꿔 실행할 수 있다.",
+        "--questions 명령과 도우미의 기대 문자열에는 풀이가 들어 있다. 문제를 푼 뒤 실행한다. 문제 5는 명세 비교이며 실행 결과를 생성하지 않는다.",
+        "ZIP에 포함된 파일을 다시 만들 필요는 없다. 빈 폴더에 압축을 풀고 소스와 도우미를 함께 둔다.",
+        "Windows PowerShell에서는 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다.",
+        "C·Java 컴파일 결과는 실행이 만든 임시 폴더에만 저장하고 정상·실패 시 정리한다. 원본 소스는 바꾸지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-06-programming-basics.zip",
+        "bytes": 10776,
+        "sha256": "bbf4028b090cc02357e9de1271d7059e220d629de96a3176dff216f5f977178d",
+        "members": {
+          "06-programming-basics.c": "d4ab9ea4c11139ff2c1cf178ad054ae2559f7fee9d5ae545df3d6577941329ba",
+          "06-programming-basics.py": "38e7b8e91f923d289d3a65b64d627f8bcba567c5e72145b7b2199e3ae0ee3a5b",
+          "06-question1.c": "25a61cd9c8b388979d28a3a3df1dd8897d4b1abaeafca3764be73eb1572780f0",
+          "06-question3.py": "ded09c0724ffd6ebe00dfb7e7cf74124bb564b7adf2aa9f053c127980ee0520a",
+          "06-question4.c": "de33d6e1d9bb83b3f560512d01eba84a40716fbe5660479ab4d34804cc5194a5",
+          "06-run-examples.py": "515171d06ac5da92cf69c04c32ad0e7bfdfcc67f32a7f257d56f2eaf1684fa91",
+          "ProgrammingBasics.java": "65fd97092a7bcb0078279a6931a9fdf55bf6c5d800ceb53a6861fcd7adcdf633",
+          "Question2.java": "fd6739989bb32e5769b5adda75c169da7b133690ec52e84c94dea6ed893addfc",
+          "README.md": "4ba8a0bf4e719787fad781a22f7f20d506afbe571b38b52447cba0d2625fbc25"
+        }
+      }
     }
   }
 }

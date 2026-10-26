@@ -1,0 +1,10 @@
+[
+  {"path": "/etc/rsyslog.conf", "kind": "file", "owner": "root", "mode": "0640"},
+  {"path": "/sample/bin-syslog.conf", "kind": "file", "owner": "bin", "mode": "0600"},
+  {"path": "/sample/sys-syslog.conf", "kind": "file", "owner": "sys", "mode": "0440"},
+  {"path": "/sample/group-write.conf", "kind": "file", "owner": "root", "mode": "0620"},
+  {"path": "/sample/app-owned.conf", "kind": "file", "owner": "app", "mode": "0644"},
+  {"path": "/etc/syslog.conf", "kind": "missing", "owner": null, "mode": null},
+  {"path": "/etc/rsyslog.d", "kind": "directory", "owner": "root", "mode": "0750"},
+  {"path": "/sample/linked.conf", "kind": "symlink", "owner": "root", "mode": "0777"}
+]
