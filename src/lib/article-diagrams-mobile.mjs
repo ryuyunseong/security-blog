@@ -84,7 +84,9 @@ export function renderMobileArticleDiagram(item) {
       const transport = block(52, y, 'HTTPS로 플랫폼 연결', 292, 22, true);
       diagram += transport.svg; y += transport.height + 16;
     } else y += 12;
-    diagram += line(`M52 ${starts[0]}H26V${y - 16}H180V${y - 6} M52 ${starts[1]}H26`, true);
+    const joinY = y - 16;
+    diagram += line(`M52 ${starts[0]}H26V${joinY}H180`) + line(`M52 ${starts[1]}H26`);
+    diagram += line(`M180 ${joinY}V${y - 6}`, true);
     const result = card(16, y, 328, item.nodes[2], '#e6f0e9');
     diagram += result.svg;
     y += result.height + 24;

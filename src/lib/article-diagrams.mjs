@@ -38,10 +38,13 @@ export function renderArticleDiagram(item) {
       diagram += text(380, y + 31, node[1], 21) + text(380, y + 58, node[2], 19);
     });
   } else if (item.kind === 'merge') {
-    item.nodes.slice(0, 2).forEach((node, index) => { diagram += box(44, 141 + index * 165, 390, 154, [node[0], node[1], ''], `0${index + 1}`); });
+    item.nodes.slice(0, 2).forEach((node, index) => {
+      const y = 141 + index * 165;
+      diagram += rect(44, y, 390, 154) + text(66, y + 28, `0${index + 1}`, 16, '#287056', 700);
+      diagram += text(66, y + 65, node[0], 25, '#193e2f', 700) + text(66, y + 101, node[1], 19) + text(66, y + 132, node[2], 18);
+    });
     diagram += path('M434 218H480V300H524 M434 382H480V300');
     diagram += box(524, 202, 392, 205, item.nodes[2], '03');
-    diagram += text(66, 278, item.nodes[0][2], 18) + text(66, 443, item.nodes[1][2], 18);
   } else if (item.kind === 'matrix') {
     diagram += rect(44, 144, 872, 292);
     diagram += '<path d="M44 190H916 M44 272H916 M44 354H916 M272 144V436 M576 144V436" stroke="#cadbd1"/>';
