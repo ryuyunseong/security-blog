@@ -1204,6 +1204,157 @@
           "stderr": ""
         }
       ]
+    },
+    "u-22-services-owner-permissions": {
+      "recordedAt": "2026-10-27T18:40:35.560849+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u22_services_table.py",
+        "u22_services_sample.txt",
+        "u22_services_modes.py",
+        "u22_services_modes.json"
+      ],
+      "runs": [
+        {
+          "label": "서비스 이름과 프로토콜의 가상 조회",
+          "command": "python -I -B -X utf8 u22_services_table.py u22_services_sample.txt",
+          "recordedAt": "2026-10-27T18:40:35.560849+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "1139158db9358897e3cc46ed6204f1863f917f8bd0537331899cb86befe00f97",
+          "sourceFilesSha256": {
+            "u22_services_modes.json": "cd3a57d73f8ca303f40690943e37cb73690026f7e6d1ad40912cb2f8090c46dc",
+            "u22_services_modes.py": "b85117b5f19c9247ab9213561c0da45757c5ca9192acd810b3cccea74ae0f4da",
+            "u22_services_sample.txt": "26b96cbdbd057a004c7d3ca55141c7cd1e7a165e473cfa32bfd49441acda7778",
+            "u22_services_table.py": "1139158db9358897e3cc46ed6204f1863f917f8bd0537331899cb86befe00f97"
+          },
+          "exitCode": 0,
+          "stdout": "domain/tcp: 53\ndomain/udp: 53\nsample-alias/tcp: 9999\nunknown/tcp: 등록 없음\n이름표 조회 완료, 소켓 접속 없음\n",
+          "stderr": ""
+        },
+        {
+          "label": "일반 파일의 가상 소유자와 모드 비교",
+          "command": "python -I -B -X utf8 u22_services_modes.py u22_services_modes.json",
+          "recordedAt": "2026-10-27T18:40:36.037429+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "b85117b5f19c9247ab9213561c0da45757c5ca9192acd810b3cccea74ae0f4da",
+          "sourceFilesSha256": {
+            "u22_services_modes.json": "cd3a57d73f8ca303f40690943e37cb73690026f7e6d1ad40912cb2f8090c46dc",
+            "u22_services_modes.py": "b85117b5f19c9247ab9213561c0da45757c5ca9192acd810b3cccea74ae0f4da",
+            "u22_services_sample.txt": "26b96cbdbd057a004c7d3ca55141c7cd1e7a165e473cfa32bfd49441acda7778",
+            "u22_services_table.py": "1139158db9358897e3cc46ed6204f1863f917f8bd0537331899cb86befe00f97"
+          },
+          "exitCode": 0,
+          "stdout": "root-644: 조건 충족, 허용 밖 비트 000\nbin-640: 조건 충족, 허용 밖 비트 000\nsys-400: 조건 충족, 허용 밖 비트 000\ngroup-write: 기준 차이, 허용 밖 비트 020\nother-write: 기준 차이, 허용 밖 비트 002\nother-owner: 기준 차이, 허용 소유자 목록 밖\n일반 파일 가상 자료 6건 비교 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "e390757d51195865396628108e8d3cc7de643ae7b2e5f1e93d6433213c893a03"
+    },
+    "cs-study-07-operating-system": {
+      "recordedAt": "2026-10-27T18:40:36.526882+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "07-os-examples.py",
+        "07-os-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "별도 프로세스와 두 스레드의 변수 변경",
+          "command": "python -I -B -X utf8 07-os-examples.py sharing",
+          "recordedAt": "2026-10-27T18:40:36.526882+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae",
+          "sourceFilesSha256": {
+            "07-os-examples.py": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae"
+          },
+          "exitCode": 0,
+          "stdout": "별도 프로세스: parent=1 child=101\n같은 프로세스의 스레드: shared=5\n",
+          "stderr": ""
+        },
+        {
+          "label": "가상 페이지 주소 변환",
+          "command": "python -I -B -X utf8 07-os-examples.py paging",
+          "recordedAt": "2026-10-27T18:40:37.065210+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae",
+          "sourceFilesSha256": {
+            "07-os-examples.py": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae"
+          },
+          "exitCode": 0,
+          "stdout": "mapped: page=2 offset=3 physical=36867\nnot_present: page=3 offset=0 physical=None\nunmapped: page=4 offset=0 physical=None\n",
+          "stderr": ""
+        },
+        {
+          "label": "단일 자원 대기 관계의 순환 비교",
+          "command": "python -I -B -X utf8 07-os-examples.py waiting",
+          "recordedAt": "2026-10-27T18:40:37.575366+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae",
+          "sourceFilesSha256": {
+            "07-os-examples.py": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae"
+          },
+          "exitCode": 0,
+          "stdout": "대기 순환: A -> B -> A\n순환 해제 모형: 없음\n",
+          "stderr": ""
+        },
+        {
+          "label": "자체 문제의 모형 계산",
+          "command": "python -I -B -X utf8 07-os-questions.py",
+          "recordedAt": "2026-10-27T18:44:56.826321+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "5cb03f942171d7c9c481dfb4525469391f2f480378e5c88ddd0e35e094876c9b",
+          "sourceFilesSha256": {
+            "07-os-examples.py": "d585d38d8022a328ff6cbe64612d27b13ad6eb30b12171ed66472697a8c547ae",
+            "07-os-questions.py": "5cb03f942171d7c9c481dfb4525469391f2f480378e5c88ddd0e35e094876c9b"
+          },
+          "exitCode": 0,
+          "stdout": "q2: (3, 57, 49209, 'mapped')\nq3: (2, 0, None, 'not_present')\nq4: []\nq5: ['P', 'Q', 'P'], 순서 통일 모형=[]\n문제 2~5의 모형 값 대조 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "277c59300e14e82859e2fbeb2146136fbb5dd381267b08887db65c78f7f9f631"
     }
   }
 }

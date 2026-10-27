@@ -1,0 +1,6 @@
+# 가상 서비스 이름표. 실제 서비스의 실행 상태를 나타내지 않는다.
+ssh          22/tcp
+domain       53/tcp
+domain       53/udp
+https        443/tcp
+sample       9999/tcp    sample-alias

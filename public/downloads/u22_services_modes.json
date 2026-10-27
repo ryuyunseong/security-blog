@@ -1,0 +1,8 @@
+[
+  {"case": "root-644", "owner": "root", "mode": "0644"},
+  {"case": "bin-640", "owner": "bin", "mode": "0640"},
+  {"case": "sys-400", "owner": "sys", "mode": "0400"},
+  {"case": "group-write", "owner": "root", "mode": "0664"},
+  {"case": "other-write", "owner": "root", "mode": "0646"},
+  {"case": "other-owner", "owner": "app", "mode": "0644"}
+]
