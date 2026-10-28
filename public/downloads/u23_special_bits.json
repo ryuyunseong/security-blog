@@ -1,0 +1,9 @@
+[
+  {"case": "root-suid", "owner": "root", "kind": "file", "mode": "4755"},
+  {"case": "root-sgid", "owner": "root", "kind": "file", "mode": "2750"},
+  {"case": "app-suid", "owner": "app", "kind": "file", "mode": "4755"},
+  {"case": "plain", "owner": "root", "kind": "file", "mode": "0755"},
+  {"case": "shared-dir", "owner": "root", "kind": "dir", "mode": "1777"},
+  {"case": "group-dir", "owner": "root", "kind": "dir", "mode": "2770"},
+  {"case": "no-owner-exec", "owner": "root", "kind": "file", "mode": "4444"}
+]

@@ -1395,6 +1395,86 @@
           "README.md": "9e6ddf31b93547b61c3e5065f2c3b5821102b9398187fa2216efde0675100f3a"
         }
       }
+    },
+    "u-23-special-permission-bits": {
+      "files": [
+        {
+          "source": "u23_special_bits.py",
+          "name": "u23_special_bits.py"
+        },
+        {
+          "source": "u23_special_bits.json",
+          "name": "u23_special_bits.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·서버·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u23_special_bits.py u23_special_bits.json",
+          "exitCode": 0,
+          "expected": "7건 분류와 검색 조건 3건을 출력한다. 종료 0은 분류 완료이며 실제 파일의 양호 판정은 아니다. 읽기·형식 오류는 2다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 입력은 이미 포함되어 있다.",
+        "Windows PowerShell에서는 python3 대신 python을 사용할 수 있다. 명령 직후 $LASTEXITCODE, Bash에서는 echo $?로 종료 코드를 읽는다.",
+        "지정한 가상 JSON만 읽는다. 운영 파일·파일 속성·계정은 조회하거나 바꾸지 않는다. 입력 파일명과 네 자리 8진수 문자열을 살핀다. 출력 파일이나 정리할 임시 자료는 만들지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-23-special-permission-bits.zip",
+        "bytes": 4992,
+        "sha256": "73364a59fee8b10d7ed0dea94546e3631935839c2da46f9ef5fe65edec0e9e49",
+        "members": {
+          "README.md": "4c894d4f4072fc6acccd0eccdfcac49e87f643e03dd9ac14e741198c7ffb7054",
+          "u23_special_bits.json": "474689f039b59236bcd9a52269584476cdeb723f583806052f87b73d66f35c82",
+          "u23_special_bits.py": "8c536f3d9539743c5e1a95f5e84a6d82c44a5164ec3c9d6afcedc7571a221b8f"
+        }
+      }
+    },
+    "cs-study-08-network-basics": {
+      "files": [
+        {
+          "source": "08-network-models.py",
+          "name": "08-network-models.py"
+        },
+        {
+          "source": "08-network-questions.py",
+          "name": "08-network-questions.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·서버·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 08-network-models.py routes",
+          "exitCode": 0,
+          "expected": "routes는 가상 경로·다음 홉, udp는 전체 12·데이터 4바이트, 문제 파일은 네 문제의 계산과 예상한 거부를 대조한다. 정상 종료는 0이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 08-network-models.py udp",
+          "exitCode": 0,
+          "expected": "routes는 가상 경로·다음 홉, udp는 전체 12·데이터 4바이트, 문제 파일은 네 문제의 계산과 예상한 거부를 대조한다. 정상 종료는 0이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 08-network-questions.py",
+          "exitCode": 0,
+          "expected": "routes는 가상 경로·다음 홉, udp는 전체 12·데이터 4바이트, 문제 파일은 네 문제의 계산과 예상한 거부를 대조한다. 정상 종료는 0이다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 입력은 이미 포함되어 있다.",
+        "Windows PowerShell에서는 python3 대신 python을 사용할 수 있다. 명령 직후 $LASTEXITCODE, Bash에서는 echo $?로 종료 코드를 읽는다.",
+        "두 Python 파일을 같은 폴더에 둔다. 문제 파일은 __file__ 기준 경로로 모형을 불러와 -I에서도 동작한다. 일반 예제의 처리된 계산 오류는 2, 문제 파일의 미처리 예외는 1이다. 네트워크·파일 생성은 없다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-08-network-basics.zip",
+        "bytes": 5732,
+        "sha256": "6e65a36c9e8efad6add24fabd6dced74835d9725979496170183821fa91cca40",
+        "members": {
+          "08-network-models.py": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+          "08-network-questions.py": "6361de1d87f7815b9576a8bb41ebc5d4f62fcc65c48f97102cdd0c6f3c772d5f",
+          "README.md": "f8bff0c23dac60bea231f6fd641e3da8c31bf6a12cfd6374ba7493135ec13760"
+        }
+      }
     }
   }
 }

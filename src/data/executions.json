@@ -1355,6 +1355,116 @@
         }
       ],
       "sourceCodeSha256": "277c59300e14e82859e2fbeb2146136fbb5dd381267b08887db65c78f7f9f631"
+    },
+    "u-23-special-permission-bits": {
+      "recordedAt": "2026-10-28T18:39:24.304291+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u23_special_bits.py",
+        "u23_special_bits.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 수집 자료의 특수 비트 분류",
+          "command": "python -I -B -X utf8 u23_special_bits.py u23_special_bits.json",
+          "recordedAt": "2026-10-28T18:39:24.304291+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "8c536f3d9539743c5e1a95f5e84a6d82c44a5164ec3c9d6afcedc7571a221b8f",
+          "sourceFilesSha256": {
+            "u23_special_bits.json": "474689f039b59236bcd9a52269584476cdeb723f583806052f87b73d66f35c82",
+            "u23_special_bits.py": "8c536f3d9539743c5e1a95f5e84a6d82c44a5164ec3c9d6afcedc7571a221b8f"
+          },
+          "exitCode": 0,
+          "stdout": "root-suid: SUID; 검색 조건=예; -rwsr-xr-x\nroot-sgid: SGID; 검색 조건=예; -rwxr-s---\napp-suid: SUID; 검색 조건=아니요; -rwsr-xr-x\nplain: 없음; 검색 조건=아니요; -rwxr-xr-x\nshared-dir: Sticky; 검색 조건=아니요; drwxrwxrwt\ngroup-dir: SGID; 검색 조건=아니요; drwxrws---\nno-owner-exec: SUID; 검색 조건=예; -r-Sr--r--\n가상 자료 7건, root 일반 파일의 SUID/SGID 검색 조건 3건\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "f2c710ef2047e164066cdfde40ca3853b22ca14cf497a609ee48a99189bdda6c"
+    },
+    "cs-study-08-network-basics": {
+      "recordedAt": "2026-10-28T18:39:24.954395+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "08-network-models.py",
+        "08-network-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "가상 경로의 최장 접두사 선택",
+          "command": "python -I -B -X utf8 08-network-models.py routes",
+          "recordedAt": "2026-10-28T18:39:24.954395+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+          "sourceFilesSha256": {
+            "08-network-models.py": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+            "08-network-questions.py": "6361de1d87f7815b9576a8bb41ebc5d4f62fcc65c48f97102cdd0c6f3c772d5f"
+          },
+          "exitCode": 0,
+          "stdout": "192.0.2.20: 경로=192.0.2.0/24, 다음 홉=192.0.2.20\n198.51.100.8: 경로=198.51.100.0/24, 다음 홉=192.0.2.254\n203.0.113.9: 경로=0.0.0.0/0, 다음 홉=192.0.2.1\n",
+          "stderr": ""
+        },
+        {
+          "label": "UDP 헤더와 데이터 길이 분리",
+          "command": "python -I -B -X utf8 08-network-models.py udp",
+          "recordedAt": "2026-10-28T18:39:25.964477+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+          "sourceFilesSha256": {
+            "08-network-models.py": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+            "08-network-questions.py": "6361de1d87f7815b9576a8bb41ebc5d4f62fcc65c48f97102cdd0c6f3c772d5f"
+          },
+          "exitCode": 0,
+          "stdout": "UDP: 출발지=53000, 목적지=53, 전체=12, 데이터=4\n데이터 바이트: 41424344\n",
+          "stderr": ""
+        },
+        {
+          "label": "자체 문제의 경로·길이·바이트 계산",
+          "command": "python -I -B -X utf8 08-network-questions.py",
+          "recordedAt": "2026-10-28T18:39:26.161923+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "6361de1d87f7815b9576a8bb41ebc5d4f62fcc65c48f97102cdd0c6f3c772d5f",
+          "sourceFilesSha256": {
+            "08-network-models.py": "8534840e844d5d076cc6f8284002106dc0b865d1e11db17fc9c05fbef6626b31",
+            "08-network-questions.py": "6361de1d87f7815b9576a8bb41ebc5d4f62fcc65c48f97102cdd0c6f3c772d5f"
+          },
+          "exitCode": 0,
+          "stdout": "q2: ('192.0.2.0/24', '192.0.2.99')\nq3: ('198.51.100.0/24', '192.0.2.254')\nq4: 예상한 거부, UDP 길이와 받은 바이트 수가 다르다\nq5: 데이터=6바이트, 다음 순서 번호=1006\n문제 2~5의 가상 계산 대조 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "861a5190dfe4673f178f98bf839b3556f5f672c7bd09e799e70e493405341b2e"
     }
   }
 }
