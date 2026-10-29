@@ -1475,6 +1475,86 @@
           "README.md": "f8bff0c23dac60bea231f6fd641e3da8c31bf6a12cfd6374ba7493135ec13760"
         }
       }
+    },
+    "u-24-environment-file-permissions": {
+      "files": [
+        {
+          "source": "u24_env_permissions.py",
+          "name": "u24_env_permissions.py"
+        },
+        {
+          "source": "u24_env_permissions.json",
+          "name": "u24_env_permissions.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·서버·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u24_env_permissions.py u24_env_permissions.json",
+          "exitCode": 0,
+          "expected": "가상 8행을 기본 조건 일치 2건·기준 이탈 4건·추가 조사 2건으로 나눠 출력한다. 종료 0은 분류 완료다. 읽기·형식 오류는 2다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 입력은 이미 포함되어 있다.",
+        "Windows PowerShell에서는 python3 대신 python을 사용할 수 있다. 명령 직후 $LASTEXITCODE, Bash에서는 echo $?로 종료 코드를 읽는다.",
+        "지정한 가상 JSON만 읽는다. UID·모드는 수집값을 가정한 숫자이며 실제 파일 속성이나 계정을 읽거나 바꾸지 않는다. 출력 파일·임시 계정은 만들지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-24-environment-file-permissions.zip",
+        "bytes": 5942,
+        "sha256": "c42a2c1a4bb3214444646db4595b70c5d1db1d1d61cc6e20a287fb8f1ac31c10",
+        "members": {
+          "README.md": "e3d4959e79e1b2fc3444754d7ee6e4803e682f4fcef6f618436b58d5a353b990",
+          "u24_env_permissions.json": "fe0e1046871f542689be7ee04b9d96fac222c3dba2d110f9d34877dee6e72deb",
+          "u24_env_permissions.py": "2656a4679140e7a1fc7f54a6d84b6d0316672aac6da51b4630f5ef4ad40f4a31"
+        }
+      }
+    },
+    "cs-study-09-software-engineering": {
+      "files": [
+        {
+          "source": "09-shipping-rules.py",
+          "name": "09-shipping-rules.py"
+        },
+        {
+          "source": "09-software-questions.py",
+          "name": "09-software-questions.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·서버·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 09-shipping-rules.py fees",
+          "exitCode": 0,
+          "expected": "fees는 경계 금액과 범위 거부, states는 결제·배송과 배송 후 취소 거부, 문제 파일은 문제 3~5를 대조한다. 정상 종료는 0이며 처리하지 않은 예외·assert 실패는 1이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 09-shipping-rules.py states",
+          "exitCode": 0,
+          "expected": "fees는 경계 금액과 범위 거부, states는 결제·배송과 배송 후 취소 거부, 문제 파일은 문제 3~5를 대조한다. 정상 종료는 0이며 처리하지 않은 예외·assert 실패는 1이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 09-software-questions.py",
+          "exitCode": 0,
+          "expected": "fees는 경계 금액과 범위 거부, states는 결제·배송과 배송 후 취소 거부, 문제 파일은 문제 3~5를 대조한다. 정상 종료는 0이며 처리하지 않은 예외·assert 실패는 1이다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 입력은 이미 포함되어 있다.",
+        "Windows PowerShell에서는 python3 대신 python을 사용할 수 있다. 명령 직후 $LASTEXITCODE, Bash에서는 echo $?로 종료 코드를 읽는다.",
+        "두 Python 파일을 같은 폴더에 둔다. 문제 파일은 __file__ 옆의 모형을 경로로 읽어 -I에서도 동작한다. 검증용 assert가 있으므로 -O를 붙이지 않는다. 파일·서버 생성이나 정리 절차는 없다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-09-software-engineering.zip",
+        "bytes": 5650,
+        "sha256": "3aa660503669ab5a099713f01e555a61bf91d17c96219d6a7b8554c82529bbdd",
+        "members": {
+          "09-shipping-rules.py": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+          "09-software-questions.py": "446580177347639c427fb5efec7afe082f94fc5ff984589754dd3445e6418500",
+          "README.md": "b77ad3d3e9b48eb5b6bd32f7b0e413b817e1e0486c23e90413c720caf14ce51a"
+        }
+      }
     }
   }
 }

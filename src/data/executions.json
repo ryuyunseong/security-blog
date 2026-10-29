@@ -1465,6 +1465,116 @@
         }
       ],
       "sourceCodeSha256": "861a5190dfe4673f178f98bf839b3556f5f672c7bd09e799e70e493405341b2e"
+    },
+    "u-24-environment-file-permissions": {
+      "recordedAt": "2026-10-29T18:43:59.887856+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u24_env_permissions.py",
+        "u24_env_permissions.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 환경변수 파일 수집 자료 비교",
+          "command": "python -I -B -X utf8 u24_env_permissions.py u24_env_permissions.json",
+          "recordedAt": "2026-10-29T18:43:59.887856+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "2656a4679140e7a1fc7f54a6d84b6d0316672aac6da51b4630f5ef4ad40f4a31",
+          "sourceFilesSha256": {
+            "u24_env_permissions.json": "fe0e1046871f542689be7ee04b9d96fac222c3dba2d110f9d34877dee6e72deb",
+            "u24_env_permissions.py": "2656a4679140e7a1fc7f54a6d84b6d0316672aac6da51b4630f5ef4ad40f4a31"
+          },
+          "exitCode": 0,
+          "stdout": "root-profile: 기본 조건 일치; 소유자와 일반 쓰기 비트가 조건에 들어감\nown-bashrc: 기본 조건 일치; 소유자와 일반 쓰기 비트가 조건에 들어감\ngroup-write: 기준 이탈; 그룹·기타 쓰기 020\nother-write: 기준 이탈; 그룹·기타 쓰기 002\nforeign-owner: 기준 이탈; 소유자 불일치\ntwo-differences: 기준 이탈; 소유자 불일치, 그룹·기타 쓰기 022\nlinked-profile: 추가 조사; 링크·ACL·특수 비트 자료를 별도로 조사\nacl-uncollected: 추가 조사; 링크·ACL·특수 비트 자료를 별도로 조사\n가상 자료 8건: 기본 조건 일치 2건, 기준 이탈 4건, 추가 조사 2건\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "00adb513f07f2c70117d0cef72a7543004a5ce49610c0ea839a5ead5756d52c2"
+    },
+    "cs-study-09-software-engineering": {
+      "recordedAt": "2026-10-29T18:44:00.512095+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "09-shipping-rules.py",
+        "09-software-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "배송비 경계와 예상한 거부",
+          "command": "python -I -B -X utf8 09-shipping-rules.py fees",
+          "recordedAt": "2026-10-29T18:44:00.512095+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+          "sourceFilesSha256": {
+            "09-shipping-rules.py": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+            "09-software-questions.py": "06b38fdd4154483b0676d96a430ef29d0a0cf0290d079d5818bc314035a975d1"
+          },
+          "exitCode": 0,
+          "stdout": "금액=-1, 예상한 거부: 금액 범위는 0~100000이다\n금액=0, 배송비=3000\n금액=49999, 배송비=3000\n금액=50000, 배송비=0\n금액=100000, 배송비=0\n금액=100001, 예상한 거부: 금액 범위는 0~100000이다\n",
+          "stderr": ""
+        },
+        {
+          "label": "가상 주문 상태 전이",
+          "command": "python -I -B -X utf8 09-shipping-rules.py states",
+          "recordedAt": "2026-10-29T18:44:00.943183+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+          "sourceFilesSha256": {
+            "09-shipping-rules.py": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+            "09-software-questions.py": "06b38fdd4154483b0676d96a430ef29d0a0cf0290d079d5818bc314035a975d1"
+          },
+          "exitCode": 0,
+          "stdout": "DRAFT + pay -> PAID\nPAID + ship -> SHIPPED\nSHIPPED + cancel -> 예상한 거부: 허용하지 않은 상태 전이\n",
+          "stderr": ""
+        },
+        {
+          "label": "문제 3~5의 경계·전이·거부 계산",
+          "command": "python -I -B -X utf8 09-software-questions.py",
+          "recordedAt": "2026-10-29T18:59:44.606250+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "446580177347639c427fb5efec7afe082f94fc5ff984589754dd3445e6418500",
+          "sourceFilesSha256": {
+            "09-shipping-rules.py": "e5939001a836634817c2ee4a2f11fed3c8165bf9bebec9dac67f8d6d0f56040e",
+            "09-software-questions.py": "446580177347639c427fb5efec7afe082f94fc5ff984589754dd3445e6418500"
+          },
+          "exitCode": 0,
+          "stdout": "q3: [49999, 50000, 50001] -> [3000, 0, 0]\nq4: CANCELLED + pay, 예상한 거부: 허용하지 않은 상태 전이\nq5: 정상 금액 두 건 -> [3000, 0]\nq5: -1, 예상한 거부: 금액 범위는 0~100000이다\n문제 3~5의 가상 계산 대조 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "dfb4f9af93251723141bf4c792c35d9442a4605a26b19ba7a886beb791c97083"
     }
   }
 }

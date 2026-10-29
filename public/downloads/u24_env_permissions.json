@@ -1,0 +1,10 @@
+[
+  {"case": "root-profile", "homeUid": 1001, "ownerUid": 0, "kind": "file", "mode": "0644", "acl": "none"},
+  {"case": "own-bashrc", "homeUid": 1001, "ownerUid": 1001, "kind": "file", "mode": "0600", "acl": "none"},
+  {"case": "group-write", "homeUid": 1001, "ownerUid": 1001, "kind": "file", "mode": "0660", "acl": "none"},
+  {"case": "other-write", "homeUid": 1001, "ownerUid": 1001, "kind": "file", "mode": "0602", "acl": "none"},
+  {"case": "foreign-owner", "homeUid": 1001, "ownerUid": 1002, "kind": "file", "mode": "0644", "acl": "none"},
+  {"case": "two-differences", "homeUid": 1001, "ownerUid": 1002, "kind": "file", "mode": "0666", "acl": "none"},
+  {"case": "linked-profile", "homeUid": 1001, "ownerUid": 1001, "kind": "link", "mode": "0777", "acl": "none"},
+  {"case": "acl-uncollected", "homeUid": 1001, "ownerUid": 1001, "kind": "file", "mode": "0600", "acl": "unknown"}
+]
