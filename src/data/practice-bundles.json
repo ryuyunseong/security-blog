@@ -1555,6 +1555,91 @@
           "README.md": "b77ad3d3e9b48eb5b6bd32f7b0e413b817e1e0486c23e90413c720caf14ce51a"
         }
       }
+    },
+    "u-25-world-writable-files": {
+      "files": [
+        {
+          "source": "u25_world_writable.py",
+          "name": "u25_world_writable.py"
+        },
+        {
+          "source": "u25_fixture_lab.py",
+          "name": "u25_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL Ubuntu, Python 3.9 이상과 GNU find. /tmp의 POSIX 파일 모드·심볼릭 링크를 사용한다. Ubuntu 24.04의 Python 3.12.3에서 검증했고 관리자 권한·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u25_fixture_lab.py ./u25_world_writable.py",
+          "exitCode": 0,
+          "expected": "일반 파일 후보 open-note.txt·other-only.txt 2건이 GNU find와 일치하고 임시 폴더 정리를 출력한다. 수집기와 준비기의 정상 종료는 0, 준비·수집·대조 오류는 2다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 두 Python 파일을 같은 폴더에 둔다.",
+        "Linux/WSL에서는 위 python3 명령을 사용한다. Windows PowerShell에서 전산 예제를 실행할 때는 python3 대신 python을 사용할 수 있다. Bash는 echo $?, PowerShell은 $LASTEXITCODE로 직전 종료 코드를 읽는다.",
+        "준비기가 /tmp에 자신의 가상 파일·디렉터리·링크를 만들고 정상·오류 시 그 임시 폴더만 정리한다. 수집기에 운영 경로를 전달하지 않는다. Windows 드라이브의 모드를 Linux 모드 실측으로 사용하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-25-world-writable-files.zip",
+        "bytes": 7038,
+        "sha256": "c699bcabf572295b2c3d23289f17a9eefcc40901264a9727733359195c2fc95c",
+        "members": {
+          "README.md": "61ce70a86bedee52105f310fecac4c61d99ecd7971644e77176c56ec551054ac",
+          "u25_fixture_lab.py": "a489837ac1a7995d395208cb6133ad81455d3da9fb7d0bd8882cd255707c1488",
+          "u25_world_writable.py": "1429d7bd1e968f743488329aa5b2a4b0596d69f08863a0d0dd7dfa3bc70d93da"
+        }
+      }
+    },
+    "cs-study-10-security-basics": {
+      "files": [
+        {
+          "source": "10-security-models.py",
+          "name": "10-security-models.py"
+        },
+        {
+          "source": "10-security-questions.py",
+          "name": "10-security-questions.py"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리 sqlite3. Windows Python 3.12.1·SQLite 3.43.1에서 검증했다. 관리자 권한·서버·별도 패키지는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 10-security-models.py mac",
+          "exitCode": 0,
+          "expected": "mac은 RFC 태그와 원문 True·변조 False, access는 미인증 거부·소유자 허용·다른 독자 거부·관리자 허용, sql은 정상 이름과 주입 모양 입력을 비교한다. 문제 파일은 문제 2~4를 대조한다. 정상 종료는 0, 처리하지 않은 예외·assert 실패는 1이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 10-security-models.py access",
+          "exitCode": 0,
+          "expected": "mac은 RFC 태그와 원문 True·변조 False, access는 미인증 거부·소유자 허용·다른 독자 거부·관리자 허용, sql은 정상 이름과 주입 모양 입력을 비교한다. 문제 파일은 문제 2~4를 대조한다. 정상 종료는 0, 처리하지 않은 예외·assert 실패는 1이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 10-security-models.py sql",
+          "exitCode": 0,
+          "expected": "mac은 RFC 태그와 원문 True·변조 False, access는 미인증 거부·소유자 허용·다른 독자 거부·관리자 허용, sql은 정상 이름과 주입 모양 입력을 비교한다. 문제 파일은 문제 2~4를 대조한다. 정상 종료는 0, 처리하지 않은 예외·assert 실패는 1이다."
+        },
+        {
+          "command": "python3 -I -B -X utf8 10-security-questions.py",
+          "exitCode": 0,
+          "expected": "mac은 RFC 태그와 원문 True·변조 False, access는 미인증 거부·소유자 허용·다른 독자 거부·관리자 허용, sql은 정상 이름과 주입 모양 입력을 비교한다. 문제 파일은 문제 2~4를 대조한다. 정상 종료는 0, 처리하지 않은 예외·assert 실패는 1이다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 두 Python 파일을 같은 폴더에 둔다.",
+        "Linux/WSL에서는 위 python3 명령을 사용한다. Windows PowerShell에서 전산 예제를 실행할 때는 python3 대신 python을 사용할 수 있다. Bash는 echo $?, PowerShell은 $LASTEXITCODE로 직전 종료 코드를 읽는다.",
+        "문제 파일은 __file__ 옆의 모형을 경로로 읽어 -I에서도 동작한다. assert가 있으므로 -O를 붙이지 않는다. DB는 호출마다 메모리에 다시 만들고 연결을 닫는다. 파일·계정·서버를 만들거나 정리할 필요가 없다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/cs-study-10-security-basics.zip",
+        "bytes": 7016,
+        "sha256": "bb3336134c55dd0f02eb48bde72354d2bf4d4e22c619f926232f929fdffaaf90",
+        "members": {
+          "10-security-models.py": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+          "10-security-questions.py": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32",
+          "README.md": "e22b89d9423e1433f661a82360d8e9d805dd3cc9ba502f9c554915d3be5a80d2"
+        }
+      }
     }
   }
 }

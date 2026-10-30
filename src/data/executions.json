@@ -1575,6 +1575,143 @@
         }
       ],
       "sourceCodeSha256": "dfb4f9af93251723141bf4c792c35d9442a4605a26b19ba7a886beb791c97083"
+    },
+    "u-25-world-writable-files": {
+      "recordedAt": "2026-10-30T18:35:56.374062+09:00",
+      "environment": {
+        "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python": "3.12.3",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "Linux /tmp의 준비기가 만든 가상 파일만 조회·정리"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u25_world_writable.py",
+        "u25_fixture_lab.py"
+      ],
+      "runs": [
+        {
+          "label": "Linux 가상 파일의 other 쓰기 비트와 GNU find 대조",
+          "command": "python3 -I -B -X utf8 u25_fixture_lab.py ./u25_world_writable.py",
+          "recordedAt": "2026-10-30T18:35:56.374062+09:00",
+          "environment": {
+            "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "python": "3.12.3",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "Linux /tmp의 준비기가 만든 가상 파일만 조회·정리"
+          },
+          "sourceCodeSha256": "a489837ac1a7995d395208cb6133ad81455d3da9fb7d0bd8882cd255707c1488",
+          "sourceFilesSha256": {
+            "u25_fixture_lab.py": "a489837ac1a7995d395208cb6133ad81455d3da9fb7d0bd8882cd255707c1488",
+            "u25_world_writable.py": "1429d7bd1e968f743488329aa5b2a4b0596d69f08863a0d0dd7dfa3bc70d93da"
+          },
+          "exitCode": 0,
+          "stdout": "group-only.txt: file, 0664, other 쓰기=없음, 일반 파일 후보=아니요\nopen-note.txt: file, 0666, other 쓰기=있음, 일반 파일 후보=예\nother-only.txt: file, 0602, other 쓰기=있음, 일반 파일 후보=예\nprivate.txt: file, 0600, other 쓰기=없음, 일반 파일 후보=아니요\nshared-dir: dir, 0777, other 쓰기=있음, 일반 파일 후보=아니요\nshortcut: link, 0777, other 쓰기=있음, 일반 파일 후보=아니요\n항목 6건, 일반 파일 후보 2건 수집 완료\nGNU find 후보: open-note.txt, other-only.txt\n준비기 검증 완료: 후보 2건 일치, 생성한 임시 폴더 정리\n",
+          "stderr": "",
+          "collectorSourceCodeSha256": "1429d7bd1e968f743488329aa5b2a4b0596d69f08863a0d0dd7dfa3bc70d93da"
+        }
+      ],
+      "sourceCodeSha256": "cd48e3ef2ccb53aff5678bde954deb8fd070a18208a766417bd2606963ecc3db"
+    },
+    "cs-study-10-security-basics": {
+      "recordedAt": "2026-10-30T18:35:56.941428+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+        "python": "3.12.1",
+        "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+        "sqlite": "3.43.1",
+        "openssl": "CLI 미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "10-security-models.py",
+        "10-security-questions.py"
+      ],
+      "runs": [
+        {
+          "label": "RFC 4231 공개 HMAC 벡터와 변경 메시지",
+          "command": "python -I -B -X utf8 10-security-models.py mac",
+          "recordedAt": "2026-10-30T18:35:56.941428+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "sqlite": "3.43.1",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+          "sourceFilesSha256": {
+            "10-security-models.py": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+            "10-security-questions.py": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32"
+          },
+          "exitCode": 0,
+          "stdout": "HMAC-SHA-256: b0344c61d8db38535ca8afceaf0bf12b881dc200c9833da726e9376c2e32cff7\n원문 대조: True\n변경문 대조: False\nSHA-256 길이: 32바이트\n",
+          "stderr": ""
+        },
+        {
+          "label": "가상 주체와 문서의 읽기 정책",
+          "command": "python -I -B -X utf8 10-security-models.py access",
+          "recordedAt": "2026-10-30T18:35:57.373300+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "sqlite": "3.43.1",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+          "sourceFilesSha256": {
+            "10-security-models.py": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+            "10-security-questions.py": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32"
+          },
+          "exitCode": 0,
+          "stdout": "미인증: 거부\n소유자: 허용\n다른 계정: 거부\n관리자: 허용\n",
+          "stderr": ""
+        },
+        {
+          "label": "메모리 SQLite의 매개변수 이름 조회",
+          "command": "python -I -B -X utf8 10-security-models.py sql",
+          "recordedAt": "2026-10-30T18:35:57.841976+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "sqlite": "3.43.1",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+          "sourceFilesSha256": {
+            "10-security-models.py": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+            "10-security-questions.py": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32"
+          },
+          "exitCode": 0,
+          "stdout": "이름='alice', 일치 ID=[1]\n이름=\"alice' OR 1=1 --\", 일치 ID=[]\n이름='nobody', 일치 ID=[]\n",
+          "stderr": ""
+        },
+        {
+          "label": "문제 2~4의 재사용·권한·SQL 계산",
+          "command": "python -I -B -X utf8 10-security-questions.py",
+          "recordedAt": "2026-10-30T18:35:58.342623+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29695-SP0 / isolated synthetic examples",
+            "python": "3.12.1",
+            "pythonSsl": "OpenSSL 3.0.11 19 Sep 2023",
+            "sqlite": "3.43.1",
+            "openssl": "CLI 미사용"
+          },
+          "sourceCodeSha256": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32",
+          "sourceFilesSha256": {
+            "10-security-models.py": "5f50f244eafbcc3ceb7ae05d61cf9f2f86fac662fffeaba6e3421c27e01407b3",
+            "10-security-questions.py": "7843933496c11f2e39962009bfcb1d0bcafdd6bd696d13822d00ff865737af32"
+          },
+          "exitCode": 0,
+          "stdout": "q2: 같은 메시지와 태그 두 번 대조 -> [True, True]\nq3: 소유자 일치·알 수 없는 역할 -> False\nq4: bob -> [2], 조건처럼 보이는 전체 이름 -> []\n문제 2~4의 가상 계산 대조 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "49bf426d95ee7c43ab42b59550412ceeda041e2e9d6018b3f20b7dbd54e9a23c"
     }
   }
 }
