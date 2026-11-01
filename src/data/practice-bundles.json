@@ -1640,6 +1640,42 @@
           "README.md": "e22b89d9423e1433f661a82360d8e9d805dd3cc9ba502f9c554915d3be5a80d2"
         }
       }
+    },
+    "u-26-dev-file-types": {
+      "files": [
+        {
+          "source": "u26_file_types.py",
+          "name": "u26_file_types.py"
+        },
+        {
+          "source": "u26_fixture_lab.py",
+          "name": "u26_fixture_lab.py"
+        }
+      ],
+      "requirements": "Linux 또는 WSL Ubuntu, Python 3.9 이상과 GNU find. /tmp에 FIFO·심볼릭 링크를 만들 수 있어야 한다. Ubuntu 24.04의 Python 3.12.3에서 검증했다. 관리자 권한·별도 패키지·네트워크는 필요하지 않다.",
+      "steps": [
+        {
+          "command": "python3 -I -B -X utf8 u26_fixture_lab.py ./u26_file_types.py",
+          "exitCode": 0,
+          "expected": "항목 8건 중 일반 파일 4건과 예외 영역 2건을 출력한다. GNU find 일반 파일 4건과 일치하고 자신의 임시 폴더를 정리한다. 정상 종료 0, 준비·수집·비교 오류는 2다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 이 README가 있는 글별 폴더에서 명령을 실행한다. 두 Python 파일을 같은 폴더에 둔다. 입력을 따로 준비하지 않는다.",
+        "Linux/WSL에서 python3 명령을 사용하고 직후 echo $?로 종료 코드를 읽는다. Windows Python에서는 실행하지 않는다.",
+        "준비기가 /tmp에 자신만 접근할 수 있는 가상 폴더·표지·자료를 만들고 정상·실패 때 그 폴더만 정리한다. 운영 /dev 경로를 전달하지 않는다.",
+        "shm·mqueue는 가상 디렉터리 이름이며 실제 공유 메모리·메시지 큐 마운트가 아니다. FIFO를 열거나 문자·블록 장치를 만들지 않는다. 메모리 모드 예시는 파일시스템 항목 8건과 별개다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-26-dev-file-types.zip",
+        "bytes": 7735,
+        "sha256": "67183b3ef5fcb32c3a87a9cdade8475eb583f315f2df9ab4cf53061ebd96cc17",
+        "members": {
+          "README.md": "61d9c7cb71cec2d239402f1d751a5cb47dbede3af8401f31d2426763e9191fd1",
+          "u26_file_types.py": "06d1154a62522954e33be66e9e3a6dfd6c166b6770c8a76576574cf2192f54dd",
+          "u26_fixture_lab.py": "70811ebe5e88ae198ec60e6044d72591b815504fa79a33fab74663ce54f23b99"
+        }
+      }
     }
   }
 }

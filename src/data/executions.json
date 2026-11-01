@@ -1712,6 +1712,45 @@
         }
       ],
       "sourceCodeSha256": "49bf426d95ee7c43ab42b59550412ceeda041e2e9d6018b3f20b7dbd54e9a23c"
+    },
+    "u-26-dev-file-types": {
+      "recordedAt": "2026-11-01T18:34:41.757982+09:00",
+      "environment": {
+        "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+        "python": "3.12.3",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "Linux /tmp에서 준비기가 만든 가상 항목만 조회·정리"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u26_file_types.py",
+        "u26_fixture_lab.py"
+      ],
+      "runs": [
+        {
+          "label": "가상 dev의 종류·일반 파일 검색과 예외 영역 표시",
+          "command": "python3 -I -B -X utf8 u26_fixture_lab.py ./u26_file_types.py",
+          "recordedAt": "2026-11-01T18:34:41.757982+09:00",
+          "environment": {
+            "os": "Linux-6.18.26.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+            "python": "3.12.3",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "Linux /tmp에서 준비기가 만든 가상 항목만 조회·정리"
+          },
+          "sourceCodeSha256": "70811ebe5e88ae198ec60e6044d72591b815504fa79a33fab74663ce54f23b99",
+          "collectorSourceCodeSha256": "06d1154a62522954e33be66e9e3a6dfd6c166b6770c8a76576574cf2192f54dd",
+          "sourceFilesSha256": {
+            "u26_file_types.py": "06d1154a62522954e33be66e9e3a6dfd6c166b6770c8a76576574cf2192f54dd",
+            "u26_fixture_lab.py": "70811ebe5e88ae198ec60e6044d72591b815504fa79a33fab74663ce54f23b99"
+          },
+          "exitCode": 0,
+          "stdout": "console: file, 일반 파일 조사\ndevice-link: link, 검색 대상 아님\nmqueue: dir, 검색 대상 아님\nmqueue/notice: file, 예외 영역 검토\nnotes.txt: file, 일반 파일 조사\npipe: fifo, 검색 대상 아님\nshm: dir, 검색 대상 아님\nshm/cache.bin: file, 예외 영역 검토\n항목 8건, 일반 파일 4건, 예외 영역 2건\n메모리 모드 예시 문자: char, crw-------\n메모리 모드 예시 블록: block, brw-------\nGNU find 일반 파일: console, mqueue/notice, notes.txt, shm/cache.bin\n대조 완료: 일반 파일 4건 일치, 생성한 임시 폴더 정리\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "40a62c2634efaa3a7db3d374aca4c0ce53b9b6fb42fb1b6ad1f6c051669fe290"
     }
   }
 }
