@@ -1751,6 +1751,44 @@
         }
       ],
       "sourceCodeSha256": "40a62c2634efaa3a7db3d374aca4c0ce53b9b6fb42fb1b6ad1f6c051669fe290"
+    },
+    "u-27-rhosts-hosts-equiv": {
+      "recordedAt": "2026-11-02T18:35:21.327707+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29698-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "명시한 JSON의 가상 UID·모드·문자열만 비교, 실제 인증·시스템 파일 접근 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u27_trust_inventory.py",
+        "u27_trust_inventory.json"
+      ],
+      "runs": [
+        {
+          "label": "서비스 가정·소유자·권한·플러스 표기를 분리한 9건 비교",
+          "command": "python -I -B -X utf8 u27_trust_inventory.py u27_trust_inventory.json",
+          "recordedAt": "2026-11-02T18:35:21.327707+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "명시한 JSON의 가상 UID·모드·문자열만 비교, 실제 인증·시스템 파일 접근 없음"
+          },
+          "sourceCodeSha256": "8afc243f761fab07edfd6d7ec6964339d99149310311df1cfbd55dffc1210deb",
+          "sourceFilesSha256": {
+            "u27_trust_inventory.py": "8afc243f761fab07edfd6d7ec6964339d99149310311df1cfbd55dffc1210deb",
+            "u27_trust_inventory.json": "a4e7a5d89b4926bc1c561624c38a87011db4af4a693674441fee6829b8a29ad8"
+          },
+          "exitCode": 0,
+          "stdout": "unused: 미사용 가정; 파일 조건 비교 생략\nbounded: 기본 조건 일치; 소유 UID·일반 권한·제한된 문자열 비교 일치\nwildcards: 기준 이탈 후보; 1행 1열 단독 +, 1행 2열 단독 +\nnetgroup: 기준 이탈 후보; 1행 1열 + 접두 표기\ngroup-write: 기준 이탈 후보; 600 밖 비트 060\nnumeric-trap: 기준 이탈 후보; 600 밖 비트 077\nforeign-owner: 기준 이탈 후보; 소유 UID 1002 불일치\nnegative-rule: 추가 조사; 1행 1열 추가 구문\nunknown-service: 추가 조사; 서비스 사용 여부 미수집\n가상 자료 9건: 미사용 가정 1건, 기본 조건 일치 1건, 기준 이탈 후보 5건, 추가 조사 2건\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "7e776a3318ef64d82da3b933c9369c0e32cba9b055f2034f09ad451d4d5954ca"
     }
   }
 }

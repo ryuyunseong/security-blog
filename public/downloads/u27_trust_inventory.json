@@ -1,0 +1,11 @@
+[
+  {"case": "unused", "serviceUse": "unused", "accountUid": 1001, "ownerUid": null, "mode": null, "text": null},
+  {"case": "bounded", "serviceUse": "used", "accountUid": 1001, "ownerUid": 1001, "mode": "0600", "text": "backup.example.test analyst"},
+  {"case": "wildcards", "serviceUse": "used", "accountUid": 1001, "ownerUid": 0, "mode": "0600", "text": "+ +"},
+  {"case": "netgroup", "serviceUse": "used", "accountUid": 1001, "ownerUid": 0, "mode": "0600", "text": "+@operators analyst"},
+  {"case": "group-write", "serviceUse": "used", "accountUid": 1001, "ownerUid": 1001, "mode": "0660", "text": "backup.example.test analyst"},
+  {"case": "numeric-trap", "serviceUse": "used", "accountUid": 1001, "ownerUid": 1001, "mode": "0477", "text": "backup.example.test analyst"},
+  {"case": "foreign-owner", "serviceUse": "used", "accountUid": 1001, "ownerUid": 1002, "mode": "0600", "text": "backup.example.test analyst"},
+  {"case": "negative-rule", "serviceUse": "used", "accountUid": 1001, "ownerUid": 1001, "mode": "0600", "text": "-blocked.example.test analyst"},
+  {"case": "unknown-service", "serviceUse": "unknown", "accountUid": 1001, "ownerUid": null, "mode": null, "text": null}
+]

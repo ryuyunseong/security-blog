@@ -1676,6 +1676,42 @@
           "u26_fixture_lab.py": "70811ebe5e88ae198ec60e6044d72591b815504fa79a33fab74663ce54f23b99"
         }
       }
+    },
+    "u-27-rhosts-hosts-equiv": {
+      "files": [
+        {
+          "source": "u27_trust_inventory.py",
+          "name": "u27_trust_inventory.py"
+        },
+        {
+          "source": "u27_trust_inventory.json",
+          "name": "u27_trust_inventory.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·별도 패키지·서버·실제 계정이 필요하지 않다. JSON 정수·문자열만 비교하므로 POSIX 파일 권한을 적용할 필요가 없다.",
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u27_trust_inventory.py u27_trust_inventory.json",
+          "exitCode": 0,
+          "expected": "가상 자료 9건: 미사용 가정 1건, 기본 조건 일치 1건, 기준 이탈 후보 5건, 추가 조사 2건. 종료 0은 분류 완료이고 입력·읽기 오류는 표준 오류와 종료 2다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 이 README가 있는 글별 폴더에서 실행한다. Python 파일과 JSON을 같은 폴더에 둔다. 포함된 JSON을 다시 만들지 않는다.",
+        "PowerShell에서 python 명령을 실행하고 직후 $LASTEXITCODE로 종료 코드를 읽는다. Linux·WSL에서는 python3와 직후 echo $?를 사용할 수 있다.",
+        "입력 파일 경로에 공백이 있으면 따옴표로 감싼다. 오류가 나면 지정한 JSON 경로·필드·UID·네 자리 8진수 모드를 살핀다.",
+        "실제 .rhosts나 hosts.equiv를 입력하지 않는다. 입력·운영 설정을 수정하거나 결과 파일을 쓰지 않는다. 정리할 때는 자신이 압축을 푼 실습 폴더만 대상으로 삼는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-27-rhosts-hosts-equiv.zip",
+        "bytes": 7936,
+        "sha256": "a24b7ff70cc6e30953ed79602381130b55b10dc0a45d256526b86e6ab2651377",
+        "members": {
+          "README.md": "c9de8782ad91766faee2dcbebafc79928322e931585fd98b9b256457718c7d7a",
+          "u27_trust_inventory.json": "a4e7a5d89b4926bc1c561624c38a87011db4af4a693674441fee6829b8a29ad8",
+          "u27_trust_inventory.py": "8afc243f761fab07edfd6d7ec6964339d99149310311df1cfbd55dffc1210deb"
+        }
+      }
     }
   }
 }
