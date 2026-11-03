@@ -1,0 +1,18 @@
+{
+  "rules": [
+    {"id": "block-one", "source": "192.0.2.13/32", "protocol": "tcp", "port": 22, "action": "deny"},
+    {"id": "admin-net", "source": "192.0.2.0/25", "protocol": "tcp", "port": 22, "action": "allow"},
+    {"id": "web-net", "source": "198.51.100.0/24", "protocol": "tcp", "port": 443, "action": "allow"},
+    {"id": "admin-v6", "source": "2001:db8:1::/64", "protocol": "tcp", "port": 22, "action": "allow"}
+  ],
+  "requests": [
+    {"id": "blocked-host", "source": "192.0.2.13", "protocol": "tcp", "port": 22},
+    {"id": "admin-host", "source": "192.0.2.14", "protocol": "tcp", "port": 22},
+    {"id": "same-ip-other-port", "source": "192.0.2.14", "protocol": "tcp", "port": 443},
+    {"id": "outside-half", "source": "192.0.2.130", "protocol": "tcp", "port": 22},
+    {"id": "udp-same-port", "source": "192.0.2.14", "protocol": "udp", "port": 22},
+    {"id": "web-client", "source": "198.51.100.8", "protocol": "tcp", "port": 443},
+    {"id": "v6-admin", "source": "2001:db8:1::8", "protocol": "tcp", "port": 22},
+    {"id": "v6-other", "source": "2001:db8:2::8", "protocol": "tcp", "port": 22}
+  ]
+}

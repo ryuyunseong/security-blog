@@ -1789,6 +1789,64 @@
         }
       ],
       "sourceCodeSha256": "7e776a3318ef64d82da3b933c9369c0e32cba9b055f2034f09ad451d4d5954ca"
+    },
+    "u-28-ip-port-access": {
+      "recordedAt": "2026-11-03T18:31:05.881071+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29698-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "JSON의 가상 주소·프로토콜·목적지 포트만 비교. 소켓·인증·방화벽 조회나 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u28_access_model.py",
+        "u28_access_cases.json"
+      ],
+      "runs": [
+        {
+          "label": "원본 접근표의 가상 요청 8건",
+          "command": "python -I -B -X utf8 u28_access_model.py u28_access_cases.json",
+          "recordedAt": "2026-11-03T18:31:05.906957+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "JSON의 가상 주소·프로토콜·목적지 포트만 비교. 소켓·인증·방화벽 조회나 변경 없음"
+          },
+          "sourceCodeSha256": "5aae4057fe6afc76ee2e3709dc162ce772b19629d8a5aa991c8f1387821b529d",
+          "sourceFilesSha256": {
+            "u28_access_model.py": "5aae4057fe6afc76ee2e3709dc162ce772b19629d8a5aa991c8f1387821b529d",
+            "u28_access_cases.json": "b22741d625d0a804e78d0ff0f7748c13ff98f24da14681423813a2fca879189c"
+          },
+          "exitCode": 0,
+          "stdout": "규칙 순서: block-one, admin-net, web-net, admin-v6\nblocked-host: 가상 거부; 규칙 1=block-one\nadmin-host: 가상 허용; 규칙 2=admin-net\nsame-ip-other-port: 가상 거부; 기본 정책\noutside-half: 가상 거부; 기본 정책\nudp-same-port: 가상 거부; 기본 정책\nweb-client: 가상 허용; 규칙 3=web-net\nv6-admin: 가상 허용; 규칙 4=admin-v6\nv6-other: 가상 거부; 기본 정책\n가상 요청 8건: 허용 3건, 거부 5건\n",
+          "stderr": ""
+        },
+        {
+          "label": "앞의 두 규칙 순서만 교환",
+          "command": "python -I -B -X utf8 u28_access_model.py u28_access_cases.json --swap-first-two",
+          "recordedAt": "2026-11-03T18:31:06.364684+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "JSON의 가상 주소·프로토콜·목적지 포트만 비교. 소켓·인증·방화벽 조회나 변경 없음"
+          },
+          "sourceCodeSha256": "5aae4057fe6afc76ee2e3709dc162ce772b19629d8a5aa991c8f1387821b529d",
+          "sourceFilesSha256": {
+            "u28_access_model.py": "5aae4057fe6afc76ee2e3709dc162ce772b19629d8a5aa991c8f1387821b529d",
+            "u28_access_cases.json": "b22741d625d0a804e78d0ff0f7748c13ff98f24da14681423813a2fca879189c"
+          },
+          "exitCode": 0,
+          "stdout": "규칙 순서: admin-net, block-one, web-net, admin-v6\nblocked-host: 가상 허용; 규칙 1=admin-net\nadmin-host: 가상 허용; 규칙 1=admin-net\nsame-ip-other-port: 가상 거부; 기본 정책\noutside-half: 가상 거부; 기본 정책\nudp-same-port: 가상 거부; 기본 정책\nweb-client: 가상 허용; 규칙 3=web-net\nv6-admin: 가상 허용; 규칙 4=admin-v6\nv6-other: 가상 거부; 기본 정책\n가상 요청 8건: 허용 4건, 거부 4건\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "8465c7736feff11863afd9019654865a965f0c2348286e870d088df8ecd0db66"
     }
   }
 }
