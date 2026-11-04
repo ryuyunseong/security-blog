@@ -1753,6 +1753,48 @@
           "u28_access_model.py": "5aae4057fe6afc76ee2e3709dc162ce772b19629d8a5aa991c8f1387821b529d"
         }
       }
+    },
+    "u-29-hosts-lpd-permissions": {
+      "files": [
+        {
+          "source": "u29_lpd_evidence.py",
+          "name": "u29_lpd_evidence.py"
+        },
+        {
+          "source": "u29_lpd_cases.json",
+          "name": "u29_lpd_cases.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1에서 검증했다. 관리자 권한·별도 패키지·Linux 파일시스템·실제 hosts.lpd가 필요하지 않다. UID·모드는 가상 값으로만 계산한다.",
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u29_lpd_evidence.py cases u29_lpd_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료 10건. root-600·root-400은 입력된 기본 조건 일치, 부재는 비교 생략, 미수집·링크는 보류다. 종료0은 계산 완료다."
+        },
+        {
+          "command": "python -I -B -X utf8 u29_lpd_evidence.py modes",
+          "exitCode": 0,
+          "expected": "일반 권한 512개 중 숫자 비교 385개, 비트 조건 4개, 차이 381개다. 일치 모드는 0000·0200·0400·0600이며 종료0은 열거 완료다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 이 README가 있는 글별 폴더에서 두 명령을 각각 실행한다. Python 파일과 JSON을 같은 폴더에 두며 포함된 입력을 다시 만들지 않는다.",
+        "PowerShell에서는 python을 실행하고 명령 직후 $LASTEXITCODE로 종료 코드를 읽는다. Linux·WSL에서는 python3와 명령 직후 echo $?를 사용할 수 있다.",
+        "직접 지정하는 입력 경로에 공백이 있으면 따옴표로 감싼다. cases에는 JSON 경로가 필요하고 modes에는 파일을 주지 않는다.",
+        "읽기·JSON·필드 오류는 표준 오류와 종료2다. 상태별 필드, UID 정수, 네 자리 8진수 모드, required의 true·false·null을 살핀다.",
+        "실제 파일·계정·권한·프린트 서비스를 조회하거나 변경하지 않고 결과 파일도 쓰지 않는다. 정리 대상은 자신이 압축을 푼 실습 폴더뿐이다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-29-hosts-lpd-permissions.zip",
+        "bytes": 8072,
+        "sha256": "3f25cabcf8bac7f0c57ab2c7f61339570531b166843d3a9352647866e8abe30c",
+        "members": {
+          "README.md": "715b1fe093e2cf8d5036b4e53f439b83d8377f3f90b252b6e7225b5f21f564a1",
+          "u29_lpd_cases.json": "f2cd70111322691223c3412d01371ece7490267787af44b113c31fee8d7a9779",
+          "u29_lpd_evidence.py": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025"
+        }
+      }
     }
   }
 }

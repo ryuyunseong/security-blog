@@ -1,0 +1,12 @@
+[
+  {"id": "absent", "state": "absent"},
+  {"id": "not-collected", "state": "uncollected"},
+  {"id": "root-600", "state": "present", "kind": "regular", "uid": 0, "mode": "0600", "required": true},
+  {"id": "root-400", "state": "present", "kind": "regular", "uid": 0, "mode": "0400", "required": true},
+  {"id": "other-owner", "state": "present", "kind": "regular", "uid": 1001, "mode": "0600", "required": true},
+  {"id": "numeric-trap", "state": "present", "kind": "regular", "uid": 0, "mode": "0477", "required": true},
+  {"id": "special-bit", "state": "present", "kind": "regular", "uid": 0, "mode": "4600", "required": true},
+  {"id": "need-unknown", "state": "present", "kind": "regular", "uid": 0, "mode": "0600", "required": null},
+  {"id": "unneeded", "state": "present", "kind": "regular", "uid": 0, "mode": "0600", "required": false},
+  {"id": "link", "state": "present", "kind": "symlink", "uid": 0, "mode": "0777", "required": true}
+]

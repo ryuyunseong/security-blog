@@ -1847,6 +1847,64 @@
         }
       ],
       "sourceCodeSha256": "8465c7736feff11863afd9019654865a965f0c2348286e870d088df8ecd0db66"
+    },
+    "u-29-hosts-lpd-permissions": {
+      "recordedAt": "2026-11-04T18:42:54.988060+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29698-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "가상 수집 자료의 상태·필요성·UID·모드 비교 또는 메모리의 일반 권한 열거. 실제 Unix 파일·계정·프린트 서비스 조회와 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u29_lpd_evidence.py",
+        "u29_lpd_cases.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 수집 자료 10건",
+          "command": "python -I -B -X utf8 u29_lpd_evidence.py cases u29_lpd_cases.json",
+          "recordedAt": "2026-11-04T18:42:55.011851+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "가상 수집 자료의 상태·필요성·UID·모드 비교 또는 메모리의 일반 권한 열거. 실제 Unix 파일·계정·프린트 서비스 조회와 변경 없음"
+          },
+          "sourceCodeSha256": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025",
+          "sourceFilesSha256": {
+            "u29_lpd_evidence.py": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025",
+            "u29_lpd_cases.json": "f2cd70111322691223c3412d01371ece7490267787af44b113c31fee8d7a9779"
+          },
+          "exitCode": 0,
+          "stdout": "absent: 부재 자료: 소유자·모드 비교 생략\nnot-collected: 보류: 부재로 바꾸지 않음\nroot-600: UID=0, mode=0600: 입력된 기본 조건 일치\nroot-400: UID=0, mode=0400: 입력된 기본 조건 일치\nother-owner: UID=1001, mode=0600: root 소유 아님\nnumeric-trap: UID=0, mode=0477: 600 밖의 일반 권한=077\nspecial-bit: UID=0, mode=4600: 특수 비트=4000, 별도 조사\nneed-unknown: UID=0, mode=0600: 사용 필요성 미수집\nunneeded: UID=0, mode=0600: 불필요한 파일의 제거 검토\nlink: 보류: 링크와 대상 별도 조사\n가상 자료 10건 비교 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "일반 권한 512개 전수 비교",
+          "command": "python -I -B -X utf8 u29_lpd_evidence.py modes",
+          "recordedAt": "2026-11-04T18:42:55.602844+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "가상 수집 자료의 상태·필요성·UID·모드 비교 또는 메모리의 일반 권한 열거. 실제 Unix 파일·계정·프린트 서비스 조회와 변경 없음"
+          },
+          "sourceCodeSha256": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025",
+          "sourceFilesSha256": {
+            "u29_lpd_evidence.py": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025",
+            "u29_lpd_cases.json": "f2cd70111322691223c3412d01371ece7490267787af44b113c31fee8d7a9779"
+          },
+          "exitCode": 0,
+          "stdout": "일반 권한 0000~0777: 512개\n숫자 크기 0600 이하: 385개\n600 밖의 일반 권한 없음: 4개\n비트 조건 목록: 0000, 0200, 0400, 0600\n숫자 비교만 통과한 모드: 381개\n0477의 초과 비트: 077\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "154e5761901336c38c34c5570e849a2fa974c958369aeff23b97379710c3685a"
     }
   }
 }
