@@ -40,6 +40,6 @@ test('실습 ZIP의 원본 일치·경로 경계·준비 입력·재생성 검�
   });
   assert.ifError(result.error);
   assert.equal(result.status, 0, result.stdout + result.stderr);
-  assert.match(result.stderr, /Ran 6 tests/);
+  assert.match(result.stderr, /Ran 8 tests/);
   assert.match(result.stderr, /\bOK\b/);
 });

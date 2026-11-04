@@ -45,6 +45,30 @@ class PracticeBundlesTests(unittest.TestCase):
         with zipfile.ZipFile(ROOT / 'public/downloads/bundles/gzip-output-limit.zip') as archive:
             self.assertEqual(archive.read('gzip-output-limit/sample.gz'), source.read_bytes())
 
+    def test_shell_specific_readme_and_legacy_bytes(self):
+        entries = json.loads((ROOT / bundles.MANIFEST).read_text(encoding='utf-8'))['posts']
+        entry = deepcopy(entries['u-29-hosts-lpd-permissions'])
+        entry['readmeShells'] = ['powershell', 'bash']
+        text = bundles.member_files(ROOT, 'u-29-hosts-lpd-permissions', entry)['README.md'].decode('utf-8')
+        for step in entry['steps']:
+            self.assertIn(f"```powershell\n{step['command']}\n$LASTEXITCODE\n```", text)
+            self.assertIn(f"```bash\n{step['command']}\necho $?\n```", text)
+        legacy = bundles.member_files(ROOT, 'u-28-ip-port-access', entries['u-28-ip-port-access'])['README.md']
+        self.assertEqual(sha256(legacy).hexdigest(), '839cb81245d2cd015580a99071639a54e7c45294e067052e355547b85bb4057b')
+
+    def test_invalid_shells_and_powershell_stdin_are_rejected(self):
+        entry = json.loads((ROOT / bundles.MANIFEST).read_text(encoding='utf-8'))['posts']['u-29-hosts-lpd-permissions']
+        for value in [None, [], 'powershell', ['cmd'], ['bash', 'bash'], [True], [{}]]:
+            broken = deepcopy(entry)
+            broken['readmeShells'] = value
+            with self.subTest(shells=value), self.assertRaises(ValueError):
+                bundles.member_files(ROOT, 'u-29-hosts-lpd-permissions', broken)
+        broken = deepcopy(entry)
+        broken['readmeShells'] = ['powershell']
+        broken['steps'][0]['stdin'] = 'u29_lpd_cases.json'
+        with self.assertRaisesRegex(ValueError, 'stdin'):
+            bundles.member_files(ROOT, 'u-29-hosts-lpd-permissions', broken)
+
     def test_source_paths_cannot_leave_download_directory(self):
         root = ROOT / 'public/downloads'
         for name in ['../README.md', '/etc/passwd', 'a/../../passwd', 'a\\file.py',

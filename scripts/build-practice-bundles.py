@@ -74,13 +74,31 @@ def member_files(root, slug, entry):
     return members
 
 
+def readme_shells(entry):
+    if 'readmeShells' not in entry:
+        return None
+    shells = entry['readmeShells']
+    if (not isinstance(shells, list) or not shells
+            or any(not isinstance(shell, str) or shell not in {'powershell', 'bash'} for shell in shells)
+            or len(set(shells)) != len(shells)):
+        raise ValueError('README 셸은 powershell·bash의 중복 없는 목록이어야 함')
+    if 'powershell' in shells and any('stdin' in step for step in entry['steps']):
+        raise ValueError('PowerShell 안내에는 stdin 리다이렉션을 사용할 수 없음')
+    return shells
+
+
 def readme(slug, title, entry, members):
+    shells = readme_shells(entry)
+    shell_note = ('각 단계에서 사용하는 셸의 코드 블록 하나를 골라 실행한다. '
+                  'PowerShell은 $LASTEXITCODE, Bash는 echo $?로 Python 명령의 숫자 종료 코드를 읽는다.'
+                  if shells else
+                  '아래 실행 명령은 Linux/WSL의 Bash 기준이다. Python 예제의 assert 검사를 끄는 -O 옵션은 사용하지 않는다.')
     lines = [f'# {title}', '', f'본문: https://ryuyunseong.github.io/security-blog/posts/{slug}/', '',
              '## 준비', '', entry['requirements'], '',
              'ZIP을 빈 폴더에 풀고, 아래 파일이 모여 있는 폴더로 이동한다.',
              'Windows에서는 파일 탐색기의 모두 추출을 사용할 수 있다.',
-             '아래 실행 명령은 Linux/WSL의 Bash 기준이다. Python 예제의 assert 검사를 끄는 -O 옵션은 사용하지 않는다.', '',
-             '```bash', f'cd {slug}', '```', '', '## 포함 파일', '']
+             shell_note, '',
+             f'```{shells[0] if shells else "bash"}', f'cd {slug}', '```', '', '## 포함 파일', '']
     lines += [f'- `{name}`' for name in members]
     lines += ['- `README.md`: 준비 조건, 실행 명령과 결과 읽는 방법', '', '## 실행', '']
     for number, step in enumerate(entry['steps'], 1):
@@ -93,8 +111,14 @@ def readme(slug, title, entry, members):
             if step['stdin'] not in members:
                 raise ValueError('표준 입력 파일 누락')
             command += f" < {step['stdin']}"
-        lines += [f'### {number}', '', '```bash', command, 'echo $?', '```', '',
-                  f"예상 종료 코드: {step['exitCode']}. {step['expected']}", '']
+        lines += [f'### {number}', '']
+        if shells:
+            for shell in shells:
+                label, status_command = ('PowerShell', '$LASTEXITCODE') if shell == 'powershell' else ('Bash', 'echo $?')
+                lines += [f'#### {label}', '', f'```{shell}', command, status_command, '```', '']
+        else:
+            lines += ['```bash', command, 'echo $?', '```', '']
+        lines += [f"예상 종료 코드: {step['exitCode']}. {step['expected']}", '']
     if entry['notes']:
         lines += ['## 실행 조건과 정리', ''] + [f'- {note}' for note in entry['notes']] + ['']
     if any(step['exitCode'] == 1 for step in entry['steps']):

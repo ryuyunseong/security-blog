@@ -1755,6 +1755,10 @@
       }
     },
     "u-29-hosts-lpd-permissions": {
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
       "files": [
         {
           "source": "u29_lpd_evidence.py",
@@ -1787,10 +1791,10 @@
       ],
       "archive": {
         "path": "downloads/bundles/u-29-hosts-lpd-permissions.zip",
-        "bytes": 8072,
-        "sha256": "3f25cabcf8bac7f0c57ab2c7f61339570531b166843d3a9352647866e8abe30c",
+        "bytes": 8361,
+        "sha256": "2f3844723f1030288ca7790e2db128bb57a1bb759f7bf30f4b6e66f8265f185d",
         "members": {
-          "README.md": "715b1fe093e2cf8d5036b4e53f439b83d8377f3f90b252b6e7225b5f21f564a1",
+          "README.md": "cc34e07003152449588f9589f1440a0974362157c1d6545cfbad3a6359971291",
           "u29_lpd_cases.json": "f2cd70111322691223c3412d01371ece7490267787af44b113c31fee8d7a9779",
           "u29_lpd_evidence.py": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025"
         }

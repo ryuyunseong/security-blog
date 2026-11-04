@@ -19,6 +19,7 @@ python3 scripts/build-practice-bundles.py --check
 | `files[].block` · `language` | 해당 글의 0부터 시작하는 코드 블록 번호와 언어. Bash 준비 예제를 그대로 포함할 때 사용 |
 | `files[].name` | 압축 안의 파일 이름. 경로나 같은 이름을 중복해서 사용할 수 없음 |
 | `requirements` | 실행에 필요한 운영체제와 도구 |
+| `readmeShells` | 선택 항목. README에 표시할 셸을 `powershell`, `bash`의 중복 없는 목록으로 지정. 생략하면 기존 Bash 안내를 유지 |
 | `steps[].command` · `stdin` | 실행 명령과 선택적인 표준 입력 파일 |
 | `steps[].exitCode` · `expected` | 예상 종료 코드와 출력 해석 |
 | `notes` | 가상 입력 생성, 임시 경로 정리와 실행 조건 |
@@ -30,6 +31,8 @@ python3 scripts/build-practice-bundles.py --check
 
 ## 실행 환경
 
-ZIP의 안내는 Linux/WSL의 Bash를 기준으로 합니다. 입력 파일을 코드가 생성하는 경우에는 가상 자료 준비 스크립트를 함께 제공합니다. 코딩 테스트의 `input.txt`와 gzip의 `sample.gz`는 ZIP에 들어 있습니다. 실제 시스템을 읽는 수집기가 함께 있더라도 기본 실행 안내는 가상 자료를 사용하는 명령입니다.
+`readmeShells`를 생략한 ZIP의 안내는 Linux/WSL의 Bash를 기준으로 합니다. 입력 파일을 코드가 생성하는 경우에는 가상 자료 준비 스크립트를 함께 제공합니다. 코딩 테스트의 `input.txt`와 gzip의 `sample.gz`는 ZIP에 들어 있습니다. 실제 시스템을 읽는 수집기가 함께 있더라도 기본 실행 안내는 가상 자료를 사용하는 명령입니다.
+
+같은 명령을 PowerShell과 Bash에서 실행할 수 있는 실습은 `readmeShells`로 셸별 코드 블록을 표시할 수 있습니다. 각 단계의 PowerShell 블록에는 `$LASTEXITCODE`, Bash 블록에는 `echo $?`가 붙습니다. 이 옵션은 실행 명령을 다른 셸의 문법으로 변환하지 않으며, `stdin` 리다이렉션이 있는 단계에는 PowerShell 안내를 지정할 수 없습니다. 실제 실행 환경과 날짜는 기존 실행 기록에서 읽습니다.
 
 파일 다운로드는 글별 ZIP으로 제공합니다. 본문의 코드와 실행 기록은 함께 읽을 수 있습니다. 과거 실행 기록의 환경·날짜는 묶음 생성과 별개이며, 새로운 환경에서 실행한 값과 구별해 읽어야 합니다.
