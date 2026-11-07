@@ -1799,6 +1799,51 @@
           "u29_lpd_evidence.py": "a69e30bbff609280fc963b937fd7afd069471257a7530c4f834d5a7075783025"
         }
       }
+    },
+    "u-30-umask-settings": {
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "files": [
+        {
+          "source": "u30_umask_review.py",
+          "name": "u30_umask_review.py"
+        },
+        {
+          "source": "u30_umask_cases.json",
+          "name": "u30_umask_cases.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1, PowerShell과 Git Bash에서 검증했다. 관리자 권한·별도 패키지·Linux 파일시스템이 필요하지 않다. 실제 Unix 설정과 권한은 조회·변경하지 않는다.",
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u30_umask_review.py u30_umask_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료 10건. 7건은 설정·실행 출처를 표시해 계산하고 조회 오류·설정 파일 부재·자료 미수집 3건은 보류한다. 0031은 022 이상, 쓰기 차단 누락0002, 파일0646·디렉터리0746이다. 종료0은 가상 계산 완료다."
+        },
+        {
+          "command": "python -I -B -X utf8 u30_umask_review.py --self-test",
+          "exitCode": 0,
+          "expected": "계산 사례 7건 일치, 입력 거부 12건 일치. 종료0은 기대값 대조 완료이며 서버 상태 판정이 아니다. 기대와 다르면 예외로 중단한다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 이 README와 Python·JSON이 있는 글별 폴더에서 실행한다. 각 단계의 PowerShell 또는 Bash 블록 하나만 선택한다. 포함된 JSON을 다시 만들지 않는다.",
+        "PowerShell의 $LASTEXITCODE와 Bash의 echo $?는 바로 앞 Python의 숫자 종료 코드다. PowerShell의 $?는 성공 여부이며 숫자 코드가 아니다. 바깥 셸을 실행한 도구의 종료 코드와도 구분한다.",
+        "첫 명령에는 입력 경로를 주고 --self-test에는 경로를 주지 않는다. 공백이 있는 입력 경로는 따옴표로 감싼다. 읽기·JSON·필드 검증 오류는 표준 오류와 종료2다.",
+        "기본 ACL 없는 신규 생성 권한만 정수로 계산한다. 파일 생성·umask 변경·실제 수집은 하지 않는다. 결과 파일을 쓰지 않으며 정리 대상은 자신이 압축을 푼 폴더뿐이다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-30-umask-settings.zip",
+        "bytes": 9058,
+        "sha256": "0683739146a0ab20e7c34301dcc2d2a023628ceab5d59b006ab42f2c44f8ecd5",
+        "members": {
+          "README.md": "8679729f554d24f6efc21dfcb9a4b2d89bc6ca366e0ab7ae714f2d854e29e71a",
+          "u30_umask_cases.json": "178659ff0616f7196eec5bc7d5ba80743fd5c98fb6051adc85ef522abeeb780e",
+          "u30_umask_review.py": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f"
+        }
+      }
     }
   }
 }

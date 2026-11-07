@@ -1,0 +1,12 @@
+[
+  {"id": "shell-022", "source": "process", "state": "available", "value": "0022"},
+  {"id": "shell-027", "source": "process", "state": "available", "value": "0027"},
+  {"id": "shell-077", "source": "process", "state": "available", "value": "0077"},
+  {"id": "service-031", "source": "process", "state": "available", "value": "0031"},
+  {"id": "shell-021", "source": "process", "state": "available", "value": "0021"},
+  {"id": "shell-111", "source": "process", "state": "available", "value": "0111"},
+  {"id": "profile-022", "source": "config", "state": "available", "value": "0022"},
+  {"id": "process-denied", "source": "process", "state": "read_error", "value": null},
+  {"id": "profile-missing", "source": "config", "state": "missing", "value": null},
+  {"id": "process-unsampled", "source": "process", "state": "not_collected", "value": null}
+]

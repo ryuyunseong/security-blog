@@ -1905,6 +1905,64 @@
         }
       ],
       "sourceCodeSha256": "154e5761901336c38c34c5570e849a2fa974c958369aeff23b97379710c3685a"
+    },
+    "u-30-umask-settings": {
+      "recordedAt": "2026-11-07T20:17:04.359793+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29698-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "가상 JSON 수집값과 메모리의 정수만 비교. 실제 Unix 설정·계정·권한 조회 및 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u30_umask_review.py",
+        "u30_umask_cases.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 수집 자료 10건",
+          "command": "python -I -B -X utf8 u30_umask_review.py u30_umask_cases.json",
+          "recordedAt": "2026-11-07T20:17:04.359793+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "가상 JSON 수집값과 메모리의 정수만 비교. 실제 Unix 설정·계정·권한 조회 및 변경 없음"
+          },
+          "sourceCodeSha256": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f",
+          "sourceFilesSha256": {
+            "u30_umask_review.py": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f",
+            "u30_umask_cases.json": "178659ff0616f7196eec5bc7d5ba80743fd5c98fb6051adc85ef522abeeb780e"
+          },
+          "exitCode": 0,
+          "stdout": "shell-022: 실행=0022, 022 이상, 쓰기 차단 누락=0000, 파일=0644, 디렉터리=0755\nshell-027: 실행=0027, 022 이상, 쓰기 차단 누락=0000, 파일=0640, 디렉터리=0750\nshell-077: 실행=0077, 022 이상, 쓰기 차단 누락=0000, 파일=0600, 디렉터리=0700\nservice-031: 실행=0031, 022 이상, 쓰기 차단 누락=0002, 파일=0646, 디렉터리=0746\nshell-021: 실행=0021, 022 미만, 쓰기 차단 누락=0002, 파일=0646, 디렉터리=0756\nshell-111: 실행=0111, 022 이상, 쓰기 차단 누락=0022, 파일=0666, 디렉터리=0666\nprofile-022: 설정=0022, 022 이상, 쓰기 차단 누락=0000, 파일=0644, 디렉터리=0755\nprocess-denied: 조회 오류, 값 비교 보류\nprofile-missing: 설정 파일 부재, 값 비교 보류\nprocess-unsampled: 자료 미수집, 값 비교 보류\n가상 자료 10건 계산 완료\n",
+          "stderr": ""
+        },
+        {
+          "label": "계산 7건과 입력 거부 12건",
+          "command": "python -I -B -X utf8 u30_umask_review.py --self-test",
+          "recordedAt": "2026-11-07T20:17:04.951189+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29698-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "가상 JSON 수집값과 메모리의 정수만 비교. 실제 Unix 설정·계정·권한 조회 및 변경 없음"
+          },
+          "sourceCodeSha256": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f",
+          "sourceFilesSha256": {
+            "u30_umask_review.py": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f",
+            "u30_umask_cases.json": "178659ff0616f7196eec5bc7d5ba80743fd5c98fb6051adc85ef522abeeb780e"
+          },
+          "exitCode": 0,
+          "stdout": "계산 사례 7건 일치, 입력 거부 12건 일치\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "ac1d6079428ea4db53c664a627f739c0cd9c2fa9797056580f71b4f4770fe792"
     }
   }
 }
