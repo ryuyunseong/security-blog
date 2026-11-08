@@ -1,0 +1,14 @@
+[
+  {"id": "owner-only", "accountUid": 1001, "home": "/home/alpha", "state": "directory", "ownerUid": 1001, "mode": "0750", "acl": "none"},
+  {"id": "group-write", "accountUid": 1002, "home": "/home/bravo", "state": "directory", "ownerUid": 1002, "mode": "0770", "acl": "none"},
+  {"id": "other-write", "accountUid": 1003, "home": "/home/charlie", "state": "directory", "ownerUid": 1003, "mode": "0707", "acl": "none"},
+  {"id": "wrong-owner", "accountUid": 1004, "home": "/home/delta", "state": "directory", "ownerUid": 0, "mode": "0700", "acl": "none"},
+  {"id": "both-fail", "accountUid": 1005, "home": "/home/echo", "state": "directory", "ownerUid": 1006, "mode": "0777", "acl": "none"},
+  {"id": "sticky-group", "accountUid": 1007, "home": "/home/foxtrot", "state": "directory", "ownerUid": 1007, "mode": "1770", "acl": "none"},
+  {"id": "extended-acl", "accountUid": 1008, "home": "/home/golf", "state": "directory", "ownerUid": 1008, "mode": "0750", "acl": "extended"},
+  {"id": "acl-unsampled", "accountUid": 1009, "home": "/home/hotel", "state": "directory", "ownerUid": 1009, "mode": "0750", "acl": "unknown"},
+  {"id": "home-link", "accountUid": 1010, "home": "/home/india", "state": "symlink", "ownerUid": null, "mode": null, "acl": null},
+  {"id": "home-missing", "accountUid": 1011, "home": "/home/juliet", "state": "missing", "ownerUid": null, "mode": null, "acl": null},
+  {"id": "home-denied", "accountUid": 1012, "home": "/home/kilo", "state": "read_error", "ownerUid": null, "mode": null, "acl": null},
+  {"id": "home-unsampled", "accountUid": 1013, "home": "/home/lima", "state": "uncollected", "ownerUid": null, "mode": null, "acl": null}
+]

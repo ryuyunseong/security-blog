@@ -1844,6 +1844,46 @@
           "u30_umask_review.py": "155e56ae7c2a386673fbc867a8a1f96f2681483372f4f125fc101d9549367a1f"
         }
       }
+    },
+    "u-31-home-owner-permissions": {
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "files": [
+        {
+          "source": "u31_home_review.py",
+          "name": "u31_home_review.py"
+        },
+        {
+          "source": "u31_home_cases.json",
+          "name": "u31_home_cases.json"
+        }
+      ],
+      "requirements": "Python 3.9 이상과 표준 라이브러리. Windows Python 3.12.1의 PowerShell·Git Bash에서 검증했다. 관리자 권한·별도 패키지·Linux 파일시스템·실제 계정이나 홈 폴더가 필요하지 않다. JSON의 Unix 경로는 문자열로만 사용한다.",
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u31_home_review.py u31_home_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료12건: 입력 조건 일치1·검토 후보5·보류6. group-write는 UID=1002/소유=1002, mode=0770이며 일반모드 쓰기0020이 검토 후보로 남는다. 종료0은 가상 자료의 형식 검사와 분류 완료다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 README와 Python·JSON이 함께 있는 글별 폴더에서 실행한다. 사용하는 셸의 실행 블록 하나를 선택하며 포함된 JSON은 다시 만들지 않는다.",
+        "PowerShell은 $LASTEXITCODE, Bash는 echo $?로 바로 앞 Python의 숫자 종료 코드를 읽는다. PowerShell의 $?는 성공 여부이며 숫자 코드가 아니다. 바깥 셸을 실행하는 도구의 종료 코드와 구분한다.",
+        "입력 경로에 공백이 있으면 전체 경로를 따옴표로 감싼다. 읽기·JSON·필드·UID·경로·상태별 메타데이터 오류는 표준 오류와 종료2다. 부분 결과는 출력하지 않는다.",
+        "실제 계정·홈 폴더·권한·ACL을 조회하거나 변경하지 않는다. /home/bravo 등 JSON 경로에 폴더를 만들 필요가 없다. 결과 파일을 쓰지 않으며 정리 대상은 자신이 ZIP을 푼 폴더뿐이다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-31-home-owner-permissions.zip",
+        "bytes": 9182,
+        "sha256": "c2553d850dfd46dc58878b6dca31643f3825e2aafdc7b26f13e0090f45411294",
+        "members": {
+          "README.md": "61c2997578aca1ba21536754bb2c5daef0bb97fdb097d2efba74ff6ac2392147",
+          "u31_home_cases.json": "df9471e6f8f3537020d262c7c308f24a6ddbbdc39164d6ca00eff65e22331042",
+          "u31_home_review.py": "89acde17b4a60fe5a85a0f6d06287564669f17b795a2cb024a50a3aab3fc8e47"
+        }
+      }
     }
   }
 }

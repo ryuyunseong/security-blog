@@ -1963,6 +1963,44 @@
         }
       ],
       "sourceCodeSha256": "ac1d6079428ea4db53c664a627f739c0cd9c2fa9797056580f71b4f4770fe792"
+    },
+    "u-31-home-owner-permissions": {
+      "recordedAt": "2026-11-08T18:35:38.065140+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "가상 JSON의 계정 UID·홈 경로·종류·소유 UID·모드·ACL 상태만 비교. 실제 계정·홈 디렉터리·권한·ACL 조회 및 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u31_home_review.py",
+        "u31_home_cases.json"
+      ],
+      "runs": [
+        {
+          "label": "가상 홈 디렉터리 자료 12건",
+          "command": "python -I -B -X utf8 u31_home_review.py u31_home_cases.json",
+          "recordedAt": "2026-11-08T18:35:38.065140+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "가상 JSON의 계정 UID·홈 경로·종류·소유 UID·모드·ACL 상태만 비교. 실제 계정·홈 디렉터리·권한·ACL 조회 및 변경 없음"
+          },
+          "sourceCodeSha256": "89acde17b4a60fe5a85a0f6d06287564669f17b795a2cb024a50a3aab3fc8e47",
+          "sourceFilesSha256": {
+            "u31_home_review.py": "89acde17b4a60fe5a85a0f6d06287564669f17b795a2cb024a50a3aab3fc8e47",
+            "u31_home_cases.json": "df9471e6f8f3537020d262c7c308f24a6ddbbdc39164d6ca00eff65e22331042"
+          },
+          "exitCode": 0,
+          "stdout": "owner-only: UID=1001/소유=1001, mode=0750: 입력 조건 일치 (소유 UID 일치, 일반모드 쓰기=0000, 확장 ACL 없음)\ngroup-write: UID=1002/소유=1002, mode=0770: 검토 후보 (일반모드 쓰기=0020)\nother-write: UID=1003/소유=1003, mode=0707: 검토 후보 (일반모드 쓰기=0002)\nwrong-owner: UID=1004/소유=0, mode=0700: 검토 후보 (소유 UID 불일치)\nboth-fail: UID=1005/소유=1006, mode=0777: 검토 후보 (소유 UID 불일치; 일반모드 쓰기=0022)\nsticky-group: UID=1007/소유=1007, mode=1770: 검토 후보 (일반모드 쓰기=0020; 특수 비트=1000 별도 조사)\nextended-acl: UID=1008/소유=1008, mode=0750: 보류 (확장 ACL 조사)\nacl-unsampled: UID=1009/소유=1009, mode=0750: 보류 (ACL 미수집)\nhome-link: 보류 (링크와 대상 별도 조회)\nhome-missing: 보류 (경로 부재 자료, 존재 관리는 U-32와 구분)\nhome-denied: 보류 (조회 오류)\nhome-unsampled: 보류 (자료 미수집)\n가상 자료 12건 분류 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "5774ac700bfa99a9d88bb08a710b64398b00fd84dcd713b51271424d4dad606a"
     }
   }
 }
