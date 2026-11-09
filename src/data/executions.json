@@ -2001,6 +2001,42 @@
         }
       ],
       "sourceCodeSha256": "5774ac700bfa99a9d88bb08a710b64398b00fd84dcd713b51271424d4dad606a"
+    },
+    "u-32-home-directory-existence": {
+      "recordedAt": "2026-11-09T18:42:05.330731+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "자신이 만든 임시 폴더의 디렉터리·부재·일반 파일만 실제 조회. 미수집·조회 오류는 가상 상태. 실제 계정·인증·홈·Unix 권한 조회 및 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u32_home_lab.py"
+      ],
+      "runs": [
+        {
+          "label": "임시 파일과 가상 수집 상태 10건",
+          "command": "python -I -B -X utf8 u32_home_lab.py --case all",
+          "recordedAt": "2026-11-09T18:42:05.330731+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "자신이 만든 임시 폴더의 디렉터리·부재·일반 파일만 실제 조회. 미수집·조회 오류는 가상 상태. 실제 계정·인증·홈·Unix 권한 조회 및 변경 없음"
+          },
+          "sourceCodeSha256": "26cb38e1eee671f379ca7fdf859efb00d932fcdd751fbcb93be1c394073fc979",
+          "sourceFilesSha256": {
+            "u32_home_lab.py": "26cb38e1eee671f379ca7fdf859efb00d932fcdd751fbcb93be1c394073fc979"
+          },
+          "exitCode": 0,
+          "stdout": "existing: 디렉터리 존재 (임시 경로의 모든 성분이 디렉터리)\noutside-home: 디렉터리 존재 (임시 경로의 모든 성분이 디렉터리)\nmissing: 부재 후보 (임시 경로의 성분이 없음)\nordinary-file: 종류 확인 (임시 경로의 성분이 디렉터리가 아님)\nempty: 보류 (홈 필드가 비어 있음)\nroot-home: 보류 (루트 경로: 계정 목적 별도 조사)\nuncollected: 보류 (가상 미수집 상태: 경로 조회 안 함)\nquery-error: 보류 (가상 조회 오류 상태: 경로 조회 안 함)\nrelative: 보류 (실습에서 허용하지 않는 경로 표기)\nparent-part: 보류 (상위 경로 성분 거부)\n기대 상태 10건 일치\n임시 자료 정리 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "16938db2f755b1b285cfb19537f7d2ba415dee29bc2bcd047a0de5280c65b6bb"
     }
   }
 }
