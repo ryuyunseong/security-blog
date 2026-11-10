@@ -3,7 +3,7 @@ title: "Qualys 인증 스캔 결과 읽기: 로그인 성공과 점검 완료의
 description: "인증 보고서의 Passed·Failed와 접근 거부 QID를 읽는 방법을 설명합니다. 로그인 성공 여부와 파일·레지스트리 검사 범위를 나눠 살펴봅니다."
 date: "2026-10-15T20:25:07+09:00"
 updated: "2026-10-18T14:52:18+09:00"
-sourcesChecked: "2026-10-18"
+sourcesChecked: "2026-11-11"
 category: "qualys"
 tags: ["Qualys", "인증스캔", "QID"]
 draft: false
@@ -41,7 +41,7 @@ Active Directory 인스턴스가 발견되면 OS 인증과 인스턴스별 인�
 | `Not Attempted` | 인증이 사용되지 않은 상태다. | 대상·프로필·서비스 조건과 보고서 이력 |
 | `Passed*` | 인증은 성공했지만 계정 권한이 부족하다. 문서상 PC에 한정된 표시다. | 해당 검사에서 요구하는 권한과 접근 제한 |
 
-인증 보고서 문서에서 `Passed*`는 PC에 한정된 표시이며 권한 부족 안내의 PA 검사 설명에도 등장해요. 모든 VM 화면의 공통 상태는 아니므로 별표 유무보다 실제 접근 거부 내역을 살펴 권한 부족을 조사해요.
+여기서 PC는 Policy Compliance, PA는 Policy Audit의 약어예요. [Qualys의 제품 명칭 안내](https://docs.qualys.com/en/vm/qweb-all-api/get_started/get_started.htm)는 두 이름을 구분해 설명해요. 인증 보고서 문서의 `Passed*`는 PC에 한정된 표시이고 권한 부족 안내의 PA 검사 설명에도 등장해요. 모든 VM 화면의 공통 상태는 아니므로 별표 하나보다 해당 검사에서 실제로 거부된 파일·레지스트리 접근을 살펴봐요.
 
 `Not Attempted`도 현재 프로필의 설정만으로 설명되지 않을 수 있어요. 보고서에는 인증한 이력이 없거나 호스트 스캔 데이터가 삭제된 경우도 반영될 수 있거든요. 이번 스캔의 미시도 원인은 해당 실행 결과와 설정을 함께 확인하며 좁혀 가요.
 

@@ -33,7 +33,7 @@ export function validateScene(scene) {
   if(!scene || typeof scene!=='object' || Array.isArray(scene) || Object.keys(scene).some(k=>!['layout','panels'].includes(k))
     || !['sequence','compare','merge','fork','parallel'].includes(scene.layout) || !Array.isArray(scene.panels) || scene.panels.length<1 || scene.panels.length>3) throw new Error('설명 그림의 배치·패널 형식 오류');
   if(['merge','fork'].includes(scene.layout) && scene.panels.length!==3) throw new Error('합류·분기 그림에는 패널 셋이 필요하다');
-  const specific={table:['headers','rows','rowIcons','selected'],file:['mode','status'],actor:[],set:['values','selected'],array:['values','selected','movement'],split:['parts'],numberline:['lanes','minimum','maximum'],states:['nodes','edges'],bytes:['bars'],attachments:['source','targets']};
+  const specific={table:['headers','rows','rowIcons','selected'],file:['mode','status'],actor:[],set:['values','selected'],array:['values','selected','movement','after'],split:['parts'],numberline:['lanes','minimum','maximum'],states:['nodes','edges'],bytes:['bars'],attachments:['source','targets']};
   for(const p of scene.panels) {
     if(!p || typeof p!=='object' || Array.isArray(p) || !types.includes(p.type) || !validText(p.title))throw new Error('설명 그림의 패널 입력 오류');
     if(Object.keys(p).some(k=>!['type','title','icon','fields',...specific[p.type]].includes(k)))throw new Error('패널 종류에 맞지 않는 필드');
@@ -46,6 +46,7 @@ export function validateScene(scene) {
     if(['array','set'].includes(p.type)&&!strings(p.values))throw new Error('그림의 원소 입력 오류');
     if(p.selected!==undefined && (!Array.isArray(p.selected)||p.selected.some(i=>!Number.isInteger(i)||i<0||i>=(p.type==='table'?p.rows.length:p.values?.length??0))))throw new Error('그림의 선택 인덱스 오류');
     if(p.movement!==undefined && (p.type!=='array'||!['shift','head'].includes(p.movement)||p.values.length<2))throw new Error('배열 이동 형식 오류');
+    if(p.after!==undefined && (p.type!=='array'||!p.movement||!strings(p.after)||JSON.stringify(p.after)!==JSON.stringify(p.values.slice(1))))throw new Error('첫 원소 제거 전후의 배열 불일치');
     if(p.type==='split'&&(!Array.isArray(p.parts)||p.parts.length!==2||p.parts.some(row=>!Array.isArray(row)||row.length!==2||!row.every(validText))))throw new Error('그림의 분리 필드 오류');
     if(p.type==='numberline'&&(!Number.isInteger(p.minimum)||!Number.isInteger(p.maximum)||p.maximum<=p.minimum||p.maximum-p.minimum>16||!Array.isArray(p.lanes)||p.lanes.length!==2||p.lanes.some(row=>!Array.isArray(row)||row.length!==4||!validText(row[0])||!Number.isInteger(row[1])||!Number.isInteger(row[2])||row[1]<p.minimum||row[1]>p.maximum||row[2]<p.minimum||row[2]>p.maximum||!validText(row[3]))))throw new Error('수직선의 범위·좌표 오류');
     if(p.type==='states'&&(!strings(p.nodes)||p.nodes.length>5||!Array.isArray(p.edges)||p.edges.length>8||p.edges.some(e=>!Array.isArray(e)||e.length!==3||!Number.isInteger(e[0])||!Number.isInteger(e[1])||e[0]===e[1]||!p.nodes[e[0]]||!p.nodes[e[1]]||!validText(e[2]))))throw new Error('상태 전이의 정점·연결 오류');
@@ -55,7 +56,7 @@ export function validateScene(scene) {
 }
 
 export function sceneLabels(scene) {
-  return scene.panels.flatMap(p=>[p.title,...(p.headers??[]),...(p.rows??[]).flat(),...(p.fields??[]).flat(),...(p.values??[]),...(p.parts??[]).flat(),...(p.mode?[p.mode]:[]),...(p.lanes??[]).flatMap(row=>[row[0],String(row[1]),String(row[2]),row[3]]),...(p.nodes??[]),...(p.edges??[]).map(row=>row[2]),...(p.bars??[]).flatMap(row=>[row[0],String(row[1])]),...(p.source?[p.source[0]]:[]),...(p.targets??[]).flatMap(t=>[t[0],t[2]])]);
+  return scene.panels.flatMap(p=>[p.title,...(p.headers??[]),...(p.rows??[]).flat(),...(p.fields??[]).flat(),...(p.values??[]),...(p.after??[]),...(p.parts??[]).flat(),...(p.mode?[p.mode]:[]),...(p.lanes??[]).flatMap(row=>[row[0],String(row[1]),String(row[2]),row[3]]),...(p.nodes??[]),...(p.edges??[]).map(row=>row[2]),...(p.bars??[]).flatMap(row=>[row[0],String(row[1])]),...(p.source?[p.source[0]]:[]),...(p.targets??[]).flatMap(t=>[t[0],t[2]])]);
 }
 
 function panel(p,x,y,w,mobile) {
@@ -96,12 +97,26 @@ function panel(p,x,y,w,mobile) {
     offset+=8;
   } else if(p.type==='array') {
     const cell=(w-32)/p.values.length;
+    if(p.after){content+=text(x+16,y+offset,'삭제 전',w-32).svg;offset+=36;}
+    const beforeY=y+offset;
     p.values.forEach((value,i)=>{
       content+=rect(x+16+i*cell,y+offset,cell,44,p.selected?.includes(i)?'#d5e8dc':'#fff',0);
       content+=text(x+16+(i+0.5)*cell,y+offset+7,value,cell-8,22,true,'middle').svg;
     });
     offset+=44;
-    if(p.movement) {
+    if(p.after) {
+      content+=path(`M${x+20} ${beforeY+5}l${cell-8} 34`);
+      offset+=48;
+      const afterY=y+offset,shift=p.movement==='head'?1:0;
+      p.after.forEach((value,i)=>{
+        const left=x+16+(i+shift)*cell;
+        content+=rect(left,afterY,cell,44,'#fff',0)+text(left+cell/2,afterY+7,value,cell-8,22,true,'middle').svg;
+        if(p.movement==='shift')content+=path(`M${x+16+(i+1.5)*cell} ${beforeY+49}L${left+cell/2} ${afterY-6}`,true);
+      });
+      if(p.movement==='head')content+=path(`M${x+16+cell/2} ${beforeY+49}V${afterY+22}H${x+16+cell-5}`,true);
+      offset+=54;
+      const label=text(x+16,y+offset,p.movement==='shift'?'남은 원소를 앞 칸으로':'다음 원소에서 꺼내기',w-32);content+=label.svg;offset+=label.height+8;
+    } else if(p.movement) {
       if(p.movement==='shift')for(let i=1;i<p.values.length;i++)content+=path(`M${x+16+(i+0.5)*cell} ${y+offset+12}v16h${-cell+8}`,true);
       else content+=path(`M${x+16+cell/2} ${y+offset+12}v16h${cell-8}`,true);
       offset+=46;
@@ -133,15 +148,17 @@ function panel(p,x,y,w,mobile) {
       content+=text(x+16,y+offset+80,lane[3],w-32).svg;offset+=130;
     }
   } else if(p.type==='attachments') {
-    const sourceWidth=mobile?w-48:Math.min(270,w*0.34),sourceX=x+24;
+    const sourceWidth=mobile?w-48:Math.min(270,w*0.38),sourceX=x+24;
     const sourceY=y+offset+(mobile?0:110);
-    content+=rect(sourceX,sourceY,sourceWidth,112,'#e6f0e9')+icon(p.source[1],sourceX+sourceWidth/2-18,sourceY+12)+text(sourceX+sourceWidth/2,sourceY+62,p.source[0],sourceWidth-24,22,true,'middle').svg;
-    let targetY=y+offset+(mobile?164:0),targetX=mobile?x+48:x+w*0.51,targetWidth=mobile?w-64:w*0.49-16;
+    const sourceLabel=text(sourceX+sourceWidth/2,sourceY+62,p.source[0],sourceWidth-24,22,true,'middle');
+    const sourceHeight=Math.max(112,sourceLabel.height+78);
+    content+=rect(sourceX,sourceY,sourceWidth,sourceHeight,'#e6f0e9')+icon(p.source[1],sourceX+sourceWidth/2-18,sourceY+12)+sourceLabel.svg;
+    let targetY=y+offset+(mobile?sourceHeight+52:0),targetX=mobile?x+48:x+w*0.51,targetWidth=mobile?w-64:w*0.49-16;
     for(const t of p.targets) {
       const title=text(targetX+62,targetY+12,t[0],targetWidth-78,22,true),role=text(targetX+16,targetY+28+title.height,t[2],targetWidth-32);
       const h=title.height+role.height+52;
       content+=rect(targetX,targetY,targetWidth,h)+icon(t[1],targetX+16,targetY+12)+title.svg+role.svg;
-      const sx=mobile?sourceX:sourceX+sourceWidth,sy=sourceY+56,tx=targetX-6,ty=targetY+h/2,lx=mobile?x+12:(sx+tx)/2;
+      const sx=mobile?sourceX:sourceX+sourceWidth,sy=sourceY+sourceHeight/2,tx=targetX-6,ty=targetY+h/2,lx=mobile?x+12:(sx+tx)/2;
       content+=path(`M${sx} ${sy}H${lx}V${ty}H${tx}`,true);targetY+=h+24;
     }
     offset=targetY-y;
@@ -155,18 +172,17 @@ function panel(p,x,y,w,mobile) {
     }
     const scale=text(x+16,y+offset,`같은 축: 0 ~ ${maximum} 바이트`,w-32);content+=scale.svg;offset+=scale.height+8;
   } else if(p.type==='states') {
-    const points=[];
-    p.nodes.forEach((value,i)=>{
-      const block=text(x+w/2,y+offset+12,value,w-92,22,true,'middle');
-      const h=block.height+28,outgoing=p.edges.filter(e=>e[0]===i);
-      const label=outgoing.length?text(x+52,y+offset+h+10,outgoing.map(e=>e[2]).join(' / '),w-78):null;
-      points.push({top:y+offset,bottom:y+offset+h,center:y+offset+h/2});
-      content+=rect(x+46,y+offset,w-92,h,'#e6f0e9',h/2)+block.svg+(label?.svg??'');offset+=h+(label?label.height+30:32);
-    });
-    p.edges.forEach((edge,i)=>{
-      const from=points[edge[0]],to=points[edge[1]],lx=x+10+(i%3)*10;
-      content+=path(`M${x+46} ${from.center}H${lx}V${to.center}H${x+40}`,true);
-    });
+    const pillWidth=(w-52)/2;
+    for(const [from,to,label] of p.edges) {
+      const left=x+16,right=x+w-16-pillWidth;
+      const a=text(left+pillWidth/2,y+offset+10,p.nodes[from],pillWidth-8,22,true,'middle');
+      const b=text(right+pillWidth/2,y+offset+10,p.nodes[to],pillWidth-8,22,true,'middle');
+      const h=Math.max(a.height,b.height)+20;
+      content+=rect(left,y+offset,pillWidth,h,'#e6f0e9',12)+rect(right,y+offset,pillWidth,h,'#e6f0e9',12)+a.svg+b.svg;
+      content+=path(`M${left+pillWidth+2} ${y+offset+h/2}H${right-3}`,true);
+      offset+=h+8;
+      const condition=text(x+16,y+offset,label,w-32);content+=condition.svg;offset+=condition.height+24;
+    }
   }
   if(p.mode) {
     const mode=text(x+16,y+offset,`mode ${p.mode}`,w-32,22,true);content+=mode.svg;offset+=mode.height+8;

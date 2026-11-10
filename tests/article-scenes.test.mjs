@@ -13,7 +13,9 @@ test('도서 조건·정렬 그림은 같은 입력에서 나온 행만 남긴�
 });
 
 test('서로 독립된 조건과 한 입력의 두 분류를 잘못된 직렬 처리로 그리지 않는다',()=>{
-  assert.equal(visuals['cors-authentication-authorization'].scene.layout,'parallel');
+  const cors=visuals['cors-authentication-authorization'].scene;
+  assert.equal(cors.layout,'compare');
+  assert.deepEqual(cors.panels.map(p=>p.rows[0]),[['없음','200','반환'],['없음','401','없음']]);
   assert.equal(visuals['tls-version-and-identity'].scene.layout,'parallel');
   const tags=visuals['qualys-static-dynamic-tags'].scene;
   assert.equal(tags.layout,'fork');
@@ -60,6 +62,24 @@ test('수집 부재와 미수집을 구별하고 특수 비트는 일반 rwx와 
   }
 });
 
+test('원소 삭제 전후와 상태 변경은 시작·조건·결과를 빠뜨리지 않는다',()=>{
+  for(const p of visuals['cs-study-04-data-structures-complexity'].scene.panels) {
+    assert.deepEqual(p.values,['0','1','2','3','4','5','6','7']);
+    assert.deepEqual(p.after,['1','2','3','4','5','6','7']);
+  }
+  const transitions=visuals['qualys-detection-status-transitions'].scene.panels[0];
+  const pairs=transitions.edges.map(([from,to])=>[transitions.nodes[from],transitions.nodes[to]]);
+  assert.ok(pairs.some(([from,to])=>from==='New'&&to==='Fixed'));
+  assert.ok(pairs.some(([from,to])=>from==='Re-Opened'&&to==='Fixed'));
+  for(const mobile of [false,true]) {
+    const {svg}=renderSceneDiagram(visuals['qualys-detection-status-transitions'],mobile);
+    assert.equal((svg.match(/>Re-Opened<\/tspan>/g)??[]).length,3);
+  }
+  const sql=visuals['cs-study-01-database-sql'].scene;
+  assert.match(sql.panels[1].title,/재고 > 0/);
+  assert.match(sql.panels[1].title,/가격 >= 20000/);
+});
+
 test('설명 그림은 XML 입력을 이스케이프하고 잘못된 구조·좌표·모드를 거부한다',()=>{
   const item={...visuals['u-01-root-remote-login'],scene:{layout:'compare',panels:[{type:'actor',title:'<script & 문구>',fields:[['필드','"가상"']]}]}};
   const svg=renderSceneDiagram(item).svg;
@@ -74,6 +94,8 @@ test('설명 그림은 XML 입력을 이스케이프하고 잘못된 구조·좌
     {layout:'compare',panels:[{type:'numberline',title:'축',minimum:3,maximum:0,lanes:[]}]},
     {layout:'compare',panels:[{type:'states',title:'전이',nodes:['A'],edges:[[0,1,'없는 대상']]}]},
     {layout:'compare',panels:[{type:'bytes',title:'양',bars:[['입력',-1],['출력',2]]}]},
+    {layout:'compare',panels:[{type:'array',title:'삭제',values:['0','1'],movement:'head',after:['0']}]},
+    {layout:'compare',panels:[{type:'array',title:'삭제',values:['0','1'],after:['1']}]},
   ];
   for(const scene of invalid)assert.throws(()=>validateScene(scene));
 });

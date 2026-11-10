@@ -29,7 +29,7 @@ seriesOrder: 1
 
 기본값은 `prohibit-password`예요. 설정이 없거나 주석 처리돼 있더라도 root 접속이 완전히 차단된 상태로 볼 수는 없어요.
 
-아래 설정을 예로 들면 기본값은 `no`지만 root에 적용되는 값은 `yes`예요.
+아래 예제에서는 전역에 `no`를 직접 지정했어요. 그래도 root 접속이 `Match` 조건에 맞으면 적용되는 값은 `yes`로 바뀌어요. 앞서 말한 OpenSSH의 기본값과 예제에 적은 전역 설정값을 구분해서 읽어 주세요.
 
 ```text
 PermitRootLogin no
