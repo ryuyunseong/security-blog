@@ -1,5 +1,6 @@
 import { escapeXml as esc } from './core.mjs';
 import { validateDiagramNodes } from './diagram-spec.mjs';
+import { renderPathTree, renderPathOrder, renderPermissionBits } from './comparison-details.mjs';
 
 const width = 360;
 const ink = '#193e2f';
@@ -42,6 +43,26 @@ function card(x, y, w, node, fill = '#fff') {
   });
   const height = offset + 16;
   return { height, svg: `<rect x="${x}" y="${y}" width="${w}" height="${height}" rx="12" fill="${fill}" stroke="#cadbd1"/>` + content };
+}
+
+function detailedComparison(x, y, w, node, detail, index) {
+  let content = '', offset = 16;
+  node.forEach((part, partIndex) => {
+    if (partIndex === 1 && detail.kind !== 'permission-bits') {
+      const render = detail.kind === 'path-tree' ? renderPathTree : renderPathOrder;
+      const drawing = render(part, { x: x + 16, y: y + offset, width: w - 32, size: 22 });
+      content += drawing.svg; offset += drawing.height + 8;
+    } else {
+      const label = block(x + 16, y + offset, part, w - 32, partIndex ? 20 : 22, partIndex === 0);
+      content += label.svg; offset += label.height + 8;
+    }
+  });
+  if (detail.kind === 'permission-bits') {
+    const drawing = renderPermissionBits(detail.modes[index], { x: x + 16, y: y + offset, width: w - 32 });
+    content += drawing.svg; offset += drawing.height;
+  }
+  const height = offset + 16;
+  return { height, svg: `<rect x="${x}" y="${y}" width="${w}" height="${height}" rx="12" fill="${index ? '#e6f0e9' : '#fff'}" stroke="#cadbd1"/>` + content };
 }
 
 export function renderMobileArticleDiagram(item) {
@@ -111,7 +132,8 @@ export function renderMobileArticleDiagram(item) {
     const cycle = item.kind === 'cycle', x = cycle ? 42 : 16, w = cycle ? 302 : 328;
     const first = y, centers = [];
     item.nodes.forEach((node, index) => {
-      const panel = card(x, y, w, node, item.kind === 'compare' && index ? '#e6f0e9' : '#fff');
+      const panel = item.detail ? detailedComparison(x, y, w, node, item.detail, index)
+        : card(x, y, w, node, item.kind === 'compare' && index ? '#e6f0e9' : '#fff');
       centers.push(y + panel.height / 2);
       diagram += panel.svg;
       y += panel.height;
@@ -122,6 +144,10 @@ export function renderMobileArticleDiagram(item) {
     });
     if (cycle) diagram += line(`M42 ${centers[2]}H20V${first + 28}H36`, true);
     y += 8;
+  }
+  if (item.detail?.kind === 'permission-bits') {
+    const legend = block(16, y, 'r: 읽기, w: 쓰기, x: 실행, -: 권한 없음', 328);
+    diagram += legend.svg; y += legend.height + 12;
   }
   const height = y + 8;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="360" height="${height}" viewBox="0 0 360 ${height}" data-diagram-kind="${item.kind}" data-layout="mobile" role="img" aria-labelledby="title desc"><title id="title">${esc(item.title)}</title><desc id="desc">${esc(`${item.caption} ${item.note}`)}</desc><defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0L10 5L0 10Z" fill="#7eaa93"/></marker></defs><rect width="360" height="${height}" fill="#f1f6f2"/><g font-family="'Malgun Gothic','Noto Sans KR',sans-serif">${diagram}</g></svg>`;

@@ -13,7 +13,7 @@ export function diagramTextLimits(kind) {
 }
 
 // 좌표는 렌더러가 결정한다. 입력은 문구와 제한된 정수 구간만 받는다.
-export function validateDiagramNodes({ kind, nodes }) {
+export function validateDiagramNodes({ kind, nodes, detail }) {
   if (!Object.hasOwn(diagramNodeCounts, kind) || !Array.isArray(nodes) || nodes.length !== diagramNodeCounts[kind]) {
     throw new Error('도식 종류·노드 수 오류');
   }
@@ -27,6 +27,26 @@ export function validateDiagramNodes({ kind, nodes }) {
         || Number(start) > Number(end) || Number(end) > 255) {
         throw new Error('도식 구간은 0~255 사이의 시작·끝 정수여야 한다');
       }
+    }
+  }
+  if (detail !== undefined) {
+    if (kind !== 'compare' || !detail || Array.isArray(detail) || typeof detail !== 'object'
+      || !['path-tree', 'path-order', 'permission-bits'].includes(detail.kind)) {
+      throw new Error('비교 그림의 상세 형식 오류');
+    }
+    const allowed = detail.kind === 'permission-bits' ? ['kind', 'modes'] : ['kind'];
+    if (Object.keys(detail).some((key) => !allowed.includes(key))) throw new Error('상세 그림의 알 수 없는 필드');
+    if (detail.kind === 'path-tree' && nodes.some((node) => !/^[\w.-]+\/[\w.-]+$/.test(node[1])
+      || node[1].split('/').some((part) => ['.', '..'].includes(part)))) {
+      throw new Error('경로 트리는 디렉터리와 파일 이름 두 부분이 필요하다');
+    }
+    if (detail.kind === 'path-order' && nodes.some((node) => !/^(?:\.|\/[\w/-]+) → (?:\.|\/[\w/-]+)$/.test(node[1]))) {
+      throw new Error('경로 순서는 두 디렉터리를 화살표로 구분해야 한다');
+    }
+    if (detail.kind === 'permission-bits' && (!Array.isArray(detail.modes) || detail.modes.length !== 2
+      || detail.modes.some((mode, index) => typeof mode !== 'string' || !/^0[0-7]{3}$/.test(mode)
+        || !new RegExp(`(?<![0-7])${mode}(?![0-7])`).test(nodes[index].join(' '))))) {
+      throw new Error('권한 그림은 각 노드에 적힌 4자리 일반 권한 모드가 필요하다');
     }
   }
   if (kind === 'intervals') {

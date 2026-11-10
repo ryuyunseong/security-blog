@@ -1,5 +1,6 @@
 import { escapeXml as esc } from './core.mjs';
 import { validateDiagramNodes } from './diagram-spec.mjs';
+import { renderPathTree, renderPathOrder, renderPermissionBits } from './comparison-details.mjs';
 
 const text = (x, y, value, size = 22, color = '#536b60', weight = 400, anchor = 'start') =>
   value === '' ? '' : `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}" text-anchor="${anchor}">${esc(String(value))}</text>`;
@@ -29,7 +30,20 @@ export function renderArticleDiagram(item) {
   validateDiagramNodes(item);
   let diagram = '';
   if (item.kind === 'compare') {
-    item.nodes.forEach((node, index) => { diagram += box(44 + index * 456, 164, 416, 210, node, `0${index + 1}`); });
+    item.nodes.forEach((node, index) => {
+      const x = 44 + index * 456;
+      if (!item.detail) { diagram += box(x, 164, 416, 210, node, `0${index + 1}`); return; }
+      diagram += rect(x, 164, 416, 210) + text(x + 22, 202, node[0], 25, '#193e2f', 700);
+      if (item.detail.kind === 'permission-bits') {
+        diagram += text(x + 22, 235, node[1], 19) + text(x + 22, 265, node[2], 19);
+        diagram += renderPermissionBits(item.detail.modes[index], { x: x + 22, y: 286, width: 372, size: 18 }).svg;
+      } else {
+        const render = item.detail.kind === 'path-tree' ? renderPathTree : renderPathOrder;
+        diagram += render(node[1], { x: x + 22, y: 221, width: 372 }).svg;
+        diagram += text(x + 22, 352, node[2], 19);
+      }
+    });
+    if (item.detail?.kind === 'permission-bits') diagram += text(480, 392, 'r: 읽기, w: 쓰기, x: 실행, -: 권한 없음', 18, '#536b60', 400, 'middle');
   } else if (item.kind === 'layers') {
     item.nodes.forEach((node, index) => {
       const y = 145 + index * 88;

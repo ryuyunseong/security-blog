@@ -100,6 +100,45 @@ test('도식은 입력 문구를 XML로 이스케이프하고 알 수 없는 형
   assert.throws(() => renderArticleDiagram({ ...visual, nodes: visual.nodes.slice(1) }), /노드 수/);
 });
 
+test('권한 그림의 셀은 본문에 적힌 모드의 소유자·그룹·기타 비트를 구별한다', () => {
+  const cases = [
+    ['u-18-shadow-owner-permissions', ['r--------', 'rw-------']],
+    ['u-30-umask-settings', ['rw-r--r--', 'rw-r--rw-']],
+    ['umask-and-file-permissions', ['rw-------', 'rw-r-----']],
+  ];
+  for (const [slug, expected] of cases) {
+    for (const svg of [renderArticleDiagram(visuals[slug]), renderMobileArticleDiagram(visuals[slug]).svg]) {
+      assert.ok(svg.replace(/<[^>]*>/g, '').replace(/\s/g, '').includes('r:읽기,w:쓰기,x:실행,-:권한없음'));
+      const groups = [...svg.matchAll(/<g data-illustration="permission-bits"[^>]*>([\s\S]*?)<\/g>/g)];
+      const actual = groups.map((group) => [...group[1].matchAll(/<text[^>]*>([rwx-])<\/text>/g)].map((match) => match[1]).join(''));
+      assert.deepEqual(actual, expected, slug);
+    }
+  }
+});
+
+test('경로 그림은 두 경로의 이름과 탐색 순서를 보존하고 모호한 상세 입력을 거부한다', () => {
+  for (const slug of ['u-33-hidden-files-directories', 'u-14-root-path-search']) {
+    const visual = visuals[slug];
+    for (const svg of [renderArticleDiagram(visual), renderMobileArticleDiagram(visual).svg]) {
+      assert.equal([...svg.matchAll(new RegExp(`data-illustration="${visual.detail.kind}"`, 'g'))].length, 2);
+    }
+  }
+  const visual = visuals['u-33-hidden-files-directories'];
+  const invalid = [
+    { ...visual, kind: 'flow', nodes: [...visual.nodes, visual.nodes[0]] },
+    { ...visual, detail: { kind: 'unknown' } },
+    { ...visual, detail: { kind: 'path-tree', url: 'https://example.com' } },
+    { ...visual, nodes: [['상위 경로', '../file', '범위'], visual.nodes[1]] },
+    { ...visual, detail: { kind: 'path-order' } },
+    { ...visuals['u-18-shadow-owner-permissions'], detail: { kind: 'permission-bits', modes: ['0400', '0777'] } },
+    { ...visuals['u-18-shadow-owner-permissions'], detail: { kind: 'permission-bits', modes: ['0400', '4600'] } },
+  ];
+  for (const item of invalid) {
+    assert.throws(() => renderArticleDiagram(item));
+    assert.throws(() => renderMobileArticleDiagram(item));
+  }
+});
+
 test('주소 구간의 길이는 양 끝을 포함하며 빈틈이나 잘못된 합집합을 그리지 않는다', () => {
   const visual = visuals['cidr-interval-binary-search'];
   const svg = renderArticleDiagram(visual);
