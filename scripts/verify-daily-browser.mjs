@@ -36,7 +36,7 @@ try {
       assert.equal(await page.locator('h1').count(), 1);
       await page.locator('.article-visual img').first().evaluate((img) => img.decode());
       assert.equal(await page.locator('.article-visual img').first().evaluate((img) => img.naturalWidth), width <= 767 ? 360 : 960, `${slug}: 화면에 맞는 도식 선택`);
-      const dimensions = width <= 767 ? renderMobileArticleDiagram(visuals[slug]) : articleDiagramFrame(visuals[slug].kind);
+      const dimensions = width <= 767 ? renderMobileArticleDiagram(visuals[slug]) : articleDiagramFrame(visuals[slug].kind, visuals[slug].scene);
       assert.equal(await page.locator('.article-visual img').first().evaluate((img) => img.naturalHeight), dimensions.height, `${slug}: 도식에 맞는 이미지 높이`);
       assert.equal(await page.locator('.article-visual figcaption').innerText(), visuals[slug].caption, `${slug}: 캡션 보존`);
       assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));

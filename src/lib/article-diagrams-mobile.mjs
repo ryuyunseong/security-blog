@@ -1,27 +1,13 @@
 import { escapeXml as esc } from './core.mjs';
 import { validateDiagramNodes } from './diagram-spec.mjs';
+import { renderSceneDiagram } from './article-scenes.mjs';
+import { wrapDiagramText } from './diagram-text.mjs';
+export { wrapDiagramText } from './diagram-text.mjs';
 import { renderPathTree, renderPathOrder, renderPermissionBits } from './comparison-details.mjs';
 
 const width = 360;
 const ink = '#193e2f';
 const muted = '#536b60';
-const measure = (value) => [...value].reduce((sum, char) => sum + (/\s/u.test(char) ? 0.35 : /[MW@]/.test(char) ? 0.9 : char.codePointAt(0) > 255 ? 1 : 0.65), 0);
-
-// 단어를 먼저 보존하고, 한 줄보다 긴 식별자만 글자 단위로 나눈다.
-export function wrapDiagramText(value, units) {
-  const lines = [];
-  let line = '';
-  for (const word of value.trim().split(/\s+/u)) {
-    if (line && measure(`${line} ${word}`) <= units) { line += ` ${word}`; continue; }
-    if (line) { lines.push(line); line = ''; }
-    for (const char of word) {
-      if (line && measure(line + char) > units) { lines.push(line); line = ''; }
-      line += char;
-    }
-  }
-  if (line) lines.push(line);
-  return lines;
-}
 
 function block(x, y, value, maxWidth, size = 20, key = false) {
   const lines = wrapDiagramText(value, maxWidth / size);
@@ -67,6 +53,7 @@ function detailedComparison(x, y, w, node, detail, index) {
 
 export function renderMobileArticleDiagram(item) {
   validateDiagramNodes(item);
+  if (item.scene) return renderSceneDiagram(item, true);
   let y = 16, diagram = '';
   if (item.kind === 'decision') {
     const question = card(16, y, 328, item.nodes[0], '#e6f0e9');
@@ -114,6 +101,7 @@ export function renderMobileArticleDiagram(item) {
   } else if (item.kind === 'intervals') {
     const x = (value) => 16 + Number(value) * 328 / 256;
     item.nodes.forEach(([label, start, end], index) => {
+      if (index === 3) { diagram += line(`M180 ${y - 12}v30`, true); y += 32; }
       const heading = block(16, y, label, 328, 22, true);
       diagram += heading.svg;
       y += heading.height + 8;

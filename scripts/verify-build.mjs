@@ -83,7 +83,7 @@ for (const file of posts) {
   const expectedDownloads = Object.hasOwn(evidence.posts, slug) ? [`${base}downloads/bundles/${slug}.zip`] : [];
   check(JSON.stringify(downloadLinks) === JSON.stringify(expectedDownloads), `글별 ZIP 외의 다운로드 링크 또는 묶음 링크 누락: ${slug}`);
   check(/class="article-visual"/.test(source), `설명 도식 누락: ${slug}`);
-  const frame = articleDiagramFrame(visuals[slug].kind);
+  const frame = articleDiagramFrame(visuals[slug].kind, visuals[slug].scene);
   check(new RegExp(`<img[^>]+alt="[^"]+"[^>]+width="${frame.width}"[^>]+height="${frame.height}"`).test(source), `이미지 크기·대체 텍스트 누락: ${slug}`);
   check(source.includes('id="execution-results"') === Object.hasOwn(evidence.posts, slug), `실행 기록 유무 불일치: ${slug}`);
   check(!/\[\[(?:diagram|photo|download|run:)/.test(source), `본문 배치 표식 노출: ${slug}`);

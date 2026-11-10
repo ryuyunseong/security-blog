@@ -1,6 +1,7 @@
 import { escapeXml as esc } from './core.mjs';
 import { validateDiagramNodes } from './diagram-spec.mjs';
 import { renderPathTree, renderPathOrder, renderPermissionBits } from './comparison-details.mjs';
+import { renderSceneDiagram } from './article-scenes.mjs';
 
 const text = (x, y, value, size = 22, color = '#536b60', weight = 400, anchor = 'start') =>
   value === '' ? '' : `<text x="${x}" y="${y}" font-size="${size}" fill="${color}" font-weight="${weight}" text-anchor="${anchor}">${esc(String(value))}</text>`;
@@ -20,14 +21,16 @@ const frames = {
   matrix: [120, 340], timeline: [148, 220], decision: [108, 370], cycle: [119, 333],
   topology: [126, 338], intervals: [121, 369],
 };
-export function articleDiagramFrame(kind) {
+export function articleDiagramFrame(kind, scene) {
   if (!Object.hasOwn(frames, kind)) throw new Error(`지원하지 않는 도식 종류: ${kind}`);
+  if (scene) return renderSceneDiagram({ kind, scene, title: '', caption: '', note: '' });
   const [y, height] = frames[kind];
   return { width: 960, height, viewBox: `0 ${y} 960 ${height}`, y };
 }
 
 export function renderArticleDiagram(item) {
   validateDiagramNodes(item);
+  if (item.scene) return renderSceneDiagram(item).svg;
   let diagram = '';
   if (item.kind === 'compare') {
     item.nodes.forEach((node, index) => {
@@ -103,6 +106,7 @@ export function renderArticleDiagram(item) {
       diagram += `<rect x="${x(start)}" y="${y}" width="${(Number(end) - Number(start) + 1) * 600 / 256}" height="26" rx="4" fill="${index === 3 ? '#287056' : '#9abfa9'}"/>`;
       diagram += text(Number(start) > 192 ? 900 : x(start), y + 47, `${start} ~ ${end}`, 16, '#536b60', 400, Number(start) > 192 ? 'end' : 'start');
     });
+    diagram += path('M914 179H934V325H914 M934 325V380H914', true);
   } else if (item.kind === 'flow') {
     item.nodes.forEach((node, index) => {
       const x = 44 + index * 301;

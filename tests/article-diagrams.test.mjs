@@ -11,9 +11,9 @@ const cards = (svg) => [...svg.matchAll(/<rect\b([^>]+)\/>/g)]
   .filter(([, attrs]) => attribute(attrs, 'x') !== undefined)
   .map(([, attrs]) => Object.fromEntries(['x', 'y', 'width', 'height'].map((name) => [name, Number(attribute(attrs, name))])));
 
-test('합류도의 입력 상자에 세 문구를 보존하고 설명 줄 사이에 여유를 둔다', () => {
+test('기본 합류도의 입력 상자에 세 문구를 보존하고 설명 줄 사이에 여유를 둔다', () => {
   for (const [slug, item] of Object.entries(visuals).filter(([, item]) => item.kind === 'merge')) {
-    const svg = renderArticleDiagram(item);
+    const svg = renderArticleDiagram({ ...item, scene: undefined });
     const labels = [...svg.matchAll(/<text\b([^>]+)>(.*?)<\/text>/g)].map(([, attrs, value]) => ({
       x: Number(attribute(attrs, 'x')), y: Number(attribute(attrs, 'y')),
       size: Number(attribute(attrs, 'font-size')), value,
@@ -31,9 +31,9 @@ test('합류도의 입력 상자에 세 문구를 보존하고 설명 줄 사이
   }
 });
 
-test('모바일 합류·연결 도식의 화살표는 결과 상자 위에서 아래로 한 번만 향한다', () => {
+test('기본 모바일 합류·연결 도식의 화살표는 결과 상자 위에서 아래로 한 번만 향한다', () => {
   for (const [slug, item] of Object.entries(visuals).filter(([, item]) => ['merge', 'topology'].includes(item.kind))) {
-    const { svg } = renderMobileArticleDiagram(item);
+    const { svg } = renderMobileArticleDiagram({ ...item, scene: undefined });
     const arrows = [...svg.matchAll(/<path\b([^>]+)\/>/g)].filter(([, attrs]) => attribute(attrs, 'marker-end'));
     assert.equal(arrows.length, 1, slug);
     const d = attribute(arrows[0][1], 'd');

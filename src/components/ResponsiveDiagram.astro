@@ -7,7 +7,7 @@ interface Props { id: string; }
 const { id } = Astro.props;
 const visual = visuals[id as keyof typeof visuals];
 const mobile = renderMobileArticleDiagram(visual);
-const desktop = articleDiagramFrame(visual.kind);
+const desktop = articleDiagramFrame(visual.kind, 'scene' in visual ? visual.scene : undefined);
 ---
 <picture class="responsive-diagram">
   <source media="(width < 768px)" srcset={path(`assets/posts/${id}.mobile.svg`)} width={mobile.width} height={mobile.height} />

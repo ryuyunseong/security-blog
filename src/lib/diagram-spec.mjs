@@ -1,3 +1,5 @@
+import { validateScene } from './article-scenes.mjs';
+
 export const diagramNodeCounts = Object.freeze({
   flow: 3, compare: 2, layers: 3, merge: 3, matrix: 3,
   timeline: 3, decision: 3, cycle: 3, topology: 3, intervals: 4,
@@ -13,7 +15,7 @@ export function diagramTextLimits(kind) {
 }
 
 // 좌표는 렌더러가 결정한다. 입력은 문구와 제한된 정수 구간만 받는다.
-export function validateDiagramNodes({ kind, nodes, detail }) {
+export function validateDiagramNodes({ kind, nodes, detail, scene }) {
   if (!Object.hasOwn(diagramNodeCounts, kind) || !Array.isArray(nodes) || nodes.length !== diagramNodeCounts[kind]) {
     throw new Error('도식 종류·노드 수 오류');
   }
@@ -60,4 +62,5 @@ export function validateDiagramNodes({ kind, nodes, detail }) {
       throw new Error('도식 병합 결과가 입력 구간의 합집합과 다르다');
     }
   }
+  if (scene !== undefined) validateScene(scene);
 }

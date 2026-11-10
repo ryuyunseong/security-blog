@@ -6,6 +6,7 @@ import { publishedPosts } from './content-helpers.mjs';
 import { articleDiagramFrame, renderArticleDiagram } from '../src/lib/article-diagrams.mjs';
 import { renderMobileArticleDiagram, wrapDiagramText } from '../src/lib/article-diagrams-mobile.mjs';
 import { escapeXml } from '../src/lib/core.mjs';
+import { sceneLabels } from '../src/lib/article-scenes.mjs';
 
 const read = async (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 const visuals = JSON.parse(await read('src/data/article-visuals.json'));
@@ -51,7 +52,7 @@ test('모바일 도식도 모든 문구와 범위를 보존하고 실행 코드�
     assert.ok(mobile.height > 240 && mobile.height < 1800, slug);
     assert.ok(!/<script|onload=|foreignObject|href=/i.test(svg));
     const text = svg.replace(/<[^>]*>/g, '').replace(/\s/g, '');
-    for (const value of [visual.title, visual.note, ...visual.nodes.flat()]) {
+    for (const value of [visual.title, visual.note, ...(visual.scene ? sceneLabels(visual.scene) : visual.nodes.flat())]) {
       assert.ok(text.includes(escapeXml(value).replace(/\s/g, '')), `${slug}: 모바일 문구 보존: ${value}`);
     }
   }
@@ -60,16 +61,16 @@ test('모바일 도식도 모든 문구와 범위를 보존하고 실행 코드�
 test('그림에는 노드와 관계를 표시하고 전체 제목·보충 설명은 메타데이터에 보존한다', () => {
   for (const [slug, visual] of Object.entries(visuals)) {
     const desktop = renderArticleDiagram(visual);
-    const frame = articleDiagramFrame(visual.kind);
+    const frame = articleDiagramFrame(visual.kind, visual.scene);
     assert.ok(desktop.includes(`height="${frame.height}" viewBox="${frame.viewBox}"`), slug);
-    assert.ok(frame.height < 540, slug);
+    assert.ok(frame.height < (visual.scene ? 1200 : 540), slug);
     for (const svg of [desktop, renderMobileArticleDiagram(visual).svg]) {
       assert.ok(!/<text\b[^>]*><\/text>/.test(svg), `${slug}: 빈 문구 요소`);
       const visible = [...svg.matchAll(/<text\b[^>]*>([\s\S]*?)<\/text>/g)]
         .map((match) => match[1].replace(/<[^>]*>/g, '')).join('').replace(/\s/g, '');
       assert.ok(svg.includes(`<title id="title">${escapeXml(visual.title)}</title>`), slug);
       assert.ok(svg.includes(`<desc id="desc">${escapeXml(`${visual.caption} ${visual.note}`)}</desc>`), slug);
-      for (const value of visual.nodes.flat()) {
+      for (const value of visual.scene ? sceneLabels(visual.scene) : visual.nodes.flat()) {
         assert.ok(visible.includes(escapeXml(value).replace(/\s/g, '')), `${slug}: 노드 문구 보존: ${value}`);
       }
       for (const duplicate of [visual.title, visual.note, '보안 노트', '왼쪽에서 오른쪽으로 진행']) {
@@ -92,7 +93,7 @@ test('모바일 줄바꿈은 긴 식별자를 생략하지 않고 XML 문구를 
 });
 
 test('도식은 입력 문구를 XML로 이스케이프하고 알 수 없는 형식을 거부한다', () => {
-  const visual = { ...visuals['u-03-account-lockout'], title: '<설정 & 조건>', nodes: [['<첫째>', 'A & B', '"범위"'], ['둘째', '조건', '결과'], ['셋째', '조건', '결과']] };
+  const visual = { ...visuals['u-03-account-lockout'], scene: undefined, title: '<설정 & 조건>', nodes: [['<첫째>', 'A & B', '"범위"'], ['둘째', '조건', '결과'], ['셋째', '조건', '결과']] };
   const svg = renderArticleDiagram(visual);
   assert.ok(svg.includes('&lt;설정 &amp; 조건&gt;') && svg.includes('&lt;첫째&gt;'));
   assert.ok(!svg.includes('<첫째>'));

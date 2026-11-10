@@ -23,6 +23,14 @@
 
 `compare`에는 선택 항목 `detail`을 지정할 수 있습니다. `{"kind":"path-tree"}`는 두 부분으로 된 상대 경로를 폴더와 파일로, `{"kind":"path-order"}`는 ` → `로 구분한 두 디렉터리를 탐색 순서로 표시합니다. 두 형식은 각 노드의 두 번째 문구를 사용합니다. `{"kind":"permission-bits","modes":["0400","0600"]}`는 각 노드에 적힌 모드를 소유자·그룹·기타의 `rwx` 셀로 표시합니다. `modes`는 노드 순서대로 두 개이며 특수 비트를 제외한 4자리 8진수만 받습니다. 이 그림은 파일이나 디렉터리를 직접 조회하지 않습니다.
 
+## 구조화된 설명 그림
+
+`scene`을 지정하면 기존 `nodes` 대신 표의 행, 파일 속성, 계정, 배열 원소처럼 구조가 있는 자료를 그립니다. `layout`은 `sequence`(순서), `compare`·`parallel`(독립 비교), `merge`(두 입력의 합류), `fork`(한 입력의 두 분류)입니다. 패널은 1~3개이고 합류·분기는 3개를 사용합니다.
+
+`panels`의 `type`은 `table`, `file`, `actor`, `set`, `array`, `split`, `numberline`, `states`, `bytes`, `attachments`를 지원합니다. 표는 `headers`·`rows`, 파일은 `mode`·`status`, 배열·집합은 `values`, 상태 그래프는 `nodes`·`edges`, 바이트 막대는 `[이름, 정수 바이트]`의 `bars`를 받습니다. `attachments`는 `source: [이름, 아이콘]`과 `targets: [[대상 이름, 아이콘, 연결 역할]]`로 같은 목록의 연결 위치를 표시합니다. 공통 `fields`는 `[필드명, 값]` 쌍입니다. 종류별로 허용하지 않는 필드와 잘못된 범위·인덱스는 거부합니다.
+
+파일의 `status`는 `present`, `absent`, `error`, `unknown`으로 수집 자료를 구별하며 보안 판정을 뜻하지 않습니다. `mode`의 일반 `rwx`와 SUID·SGID·Sticky는 따로 표시합니다. 수직선과 바이트 막대는 값에 비례합니다. 모바일의 좁은 표에서 식별자가 잘게 나뉘면 열 이름과 값을 행별로 배치합니다. 렌더러는 `src/lib/article-scenes.mjs`, 검증은 `validateScene`을 사용하며 파일 조회나 네트워크 접속은 수행하지 않습니다.
+
 ## 본문 표식
 
 표식은 표·목록·코드 밖의 독립된 줄에서 컴포넌트로 변환됩니다.
