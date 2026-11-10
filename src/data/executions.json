@@ -2037,6 +2037,42 @@
         }
       ],
       "sourceCodeSha256": "16938db2f755b1b285cfb19537f7d2ba415dee29bc2bcd047a0de5280c65b6bb"
+    },
+    "u-33-hidden-files-directories": {
+      "recordedAt": "2026-11-10T18:41:30.906384+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "pythonSsl": "미사용",
+        "openssl": "미사용",
+        "scope": "자체 임시 트리의 점 이름·숨김 경로 내부 이름과 종류를 실제 검색. read-error는 가상 조회 오류, uncollected는 검색 미실행. 실제 계정·운영 파일·Unix 권한·악성 여부 조회 및 변경 없음"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u33_hidden_lab.py"
+      ],
+      "runs": [
+        {
+          "label": "점 이름·숨김 경로와 수집 상태 3개 시나리오",
+          "command": "python -I -B -X utf8 u33_hidden_lab.py --scenario all",
+          "recordedAt": "2026-11-10T18:41:30.906384+09:00",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "pythonSsl": "미사용",
+            "openssl": "미사용",
+            "scope": "자체 임시 트리의 점 이름·숨김 경로 내부 이름과 종류를 실제 검색. read-error는 가상 조회 오류, uncollected는 검색 미실행. 실제 계정·운영 파일·Unix 권한·악성 여부 조회 및 변경 없음"
+          },
+          "sourceCodeSha256": "7bfc127852b5f3b287ac6d47c5e53d1a5fbaebee1767e4c485c6dc3a520d94cf",
+          "sourceFilesSha256": {
+            "u33_hidden_lab.py": "7bfc127852b5f3b287ac6d47c5e53d1a5fbaebee1767e4c485c6dc3a520d94cf"
+          },
+          "exitCode": 0,
+          "stdout": "[complete] 조사 후보 4건, 보류 0건\n.cache | 디렉터리 | 이름 숨김\n.cache/session.txt | 파일 | 숨김 경로 내부\n.profile | 파일 | 이름 숨김\ndocs/.draft.txt | 파일 | 이름 숨김\n검색 상태: 지정한 가상 범위 순회 완료\n[read-error] 조사 후보 3건, 보류 1건\n.cache | 디렉터리 | 이름 숨김\n.profile | 파일 | 이름 숨김\ndocs/.draft.txt | 파일 | 이름 숨김\n보류: .cache (가상 조회 오류)\n검색 상태: 일부 범위 보류\n[uncollected] 검색 미실행\n기대 결과 3개 시나리오 일치\n임시 자료 정리 완료\n",
+          "stderr": ""
+        }
+      ],
+      "sourceCodeSha256": "7ac0874db2433ad563aa8cfd446ec7eb709a9d65b9a7c428aa0678be391418fa"
     }
   }
 }

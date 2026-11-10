@@ -1920,6 +1920,43 @@
           "u32_home_lab.py": "26cb38e1eee671f379ca7fdf859efb00d932fcdd751fbcb93be1c394073fc979"
         }
       }
+    },
+    "u-33-hidden-files-directories": {
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "files": [
+        {
+          "source": "u33_hidden_lab.py",
+          "name": "u33_hidden_lab.py"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows Python 3.12.1의 PowerShell·Git Bash에서 검증했다. 쓰기 가능한 OS 임시 폴더가 필요하다. 관리자 권한·별도 패키지·Linux 파일시스템·실제 사용자 홈은 필요하지 않다. Unix 권한·악성 탐지·Windows 숨김 속성은 시험하지 않는다.",
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u33_hidden_lab.py --scenario all",
+          "exitCode": 0,
+          "expected": "complete는 후보4·보류0, read-error는 후보3·보류1, uncollected는 검색 미실행. .cache/session.txt | 파일 | 숨김 경로 내부 행과 가상 조회 오류·일부 범위 보류를 대조한다. 기대 결과 3개 시나리오 일치·임시 자료 정리 완료와 종료0은 가상 시험의 기대값 일치이며 운영 검색 완료나 양호 판정이 아니다."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 ZIP을 풀고 README.md·u33_hidden_lab.py가 함께 있는 글별 폴더에서 사용하는 셸의 실행 블록 하나를 선택한다. 입력 파일과 .profile 파일·.cache 디렉터리는 직접 준비하지 않는다.",
+        "PowerShell은 $LASTEXITCODE, Bash는 echo $?로 바로 앞 Python의 숫자 종료 코드를 읽는다. PowerShell의 $?는 성공 여부다. 바깥 셸을 실행하는 도구의 종료 코드와 구분한다.",
+        "코드가 OS 임시 폴더의 자체 u33-hidden- 트리에 .cache·docs 디렉터리와 .profile·.cache/session.txt·docs/.draft.txt·docs/readme.txt·public.txt 파일을 만든다. 정상·예외 경로에서 이 트리만 정리를 시도한다. ZIP을 푼 폴더와 원본은 남는다.",
+        "--scenario는 all·complete·read-error·uncollected만 허용한다. 외부 경로 인수를 받지 않는다. read-error는 .cache 내부 조회를 코드로 생략한 가상 오류이며 실제 권한 거부를 만들지 않는다. 임시 자료 정리는 후보의 악성 여부를 판단한 제거 조치와 별개다.",
+        "기대 결과·정리 검증 불일치는 종료1, 잘못된 --scenario·Python 버전·바깥으로 전달된 준비/정리 오류는 종료2다. 표준 오류와 숫자 종료 코드를 함께 읽는다. 실제 검색·종류 조회 OSError는 보류 사유로 남으며 고정 기대값과 다르면 검증 실패다.",
+        "임시 준비가 실패하면 Python 버전과 임시 폴더 쓰기 가능 여부를 살핀다. 정리 오류는 u33-hidden- 트리를 잠근 프로그램을 조사한다. 실제 운영 경로를 넘기거나 후보를 자동 삭제하는 명령은 포함하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-33-hidden-files-directories.zip",
+        "bytes": 8109,
+        "sha256": "7fc84c22edebc2570ec3f532e81952db0279aa0b3420895f6559601074994980",
+        "members": {
+          "README.md": "dadf6ef77f6c6aeae28770c3a89bc3c79cbed5eaa8727700bcd7c05f1442d73c",
+          "u33_hidden_lab.py": "7bfc127852b5f3b287ac6d47c5e53d1a5fbaebee1767e4c485c6dc3a520d94cf"
+        }
+      }
     }
   }
 }
