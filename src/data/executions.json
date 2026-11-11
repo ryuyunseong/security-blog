@@ -2073,6 +2073,70 @@
         }
       ],
       "sourceCodeSha256": "7ac0874db2433ad563aa8cfd446ec7eb709a9d65b9a7c428aa0678be391418fa"
+    },
+    "u-34-finger-service": {
+      "recordedAt": "2026-11-11T18:45:34.056993+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON만 읽고 비교. 운영 서비스·설정·계정·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u34_finger_review.py",
+        "u34_finger_cases.json",
+        "u34_rejected.json"
+      ],
+      "sourceCodeSha256": "335ed031a3df09f05ea47751b416e7f16db11b4151f25ca6c50e18d478c653af",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u34_finger_review.py u34_finger_cases.json",
+          "recordedAt": "2026-11-11T18:45:34.056993+09:00",
+          "sourceCodeSha256": "2e70e37f5524897c238502c8775f24fc5d1feafb1c5f062719db0dfaf0c44638",
+          "sourceFilesSha256": {
+            "u34_finger_cases.json": "bfc8144d0de6e8cef2bf59d1297bbdd544f6c4dce115091974d5541aece46228",
+            "u34_finger_review.py": "2e70e37f5524897c238502c8775f24fc5d1feafb1c5f062719db0dfaf0c44638",
+            "u34_rejected.json": "abe73d78122c715aad8db0187817b8092f5f64c75abe401aa9437621d49a2df4"
+          },
+          "exitCode": 0,
+          "stdout": "x-stop: 입력 조건 일치 (중지 설정과 수신 없음 가정)\nx-open: 검토 후보 (실행 허용 설정; 실행 자료 not-listening)\nx-stale: 검토 후보 (Finger 수신 가정; 중지 설정과 실행 자료 불일치)\ninetd-stop: 입력 조건 일치 (중지 설정과 수신 없음 가정)\ninetd-open: 검토 후보 (Finger 수신 가정)\nmissing: 보류 (설정 자료 absent)\nread-error: 보류 (설정 자료 query-error)\nuncollected: 보류 (설정 자료 uncollected)\nruntime-unknown: 보류 (중지 설정; 실행 자료 unknown)\nmissing-listening: 검토 후보 (Finger 수신 가정; 설정 자료 absent)\n가상 자료 10건: 입력 조건 일치 2, 검토 후보 4, 보류 4\n",
+          "stderr": "",
+          "label": "중지 설정·실행 자료의 가상 입력 10건",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON만 읽고 비교. 운영 서비스·설정·계정·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u34_finger_review.py u34_rejected.json",
+          "recordedAt": "2026-11-11T18:45:36.856596+09:00",
+          "sourceCodeSha256": "2e70e37f5524897c238502c8775f24fc5d1feafb1c5f062719db0dfaf0c44638",
+          "sourceFilesSha256": {
+            "u34_finger_cases.json": "bfc8144d0de6e8cef2bf59d1297bbdd544f6c4dce115091974d5541aece46228",
+            "u34_finger_review.py": "2e70e37f5524897c238502c8775f24fc5d1feafb1c5f062719db0dfaf0c44638",
+            "u34_rejected.json": "abe73d78122c715aad8db0187817b8092f5f64c75abe401aa9437621d49a2df4"
+          },
+          "exitCode": 2,
+          "stdout": "가상 자료 분류 미실행\n",
+          "stderr": "입력 오류: 설정 자료가 없으면 setting은 null이어야 합니다\n",
+          "label": "미수집 설정값이 채워진 입력 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON만 읽고 비교. 운영 서비스·설정·계정·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

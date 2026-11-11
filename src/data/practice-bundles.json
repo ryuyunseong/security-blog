@@ -1957,6 +1957,55 @@
           "u33_hidden_lab.py": "7bfc127852b5f3b287ac6d47c5e53d1a5fbaebee1767e4c485c6dc3a520d94cf"
         }
       }
+    },
+    "u-34-finger-service": {
+      "files": [
+        {
+          "source": "u34_finger_review.py",
+          "name": "u34_finger_review.py"
+        },
+        {
+          "source": "u34_finger_cases.json",
+          "name": "u34_finger_cases.json"
+        },
+        {
+          "source": "u34_rejected.json",
+          "name": "u34_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows의 PowerShell 또는 Git Bash에서 검증했다. 관리자 권한·별도 패키지·Unix 파일시스템은 필요하지 않다.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u34_finger_review.py u34_finger_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료10건: 입력 조건 일치2·검토 후보4·보류4. 종료0은 입력 검사·분류 완료이며 운영 양호 판정이 아니다."
+        },
+        {
+          "command": "python -I -B -X utf8 u34_finger_review.py u34_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력은 가상 자료 분류 미실행, 표준 오류는 setting의 null 조건 위반이다. 종료2는 예상한 입력 거부이며 실제 허용·양호 결과가 아니다."
+        }
+      ],
+      "notes": [
+        "글별 폴더에서 사용하는 셸의 블록 하나를 선택해 실행한다. JSON 두 개는 이미 포함되어 있으므로 다시 생성하지 않는다.",
+        "xinetd의 yes/no와 inetd의 commented/active, 실행 관찰 상태는 가상 정규화 자료다. 프로그램은 운영 설정이나 소켓을 수집하지 않는다.",
+        "코드는 지정한 JSON만 읽고 파일을 만들거나 지우지 않는다. 원본·입력·ZIP을 보존하며 잘못된 입력은 경로·UTF-8·JSON·필드와 수집 상태부터 살핀다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-34-finger-service.zip",
+        "bytes": 8142,
+        "sha256": "f9088a3d7e5f4a288a392e97445ebf805a67f264a711c7580cbdca7b8d9cf5d9",
+        "members": {
+          "README.md": "753ad26b52243eb6e780dcd89d0f9aa6f39a1703a9b5e72a35906af325be8540",
+          "u34_finger_cases.json": "bfc8144d0de6e8cef2bf59d1297bbdd544f6c4dce115091974d5541aece46228",
+          "u34_finger_review.py": "2e70e37f5524897c238502c8775f24fc5d1feafb1c5f062719db0dfaf0c44638",
+          "u34_rejected.json": "abe73d78122c715aad8db0187817b8092f5f64c75abe401aa9437621d49a2df4"
+        }
+      }
     }
   }
 }

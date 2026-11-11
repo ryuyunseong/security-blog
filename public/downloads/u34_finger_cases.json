@@ -1,0 +1,12 @@
+[
+  {"id":"x-stop","manager":"xinetd","collection":"collected","setting":"yes","runtime":"not-listening"},
+  {"id":"x-open","manager":"xinetd","collection":"collected","setting":"no","runtime":"not-listening"},
+  {"id":"x-stale","manager":"xinetd","collection":"collected","setting":"yes","runtime":"listening"},
+  {"id":"inetd-stop","manager":"inetd","collection":"collected","setting":"commented","runtime":"not-listening"},
+  {"id":"inetd-open","manager":"inetd","collection":"collected","setting":"active","runtime":"listening"},
+  {"id":"missing","manager":"xinetd","collection":"absent","setting":null,"runtime":"unknown"},
+  {"id":"read-error","manager":"xinetd","collection":"query-error","setting":null,"runtime":"uncollected"},
+  {"id":"uncollected","manager":"xinetd","collection":"uncollected","setting":null,"runtime":"uncollected"},
+  {"id":"runtime-unknown","manager":"xinetd","collection":"collected","setting":"yes","runtime":"unknown"},
+  {"id":"missing-listening","manager":"xinetd","collection":"absent","setting":null,"runtime":"listening"}
+]

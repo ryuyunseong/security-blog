@@ -3976,5 +3976,81 @@
     ],
     "note": "끝 이름의 점 여부와 상위 디렉터리의 점 이름을 구별해요. 가상 트리의 두 파일을 비교하며 Windows 숨김 속성이나 악성 여부는 판단하지 않아요.",
     "caption": "점 이름의 존재는 내용의 악성 여부를 판정하는 자료가 아니에요."
+  },
+  "u-34-finger-service": {
+    "kind": "compare",
+    "title": "동일한 중지 설정과 서로 다른 가상 실행 자료",
+    "nodes": [
+      [
+        "x-stop",
+        "setting yes",
+        "수신 없음 가정"
+      ],
+      [
+        "x-stale",
+        "setting yes",
+        "Finger 수신 가정"
+      ]
+    ],
+    "note": "운영 Finger 실행 결과가 아닌 가상 JSON 대조다. 수신 값은 서비스 실행 주체와 연결된 자료가 있다고 가정한다.",
+    "caption": "두 행은 같은 설정을 공유하는 별개의 가상 사례예요. 화살표는 설정과 실행 자료의 대조 관계이며 실제 서비스 시작·중지 동작이 아니에요.",
+    "scene": {
+      "layout": "fork",
+      "panels": [
+        {
+          "type": "file",
+          "title": "공통 가상 설정값",
+          "icon": "file",
+          "fields": [
+            [
+              "manager",
+              "xinetd"
+            ],
+            [
+              "setting",
+              "yes (시작 금지 속성)"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "x-stop",
+          "icon": "host",
+          "fields": [
+            [
+              "runtime",
+              "not-listening"
+            ],
+            [
+              "Finger 수신 가정",
+              "없음"
+            ],
+            [
+              "비교 결과",
+              "입력 조건 일치"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "x-stale",
+          "icon": "host",
+          "fields": [
+            [
+              "runtime",
+              "listening"
+            ],
+            [
+              "Finger 수신 가정",
+              "있음"
+            ],
+            [
+              "비교 결과",
+              "검토 후보"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }
