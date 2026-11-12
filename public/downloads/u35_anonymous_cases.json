@@ -1,0 +1,11 @@
+[
+  {"id":"explicit-off","collection":"collected","text":"#anonymous_enable=YES\nanonymous_enable=NO\n"},
+  {"id":"explicit-on","collection":"collected","text":"anonymous_enable=YES\n"},
+  {"id":"commented","collection":"collected","text":"#anonymous_enable=NO\n"},
+  {"id":"duplicate","collection":"collected","text":"anonymous_enable=NO\nanonymous_enable=YES\n"},
+  {"id":"spaces","collection":"collected","text":"anonymous_enable =NO\n"},
+  {"id":"inline","collection":"collected","text":"anonymous_enable=NO # sample\n"},
+  {"id":"missing","collection":"absent","text":null},
+  {"id":"read-error","collection":"query-error","text":null},
+  {"id":"uncollected","collection":"uncollected","text":null}
+]

@@ -2006,6 +2006,56 @@
           "u34_rejected.json": "abe73d78122c715aad8db0187817b8092f5f64c75abe401aa9437621d49a2df4"
         }
       }
+    },
+    "u-35-anonymous-sharing": {
+      "files": [
+        {
+          "source": "u35_anonymous_review.py",
+          "name": "u35_anonymous_review.py"
+        },
+        {
+          "source": "u35_anonymous_cases.json",
+          "name": "u35_anonymous_cases.json"
+        },
+        {
+          "source": "u35_rejected.json",
+          "name": "u35_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows PowerShell과 Git Bash에서 검증했다. 관리자 권한·vsftpd 설치·Linux 파일시스템·별도 패키지는 필요하지 않다.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u35_anonymous_review.py u35_anonymous_cases.json",
+          "exitCode": 0,
+          "expected": "가상 설정9건: 명시적 제한값1·검토 후보1·보류7. 종료0은 입력 검사·추출 완료이며 운영 양호 판정이 아니다."
+        },
+        {
+          "command": "python -I -B -X utf8 u35_anonymous_review.py u35_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력은 가상 설정 비교 미실행, 표준 오류는 text의 null 조건 위반이다. 종료2는 예상한 비교 전 거부이며 입력 허용 결과가 아니다."
+        }
+      ],
+      "notes": [
+        "글별 폴더에서 사용하는 셸의 블록 하나를 선택한다. 두 JSON은 이미 포함되므로 다시 생성하지 않는다.",
+        "설정 본문은 JSON 안의 가상 문자열이다. 별도 .conf나 /etc 아래 파일을 만들지 않는다. absent·query-error·uncollected는 실제 서버 조회 결과가 아닌 가상 상태다.",
+        "코드는 지정한 JSON만 읽고 소켓·임시 파일을 만들거나 운영 서비스·계정·설정을 조회·변경하지 않는다. 원본과 ZIP은 그대로 남긴다.",
+        "anonymous_enable 한 항목만 추출하며 전체 vsftpd 구문·기본값·중복 적용·서비스 반영이나 실제 접근을 판정하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-35-anonymous-sharing.zip",
+        "bytes": 7711,
+        "sha256": "b0a0702f2dcc674da5385a5c263fb4ffcdc66fc27ab1d1932e0c84cabd3e42d7",
+        "members": {
+          "README.md": "bacd4680511c04265b695f1d7990c80a09e6744e5864fb378d55b2601888dca7",
+          "u35_anonymous_cases.json": "93c6f49cbf324f413e79297cacede3d80b2f396365e2a2b6df23d4826c1bf4a2",
+          "u35_anonymous_review.py": "c06517719ce97dbfcc21a4266944a930d622f28d14e8c74ab35116f6f271dda2",
+          "u35_rejected.json": "556041662e3076fa8876ff9394b01191d50ea33cad0ba136ab6deced3b84ec4b"
+        }
+      }
     }
   }
 }
