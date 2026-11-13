@@ -4115,5 +4115,82 @@
         }
       ]
     }
+  },
+  "u-36-r-services": {
+    "kind": "layers",
+    "title": "가상 inetd 파일의 서비스 이름과 서버 파일",
+    "nodes": [
+      [
+        "shell",
+        "rsh / TCP 514",
+        "1행 활성 후보"
+      ],
+      [
+        "login",
+        "rlogin / TCP 513",
+        "3행 주석만"
+      ],
+      [
+        "exec",
+        "rexec / TCP 512",
+        "4행 활성 후보"
+      ]
+    ],
+    "note": "가상 파일의 세 서비스 행을 독립적으로 비교한다. 포트는 가이드의 대응값이며 실제 대기 포트 조회 결과가 아니다. rsync 5행은 별도 조사한다.",
+    "caption": "shell의 2행 주석은 1행의 활성 후보를 없애지 않아요. TCP 포트는 정해 둔 대응값이며 실제 네트워크 관찰값은 아니에요.",
+    "scene": {
+      "layout": "parallel",
+      "panels": [
+        {
+          "type": "actor",
+          "icon": "file",
+          "title": "shell → rsh",
+          "fields": [
+            [
+              "TCP 514",
+              "in.rshd"
+            ],
+            [
+              "가상 파일 1행",
+              "활성 행 후보"
+            ],
+            [
+              "같은 이름의 2행",
+              "주석도 있음"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "icon": "file",
+          "title": "login → rlogin",
+          "fields": [
+            [
+              "TCP 513",
+              "in.rlogind"
+            ],
+            [
+              "가상 파일 3행",
+              "주석 행만 있음"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "icon": "file",
+          "title": "exec → rexec",
+          "fields": [
+            [
+              "TCP 512",
+              "in.rexecd"
+            ],
+            [
+              "가상 파일 4행",
+              "활성 행 후보"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -2201,6 +2201,136 @@
           }
         }
       ]
+    },
+    "u-36-r-services": {
+      "recordedAt": "2026-11-13T18:33:24.388385+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u36_inetd_review.py",
+        "u36_sample.conf",
+        "u36_malformed.conf"
+      ],
+      "sourceCodeSha256": "822923b6819b9505efe72c262008dea3c3012aaf1d6a814c784b0ce674cbdc74",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u36_inetd_review.py --collection collected u36_sample.conf",
+          "recordedAt": "2026-11-13T18:33:24.388385+09:00",
+          "sourceCodeSha256": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+          "sourceFilesSha256": {
+            "u36_inetd_review.py": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+            "u36_malformed.conf": "cd31a8f1e03f3ae27b304f81181a6b490e454e097f31693719af67177a5c9bd7",
+            "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
+          },
+          "exitCode": 0,
+          "stdout": "shell (rsh, TCP 514): 활성 행 후보 | 1행 /usr/sbin/in.rshd\nlogin (rlogin, TCP 513): 주석 행만 있음 | 3행\nexec (rexec, TCP 512): 활성 행 후보 | 4행 /usr/sbin/in.rexecd\nrsync: 별도 조사 | 5행, 전송 방식과 실제 사용 조사\n파일 내 서비스 수: 활성 후보 2, 주석만 1, 별도 조사 1\n",
+          "stderr": "",
+          "label": "가상 inetd 파일의 서비스 행 비교",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u36_inetd_review.py --collection uncollected",
+          "recordedAt": "2026-11-13T18:33:27.785575+09:00",
+          "sourceCodeSha256": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+          "sourceFilesSha256": {
+            "u36_inetd_review.py": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+            "u36_malformed.conf": "cd31a8f1e03f3ae27b304f81181a6b490e454e097f31693719af67177a5c9bd7",
+            "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
+          },
+          "exitCode": 0,
+          "stdout": "보류: uncollected, 설정 본문 비교 미실행\n",
+          "stderr": "",
+          "label": "자료 미수집 가정의 보류",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u36_inetd_review.py --collection query-error",
+          "recordedAt": "2026-11-13T18:33:30.204615+09:00",
+          "sourceCodeSha256": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+          "sourceFilesSha256": {
+            "u36_inetd_review.py": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+            "u36_malformed.conf": "cd31a8f1e03f3ae27b304f81181a6b490e454e097f31693719af67177a5c9bd7",
+            "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
+          },
+          "exitCode": 0,
+          "stdout": "보류: query-error, 설정 본문 비교 미실행\n",
+          "stderr": "",
+          "label": "조회 오류 가정의 보류",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u36_inetd_review.py --collection absent",
+          "recordedAt": "2026-11-13T18:33:32.765578+09:00",
+          "sourceCodeSha256": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+          "sourceFilesSha256": {
+            "u36_inetd_review.py": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+            "u36_malformed.conf": "cd31a8f1e03f3ae27b304f81181a6b490e454e097f31693719af67177a5c9bd7",
+            "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
+          },
+          "exitCode": 0,
+          "stdout": "보류: absent, 설정 본문 비교 미실행\n",
+          "stderr": "",
+          "label": "파일 부재 가정의 보류",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u36_inetd_review.py --collection collected u36_malformed.conf",
+          "recordedAt": "2026-11-13T18:33:34.910375+09:00",
+          "sourceCodeSha256": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+          "sourceFilesSha256": {
+            "u36_inetd_review.py": "752cff9a6259ddf9b2f8156813d476e729349a75f3235d678f4b1631c9d038f8",
+            "u36_malformed.conf": "cd31a8f1e03f3ae27b304f81181a6b490e454e097f31693719af67177a5c9bd7",
+            "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
+          },
+          "exitCode": 2,
+          "stdout": "가상 설정 비교 미실행\n",
+          "stderr": "입력 오류: UTF-8, 파일 접근, 크기 또는 지원 형식을 살펴보세요\n",
+          "label": "필드가 부족한 입력의 비교 전 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 inetd 파일만 읽음. 수집 상태는 가정이며 운영 설정·서비스·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }
