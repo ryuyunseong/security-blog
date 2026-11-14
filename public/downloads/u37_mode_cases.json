@@ -1,0 +1,82 @@
+[
+  {
+    "id": "config-640",
+    "kind": "settings",
+    "path": "/etc/cron.allow",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0640"
+  },
+  {
+    "id": "config-600",
+    "kind": "settings",
+    "path": "/etc/cron.allow",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0600"
+  },
+  {
+    "id": "config-604",
+    "kind": "settings",
+    "path": "/etc/cron.allow",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0604"
+  },
+  {
+    "id": "config-660",
+    "kind": "settings",
+    "path": "/etc/cron.allow",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0660"
+  },
+  {
+    "id": "command-750",
+    "kind": "command",
+    "path": "/usr/bin/crontab",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0750"
+  },
+  {
+    "id": "command-suid",
+    "kind": "command",
+    "path": "/usr/bin/crontab",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "4750"
+  },
+  {
+    "id": "owner-1001",
+    "kind": "settings",
+    "path": "/etc/at.allow",
+    "collection": "collected",
+    "uid": 1001,
+    "mode": "0640"
+  },
+  {
+    "id": "no-file",
+    "kind": "settings",
+    "path": "/etc/cron.deny",
+    "collection": "absent",
+    "uid": null,
+    "mode": null
+  },
+  {
+    "id": "read-error",
+    "kind": "settings",
+    "path": "/etc/at.deny",
+    "collection": "query-error",
+    "uid": null,
+    "mode": null
+  },
+  {
+    "id": "no-evidence",
+    "kind": "settings",
+    "path": "/etc/crontab",
+    "collection": "uncollected",
+    "uid": null,
+    "mode": null
+  }
+]

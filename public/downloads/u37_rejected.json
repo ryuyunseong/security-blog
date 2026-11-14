@@ -1,0 +1,10 @@
+[
+  {
+    "id": "config-640",
+    "kind": "settings",
+    "path": "/etc/cron.allow",
+    "collection": "collected",
+    "uid": 0,
+    "mode": "0680"
+  }
+]

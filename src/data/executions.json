@@ -2331,6 +2331,70 @@
           }
         }
       ]
+    },
+    "u-37-crontab-permissions": {
+      "recordedAt": "2026-11-14T18:44:02.965862+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29704-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON의 UID·모드 문자열만 비교. 운영 경로 조회·Linux 권한 수집·cron/at 실행·등록·변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u37_mode_review.py",
+        "u37_mode_cases.json",
+        "u37_rejected.json"
+      ],
+      "sourceCodeSha256": "cd532ce8c08031e3069ff61622f4abf5c971b08f3e7080e566f53b85e2cd382e",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u37_mode_review.py u37_mode_cases.json",
+          "recordedAt": "2026-11-14T18:44:02.965862+09:00",
+          "sourceCodeSha256": "f72acd56d59e070377194f3b569f1e39d1efd3cc4828db82a64059bc6d08f80a",
+          "sourceFilesSha256": {
+            "u37_mode_cases.json": "71039a5edbe7792637cf20c4768f55e41bd44d214afb5b815873d697968616df",
+            "u37_mode_review.py": "f72acd56d59e070377194f3b569f1e39d1efd3cc4828db82a64059bc6d08f80a",
+            "u37_rejected.json": "681ac30003e39ecfbbe529000accb458308e2845559c6edb1a6c35e9a18d6130"
+          },
+          "exitCode": 0,
+          "stdout": "config-640: 일반 권한 범위 내 | UID 0, 기준 0640의 비트 부분집합\nconfig-600: 일반 권한 범위 내 | UID 0, 기준 0640의 비트 부분집합\nconfig-604: 검토 후보 | 범위 밖 일반 비트 0004\nconfig-660: 검토 후보 | 범위 밖 일반 비트 0020\ncommand-750: 일반 권한 범위 내 | UID 0, 기준 0750의 비트 부분집합\ncommand-suid: 보류 | 특수 비트 4000 별도 조사\nowner-1001: 검토 후보 | 소유 UID 1001\nno-file: 보류 | absent\nread-error: 보류 | query-error\nno-evidence: 보류 | uncollected\n가상 자료 10건: 일반 권한 범위 내 3, 검토 후보 3, 보류 4\n",
+          "stderr": "",
+          "label": "가상 UID·권한 모드 열 건의 비트 비교",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 UID·모드 문자열만 비교. 운영 경로 조회·Linux 권한 수집·cron/at 실행·등록·변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u37_mode_review.py u37_rejected.json",
+          "recordedAt": "2026-11-14T18:44:09.040267+09:00",
+          "sourceCodeSha256": "f72acd56d59e070377194f3b569f1e39d1efd3cc4828db82a64059bc6d08f80a",
+          "sourceFilesSha256": {
+            "u37_mode_cases.json": "71039a5edbe7792637cf20c4768f55e41bd44d214afb5b815873d697968616df",
+            "u37_mode_review.py": "f72acd56d59e070377194f3b569f1e39d1efd3cc4828db82a64059bc6d08f80a",
+            "u37_rejected.json": "681ac30003e39ecfbbe529000accb458308e2845559c6edb1a6c35e9a18d6130"
+          },
+          "exitCode": 2,
+          "stdout": "가상 권한 비교 미실행\n",
+          "stderr": "입력 오류: 경로, UTF-8, JSON, 필드와 수집 상태를 살펴보세요\n",
+          "label": "8진수 자리에 8을 쓴 입력 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29704-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 UID·모드 문자열만 비교. 운영 경로 조회·Linux 권한 수집·cron/at 실행·등록·변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

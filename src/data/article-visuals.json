@@ -4192,5 +4192,30 @@
         }
       ]
     }
+  },
+  "u-37-crontab-permissions": {
+    "kind": "compare",
+    "title": "가상 cron.allow의 0640과 0604 읽기 비트 비교",
+    "nodes": [
+      [
+        "config-640",
+        "0640 · cron.allow",
+        "그룹 읽기"
+      ],
+      [
+        "config-604",
+        "0604 · cron.allow",
+        "기타 읽기"
+      ]
+    ],
+    "detail": {
+      "kind": "permission-bits",
+      "modes": [
+        "0640",
+        "0604"
+      ]
+    },
+    "note": "같은 /etc/cron.allow 경로와 UID 0을 가정한 독립 입력이다. 실제 권한 변경 전후가 아니며 0604는 0640에 없는 기타 읽기 비트를 갖는다.",
+    "caption": "두 입력 모두 UID 0이에요. config-604의 기타 r이 기준 밖 비트 0004로 남아요."
   }
 }

@@ -2122,6 +2122,57 @@
           "u36_sample.conf": "7c63481dc331c5f08b792440c261017153ebf53d8974f37afd1a542113502808"
         }
       }
+    },
+    "u-37-crontab-permissions": {
+      "files": [
+        {
+          "source": "u37_mode_review.py",
+          "name": "u37_mode_review.py"
+        },
+        {
+          "source": "u37_mode_cases.json",
+          "name": "u37_mode_cases.json"
+        },
+        {
+          "source": "u37_rejected.json",
+          "name": "u37_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows PowerShell과 Git Bash에서 검증했다. 가상 JSON의 정수·문자열만 비교하므로 Linux 파일시스템·관리자 권한·cron/at 설치·별도 패키지는 필요하지 않다.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u37_mode_review.py u37_mode_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료10건: 일반 권한 범위 내3·검토 후보3·보류4. 종료0은 입력 검사·비교 완료이며 cron 사용 허용이나 U-37 운영 양호 판정이 아니다."
+        },
+        {
+          "command": "python -I -B -X utf8 u37_mode_review.py u37_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력은 가상 권한 비교 미실행, 표준 오류는 입력 오류 안내다. 종료2는0680의 예상한 거부이며 입력 허용 결과가 아니다."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 풀고 README와 세 파일이 있는 글별 폴더에서 사용하는 셸의 블록 하나를 선택한다. 두 JSON은 이미 포함되므로 다시 생성하지 않는다.",
+        "path는 가상 경로 문자열이다. /etc나 /usr 아래 파일·폴더를 만들지 않는다. 프로그램은 지정한 JSON만 읽고 path의 파일을 열거나 모드를 수집하지 않는다.",
+        "collected는 메타데이터를 얻었다는 가정이다. absent·query-error·uncollected는 실제 운영 부재·권한 오류를 재현한 기록이 아니며 uid·mode를 null로 두고 보류한다.",
+        "프로그램은 임시 파일·소켓을 만들거나 운영 계정·인증·권한·cron/at를 조회·변경하지 않는다. 실제 crontab/at 명령이나 작업 등록을 실행하지 않는다. ZIP과 입력은 그대로 남긴다.",
+        "일반 파일 메타데이터만 가정한다. 파일 종류·링크·ACL·그룹과 구성원·접근 제어·실행 상태는 별도 자료이며 특수 비트도 추가 조사로 남긴다. 공식640 경계 중첩을 이 계산으로 확정하지 않는다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-37-crontab-permissions.zip",
+        "bytes": 8778,
+        "sha256": "087be04422bd0bf6146b203d5be5222467d525a081be85d14b80791c95c5b9b5",
+        "members": {
+          "README.md": "4dab705a729062e5d8291d008357795489dc35fb1a0e4f0ea1da31f205a61577",
+          "u37_mode_cases.json": "71039a5edbe7792637cf20c4768f55e41bd44d214afb5b815873d697968616df",
+          "u37_mode_review.py": "f72acd56d59e070377194f3b569f1e39d1efd3cc4828db82a64059bc6d08f80a",
+          "u37_rejected.json": "681ac30003e39ecfbbe529000accb458308e2845559c6edb1a6c35e9a18d6130"
+        }
+      }
     }
   }
 }
