@@ -2,7 +2,8 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { parseArticleLayout, validateArticleLayout } from '../src/lib/article-layout.mjs';
-import { renderArticleBlocks } from '../src/lib/article-markdown.mjs';
+import { articleMarkdownOptions, renderArticleBlocks } from '../src/lib/article-markdown.mjs';
+import { createSatteriMarkdownProcessor } from '@astrojs/markdown-satteri';
 import { publishedPosts } from './content-helpers.mjs';
 
 test('본문 배치 표식만 해석하고 코드 안의 같은 문자열은 보존한다', () => {
@@ -38,6 +39,29 @@ test('공개 글마다 본문 속 그림과 모든 실행 기록을 한 번씩 �
     const codeEnd = body.lastIndexOf('```');
     if (evidence.posts[post.slug]) assert.ok(body.indexOf('[[run:') > body.indexOf('```'), post.slug);
     assert.ok(codeEnd < body.length);
+  }
+});
+
+test('공개 글의 범위 표기를 취소선으로 해석하지 않는다', async () => {
+  const markdown = await createSatteriMarkdownProcessor({
+    ...articleMarkdownOptions,
+    mdastPlugins: [{
+      name: 'explicit-strikethrough-only',
+      options: { position: true },
+      delete(node, context) {
+        const source = context.source.slice(node.position.start.offset, node.position.end.offset);
+        assert.ok(source.startsWith('~~') && source.endsWith('~~'),
+          `범위 기호가 취소선으로 해석됨: ${context.fileURL}: ${source}`);
+      },
+    }],
+  });
+  // 의도한 취소선과 코드 안의 범위 기호는 계속 지원한다.
+  const sample = await markdown.render('~~이전 값~~, `0~7`\n\n```text\n0~7\n```');
+  assert.ok(sample.code.includes('<del>이전 값</del>'));
+  assert.ok(sample.code.includes('<code>0~7</code>'));
+  for (const post of await publishedPosts()) {
+    const body = post.source.slice(post.source.indexOf('\n---\n') + 5);
+    await markdown.render(body, { fileURL: new URL(`../src/content/posts/${post.slug}.md`, import.meta.url) });
   }
 });
 
