@@ -2395,6 +2395,70 @@
           }
         }
       ]
+    },
+    "u-38-dos-vulnerable-services": {
+      "recordedAt": "2026-11-15T18:33:16.099950+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "지정한 가상 JSON 문자열만 분석. 실제 inetd 설정·서비스·계정·인증·소켓·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u38_inetd_pairs.py",
+        "u38_cases.json",
+        "u38_rejected.json"
+      ],
+      "sourceCodeSha256": "1917a65337903c1f46311f51a8fa2b0d2d77a896d5d945e28da81dc325dbcd2d",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u38_inetd_pairs.py u38_cases.json",
+          "recordedAt": "2026-11-15T18:33:16.099950+09:00",
+          "sourceCodeSha256": "ad6f89d54de480b01cb32b02e3655e4136a0465fd8bb11023b0b6d5efd5fe8b9",
+          "sourceFilesSha256": {
+            "u38_cases.json": "604c296da9f7fa2aff26f0afa75bf57ecc448ae1d161ca9355d7b9659663de82",
+            "u38_inetd_pairs.py": "ad6f89d54de480b01cb32b02e3655e4136a0465fd8bb11023b0b6d5efd5fe8b9",
+            "u38_rejected.json": "79f6c4c65bd71c91878a185219837d8abaebdf91986773a74b921731063415f2"
+          },
+          "exitCode": 0,
+          "stdout": "split-echo: 활성 설정 후보 | 활성 echo/udp@2; 주석 echo/tcp@1\nboth-commented: 활성 행 없음 | 활성 없음; 주석 echo/tcp@1, echo/udp@2\nother-name: 활성 행 없음 | 활성 없음; 주석 없음\nduplicate-udp: 해석 보류 | 행 2: 활성 echo/udp 중복\nmismatched-socket: 해석 보류 | 행 1: 지원 범위 밖 대상 행\nno-file: 해석 보류 | 수집 상태 absent\nread-error: 해석 보류 | 수집 상태 query-error\nno-evidence: 해석 보류 | 수집 상태 uncollected\n사례 합계: 활성 설정 후보 1, 활성 행 없음 2, 해석 보류 5\n",
+          "stderr": "",
+          "label": "TCP 주석 행과 UDP 활성 행을 포함한 가상 설정 여덟 건",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 JSON 문자열만 분석. 실제 inetd 설정·서비스·계정·인증·소켓·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u38_inetd_pairs.py u38_rejected.json",
+          "recordedAt": "2026-11-15T18:33:20.112616+09:00",
+          "sourceCodeSha256": "ad6f89d54de480b01cb32b02e3655e4136a0465fd8bb11023b0b6d5efd5fe8b9",
+          "sourceFilesSha256": {
+            "u38_cases.json": "604c296da9f7fa2aff26f0afa75bf57ecc448ae1d161ca9355d7b9659663de82",
+            "u38_inetd_pairs.py": "ad6f89d54de480b01cb32b02e3655e4136a0465fd8bb11023b0b6d5efd5fe8b9",
+            "u38_rejected.json": "79f6c4c65bd71c91878a185219837d8abaebdf91986773a74b921731063415f2"
+          },
+          "exitCode": 2,
+          "stdout": "가상 설정 비교 미실행\n",
+          "stderr": "입력 오류: 수집하지 않은 text는 null이어야 해요\n",
+          "label": "미수집 상태에 본문을 넣은 가상 오류 입력 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 JSON 문자열만 분석. 실제 inetd 설정·서비스·계정·인증·소켓·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

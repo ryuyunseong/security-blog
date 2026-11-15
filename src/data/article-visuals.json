@@ -4217,5 +4217,86 @@
     },
     "note": "같은 /etc/cron.allow 경로와 UID 0을 가정한 독립 입력이다. 실제 권한 변경 전후가 아니며 0604는 0640에 없는 기타 읽기 비트를 갖는다.",
     "caption": "두 입력 모두 UID 0이에요. config-604의 기타 r이 기준 밖 비트 0004로 남아요."
+  },
+  "u-38-dos-vulnerable-services": {
+    "kind": "compare",
+    "title": "같은 echo의 TCP 주석 행과 UDP 활성 설정 행",
+    "nodes": [
+      [
+        "1행: TCP",
+        "# echo stream tcp",
+        "주석 설정"
+      ],
+      [
+        "2행: UDP",
+        "echo dgram udp",
+        "활성 설정 후보"
+      ]
+    ],
+    "note": "가상 split-echo 문자열의 1행과 2행을 독립적으로 비교한다. 실제 서비스 실행·통신 결과가 아니다.",
+    "caption": "같은 문자열의 두 행을 따로 읽은 결과예요. TCP 행의 주석이 UDP 행에 전파되지 않아요.",
+    "scene": {
+      "layout": "compare",
+      "panels": [
+        {
+          "type": "table",
+          "title": "1행: TCP",
+          "headers": [
+            "필드",
+            "입력"
+          ],
+          "rows": [
+            [
+              "서비스",
+              "# echo"
+            ],
+            [
+              "소켓",
+              "stream"
+            ],
+            [
+              "프로토콜",
+              "tcp"
+            ],
+            [
+              "추출",
+              "주석 설정"
+            ]
+          ],
+          "selected": [
+            0
+          ]
+        },
+        {
+          "type": "table",
+          "title": "2행: UDP",
+          "headers": [
+            "필드",
+            "입력"
+          ],
+          "rows": [
+            [
+              "서비스",
+              "echo"
+            ],
+            [
+              "소켓",
+              "dgram"
+            ],
+            [
+              "프로토콜",
+              "udp"
+            ],
+            [
+              "추출",
+              "활성 설정 후보"
+            ]
+          ],
+          "selected": [
+            0
+          ]
+        }
+      ]
+    }
   }
 }

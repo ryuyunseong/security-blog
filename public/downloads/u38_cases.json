@@ -1,0 +1,10 @@
+[
+  {"id":"split-echo","collection":"collected","text":"# echo stream tcp nowait root internal\necho dgram udp wait root internal\n"},
+  {"id":"both-commented","collection":"collected","text":"# echo stream tcp nowait root internal\n# echo dgram udp wait root internal\n"},
+  {"id":"other-name","collection":"collected","text":"echohelper stream tcp nowait root /example/echohelper\n"},
+  {"id":"duplicate-udp","collection":"collected","text":"echo dgram udp wait root internal\necho dgram udp wait root internal\n"},
+  {"id":"mismatched-socket","collection":"collected","text":"echo stream udp wait root internal\n"},
+  {"id":"no-file","collection":"absent","text":null},
+  {"id":"read-error","collection":"query-error","text":null},
+  {"id":"no-evidence","collection":"uncollected","text":null}
+]
