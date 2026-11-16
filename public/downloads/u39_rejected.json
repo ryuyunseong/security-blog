@@ -1,0 +1,3 @@
+[
+  {"id":"command-not-state","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"inactive","UnitFileState":"disable"}
+]

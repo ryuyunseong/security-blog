@@ -4298,5 +4298,63 @@
         }
       ]
     }
+  },
+  "u-39-unnecessary-nfs-services": {
+    "kind": "layers",
+    "title": "가상 NFS 유닛의 현재 활성 상태와 기동 설정",
+    "nodes": [
+      [
+        "가상 유닛",
+        "nfs-server.service",
+        "usage=unused"
+      ],
+      [
+        "현재 상태",
+        "ActiveState",
+        "active"
+      ],
+      [
+        "기동 설정",
+        "UnitFileState",
+        "disabled"
+      ]
+    ],
+    "note": "가상 disabled-active 사례의 같은 유닛에서 두 속성을 얻었다는 가정이다. 실제 systemd 조회·NFS 실행·서비스 변경 결과가 아니다.",
+    "caption": "화살표는 한 유닛에 속한 속성값 두 개를 가리켜요.",
+    "scene": {
+      "layout": "fork",
+      "panels": [
+        {
+          "type": "actor",
+          "title": "nfs-server.service",
+          "fields": [
+            [
+              "usage",
+              "unused"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "ActiveState",
+          "fields": [
+            [
+              "현재",
+              "active"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "UnitFileState",
+          "fields": [
+            [
+              "기동 설정",
+              "disabled"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }

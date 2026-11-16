@@ -1,0 +1,13 @@
+[
+  {"id":"disabled-active","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"active","UnitFileState":"disabled"},
+  {"id":"enabled-inactive","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"inactive","UnitFileState":"enabled"},
+  {"id":"inactive-disabled","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"inactive","UnitFileState":"disabled"},
+  {"id":"static-unit","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"inactive","UnitFileState":"static"},
+  {"id":"masked-unit","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"inactive","UnitFileState":"masked"},
+  {"id":"needed-service","unit":"nfs-server.service","usage":"required","collection":"collected","ActiveState":"active","UnitFileState":"enabled"},
+  {"id":"need-unreviewed","unit":"nfs-server.service","usage":"unknown","collection":"collected","ActiveState":"inactive","UnitFileState":"disabled"},
+  {"id":"failed-unit","unit":"nfs-server.service","usage":"unused","collection":"collected","ActiveState":"failed","UnitFileState":"disabled"},
+  {"id":"missing-unit","unit":"nfs-server.service","usage":"unused","collection":"absent","ActiveState":null,"UnitFileState":null},
+  {"id":"query-error","unit":"nfs-server.service","usage":"unused","collection":"query-error","ActiveState":null,"UnitFileState":null},
+  {"id":"uncollected","unit":"nfs-server.service","usage":"unknown","collection":"uncollected","ActiveState":null,"UnitFileState":null}
+]

@@ -144,5 +144,9 @@
   "u-38-dos-vulnerable-services": {
     "scope": "지정한 가상 JSON의 inetd 문자열만 분석. echo·discard·daytime·chargen, tcp/stream·udp/dgram, root internal의 여섯 필드 형식만 해석. 실제 운영 파일·서비스·계정·인증·소켓·네트워크 조회 및 변경 없음.",
     "finding": "여덟 건 중 활성 설정 후보1·활성 행 없음2·해석 보류5. TCP 주석 행과 UDP 활성 형식 행을 별도로 추출했다. 분류 종료0, 수집 상태와 text 충돌의 입력 거부 종료2. 실제 실행·도달 가능성·종합 양호/취약 또는 비활성화 완료 판정이 아니다."
+  },
+  "u-39-unnecessary-nfs-services": {
+    "scope": "가상 JSON의 usage·collection·ActiveState·UnitFileState를 고정된 가상 nfs-server.service 식별자로 대조한다. 실제 NFS·systemd·데몬·유닛 파일·공유·마운트·계정·인증·네트워크 조회 및 변경 없음.",
+    "finding": "열한 건 중 검토 후보2·두 값 일치1·보류8. active/disabled와 inactive/enabled를 서로 다른 후보로 분류하고 사용 근거·수집 자료 부재·특수 상태를 보류했다. 입력 검사·대조 종료0, UnitFileState에 명령 disable을 넣은 입력 거부 종료2. 상태값 일치가 U-39 종합 양호·실제 중지·접속 차단 판정은 아니다."
   }
 }

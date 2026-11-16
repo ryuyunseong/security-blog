@@ -2225,6 +2225,59 @@
           "u38_rejected.json": "79f6c4c65bd71c91878a185219837d8abaebdf91986773a74b921731063415f2"
         }
       }
+    },
+    "u-39-unnecessary-nfs-services": {
+      "files": [
+        {
+          "source": "u39_nfs_states.py",
+          "name": "u39_nfs_states.py"
+        },
+        {
+          "source": "u39_cases.json",
+          "name": "u39_cases.json"
+        },
+        {
+          "source": "u39_rejected.json",
+          "name": "u39_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows PowerShell과 Git Bash에서 검증했다. 가상 JSON만 읽으므로 Linux 파일시스템·관리자 권한·NFS 및 systemd 설치·별도 패키지는 필요하지 않다.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u39_nfs_states.py u39_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료11건: 검토 후보2·두 값 일치1·보류8. 종료0은 입력 검사와 대조 완료이며 서비스 중지·공유 해제·접속 차단·U-39 종합 양호 판정이 아니다."
+        },
+        {
+          "command": "python -I -B -X utf8 u39_nfs_states.py u39_rejected.json",
+          "exitCode": 2,
+          "expected": "stdout은 가상 상태 대조 미실행, stderr는 UnitFileState 지원 값 오류다. 종료2는 명령 이름 disable을 상태값에 넣은 입력의 예상한 거부이며 입력 허용이 아니다."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 풀고 README와 세 파일이 모인 글별 폴더로 이동한다. 각 단계에서 사용하는 셸의 코드 블록 하나를 선택한다. 두 JSON은 이미 포함돼 있다.",
+        "unit은 가상 대상 식별자다. 실제 유닛 파일·공유 디렉터리·마운트를 만들지 않는다. 프로그램은 지정한 JSON만 읽고 임시 파일·소켓을 만들거나 입력을 바꾸지 않는다.",
+        "usage는 unused·required·unknown의 가상 업무 판단이다. collection은 두 속성의 수집 여부를 별도로 표현한다. 실제 수집 결과를 재현한 기록은 아니다.",
+        "collected이면 두 속성은 지원 집합의 문자열이다. absent·query-error·uncollected이면 두 속성은 null이어야 하며 부재·오류·미수집을 비활성화로 바꾸지 않는다.",
+        "ActiveState는 active·inactive·failed, UnitFileState는 enabled·disabled·static·masked만 지원한다. 그 밖의 실제 상태나 유닛 이름은 이 제한된 실습의 지원 범위 밖이다.",
+        "실제 NFS·systemd·공유·마운트·계정·인증·네트워크를 조회·변경하지 않는다. 프로그램이 만든 정리 대상은 없고 ZIP과 입력은 그대로 남긴다.",
+        "오류 시 실행 폴더·파일명·읽기 권한, UTF-8/JSON·크기·키/ID, 속성명과 원본 값, 수집 상태와 null의 대응을 살핀다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-39-unnecessary-nfs-services.zip",
+        "bytes": 9486,
+        "sha256": "6e1c8187dfc31bfe8e6a66cf77887285115e07080b6e608b9d7dfe9feedd6836",
+        "members": {
+          "README.md": "83c6d7548c96f73e68ce188e1052c0b927d0a5a2bb4460482e705b33a737809f",
+          "u39_cases.json": "393bc2f6cb397da6cf207294647fd817fa0551ccdb9ee0f50dcebab2f8696673",
+          "u39_nfs_states.py": "79c93a5e10a8721989eb016fd728d6a4cd8a86924e037eacaf92cc4abddc88fc",
+          "u39_rejected.json": "c03aeebde76e55c36578c6016be8dcbc1ec2a66cf45137f2dbf09784bded0bd4"
+        }
+      }
     }
   }
 }

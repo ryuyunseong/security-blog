@@ -2459,6 +2459,70 @@
           }
         }
       ]
+    },
+    "u-39-unnecessary-nfs-services": {
+      "recordedAt": "2026-11-16T18:42:06.928455+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON의 사용 판단·수집 상태·두 유닛 속성만 비교. 실제 NFS·systemd·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u39_nfs_states.py",
+        "u39_cases.json",
+        "u39_rejected.json"
+      ],
+      "sourceCodeSha256": "5d74b7af2be5b950c4df02f489963a177b086777c2b73fcdb31680162df64f9c",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u39_nfs_states.py u39_cases.json",
+          "recordedAt": "2026-11-16T18:42:06.928455+09:00",
+          "sourceCodeSha256": "79c93a5e10a8721989eb016fd728d6a4cd8a86924e037eacaf92cc4abddc88fc",
+          "sourceFilesSha256": {
+            "u39_cases.json": "393bc2f6cb397da6cf207294647fd817fa0551ccdb9ee0f50dcebab2f8696673",
+            "u39_nfs_states.py": "79c93a5e10a8721989eb016fd728d6a4cd8a86924e037eacaf92cc4abddc88fc",
+            "u39_rejected.json": "c03aeebde76e55c36578c6016be8dcbc1ec2a66cf45137f2dbf09784bded0bd4"
+          },
+          "exitCode": 0,
+          "stdout": "disabled-active: 검토 후보 | 현재 active; 기동 설정 disabled\nenabled-inactive: 검토 후보 | 현재 inactive; 기동 설정 enabled\ninactive-disabled: 두 값 일치 | 현재 inactive; 기동 설정 disabled\nstatic-unit: 보류 | 기동 설정 static의 방식 조사\nmasked-unit: 보류 | 기동 설정 masked의 방식 조사\nneeded-service: 보류 | 필요 서비스의 접근 통제 검토\nneed-unreviewed: 보류 | 사용 필요성 자료 없음\nfailed-unit: 보류 | 현재 상태 failed의 원인 조사\nmissing-unit: 보류 | 수집 상태 absent\nquery-error: 보류 | 수집 상태 query-error\nuncollected: 보류 | 수집 상태 uncollected\n사례 합계: 검토 후보 2, 두 값 일치 1, 보류 8\n",
+          "stderr": "",
+          "label": "사용 판단과 두 속성이 다른 가상 유닛 자료 열한 건",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 사용 판단·수집 상태·두 유닛 속성만 비교. 실제 NFS·systemd·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u39_nfs_states.py u39_rejected.json",
+          "recordedAt": "2026-11-16T18:42:09.533285+09:00",
+          "sourceCodeSha256": "79c93a5e10a8721989eb016fd728d6a4cd8a86924e037eacaf92cc4abddc88fc",
+          "sourceFilesSha256": {
+            "u39_cases.json": "393bc2f6cb397da6cf207294647fd817fa0551ccdb9ee0f50dcebab2f8696673",
+            "u39_nfs_states.py": "79c93a5e10a8721989eb016fd728d6a4cd8a86924e037eacaf92cc4abddc88fc",
+            "u39_rejected.json": "c03aeebde76e55c36578c6016be8dcbc1ec2a66cf45137f2dbf09784bded0bd4"
+          },
+          "exitCode": 2,
+          "stdout": "가상 상태 대조 미실행\n",
+          "stderr": "입력 오류: UnitFileState 지원 값이 아니에요\n",
+          "label": "명령 이름 disable을 속성값에 넣은 가상 입력 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 사용 판단·수집 상태·두 유닛 속성만 비교. 실제 NFS·systemd·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }
