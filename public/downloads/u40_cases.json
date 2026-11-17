@@ -1,0 +1,12 @@
+[
+  {"id":"bound-ro","collection":"collected","ownerUid":0,"mode":"0644","line":"/home/example host1(ro,root_squash)"},
+  {"id":"bound-rw","collection":"collected","ownerUid":0,"mode":"0644","line":"/home/example host2(rw,root_squash)"},
+  {"id":"space-before-options","collection":"collected","ownerUid":0,"mode":"0644","line":"/home/example host1 (ro,root_squash)"},
+  {"id":"all-clients","collection":"collected","ownerUid":0,"mode":"0644","line":"/home/example *(ro,root_squash)"},
+  {"id":"group-write","collection":"collected","ownerUid":0,"mode":"0664","line":"/home/example host1(ro,root_squash)"},
+  {"id":"numeric-trap","collection":"collected","ownerUid":0,"mode":"0460","line":"/home/example host1(ro,root_squash)"},
+  {"id":"other-owner","collection":"collected","ownerUid":1000,"mode":"0644","line":"/home/example host1(ro,root_squash)"},
+  {"id":"file-absent","collection":"absent","ownerUid":null,"mode":null,"line":null},
+  {"id":"query-error","collection":"query-error","ownerUid":null,"mode":null,"line":null},
+  {"id":"uncollected","collection":"uncollected","ownerUid":null,"mode":null,"line":null}
+]

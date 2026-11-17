@@ -4356,5 +4356,74 @@
         }
       ]
     }
+  },
+  "u-40-nfs-access-control": {
+    "kind": "topology",
+    "title": "같은 ro 옵션에서 host1과 전체 대상 표기의 차이",
+    "nodes": [
+      [
+        "특정 대상",
+        "host1",
+        "ro,root_squash"
+      ],
+      [
+        "전체 대상",
+        "*",
+        "ro,root_squash"
+      ],
+      [
+        "공유 경로",
+        "/home/example",
+        "가상 입력 두 건"
+      ]
+    ],
+    "note": "bound-ro와 all-clients를 비교한 설명 그림이다. 두 가상 입력은 독립된 사례이며 실제 접속·동시 공유 적용 결과가 아니다.",
+    "caption": "선은 각각의 가상 입력이 지정한 공유 경로를 연결해요.",
+    "scene": {
+      "layout": "merge",
+      "panels": [
+        {
+          "type": "actor",
+          "title": "bound-ro",
+          "icon": "host",
+          "fields": [
+            [
+              "대상",
+              "host1"
+            ],
+            [
+              "옵션",
+              "ro,root_squash"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "all-clients",
+          "icon": "host",
+          "fields": [
+            [
+              "대상",
+              "* (전체 클라이언트)"
+            ],
+            [
+              "옵션",
+              "ro,root_squash"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "title": "/home/example",
+          "icon": "folder",
+          "fields": [
+            [
+              "공유 경로",
+              "가상 입력 두 건에서 동일"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }

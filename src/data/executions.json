@@ -2523,6 +2523,70 @@
           }
         }
       ]
+    },
+    "u-40-nfs-access-control": {
+      "recordedAt": "2026-11-17T18:37:42.227830+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON의 수집 상태·소유자 UID·일반 권한 비트와 제한된 exports 문자열만 비교. 실제 파일 속성·NFS·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u40_exports_review.py",
+        "u40_cases.json",
+        "u40_rejected.json"
+      ],
+      "sourceCodeSha256": "8b516745dbeb16e2d9e2eedbc1c6e061b5a37c2ccbe5daa3d25cf04214bc7808",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u40_exports_review.py u40_cases.json",
+          "recordedAt": "2026-11-17T18:37:42.227830+09:00",
+          "sourceCodeSha256": "33b7f3b14d42bc723eb6c0115aee825496a49fdbd3b3ca5250ce92cc387d2b05",
+          "sourceFilesSha256": {
+            "u40_cases.json": "36b2265e6d9f8720739766bdc6fdc47f07c7eaf63e3dbe61380f360da970dd9b",
+            "u40_exports_review.py": "33b7f3b14d42bc723eb6c0115aee825496a49fdbd3b3ca5250ce92cc387d2b05",
+            "u40_rejected.json": "5ec96687844895e65d397fd0f3fb11b07ba3665535937ca3475f5d796e65f7eb"
+          },
+          "exitCode": 0,
+          "stdout": "bound-ro: 제한 표기 | 대상=host1; 요청=ro; 설정 UID=0; mode=0644\nbound-rw: 제한 표기 | 대상=host2; 요청=rw; 설정 UID=0; mode=0644\nspace-before-options: 해석 보류 | 호스트·괄호 결합 또는 지원 문법 조사\nall-clients: 검토 후보 | 전체 클라이언트 표기\ngroup-write: 검토 후보 | 644 밖 권한 비트=0020\nnumeric-trap: 검토 후보 | 644 밖 권한 비트=0020\nother-owner: 검토 후보 | 설정 소유자 UID=1000\nfile-absent: 해석 보류 | 수집 상태 absent\nquery-error: 해석 보류 | 수집 상태 query-error\nuncollected: 해석 보류 | 수집 상태 uncollected\n대조한 가상 항목: 10\n",
+          "stderr": "",
+          "label": "공유 대상과 설정 파일 속성을 나눈 가상 exports 자료 열 건",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 수집 상태·소유자 UID·일반 권한 비트와 제한된 exports 문자열만 비교. 실제 파일 속성·NFS·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u40_exports_review.py u40_rejected.json",
+          "recordedAt": "2026-11-17T18:37:44.011198+09:00",
+          "sourceCodeSha256": "33b7f3b14d42bc723eb6c0115aee825496a49fdbd3b3ca5250ce92cc387d2b05",
+          "sourceFilesSha256": {
+            "u40_cases.json": "36b2265e6d9f8720739766bdc6fdc47f07c7eaf63e3dbe61380f360da970dd9b",
+            "u40_exports_review.py": "33b7f3b14d42bc723eb6c0115aee825496a49fdbd3b3ca5250ce92cc387d2b05",
+            "u40_rejected.json": "5ec96687844895e65d397fd0f3fb11b07ba3665535937ca3475f5d796e65f7eb"
+          },
+          "exitCode": 2,
+          "stdout": "가상 exports 대조 미실행\n",
+          "stderr": "입력 오류: 미수집 상태의 소유자·모드·행은 null이어야 해요\n",
+          "label": "미수집 상태에 소유자·권한·행을 채운 입력 거부",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 수집 상태·소유자 UID·일반 권한 비트와 제한된 exports 문자열만 비교. 실제 파일 속성·NFS·공유·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

@@ -148,5 +148,9 @@
   "u-39-unnecessary-nfs-services": {
     "scope": "가상 JSON의 usage·collection·ActiveState·UnitFileState를 고정된 가상 nfs-server.service 식별자로 대조한다. 실제 NFS·systemd·데몬·유닛 파일·공유·마운트·계정·인증·네트워크 조회 및 변경 없음.",
     "finding": "열한 건 중 검토 후보2·두 값 일치1·보류8. active/disabled와 inactive/enabled를 서로 다른 후보로 분류하고 사용 근거·수집 자료 부재·특수 상태를 보류했다. 입력 검사·대조 종료0, UnitFileState에 명령 disable을 넣은 입력 거부 종료2. 상태값 일치가 U-39 종합 양호·실제 중지·접속 차단 판정은 아니다."
+  },
+  "u-40-nfs-access-control": {
+    "scope": "가상 JSON의 수집 상태·설정 파일 소유 UID·일반 권한 비트와 /home/example의 제한된 exports 한 줄 문자열만 대조. 실제 파일 속성·설정 파일·NFS·공유·마운트·계정·인증·네트워크 조회 및 변경 없음.",
+    "finding": "열 건 중 제한 표기2·검토 후보4·해석 보류4. host1/host2와 전체 대상 *를 구분하고 호스트·괄호 사이 공백은 자동 수정하지 않았다. 0460과 0664에서 기준 0644 밖 그룹 쓰기 0020이 남았다. 입력 대조 종료0, 미수집 상태와 값의 모순 거부 종료2. 종합 양호·실제 접근 허용·쓰기 성공 판정이 아니다."
   }
 }

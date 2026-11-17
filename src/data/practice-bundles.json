@@ -2278,6 +2278,59 @@
           "u39_rejected.json": "c03aeebde76e55c36578c6016be8dcbc1ec2a66cf45137f2dbf09784bded0bd4"
         }
       }
+    },
+    "u-40-nfs-access-control": {
+      "files": [
+        {
+          "source": "u40_exports_review.py",
+          "name": "u40_exports_review.py"
+        },
+        {
+          "source": "u40_cases.json",
+          "name": "u40_cases.json"
+        },
+        {
+          "source": "u40_rejected.json",
+          "name": "u40_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12 이상과 표준 라이브러리. Windows Python 3.12.1의 PowerShell과 Git Bash에서 검증했다. JSON 문자열·정수만 대조하므로 Linux 파일시스템·관리자 권한·NFS 설치·별도 패키지는 필요하지 않다.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u40_exports_review.py u40_cases.json",
+          "exitCode": 0,
+          "expected": "가상 자료10건: 제한 표기2·검토 후보4·해석 보류4. 종료0은 입력 검사와 대조 완료다. 제한 표기는 업무상 허가·실제 접근 허용·쓰기 성공 또는 U-40 종합 양호 판정이 아니다."
+        },
+        {
+          "command": "python -I -B -X utf8 u40_exports_review.py u40_rejected.json",
+          "exitCode": 2,
+          "expected": "stdout은 가상 exports 대조 미실행, stderr는 미수집 상태의 소유자·모드·행에 필요한 null 안내다. 종료2는 수집 상태와 값이 모순된 입력의 예상한 거부이며 입력 허용이 아니다."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 풀고 README와 세 파일이 모인 글별 폴더로 이동한다. 각 단계에서 사용하는 셸의 코드 블록 하나를 선택한다. 두 JSON은 이미 포함돼 있다.",
+        "/home/example과 /etc/exports는 설명용 경로다. 실제 파일·폴더·공유·마운트를 만들지 않는다. 프로그램은 지정한 JSON만 읽고 임시 파일·소켓을 만들거나 원본 입력을 고치지 않는다.",
+        "collected는 설정 파일의 ownerUid·mode·line 자료를 얻었다는 가정이다. absent·query-error·uncollected이면 세 값은 모두 null이다. 실제 수집 자료나 조회 오류를 재현한 기록은 아니다.",
+        "ownerUid는 실습 범위의 정수, mode는 첫 자리가 0인 일반 권한 네 자리 8진수 문자열이다. 실제 파일 종류·특수 비트·ACL·소유 그룹을 수집하지 않는다.",
+        "공유 행은 /home/example, host1·host2·* 중 한 대상, ro 또는 rw와 root_squash를 순서대로 붙인 형식만 다룬다. 다른 경로·주석·여러 대상·옵션 순서 변경·다른 옵션은 해석 보류다.",
+        "host1과 host2는 가상 이름이며 DNS를 조회하지 않는다. 실제 exports 문법의 전체 허용·거부나 적용 순서를 구현한 도구가 아니다. 실제 NFS·운영 설정·계정·인증·네트워크를 조회·변경하지 않는다.",
+        "프로그램이 만든 정리 대상은 없고 ZIP과 입력은 그대로 남는다. 오류가 나면 실행 폴더·파일명·읽기 권한, JSON·UTF-8·크기·중복, UID·모드 형식과 수집 상태의 대응을 살핀다."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-40-nfs-access-control.zip",
+        "bytes": 9188,
+        "sha256": "4e8cd864df790c2204180dec661b8ff8df747220e822495aca9aba1ec1a5b073",
+        "members": {
+          "README.md": "7117d14cc606467a0e0ea2b687042e9d35d6fc255a629e4df176b96c28dc2e4f",
+          "u40_cases.json": "36b2265e6d9f8720739766bdc6fdc47f07c7eaf63e3dbe61380f360da970dd9b",
+          "u40_exports_review.py": "33b7f3b14d42bc723eb6c0115aee825496a49fdbd3b3ca5250ce92cc387d2b05",
+          "u40_rejected.json": "5ec96687844895e65d397fd0f3fb11b07ba3665535937ca3475f5d796e65f7eb"
+        }
+      }
     }
   }
 }
