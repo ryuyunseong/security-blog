@@ -2331,6 +2331,55 @@
           "u40_rejected.json": "5ec96687844895e65d397fd0f3fb11b07ba3665535937ca3475f5d796e65f7eb"
         }
       }
+    },
+    "u-41-unnecessary-automountd": {
+      "files": [
+        {
+          "source": "u41_process_names.py",
+          "name": "u41_process_names.py"
+        },
+        {
+          "source": "u41_cases.json",
+          "name": "u41_cases.json"
+        },
+        {
+          "source": "u41_rejected.json",
+          "name": "u41_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows에서 PowerShell과 Git Bash로 실행했어요. Unix 파일시스템이나 관리자 권한, automountd 설치는 필요하지 않아요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u41_process_names.py u41_cases.json",
+          "exitCode": 0,
+          "expected": "아홉 사례에서 이름 후보 4건, 대상 이름 없음 1건, 해석 보류 4건을 출력해요. 종료 0은 가상 이름 대조를 끝냈다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u41_process_names.py u41_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력에 가상 프로세스 이름 대조 미실행, 표준 오류에 PID 범위 또는 중복 오류예요가 나와요. 같은 사례의 중복 PID를 거부한 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 풀고 README.md, Python 코드와 두 JSON 파일이 같이 있는 폴더로 이동하세요. 각 단계에서 사용하는 셸의 명령 블록 하나를 선택하세요.",
+        "프로그램은 지정한 JSON만 읽어요. 임시 파일·서비스·마운트를 만들지 않으므로 따로 정리할 대상이 없어요.",
+        "정상 입력에서 종료 코드 2가 나오면 표준 오류와 함께 현재 폴더와 파일명, UTF-8 JSON의 형식, PID와 키 중복을 살펴보세요. 가상 이름 후보는 실제 실행 파일의 식별이나 서비스 판정과는 범위가 달라요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-41-unnecessary-automountd.zip",
+        "bytes": 8086,
+        "sha256": "2007e5b0bed4b4ffa4986c2133910164f38b0ebdb26584a0f5c25878f2e6089a",
+        "members": {
+          "README.md": "5d14ce340a6e2fc02d54c8db57892966e786ffd615cd6ed96b3cf3950bdb3b4c",
+          "u41_cases.json": "4d1d7a979769c5a428624a0dd84a411fa2d110c2a2093309312c867cb05995fc",
+          "u41_process_names.py": "75ee36f8f9f44262345e3c4d0bee84c728d6d66c9cf6eb74863d6e29c88de9dd",
+          "u41_rejected.json": "4629f56e70275e9e868c9f69129a21d436537e94532bb96c838b6496275c3d66"
+        }
+      }
     }
   }
 }

@@ -2587,6 +2587,70 @@
           }
         }
       ]
+    },
+    "u-41-unnecessary-automountd": {
+      "recordedAt": "2026-11-19T18:35:54.566197+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON의 PID·분리된 인수 목록·수집 상태만 대조. 실제 프로세스 조회·신호 전송·서비스·마운트·계정·인증·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u41_process_names.py",
+        "u41_cases.json",
+        "u41_rejected.json"
+      ],
+      "sourceCodeSha256": "798a00a2b96a3dab18fd4f90b5e369192f0539b8db7041346c85ab9e21a6f676",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u41_process_names.py u41_cases.json",
+          "recordedAt": "2026-11-19T18:35:54.566197+09:00",
+          "sourceCodeSha256": "75ee36f8f9f44262345e3c4d0bee84c728d6d66c9cf6eb74863d6e29c88de9dd",
+          "sourceFilesSha256": {
+            "u41_cases.json": "4d1d7a979769c5a428624a0dd84a411fa2d110c2a2093309312c867cb05995fc",
+            "u41_process_names.py": "75ee36f8f9f44262345e3c4d0bee84c728d6d66c9cf6eb74863d6e29c88de9dd",
+            "u41_rejected.json": "4629f56e70275e9e868c9f69129a21d436537e94532bb96c838b6496275c3d66"
+          },
+          "exitCode": 0,
+          "stdout": "mixed: 이름 후보 | automountd@101; 비교 행=3\ngrep-only: 대상 이름 없음 | 비교 행=1\nlinux-name: 이름 후보 | automount@301; 비교 행=1\nautofs-name: 이름 후보 | autofs@401; 비교 행=1\nother-path: 이름 후보 | automountd@501; 비교 행=1\nempty-list: 해석 보류 | 가상 목록이 비었어요\nmissing-snapshot: 해석 보류 | 수집 상태 absent\nquery-error: 해석 보류 | 수집 상태 query-error\nuncollected: 해석 보류 | 수집 상태 uncollected\n가상 사례: 9\n",
+          "stderr": "",
+          "label": "가상 프로세스 이름을 대조한 아홉 사례",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 PID·분리된 인수 목록·수집 상태만 대조. 실제 프로세스 조회·신호 전송·서비스·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u41_process_names.py u41_rejected.json",
+          "recordedAt": "2026-11-19T18:35:56.547133+09:00",
+          "sourceCodeSha256": "75ee36f8f9f44262345e3c4d0bee84c728d6d66c9cf6eb74863d6e29c88de9dd",
+          "sourceFilesSha256": {
+            "u41_cases.json": "4d1d7a979769c5a428624a0dd84a411fa2d110c2a2093309312c867cb05995fc",
+            "u41_process_names.py": "75ee36f8f9f44262345e3c4d0bee84c728d6d66c9cf6eb74863d6e29c88de9dd",
+            "u41_rejected.json": "4629f56e70275e9e868c9f69129a21d436537e94532bb96c838b6496275c3d66"
+          },
+          "exitCode": 2,
+          "stdout": "가상 프로세스 이름 대조 미실행\n",
+          "stderr": "입력 오류: PID 범위 또는 중복 오류예요\n",
+          "label": "같은 목록에 PID 801이 두 번 나온 입력",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 PID·분리된 인수 목록·수집 상태만 대조. 실제 프로세스 조회·신호 전송·서비스·마운트·계정·인증·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

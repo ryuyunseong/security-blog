@@ -4425,5 +4425,66 @@
         }
       ]
     }
+  },
+  "u-41-unnecessary-automountd": {
+    "kind": "compare",
+    "title": "가상 PID 101과 102에서 automountd가 들어간 인수의 위치",
+    "nodes": [
+      [
+        "PID 101",
+        "automountd",
+        "이름 후보"
+      ],
+      [
+        "PID 102",
+        "grep",
+        "검색어만 일치"
+      ]
+    ],
+    "note": "가상 mixed 사례의 두 행. 첫 인수의 끝 이름을 비교하며 검색 명령의 다음 인수는 검사 대상에서 빠진다.",
+    "caption": "두 줄 모두 같은 철자를 담고 있어도 비교에 쓰는 칸은 argv[0] 하나예요.",
+    "scene": {
+      "layout": "compare",
+      "panels": [
+        {
+          "type": "actor",
+          "icon": "process",
+          "title": "PID 101",
+          "fields": [
+            [
+              "argv[0]",
+              "/usr/sbin/automountd"
+            ],
+            [
+              "끝 이름",
+              "automountd"
+            ],
+            [
+              "비교 결과",
+              "이름 후보"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "icon": "process",
+          "title": "PID 102",
+          "fields": [
+            [
+              "argv[0]",
+              "grep"
+            ],
+            [
+              "argv[1]",
+              "automountd"
+            ],
+            [
+              "비교 결과",
+              "검색어만 일치"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }

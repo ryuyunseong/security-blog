@@ -1,0 +1,6 @@
+[
+  {"id":"duplicate-pid","collection":"collected","processes":[
+    {"pid":801,"argv":["/usr/sbin/automountd"]},
+    {"pid":801,"argv":["grep","automountd"]}
+  ]}
+]

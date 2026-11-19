@@ -1,0 +1,15 @@
+[
+  {"id":"mixed","collection":"collected","processes":[
+    {"pid":101,"argv":["/usr/sbin/automountd"]},
+    {"pid":102,"argv":["grep","automountd"]},
+    {"pid":103,"argv":["/opt/bin/automountd-check"]}
+  ]},
+  {"id":"grep-only","collection":"collected","processes":[{"pid":201,"argv":["grep","automountd"]}]},
+  {"id":"linux-name","collection":"collected","processes":[{"pid":301,"argv":["/usr/sbin/automount","--timeout","60"]}]},
+  {"id":"autofs-name","collection":"collected","processes":[{"pid":401,"argv":["/sbin/autofs"]}]},
+  {"id":"other-path","collection":"collected","processes":[{"pid":501,"argv":["/opt/tools/automountd"]}]},
+  {"id":"empty-list","collection":"collected","processes":[]},
+  {"id":"missing-snapshot","collection":"absent","processes":null},
+  {"id":"query-error","collection":"query-error","processes":null},
+  {"id":"uncollected","collection":"uncollected","processes":null}
+]
