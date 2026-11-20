@@ -1,0 +1,54 @@
+[
+  {
+    "id": "comment-first",
+    "source": "excerpt",
+    "lines": [
+      "# disable = yes",
+      "disable = no"
+    ]
+  },
+  {
+    "id": "disabled",
+    "source": "excerpt",
+    "lines": [
+      "disable = yes"
+    ]
+  },
+  {
+    "id": "only-comment",
+    "source": "excerpt",
+    "lines": [
+      "# disable = no"
+    ]
+  },
+  {
+    "id": "two-values",
+    "source": "excerpt",
+    "lines": [
+      "disable = yes",
+      "disable = no"
+    ]
+  },
+  {
+    "id": "unsupported",
+    "source": "excerpt",
+    "lines": [
+      "disable = maybe"
+    ]
+  },
+  {
+    "id": "file-absent",
+    "source": "missing-file",
+    "lines": null
+  },
+  {
+    "id": "read-failed",
+    "source": "read-error",
+    "lines": null
+  },
+  {
+    "id": "not-collected",
+    "source": "not-collected",
+    "lines": null
+  }
+]

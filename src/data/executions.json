@@ -2651,6 +2651,70 @@
           }
         }
       ]
+    },
+    "u-42-unnecessary-rpc-services": {
+      "recordedAt": "2026-11-20T18:36:50.859085+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON에 적은 rpc-statd의 disable 발췌 행과 수집 상태만 비교. 실제 설정·서비스·계정·네트워크 조회 및 변경 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u42_rpc_field.py",
+        "u42_cases.json",
+        "u42_rejected.json"
+      ],
+      "sourceCodeSha256": "4db146bc972078dfaf977e0304414324046110b3eb05fca4ae84df72ece2c7fc",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u42_rpc_field.py u42_cases.json",
+          "recordedAt": "2026-11-20T18:36:50.859085+09:00",
+          "sourceCodeSha256": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e",
+          "sourceFilesSha256": {
+            "u42_cases.json": "20549245f7b98b89f3a582bfce5b85db694b807e8daeb71b9ebbd761511b23a4",
+            "u42_rejected.json": "e5ff5a24a381c61731122b4c0f93514a20fe74c8a8d42919ea3aba56afd87122",
+            "u42_rpc_field.py": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e"
+          },
+          "exitCode": 0,
+          "stdout": "comment-first: 활성 표기 | no\ndisabled: 비활성 표기 | yes\nonly-comment: 해석 보류 | 명시값 0개\ntwo-values: 해석 보류 | 명시값 2개\nunsupported: 해석 보류 | 지원 범위 밖의 행\nfile-absent: 자료 보류 | missing-file\nread-failed: 자료 보류 | read-error\nnot-collected: 자료 보류 | not-collected\n",
+          "stderr": "",
+          "label": "가상 RPC 설정 발췌 여덟 건",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON에 적은 rpc-statd의 disable 발췌 행과 수집 상태만 비교. 실제 설정·서비스·계정·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u42_rpc_field.py u42_rejected.json",
+          "recordedAt": "2026-11-20T18:36:52.833661+09:00",
+          "sourceCodeSha256": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e",
+          "sourceFilesSha256": {
+            "u42_cases.json": "20549245f7b98b89f3a582bfce5b85db694b807e8daeb71b9ebbd761511b23a4",
+            "u42_rejected.json": "e5ff5a24a381c61731122b4c0f93514a20fe74c8a8d42919ea3aba56afd87122",
+            "u42_rpc_field.py": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e"
+          },
+          "exitCode": 2,
+          "stdout": "발췌 대조 미실행\n",
+          "stderr": "입력 오류: 발췌 자료가 없으면 lines는 null이어야 해요\n",
+          "label": "파일 부재와 빈 목록을 함께 넣은 입력",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON에 적은 rpc-statd의 disable 발췌 행과 수집 상태만 비교. 실제 설정·서비스·계정·네트워크 조회 및 변경 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

@@ -2380,6 +2380,54 @@
           "u41_rejected.json": "4629f56e70275e9e868c9f69129a21d436537e94532bb96c838b6496275c3d66"
         }
       }
+    },
+    "u-42-unnecessary-rpc-services": {
+      "files": [
+        {
+          "source": "u42_rpc_field.py",
+          "name": "u42_rpc_field.py"
+        },
+        {
+          "source": "u42_cases.json",
+          "name": "u42_cases.json"
+        },
+        {
+          "source": "u42_rejected.json",
+          "name": "u42_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows에서 PowerShell과 Git Bash로 검증했어요. 관리자 권한이나 xinetd 설치는 필요하지 않아요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u42_rpc_field.py u42_cases.json",
+          "exitCode": 0,
+          "expected": "여덟 사례에서 활성 표기 1건, 비활성 표기 1건, 해석 보류 3건, 자료 보류 3건을 출력해요. 종료 코드 0은 입력 대조가 끝났다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u42_rpc_field.py u42_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력으로 대조 미실행을 알리고 표준 오류에 lines는 null이어야 한다는 이유를 남겨요. 예상 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 푼 뒤 README.md와 Python 코드, 두 JSON 파일이 있는 폴더에서 실행하세요. 각 단계에서 사용하는 셸의 명령을 선택하세요.",
+        "실제 서비스와 네트워크에 연결하지 않고 지정한 JSON만 읽어요. 정상 입력에서 오류가 나면 파일명과 현재 폴더, source와 lines의 조합을 살펴보세요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-42-unnecessary-rpc-services.zip",
+        "bytes": 6863,
+        "sha256": "6e802e79d99f30b8cd833f965ecacb59d53fbb626bd5c9e8357daf5bf69abbfc",
+        "members": {
+          "README.md": "4453cb0594b60854ff0589564b0f8acc65118c4d7c88cd6f6d716a847fd8164f",
+          "u42_cases.json": "20549245f7b98b89f3a582bfce5b85db694b807e8daeb71b9ebbd761511b23a4",
+          "u42_rejected.json": "e5ff5a24a381c61731122b4c0f93514a20fe74c8a8d42919ea3aba56afd87122",
+          "u42_rpc_field.py": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e"
+        }
+      }
     }
   }
 }
