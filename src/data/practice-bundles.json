@@ -2428,6 +2428,54 @@
           "u42_rpc_field.py": "89d56616678a796738fbd53d5154b7245b1b7db1c4f69faf0fc98b5ce194801e"
         }
       }
+    },
+    "u-43-nis-nisplus": {
+      "files": [
+        {
+          "source": "u43_nis_status.py",
+          "name": "u43_nis_status.py"
+        },
+        {
+          "source": "u43_cases.json",
+          "name": "u43_cases.json"
+        },
+        {
+          "source": "u43_rejected.json",
+          "name": "u43_rejected.json"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows에서 PowerShell과 Git Bash로 검증했어요. 현재 폴더에서 실행하며 관리자 권한이나 NIS 설치는 필요 없어요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u43_nis_status.py u43_cases.json",
+          "exitCode": 0,
+          "expected": "both, plus, idle, unread, no-record, partial 순으로 여섯 행이 나와요. 종료 코드 0은 입력 처리가 끝났다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u43_nis_status.py u43_rejected.json",
+          "exitCode": 2,
+          "expected": "표준 출력은 rows-emitted=0이고 표준 오류는 typo 행의 unexpected state를 알려요. 예상 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 푼 뒤 README.md와 Python 코드, 두 JSON 파일이 있는 폴더에서 실행하세요. 각 단계에서 사용하는 셸의 명령을 선택하세요.",
+        "실제 서비스와 네트워크에 연결하지 않고 지정한 JSON만 읽어요. 정상 입력에서 오류가 나면 파일명과 현재 폴더, nis와 nisplus의 상태 표기을 살펴보세요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-43-nis-nisplus.zip",
+        "bytes": 5039,
+        "sha256": "e89d617eaa7b72c0dfa7ed098aeba8e39a212c58259c5f8b1d2ba8e8868b7bad",
+        "members": {
+          "README.md": "ec65b7985d38898f61f7f760591f4326203d5950827a33230566779d13ed7525",
+          "u43_cases.json": "138e401cc86bede8d1cb2aa380b95359f09035ef4573ee39349b0deade60cfc9",
+          "u43_nis_status.py": "4b94ba7562bba546d48214d9e8a699de1ba97a88bd3815bc82408217f4627bad",
+          "u43_rejected.json": "06993bcf474e251967a76d140b822b6355549d96ade38be4f5c6ad57488b54a2"
+        }
+      }
     }
   }
 }

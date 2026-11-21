@@ -4550,5 +4550,70 @@
         }
       ]
     }
+  },
+  "u-43-nis-nisplus": {
+    "kind": "compare",
+    "title": "NIS+가 켜진 가상 사례에서 기존 NIS 상태 비교",
+    "nodes": [
+      [
+        "both",
+        "NIS on",
+        "NIS+ on"
+      ],
+      [
+        "plus",
+        "NIS off",
+        "NIS+ on"
+      ]
+    ],
+    "note": "두 사례에서 NIS+는 활성이고 기존 NIS는 각각 활성과 비활성이에요.",
+    "caption": "두 사례 모두 NIS+가 켜져 있어요. 강조한 NIS 행에서 기존 서비스가 함께 남아 있는지 볼 수 있어요.",
+    "scene": {
+      "layout": "compare",
+      "panels": [
+        {
+          "type": "table",
+          "title": "both · 두 서비스 활성",
+          "headers": [
+            "서비스",
+            "상태"
+          ],
+          "rows": [
+            [
+              "NIS",
+              "on · 활성"
+            ],
+            [
+              "NIS+",
+              "on · 활성"
+            ]
+          ],
+          "selected": [
+            0
+          ]
+        },
+        {
+          "type": "table",
+          "title": "plus · NIS+만 활성",
+          "headers": [
+            "서비스",
+            "상태"
+          ],
+          "rows": [
+            [
+              "NIS",
+              "off · 비활성"
+            ],
+            [
+              "NIS+",
+              "on · 활성"
+            ]
+          ],
+          "selected": [
+            0
+          ]
+        }
+      ]
+    }
   }
 }

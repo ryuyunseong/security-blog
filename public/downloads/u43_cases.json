@@ -1,0 +1,32 @@
+[
+  {
+    "case": "both",
+    "nis": "on",
+    "nisplus": "on"
+  },
+  {
+    "case": "plus",
+    "nis": "off",
+    "nisplus": "on"
+  },
+  {
+    "case": "idle",
+    "nis": "off",
+    "nisplus": "off"
+  },
+  {
+    "case": "unread",
+    "nis": "error",
+    "nisplus": "on"
+  },
+  {
+    "case": "no-record",
+    "nis": "missing",
+    "nisplus": "missing"
+  },
+  {
+    "case": "partial",
+    "nis": "off",
+    "nisplus": "error"
+  }
+]

@@ -2715,6 +2715,70 @@
           }
         }
       ]
+    },
+    "u-43-nis-nisplus": {
+      "recordedAt": "2026-11-21T18:37:05.098137+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 JSON의 NIS 및 NIS+ 상태값 대조. 서비스 및 네트워크 조회 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u43_nis_status.py",
+        "u43_cases.json",
+        "u43_rejected.json"
+      ],
+      "sourceCodeSha256": "0813470cc47ddb981e2d488f2a56e6f69052f61485612aecb71206d579f5f992",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u43_nis_status.py u43_cases.json",
+          "recordedAt": "2026-11-21T18:37:05.098137+09:00",
+          "sourceCodeSha256": "4b94ba7562bba546d48214d9e8a699de1ba97a88bd3815bc82408217f4627bad",
+          "sourceFilesSha256": {
+            "u43_cases.json": "138e401cc86bede8d1cb2aa380b95359f09035ef4573ee39349b0deade60cfc9",
+            "u43_nis_status.py": "4b94ba7562bba546d48214d9e8a699de1ba97a88bd3815bc82408217f4627bad",
+            "u43_rejected.json": "06993bcf474e251967a76d140b822b6355549d96ade38be4f5c6ad57488b54a2"
+          },
+          "exitCode": 0,
+          "stdout": "both nis=on nisplus=on result=nis-active\nplus nis=off nisplus=on result=plus-only\nidle nis=off nisplus=off result=nis-inactive\nunread nis=error nisplus=on result=need-nis-status\nno-record nis=missing nisplus=missing result=need-nis-status\npartial nis=off nisplus=error result=nis-inactive\n",
+          "stderr": "",
+          "label": "두 서비스의 가상 상태 여섯 건",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 NIS 및 NIS+ 상태값 대조. 서비스 및 네트워크 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u43_nis_status.py u43_rejected.json",
+          "recordedAt": "2026-11-21T18:37:06.666204+09:00",
+          "sourceCodeSha256": "4b94ba7562bba546d48214d9e8a699de1ba97a88bd3815bc82408217f4627bad",
+          "sourceFilesSha256": {
+            "u43_cases.json": "138e401cc86bede8d1cb2aa380b95359f09035ef4573ee39349b0deade60cfc9",
+            "u43_nis_status.py": "4b94ba7562bba546d48214d9e8a699de1ba97a88bd3815bc82408217f4627bad",
+            "u43_rejected.json": "06993bcf474e251967a76d140b822b6355549d96ade38be4f5c6ad57488b54a2"
+          },
+          "exitCode": 2,
+          "stdout": "rows-emitted=0\n",
+          "stderr": "입력 오류: typo: unexpected state\n",
+          "label": "두 번째 행에 상태값 오타가 있는 입력",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 JSON의 NIS 및 NIS+ 상태값 대조. 서비스 및 네트워크 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

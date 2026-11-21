@@ -1,0 +1,12 @@
+[
+  {
+    "case": "both",
+    "nis": "on",
+    "nisplus": "on"
+  },
+  {
+    "case": "typo",
+    "nis": "of",
+    "nisplus": "off"
+  }
+]
