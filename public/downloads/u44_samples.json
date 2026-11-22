@@ -1,0 +1,40 @@
+{
+  "short": [
+    [
+      "tftp",
+      "inactive"
+    ],
+    [
+      "ntalk",
+      "query-error"
+    ]
+  ],
+  "full": [
+    [
+      "ntalk",
+      "active"
+    ],
+    [
+      "talk",
+      "inactive"
+    ],
+    [
+      "tftp",
+      "inactive"
+    ]
+  ],
+  "quiet": [
+    [
+      "talk",
+      "inactive"
+    ],
+    [
+      "tftp",
+      "inactive"
+    ],
+    [
+      "ntalk",
+      "inactive"
+    ]
+  ]
+}

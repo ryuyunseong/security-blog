@@ -1,0 +1,22 @@
+{
+  "short": [
+    [
+      "tftp",
+      "inactive"
+    ],
+    [
+      "ntalk",
+      "query-error"
+    ]
+  ],
+  "repeat": [
+    [
+      "talk",
+      "inactive"
+    ],
+    [
+      "talk",
+      "active"
+    ]
+  ]
+}

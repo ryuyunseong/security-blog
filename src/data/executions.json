@@ -2779,6 +2779,70 @@
           }
         }
       ]
+    },
+    "u-44-tftp-talk-services": {
+      "recordedAt": "2026-11-22T18:37:06.848448+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "지정한 가상 JSON에서 서비스 이름과 상태를 대조. 네트워크·서비스 관리자 조회 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u44_service_rows.py",
+        "u44_samples.json",
+        "u44_duplicate.json"
+      ],
+      "sourceCodeSha256": "89406ae13fa80b2efaf96340edec831a753065b056d3fe83e390872c784be71d",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u44_service_rows.py u44_samples.json",
+          "recordedAt": "2026-11-22T18:37:06.848448+09:00",
+          "sourceCodeSha256": "b50b45a8f3d146a52068b8d1ab16e1e1f4445e6d679caab7cdd2da0bf51d90d2",
+          "sourceFilesSha256": {
+            "u44_duplicate.json": "90c38dfe9eaefadf349948961dc50210edd18d085af5833a9f0dad71368da1a9",
+            "u44_samples.json": "1ad16803d53dee50014b8a26f15e516d72a7144a86e4a9634af3bd8c5b8716ef",
+            "u44_service_rows.py": "b50b45a8f3d146a52068b8d1ab16e1e1f4445e6d679caab7cdd2da0bf51d90d2"
+          },
+          "exitCode": 0,
+          "stdout": "short: tftp=inactive talk=no-row ntalk=query-error\nfull: tftp=inactive talk=inactive ntalk=active\nquiet: tftp=inactive talk=inactive ntalk=inactive\n",
+          "stderr": "",
+          "label": "세 묶음의 서비스 이름 대조",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 JSON에서 서비스 이름과 상태를 대조. 네트워크·서비스 관리자 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u44_service_rows.py u44_duplicate.json",
+          "recordedAt": "2026-11-22T18:37:08.981228+09:00",
+          "sourceCodeSha256": "b50b45a8f3d146a52068b8d1ab16e1e1f4445e6d679caab7cdd2da0bf51d90d2",
+          "sourceFilesSha256": {
+            "u44_duplicate.json": "90c38dfe9eaefadf349948961dc50210edd18d085af5833a9f0dad71368da1a9",
+            "u44_samples.json": "1ad16803d53dee50014b8a26f15e516d72a7144a86e4a9634af3bd8c5b8716ef",
+            "u44_service_rows.py": "b50b45a8f3d146a52068b8d1ab16e1e1f4445e6d679caab7cdd2da0bf51d90d2"
+          },
+          "exitCode": 2,
+          "stdout": "samples-emitted=0\n",
+          "stderr": "입력 오류: duplicate service: talk\n",
+          "label": "talk 행이 두 번 들어온 입력",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "지정한 가상 JSON에서 서비스 이름과 상태를 대조. 네트워크·서비스 관리자 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

@@ -4615,5 +4615,76 @@
         }
       ]
     }
+  },
+  "u-44-tftp-talk-services": {
+    "kind": "flow",
+    "title": "가상 short의 두 행을 세 서비스 이름에 맞춰 놓은 결과",
+    "nodes": [
+      [
+        "수집 행",
+        "tftp",
+        "ntalk"
+      ],
+      [
+        "이름 대조",
+        "tftp, talk",
+        "ntalk"
+      ],
+      [
+        "빠진 행",
+        "talk",
+        "no-row"
+      ]
+    ],
+    "note": "tftp는 비활성 기록이 있고 ntalk는 조회 오류이며 talk에 해당하는 행은 없어요.",
+    "caption": "no-row는 받은 자료의 빈자리를 표시해요. 실제로 서비스가 꺼졌다는 관찰은 inactive로 적어요.",
+    "scene": {
+      "layout": "sequence",
+      "panels": [
+        {
+          "type": "table",
+          "title": "short · 받은 두 행",
+          "headers": [
+            "이름",
+            "수집값"
+          ],
+          "rows": [
+            [
+              "tftp",
+              "inactive"
+            ],
+            [
+              "ntalk",
+              "query-error"
+            ]
+          ]
+        },
+        {
+          "type": "table",
+          "title": "세 이름에 맞춘 결과",
+          "headers": [
+            "이름",
+            "출력값"
+          ],
+          "rows": [
+            [
+              "tftp",
+              "inactive"
+            ],
+            [
+              "talk",
+              "no-row"
+            ],
+            [
+              "ntalk",
+              "query-error"
+            ]
+          ],
+          "selected": [
+            1
+          ]
+        }
+      ]
+    }
   }
 }

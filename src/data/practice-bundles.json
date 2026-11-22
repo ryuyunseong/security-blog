@@ -2476,6 +2476,54 @@
           "u43_rejected.json": "06993bcf474e251967a76d140b822b6355549d96ade38be4f5c6ad57488b54a2"
         }
       }
+    },
+    "u-44-tftp-talk-services": {
+      "files": [
+        {
+          "source": "u44_service_rows.py",
+          "name": "u44_service_rows.py"
+        },
+        {
+          "source": "u44_samples.json",
+          "name": "u44_samples.json"
+        },
+        {
+          "source": "u44_duplicate.json",
+          "name": "u44_duplicate.json"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows에서 PowerShell과 Git Bash로 검증했어요. 현재 폴더에서 실행하며 관리자 권한이나 서비스 설치는 필요 없어요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u44_service_rows.py u44_samples.json",
+          "exitCode": 0,
+          "expected": "short, full, quiet 순으로 세 줄이 나와요. short에서 talk는 no-row, ntalk는 query-error예요. 종료 코드 0은 세 묶음의 대조를 마쳤다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u44_service_rows.py u44_duplicate.json",
+          "exitCode": 2,
+          "expected": "표준 출력은 samples-emitted=0이고 표준 오류에는 duplicate service: talk가 남아요. 중복 행을 거부하면 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "ZIP을 빈 폴더에 푼 뒤 README.md와 Python 코드, 두 JSON 파일이 있는 폴더에서 실행하세요. 각 단계에서 사용하는 셸의 명령을 선택하세요.",
+        "실제 서비스와 네트워크에 연결하지 않고 지정한 JSON만 읽어요. 정상 입력에서 오류가 나면 파일명과 현재 폴더, 서비스 이름과 상태 표기를 살펴보세요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-44-tftp-talk-services.zip",
+        "bytes": 5358,
+        "sha256": "3e82cceca9d7308349dfdaa1094d5ced5594872fcb87d7cf7ea60b1a41f82006",
+        "members": {
+          "README.md": "da835891b25fa31432777b3739c5eae0fb244068103bcb58873bc10a52c2c614",
+          "u44_duplicate.json": "90c38dfe9eaefadf349948961dc50210edd18d085af5833a9f0dad71368da1a9",
+          "u44_samples.json": "1ad16803d53dee50014b8a26f15e516d72a7144a86e4a9634af3bd8c5b8716ef",
+          "u44_service_rows.py": "b50b45a8f3d146a52068b8d1ab16e1e1f4445e6d679caab7cdd2da0bf51d90d2"
+        }
+      }
     }
   }
 }
