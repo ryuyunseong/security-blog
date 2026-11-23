@@ -4686,5 +4686,69 @@
         }
       ]
     }
+  },
+  "u-45-mail-service-version": {
+    "kind": "compare",
+    "title": "같은 설치 버전을 두 공급 경로의 기준과 대조한 결과",
+    "nodes": [
+      [
+        "lab-a",
+        "기준 1.0-2",
+        "match"
+      ],
+      [
+        "lab-b",
+        "기준 1.0-3",
+        "different"
+      ]
+    ],
+    "note": "가상 입력 두 줄의 설치값은 1.0-2예요. 각 행의 공급 경로가 참조하는 기준이 달라요.",
+    "caption": "각 화살표는 한 입력 행이 참조한 공급 경로를 가리켜요. match와 different는 해당 기준값과의 비교 결과예요.",
+    "scene": {
+      "layout": "fork",
+      "panels": [
+        {
+          "type": "actor",
+          "icon": "file",
+          "title": "같은 설치 기록",
+          "fields": [
+            [
+              "설치 버전",
+              "1.0-2"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "icon": "database",
+          "title": "lab-a",
+          "fields": [
+            [
+              "기준",
+              "1.0-2"
+            ],
+            [
+              "결과",
+              "match · 일치"
+            ]
+          ]
+        },
+        {
+          "type": "actor",
+          "icon": "database",
+          "title": "lab-b",
+          "fields": [
+            [
+              "기준",
+              "1.0-3"
+            ],
+            [
+              "결과",
+              "different · 다름"
+            ]
+          ]
+        }
+      ]
+    }
   }
 }

@@ -1,0 +1,5 @@
+lab-a|observed|1.0-2
+lab-b|observed|1.0-2
+lab-c|observed|1.0-2
+lab-a|read-error|-
+lab-b|not-collected|-

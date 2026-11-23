@@ -2843,6 +2843,70 @@
           }
         }
       ]
+    },
+    "u-45-mail-service-version": {
+      "recordedAt": "2026-11-23T18:33:52.907700+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29708-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 UTF-8 입력의 패키지 버전 문자열과 코드의 예시 기준표 대조. 실제 메일 서비스·패키지 저장소 조회 없음",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u45_package_record.py",
+        "u45_inventory.txt",
+        "u45_invalid.txt"
+      ],
+      "sourceCodeSha256": "9374762ac979713994f76a1f78424f979aab252685d7f42481d4e2e9ca5c026f",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u45_package_record.py u45_inventory.txt",
+          "recordedAt": "2026-11-23T18:33:52.907700+09:00",
+          "sourceCodeSha256": "f72fa6a74f4d384e54b126749ef4465220950521433fd983c1363559426023f7",
+          "sourceFilesSha256": {
+            "u45_invalid.txt": "ffc30a70b6577d0932a3f207d87fdbb035cd15a046a577bf4c5d9c4c601e44bf",
+            "u45_inventory.txt": "10c8b95c92ef7383d6ed3f5e158fdf83f9ab085f13ce2ce373d1cfe0b3fe7a5c",
+            "u45_package_record.py": "f72fa6a74f4d384e54b126749ef4465220950521433fd983c1363559426023f7"
+          },
+          "exitCode": 0,
+          "stdout": "1 lab-a installed=1.0-2 reference=1.0-2 match\n2 lab-b installed=1.0-2 reference=1.0-3 different\n3 lab-c installed=1.0-2 reference=- no-reference\n4 lab-a installed=- reference=1.0-2 read-error\n5 lab-b installed=- reference=1.0-3 not-collected\n",
+          "stderr": "",
+          "label": "공급 경로별 가상 설치 기록 다섯 줄",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 입력의 패키지 버전 문자열과 코드의 예시 기준표 대조. 실제 메일 서비스·패키지 저장소 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u45_package_record.py u45_invalid.txt",
+          "recordedAt": "2026-11-23T18:33:55.165851+09:00",
+          "sourceCodeSha256": "f72fa6a74f4d384e54b126749ef4465220950521433fd983c1363559426023f7",
+          "sourceFilesSha256": {
+            "u45_invalid.txt": "ffc30a70b6577d0932a3f207d87fdbb035cd15a046a577bf4c5d9c4c601e44bf",
+            "u45_inventory.txt": "10c8b95c92ef7383d6ed3f5e158fdf83f9ab085f13ce2ce373d1cfe0b3fe7a5c",
+            "u45_package_record.py": "f72fa6a74f4d384e54b126749ef4465220950521433fd983c1363559426023f7"
+          },
+          "exitCode": 2,
+          "stdout": "records-emitted=0\n",
+          "stderr": "입력 오류: line 2: missing value must be -\n",
+          "label": "조회 오류 행에 설치 버전이 남은 입력",
+          "environment": {
+            "os": "Windows-11-10.0.29708-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 입력의 패키지 버전 문자열과 코드의 예시 기준표 대조. 실제 메일 서비스·패키지 저장소 조회 없음",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }
