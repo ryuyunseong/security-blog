@@ -1,0 +1,4 @@
+observed|0755
+observed|0754
+read-error|-
+not-collected|-

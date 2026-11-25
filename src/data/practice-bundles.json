@@ -2572,6 +2572,54 @@
           "u45_package_record.py": "f72fa6a74f4d384e54b126749ef4465220950521433fd983c1363559426023f7"
         }
       }
+    },
+    "u-46-mail-service-execution-permissions": {
+      "files": [
+        {
+          "source": "u46_mode_record.py",
+          "name": "u46_mode_record.py"
+        },
+        {
+          "source": "u46_modes.txt",
+          "name": "u46_modes.txt"
+        },
+        {
+          "source": "u46_invalid.txt",
+          "name": "u46_invalid.txt"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows의 PowerShell과 Git Bash에서 검증했어요. 메일 서버나 관리자 권한은 필요 없어요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u46_mode_record.py u46_modes.txt",
+          "exitCode": 0,
+          "expected": "네 줄의 other-x 값이 set, clear, unknown, unknown 순서로 나와요. 종료 코드 0은 네 행을 처리했다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u46_mode_record.py u46_invalid.txt",
+          "exitCode": 2,
+          "expected": "둘째 줄에서 8진수 모드 형식 오류가 표준 오류에 표시돼요. 표준 출력에는 records-emitted=0이 나오고 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 풀고 README.md, 코드, 두 입력 파일이 들어 있는 폴더에서 실행하세요. 각 단계에서 사용하는 셸의 블록 하나를 선택하세요.",
+        "모드는 상태가 observed일 때만 해석해요. read-error와 not-collected에서는 모드 자리에 -를 적어요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-46-mail-service-execution-permissions.zip",
+        "bytes": 4388,
+        "sha256": "63a8b77ac7c474ffd0124e3a7d0c44271044020aa085f727359e87d02a7e2cde",
+        "members": {
+          "README.md": "965b88dab7a9f63c6975d92368addaedfda65d66f398af60e05c3e7f0ef9644c",
+          "u46_invalid.txt": "754cd74c30db8aa02c32de5dfbd39f79a52aead1bd72355a5930157805179d95",
+          "u46_mode_record.py": "158c6f4b94a208c35f8a257353582055727783a3dae5de51335dbab71806e517",
+          "u46_modes.txt": "dabc1a447e7f813088a28354691ce6e93195189b230f4937dd60c02a6d33692e"
+        }
+      }
     }
   }
 }

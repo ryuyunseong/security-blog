@@ -4750,5 +4750,30 @@
         }
       ]
     }
+  },
+  "u-46-mail-service-execution-permissions": {
+    "kind": "compare",
+    "title": "postsuper 가상 기록에서 기타 사용자 실행 비트가 달라지는 자리",
+    "detail": {
+      "kind": "permission-bits",
+      "modes": [
+        "0755",
+        "0754"
+      ]
+    },
+    "nodes": [
+      [
+        "첫째 줄 · 0755",
+        "기타 사용자 r-x",
+        "other-x=set"
+      ],
+      [
+        "둘째 줄 · 0754",
+        "기타 사용자 r--",
+        "other-x=clear"
+      ]
+    ],
+    "note": "두 가상 기록의 소유자와 그룹 권한은 같고, 기타 사용자의 실행 비트만 달라요.",
+    "caption": "각 묶음의 세 칸은 왼쪽부터 읽기(r), 쓰기(w), 실행(x) 권한이에요. 맨 오른쪽 칸이 이번 비교 대상이에요."
   }
 }

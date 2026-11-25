@@ -2907,6 +2907,70 @@
           }
         }
       ]
+    },
+    "u-46-mail-service-execution-permissions": {
+      "recordedAt": "2026-11-25T18:34:09.563284+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29712-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 UTF-8 파일에 적힌 전통적 Unix 권한 모드와 수집 상태만 비교",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u46_mode_record.py",
+        "u46_modes.txt",
+        "u46_invalid.txt"
+      ],
+      "sourceCodeSha256": "b6710659e4f88adedfd47a54b7b55a00d6707fcbed97c320aedb22859f88a5b9",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u46_mode_record.py u46_modes.txt",
+          "recordedAt": "2026-11-25T18:34:09.563284+09:00",
+          "sourceCodeSha256": "158c6f4b94a208c35f8a257353582055727783a3dae5de51335dbab71806e517",
+          "sourceFilesSha256": {
+            "u46_invalid.txt": "754cd74c30db8aa02c32de5dfbd39f79a52aead1bd72355a5930157805179d95",
+            "u46_modes.txt": "dabc1a447e7f813088a28354691ce6e93195189b230f4937dd60c02a6d33692e",
+            "u46_mode_record.py": "158c6f4b94a208c35f8a257353582055727783a3dae5de51335dbab71806e517"
+          },
+          "exitCode": 0,
+          "stdout": "1 state=observed mode=0755 other-x=set\n2 state=observed mode=0754 other-x=clear\n3 state=read-error mode=- other-x=unknown\n4 state=not-collected mode=- other-x=unknown\n",
+          "stderr": "",
+          "label": "가상 postsuper 권한과 수집 상태 네 줄",
+          "environment": {
+            "os": "Windows-11-10.0.29712-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 파일에 적힌 전통적 Unix 권한 모드와 수집 상태만 비교",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u46_mode_record.py u46_invalid.txt",
+          "recordedAt": "2026-11-25T18:34:11.251569+09:00",
+          "sourceCodeSha256": "158c6f4b94a208c35f8a257353582055727783a3dae5de51335dbab71806e517",
+          "sourceFilesSha256": {
+            "u46_invalid.txt": "754cd74c30db8aa02c32de5dfbd39f79a52aead1bd72355a5930157805179d95",
+            "u46_modes.txt": "dabc1a447e7f813088a28354691ce6e93195189b230f4937dd60c02a6d33692e",
+            "u46_mode_record.py": "158c6f4b94a208c35f8a257353582055727783a3dae5de51335dbab71806e517"
+          },
+          "exitCode": 2,
+          "stdout": "records-emitted=0\n",
+          "stderr": "입력 오류: line 2: expected four octal digits starting with 0\n",
+          "label": "8진수 형식을 벗어난 둘째 줄",
+          "environment": {
+            "os": "Windows-11-10.0.29712-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 파일에 적힌 전통적 Unix 권한 모드와 수집 상태만 비교",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }
