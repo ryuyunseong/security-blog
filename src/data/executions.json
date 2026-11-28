@@ -2971,6 +2971,70 @@
           }
         }
       ]
+    },
+    "u-47-mail-relay-limits": {
+      "recordedAt": "2026-11-28T18:36:11.871301+09:00",
+      "environment": {
+        "os": "Windows-11-10.0.29712-SP0",
+        "python": "3.12.1",
+        "shell": "powershell",
+        "scope": "가상 UTF-8 파일의 IPv4 주소 범위와 수집 상태만 비교",
+        "pythonSsl": "미사용",
+        "openssl": "미사용"
+      },
+      "reproduction": "article",
+      "preparationFiles": [
+        "u47_relay_ranges.py",
+        "u47_ranges.txt",
+        "u47_invalid.txt"
+      ],
+      "sourceCodeSha256": "1c0b670880cd746e42e0e5b2b8cd1609d95ee6d1cae9deca50d9b2f9c1efba15",
+      "runs": [
+        {
+          "command": "python -I -B -X utf8 u47_relay_ranges.py u47_ranges.txt",
+          "recordedAt": "2026-11-28T18:36:11.871301+09:00",
+          "sourceCodeSha256": "56d571e55c4f2fd2f1f58981bfc0b053baf6060fffb30552f6900694ddf98106",
+          "sourceFilesSha256": {
+            "u47_invalid.txt": "97446483d769637ce8a42e3d8bbb6458e59cb060e34762affba67ef8924ea9d3",
+            "u47_ranges.txt": "6faa05308534ced0403998b79db9a18008c6bc0e1897a2f9152e76a87abcde55",
+            "u47_relay_ranges.py": "56d571e55c4f2fd2f1f58981bfc0b053baf6060fffb30552f6900694ddf98106"
+          },
+          "exitCode": 0,
+          "stdout": "1 network=192.0.2.0/28 listed=16 outside=0\n2 network=192.0.2.0/27 listed=32 outside=16\n3 state=read-error outside=unknown\n4 state=not-collected outside=unknown\n",
+          "stderr": "",
+          "label": "가상 네트워크 대역과 수집 상태 네 줄",
+          "environment": {
+            "os": "Windows-11-10.0.29712-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 파일의 IPv4 주소 범위와 수집 상태만 비교",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        },
+        {
+          "command": "python -I -B -X utf8 u47_relay_ranges.py u47_invalid.txt",
+          "recordedAt": "2026-11-28T18:36:14.408297+09:00",
+          "sourceCodeSha256": "56d571e55c4f2fd2f1f58981bfc0b053baf6060fffb30552f6900694ddf98106",
+          "sourceFilesSha256": {
+            "u47_invalid.txt": "97446483d769637ce8a42e3d8bbb6458e59cb060e34762affba67ef8924ea9d3",
+            "u47_ranges.txt": "6faa05308534ced0403998b79db9a18008c6bc0e1897a2f9152e76a87abcde55",
+            "u47_relay_ranges.py": "56d571e55c4f2fd2f1f58981bfc0b053baf6060fffb30552f6900694ddf98106"
+          },
+          "exitCode": 2,
+          "stdout": "records-emitted=0\n",
+          "stderr": "입력 오류: line 2: expected canonical IPv4 CIDR\n",
+          "label": "대역의 시작 주소 자리에 개별 주소를 적은 사례",
+          "environment": {
+            "os": "Windows-11-10.0.29712-SP0",
+            "python": "3.12.1",
+            "shell": "powershell",
+            "scope": "가상 UTF-8 파일의 IPv4 주소 범위와 수집 상태만 비교",
+            "pythonSsl": "미사용",
+            "openssl": "미사용"
+          }
+        }
+      ]
     }
   }
 }

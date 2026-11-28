@@ -2620,6 +2620,54 @@
           "u46_modes.txt": "dabc1a447e7f813088a28354691ce6e93195189b230f4937dd60c02a6d33692e"
         }
       }
+    },
+    "u-47-mail-relay-limits": {
+      "files": [
+        {
+          "source": "u47_relay_ranges.py",
+          "name": "u47_relay_ranges.py"
+        },
+        {
+          "source": "u47_ranges.txt",
+          "name": "u47_ranges.txt"
+        },
+        {
+          "source": "u47_invalid.txt",
+          "name": "u47_invalid.txt"
+        }
+      ],
+      "requirements": "Python 3.12와 표준 라이브러리. Windows의 PowerShell 및 Git Bash에서 실행했어요. 메일 서버와 관리자 권한은 필요 없어요.",
+      "readmeShells": [
+        "powershell",
+        "bash"
+      ],
+      "steps": [
+        {
+          "command": "python -I -B -X utf8 u47_relay_ranges.py u47_ranges.txt",
+          "exitCode": 0,
+          "expected": "outside 값은 0, 16, unknown, unknown 순서예요. 숫자 종료 코드 0은 네 사례의 입력을 처리했다는 뜻이에요."
+        },
+        {
+          "command": "python -I -B -X utf8 u47_relay_ranges.py u47_invalid.txt",
+          "exitCode": 2,
+          "expected": "표준 오류에 line 2가 나오고 표준 출력에는 records-emitted=0이 표시돼요. 숫자 종료 코드는 2예요."
+        }
+      ],
+      "notes": [
+        "빈 폴더에 압축을 풀고 README.md, 코드, 두 입력 파일이 있는 폴더에서 각 단계의 셸 블록 하나를 실행하세요.",
+        "각 줄은 독립된 가상 사례예요. read-error와 not-collected 상태는 값 자리에 -를 사용해요."
+      ],
+      "archive": {
+        "path": "downloads/bundles/u-47-mail-relay-limits.zip",
+        "bytes": 4468,
+        "sha256": "58747f43698881adb7da2a8f68be0db35b52d9d3003b701bfe771af198ba3780",
+        "members": {
+          "README.md": "8b07e0907f6342d6125c679225ee3d2093e58d38b3f9b0d7333d7b3b61d41dbf",
+          "u47_invalid.txt": "97446483d769637ce8a42e3d8bbb6458e59cb060e34762affba67ef8924ea9d3",
+          "u47_ranges.txt": "6faa05308534ced0403998b79db9a18008c6bc0e1897a2f9152e76a87abcde55",
+          "u47_relay_ranges.py": "56d571e55c4f2fd2f1f58981bfc0b053baf6060fffb30552f6900694ddf98106"
+        }
+      }
     }
   }
 }
